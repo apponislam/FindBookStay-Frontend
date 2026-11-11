@@ -63,6 +63,7 @@ FindBookStay operates as an all-in-one digital ecosystem with verified listings,
 - About FindBookStay: https://findbookstay.com/about
 - Trust & Safety: https://findbookstay.com/trust
 - Help & Support: https://findbookstay.com/help
+- Share Feedback: https://findbookstay.com/feedback
 - Terms of Service: https://findbookstay.com/terms
 - Privacy Policy: https://findbookstay.com/privacy
 

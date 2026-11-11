@@ -55,6 +55,7 @@ FindBookStay (findbookstay.com) is an international unified real estate, hospita
 - `/about`: Company mission, unified ecosystem vision, and core values.
 - `/trust`: Trust standards, host guidelines, and safety practices.
 - `/help`: Customer support center and FAQ directory.
+- `/feedback`: Product suggestions, mobile app testing, and bug reporting.
 - `/terms`: Terms of Service, liability, host obligations, and guest rights.
 - `/privacy`: Data privacy and user safety standards.
 - `/sitemap`: Interactive human-readable catalog of all marketplace destinations.

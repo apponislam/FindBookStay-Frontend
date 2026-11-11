@@ -236,6 +236,12 @@ const SECTIONS: SitemapSection[] = [
                 href: "/help",
             },
             {
+                name: "Share Feedback & App Ideas",
+                desc: "Suggest features, report bugs, or share feedback on web and upcoming apps",
+                href: "/feedback",
+                badge: "Feedback",
+            },
+            {
                 name: "Terms of Service",
                 desc: "Host obligations, guest cancellation policies, liability and platform rules",
                 href: "/terms",

@@ -44,6 +44,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.7,
         },
         {
+            url: `${BASE_URL}/feedback`,
+            lastModified: STATIC_DATE,
+            changeFrequency: "monthly",
+            priority: 0.7,
+        },
+        {
             url: `${BASE_URL}/terms`,
             lastModified: STATIC_DATE,
             changeFrequency: "yearly",
