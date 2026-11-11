@@ -1,14 +1,14 @@
 import { LegalDocumentData } from "./legal";
+import siteData from "./siteData";
 
 export const PRIVACY_DATA: LegalDocumentData = {
     badge: "Privacy & Trust",
     effectiveDate: "January 1, 2026",
     title: "Privacy Policy",
-    description:
-        "At FindBookStay, privacy and physical verification are foundational. This policy transparently outlines how your personal data, identity documentation, and reservations are managed and protected.",
-    contactEmail: "privacy@findbookstay.com",
+    description: `At ${siteData.name}, privacy and physical verification are foundational. This policy transparently outlines how your personal data, identity documentation, and reservations are managed and protected.`,
+    contactEmail: siteData.contacts.privacyEmail,
     contactLabel: "Privacy Officer Contact",
-    contactDepartment: "FindBookStay Data Protection Office",
+    contactDepartment: `${siteData.name} Data Protection Office`,
     sections: [
         {
             id: "introduction",

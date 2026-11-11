@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import siteData from "@/constants/siteData";
 import { MapPin, Mail, PhoneCall, ArrowRight, Facebook, TwitterX, Instagram, LinkedIn, Apple, GooglePlay } from "@/components/Icons";
 
 const Footer = () => {
@@ -16,24 +17,32 @@ const Footer = () => {
                         <Link href="/" className="cursor-pointer inline-block transition-transform duration-200 hover:opacity-95">
                             <Image src="/findbookstay-logo.png" alt="FindBookStay Logo" width={180} height={52} className="h-9 sm:h-10 w-auto object-contain" />
                         </Link>
-                        <p className="text-xs sm:text-[13px] text-[#64748B] leading-relaxed max-w-sm">FindBookStay is your premier verified marketplace to buy prime properties, rent homes, book luxury hotels & resorts, and reserve sports turfs worldwide.</p>
+                        <p className="text-xs sm:text-[13px] text-[#64748B] leading-relaxed max-w-sm">
+                            {siteData.description}
+                        </p>
 
                         {/* Direct Contacts List */}
                         <div className="space-y-2 pt-1 text-xs text-[#172B2A]">
                             <div className="flex items-center gap-2.5 text-[#64748B]">
                                 <MapPin className="size-4 text-[#10B981] shrink-0" />
-                                <span>Headquarters: Gulshan-2, Dhaka & Global Hubs</span>
+                                <span>{siteData.address.headquartersDisplay}</span>
                             </div>
                             <div className="flex items-center gap-2.5 text-[#64748B]">
                                 <Mail className="size-4 text-[#10B981] shrink-0" />
-                                <a href="mailto:support@findbookstay.com" className="cursor-pointer hover:text-[#073B35] transition-colors">
-                                    support@findbookstay.com
+                                <a
+                                    href={`mailto:${siteData.contacts.supportEmail}`}
+                                    className="cursor-pointer hover:text-[#073B35] transition-colors"
+                                >
+                                    {siteData.contacts.supportEmail}
                                 </a>
                             </div>
                             <div className="flex items-center gap-2.5 text-[#64748B]">
                                 <PhoneCall className="size-4 text-[#10B981] shrink-0" />
-                                <a href="tel:+8801700000000" className="cursor-pointer hover:text-[#073B35] transition-colors">
-                                    +880 1700-000000 (24/7 Hotline)
+                                <a
+                                    href={`tel:${siteData.contacts.phoneClean}`}
+                                    className="cursor-pointer hover:text-[#073B35] transition-colors"
+                                >
+                                    {siteData.contacts.phoneDisplay}
                                 </a>
                             </div>
                         </div>
@@ -41,7 +50,7 @@ const Footer = () => {
                         {/* Social Icons */}
                         <div className="flex items-center gap-2 pt-1">
                             <a
-                                href="https://facebook.com"
+                                href={siteData.socialLinks.facebook}
                                 target="_blank"
                                 rel="noreferrer"
                                 aria-label="Facebook"
@@ -51,7 +60,7 @@ const Footer = () => {
                             </a>
 
                             <a
-                                href="https://twitter.com"
+                                href={siteData.socialLinks.twitter}
                                 target="_blank"
                                 rel="noreferrer"
                                 aria-label="X Twitter"
@@ -61,7 +70,7 @@ const Footer = () => {
                             </a>
 
                             <a
-                                href="https://instagram.com"
+                                href={siteData.socialLinks.instagram}
                                 target="_blank"
                                 rel="noreferrer"
                                 aria-label="Instagram"
@@ -71,7 +80,7 @@ const Footer = () => {
                             </a>
 
                             <a
-                                href="https://linkedin.com"
+                                href={siteData.socialLinks.linkedin}
                                 target="_blank"
                                 rel="noreferrer"
                                 aria-label="LinkedIn"
@@ -242,7 +251,7 @@ const Footer = () => {
                                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
                                         <span className="relative inline-flex rounded-full size-1.5 bg-amber-500 shadow-[0_0_6px_rgba(245,158,11,0.9)]" />
                                     </span>
-                                    <span>In Construction</span>
+                                    <span>{siteData.appStatus.ios}</span>
                                 </span>
                             </div>
 
@@ -290,7 +299,7 @@ const Footer = () => {
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
                         {/* Copyright */}
                         <p className="text-center sm:text-left">
-                            &copy; 2026 <span className="font-semibold text-[#172B2A]">FindBookStay.com</span>. All rights reserved.
+                            &copy; {siteData.copyrightYear} <span className="font-semibold text-[#172B2A]">{siteData.domain}</span>. All rights reserved.
                         </p>
 
                         {/* Legal Links */}

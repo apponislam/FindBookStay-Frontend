@@ -10,7 +10,7 @@ FindBookStay (findbookstay.com) is an international unified real estate, hospita
   - Background: `#FFFFFF` / Dark `#0B1210`
   - Surface: `#F8FAF9` / Dark `#111C1A`
 - **Typography**: Raleway (Google Fonts), geometric neo-grotesque sans-serif.
-- **Verification Guarantee**: 100% physically inspected listings, biometric landlord authentication, and dispute-free escrow processing.
+- **Platform Guarantee**: Verified host profiles, accurate listing specifications, direct host communication, and transparent pricing.
 
 ## Complete Platform Site Graph
 
@@ -21,14 +21,14 @@ FindBookStay (findbookstay.com) is an international unified real estate, hospita
 - `/buy/apartments`: High-rise condominium penthouses, studio units, multi-bedroom flats.
 - `/buy/houses`: Standalone residential houses with private access and land ownership.
 - `/buy/land`: Demarcated residential plots, commercial development zones, agricultural land.
-- `/buy/new-developments`: Off-plan projects from reputable developers with milestone payments.
+- `/buy/new-developments`: Off-plan projects from reputable developers with milestone updates.
 
 ### 2. Residential Leases & Room Rentals (Rent)
 - `/rent`: Residential leasing portal.
 - `/rent/family-apartments`: Long-term unfurnished and semi-furnished multi-room flats.
 - `/rent/family-houses`: Complete residential villas and independent multi-story homes.
 - `/rent/bachelor-seats`: Single beds and partitioned seats with inclusive utilities, Wi-Fi, and meal options.
-- `/rent/shared-rooms`: Two-to-three person rooms with verified flatmates and security checks.
+- `/rent/shared-rooms`: Two-to-three person rooms with verified flatmates.
 - `/rent/sublets`: Flexible 1 to 6-month leases for visiting professionals and students.
 - `/rent/commercial`: Commercial showrooms, retail street spaces, and serviced office cabins.
 
@@ -46,18 +46,18 @@ FindBookStay (findbookstay.com) is an international unified real estate, hospita
 - `/sports/turf-booking`: FIFA-standard artificial grass pitches for 5-a-side, 7-a-side soccer and box cricket.
 - `/sports/football-grounds`: Full-size 11-a-side natural and hybrid grass pitches.
 - `/sports/indoor-sports`: Wooden and synthetic indoor badminton, squash, and basketball courts.
-- `/sports/swimming`: Temperature-controlled Olympic and training pools with certified coaches.
+- `/sports/swimming`: Temperature-controlled Olympic and training pools.
 - `/sports/tournaments`: Comprehensive venue rental for corporate sports days and competitive leagues.
-- `/sports/other-activities`: Go-karting tracks, paintball combat arenas, and bowling alleys.
+- `/sports/other-activities`: Recreational tracks and sport facilities.
 
 ### 5. Corporate, Legal & Public Relations
 - `/post-listing`: Step-by-step listing wizard for property owners, hotel operators, and turf managers.
-- `/about`: Company history, executive leadership, and long-term roadmap.
-- `/trust`: Detailed breakdown of physical inspection protocols and fraud prevention.
-- `/help`: Customer support center, cancellation terms, and ticket submission.
-- `/careers`: Open engineering, operations, and inspection roles.
-- `/terms`: Terms of Service, liability, host obligations, and traveler rights.
-- `/privacy`: Data privacy, GDPR compliance, and user safety standards.
+- `/about`: Company mission, unified ecosystem vision, and core values.
+- `/trust`: Trust standards, host guidelines, and safety practices.
+- `/help`: Customer support center and FAQ directory.
+- `/careers`: Open engineering, operations, and growth roles.
+- `/terms`: Terms of Service, liability, host obligations, and guest rights.
+- `/privacy`: Data privacy and user safety standards.
 - `/sitemap`: Interactive human-readable catalog of all marketplace destinations.
 - `/sitemap.xml`: XML sitemap structured for web indexing robots.
 - `/llms.txt`: Summary format for AI language model scans.
@@ -66,5 +66,4 @@ FindBookStay (findbookstay.com) is an international unified real estate, hospita
 
 - Format: UTF-8 Markdown and Schema.org semantic microdata.
 - Primary Currency: BDT (Bangladeshi Taka) & USD (United States Dollar).
-- Payment Infrastructure: Credit/Debit Cards, Mobile Banking (bKash, Nagad), Bank Wire, and Escrow Hold.
-
+- Direct connection between verified hosts and users.

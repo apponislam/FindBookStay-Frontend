@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { CATEGORIES } from "@/constants/routes";
+import siteData from "@/constants/siteData";
 
-const BASE_URL = "https://findbookstay.com";
+const BASE_URL = siteData.url;
 const STATIC_DATE = new Date("2026-01-01T00:00:00.000Z");
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import siteData from "@/constants/siteData";
 
 export default function robots(): MetadataRoute.Robots {
     return {
@@ -9,11 +10,20 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: ["/api/", "/account/", "/admin/"],
             },
             {
-                userAgent: ["GPTBot", "ChatGPT-User", "ClaudeBot", "Claude-Web", "PerplexityBot", "Google-Extended", "Applebot-Extended", "cohere-ai"],
+                userAgent: [
+                    "GPTBot",
+                    "ChatGPT-User",
+                    "ClaudeBot",
+                    "Claude-Web",
+                    "PerplexityBot",
+                    "Google-Extended",
+                    "Applebot-Extended",
+                    "cohere-ai",
+                ],
                 allow: ["/", "/llms.txt", "/llms-full.txt", "/sitemap.xml"],
             },
         ],
-        sitemap: "https://findbookstay.com/sitemap.xml",
-        host: "https://findbookstay.com",
+        sitemap: `${siteData.url}/sitemap.xml`,
+        host: siteData.url,
     };
 }

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { ChevronDown } from "@/components/Icons";
+import siteData from "@/constants/siteData";
 
 export interface TOCSection {
     id: string;
@@ -15,7 +16,11 @@ interface TableOfContentsProps {
     contactLabel?: string;
 }
 
-const TableOfContents = ({ sections, contactEmail = "legal@findbookstay.com", contactLabel = "Need legal clarification?" }: TableOfContentsProps) => {
+const TableOfContents = ({
+    sections,
+    contactEmail = siteData.contacts.legalEmail,
+    contactLabel = "Need legal clarification?",
+}: TableOfContentsProps) => {
     const [activeId, setActiveId] = useState<string>(sections[0]?.id || "");
     const [isMobileOpen, setIsMobileOpen] = useState(false);
 

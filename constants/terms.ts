@@ -1,14 +1,14 @@
 import { LegalDocumentData } from "./legal";
+import siteData from "./siteData";
 
 export const TERMS_DATA: LegalDocumentData = {
     badge: "Legal & Governance",
     effectiveDate: "January 1, 2026",
     title: "Terms of Service",
-    description:
-        "These Terms and Conditions govern your access to and use of FindBookStay.com, including our property acquisition services, residential leasing, bachelor seat rentals, hotel accommodations, and sports turf reservations.",
-    contactEmail: "legal@findbookstay.com",
+    description: `These Terms and Conditions govern your access to and use of ${siteData.domain}, including our property acquisition services, residential leasing, bachelor seat rentals, hotel accommodations, and sports turf reservations.`,
+    contactEmail: siteData.contacts.legalEmail,
     contactLabel: "Need legal clarification?",
-    contactDepartment: "FindBookStay Legal & Compliance Department",
+    contactDepartment: `${siteData.name} Legal & Compliance Department`,
     sections: [
         {
             id: "acceptance",
