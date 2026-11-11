@@ -46,4 +46,3 @@ export const SERVICES: ServiceItem[] = [
 ];
 
 export default SERVICES;
-
