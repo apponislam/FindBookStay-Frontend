@@ -44,12 +44,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.7,
         },
         {
-            url: `${BASE_URL}/careers`,
-            lastModified: STATIC_DATE,
-            changeFrequency: "monthly",
-            priority: 0.6,
-        },
-        {
             url: `${BASE_URL}/terms`,
             lastModified: STATIC_DATE,
             changeFrequency: "yearly",

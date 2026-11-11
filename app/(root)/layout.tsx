@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FloatingPostButton from "@/components/FloatingPostButton";
 
 const RootGroupLayout = ({
   children,
@@ -11,6 +12,7 @@ const RootGroupLayout = ({
       <Header />
       {children}
       <Footer />
+      <FloatingPostButton />
     </>
   );
 };

@@ -236,11 +236,6 @@ const SECTIONS: SitemapSection[] = [
                 href: "/help",
             },
             {
-                name: "Careers & Team",
-                desc: "Join our fast-growing engineering, product, operations and support teams",
-                href: "/careers",
-            },
-            {
                 name: "Terms of Service",
                 desc: "Host obligations, guest cancellation policies, liability and platform rules",
                 href: "/terms",

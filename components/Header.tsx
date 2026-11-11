@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, Plus, Heart, Bell } from "@/components/Icons";
+import { Menu, Heart, Bell } from "@/components/Icons";
 import { CATEGORIES } from "@/constants/routes";
 import NavItem from "@/components/header/NavItem";
 import UserMenu from "@/components/header/UserMenu";
@@ -139,15 +139,6 @@ const Header = () => {
 
                         {/* 3. Action CTAs & User Menu */}
                         <div className="flex items-center gap-2 sm:gap-2.5">
-                            {/* Post a Listing CTA */}
-                            <Link
-                                href="/post-listing"
-                                className="cursor-pointer relative inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full bg-[#073B35] hover:bg-[#052F2A] text-white text-xs sm:text-[13px] font-semibold shadow-xs hover:shadow transition-all duration-200 group"
-                            >
-                                <Plus className="size-3.5 transition-transform duration-200 group-hover:rotate-90" />
-                                <span className="whitespace-nowrap">Post Listing</span>
-                            </Link>
-
                             {/* Saved Favorites Icon */}
                             <Link
                                 href="/saved"

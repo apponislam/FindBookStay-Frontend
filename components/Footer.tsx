@@ -225,11 +225,6 @@ const Footer = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/careers" className="cursor-pointer hover:text-[#073B35] transition-colors">
-                                        Careers
-                                    </Link>
-                                </li>
-                                <li>
                                     <Link href="/terms" className="cursor-pointer hover:text-[#073B35] transition-colors">
                                         Terms of Service
                                     </Link>
