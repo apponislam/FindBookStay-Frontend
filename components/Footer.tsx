@@ -1,18 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-    MapPin,
-    Mail,
-    PhoneCall,
-    ArrowRight,
-    Facebook,
-    TwitterX,
-    Instagram,
-    LinkedIn,
-    Apple,
-    GooglePlay,
-} from "@/components/Icons";
+import { MapPin, Mail, PhoneCall, ArrowRight, Facebook, TwitterX, Instagram, LinkedIn, Apple, GooglePlay } from "@/components/Icons";
 
 const Footer = () => {
     return (
@@ -25,17 +14,9 @@ const Footer = () => {
                     {/* Column 1: Brand Info & Direct Contacts (col-span-3) */}
                     <div className="lg:col-span-3 space-y-4">
                         <Link href="/" className="cursor-pointer inline-block transition-transform duration-200 hover:opacity-95">
-                            <Image
-                                src="/findbookstay-logo.png"
-                                alt="FindBookStay Logo"
-                                width={180}
-                                height={52}
-                                className="h-9 sm:h-10 w-auto object-contain"
-                            />
+                            <Image src="/findbookstay-logo.png" alt="FindBookStay Logo" width={180} height={52} className="h-9 sm:h-10 w-auto object-contain" />
                         </Link>
-                        <p className="text-xs sm:text-[13px] text-[#64748B] leading-relaxed max-w-sm">
-                            FindBookStay is your premier verified marketplace to buy prime properties, rent homes, book luxury hotels & resorts, and reserve sports turfs worldwide.
-                        </p>
+                        <p className="text-xs sm:text-[13px] text-[#64748B] leading-relaxed max-w-sm">FindBookStay is your premier verified marketplace to buy prime properties, rent homes, book luxury hotels & resorts, and reserve sports turfs worldwide.</p>
 
                         {/* Direct Contacts List */}
                         <div className="space-y-2 pt-1 text-xs text-[#172B2A]">
@@ -103,9 +84,7 @@ const Footer = () => {
 
                     {/* Column 2: Buy & Rent Properties (col-span-2) */}
                     <div className="lg:col-span-2 space-y-3">
-                        <h4 className="text-xs uppercase font-bold tracking-wider text-[#073B35]">
-                            Buy & Rent
-                        </h4>
+                        <h4 className="text-xs uppercase font-bold tracking-wider text-[#073B35]">Buy & Rent</h4>
                         <ul className="space-y-2 text-xs sm:text-[13px] text-[#64748B]">
                             <li>
                                 <Link href="/buy/residential" className="cursor-pointer hover:text-[#073B35] transition-colors">
@@ -148,9 +127,7 @@ const Footer = () => {
 
                     {/* Column 3: Book Stays & Hotels (col-span-2) */}
                     <div className="lg:col-span-2 space-y-3">
-                        <h4 className="text-xs uppercase font-bold tracking-wider text-[#073B35]">
-                            Book Stays
-                        </h4>
+                        <h4 className="text-xs uppercase font-bold tracking-wider text-[#073B35]">Book Stays</h4>
                         <ul className="space-y-2 text-xs sm:text-[13px] text-[#64748B]">
                             <li>
                                 <Link href="/book/hotels" className="cursor-pointer hover:text-[#073B35] transition-colors">
@@ -187,9 +164,7 @@ const Footer = () => {
 
                     {/* Column 4: Sports & Activities (col-span-2) */}
                     <div className="lg:col-span-2 space-y-3">
-                        <h4 className="text-xs uppercase font-bold tracking-wider text-[#073B35]">
-                            Sports & Turfs
-                        </h4>
+                        <h4 className="text-xs uppercase font-bold tracking-wider text-[#073B35]">Sports & Turfs</h4>
                         <ul className="space-y-2 text-xs sm:text-[13px] text-[#64748B]">
                             <li>
                                 <Link href="/sports/turf-booking" className="cursor-pointer hover:text-[#073B35] transition-colors">
@@ -223,9 +198,7 @@ const Footer = () => {
                     <div className="lg:col-span-3 space-y-5">
                         {/* Company Links */}
                         <div className="space-y-3">
-                            <h4 className="text-xs uppercase font-bold tracking-wider text-[#073B35]">
-                                Company
-                            </h4>
+                            <h4 className="text-xs uppercase font-bold tracking-wider text-[#073B35]">Company</h4>
                             <ul className="space-y-2 text-xs sm:text-[13px] text-[#64748B]">
                                 <li>
                                     <Link href="/about" className="cursor-pointer hover:text-[#073B35] transition-colors">
@@ -263,9 +236,7 @@ const Footer = () => {
                         {/* Mobile Apps Section - NO HR / TOP BORDER, RIGHT-ALIGNED, GLOWING */}
                         <div className="space-y-2.5 pt-1">
                             <div className="flex items-center gap-2">
-                                <span className="text-[11px] font-bold uppercase tracking-wider text-[#073B35]">
-                                    Mobile Apps
-                                </span>
+                                <span className="text-[11px] font-bold uppercase tracking-wider text-[#073B35]">Mobile Apps</span>
                                 <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[8.5px] font-bold uppercase tracking-wider rounded-full bg-amber-500/10 text-amber-700 border border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.25)]">
                                     <span className="relative flex size-1.5">
                                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
@@ -279,7 +250,7 @@ const Footer = () => {
                                 {/* Apple App Store */}
                                 <div className="relative group cursor-pointer">
                                     {/* Ambient Emerald Glow Halo */}
-                                    <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-[#10B981] via-[#34D399] to-[#059669] opacity-35 blur-sm group-hover:opacity-100 group-hover:blur-md transition-all duration-300 shadow-[0_0_14px_rgba(16,185,129,0.35)]" />
+                                    <div className="absolute -inset-0.5 rounded-xl bg-linear-to-r from-[#10B981] via-[#34D399] to-[#059669] opacity-35 blur-sm group-hover:opacity-100 group-hover:blur-md transition-all duration-300 shadow-[0_0_14px_rgba(16,185,129,0.35)]" />
 
                                     {/* Tactile Button Surface */}
                                     <div className="relative flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-[#073B35] text-white border border-[#10B981]/50 group-hover:border-[#34D399] transition-all duration-200">
@@ -294,7 +265,7 @@ const Footer = () => {
                                 {/* Google Play Store */}
                                 <div className="relative group cursor-pointer">
                                     {/* Ambient Emerald Glow Halo */}
-                                    <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-[#10B981] via-[#34D399] to-[#059669] opacity-35 blur-sm group-hover:opacity-100 group-hover:blur-md transition-all duration-300 shadow-[0_0_14px_rgba(16,185,129,0.35)]" />
+                                    <div className="absolute -inset-0.5 rounded-xl bg-linear-to-r from-[#10B981] via-[#34D399] to-[#059669] opacity-35 blur-sm group-hover:opacity-100 group-hover:blur-md transition-all duration-300 shadow-[0_0_14px_rgba(16,185,129,0.35)]" />
 
                                     {/* Tactile Button Surface */}
                                     <div className="relative flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-[#073B35] text-white border border-[#10B981]/50 group-hover:border-[#34D399] transition-all duration-200">

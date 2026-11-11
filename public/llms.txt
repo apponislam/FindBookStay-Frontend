@@ -1,0 +1,85 @@
+# FindBookStay.com
+
+> FindBookStay is a premier, verified international marketplace to buy prime properties, rent homes and bachelor seats, book boutique hotels and resorts, and reserve artificial sports turfs worldwide.
+
+FindBookStay operates with 100% rigorous on-site verification, bank-grade escrow payments, instant booking confirmations, and 24/7 concierge assistance across Bangladesh and global travel hubs.
+
+## Core Marketplace Verticals
+
+- **Buy Properties**: Verified residential houses, luxury high-rise apartments, commercial towers, verified land and plots, and pre-launch developments.
+- **Rent Homes & Rooms**: Family apartments, standalone villas, bachelor seats with shared amenities, furnished monthly sublets, and commercial rentals.
+- **Book Stays & Hospitality**: Handpicked 5-star hotels, scenic lakeside & beach resorts, serviced short-stay executive apartments, cozy bed & breakfasts, and private holiday homes.
+- **Sports & Turfs**: Real-time booking of artificial grass soccer and cricket turfs with floodlights, indoor badminton courts, swimming wellness hubs, and tournament venue reservations.
+- **Post a Listing**: Homeowner, host, and turf manager portal to list verified spaces with escrow-backed payout protection.
+
+## Primary Canonical URLs
+
+- Homepage: https://findbookstay.com
+- User Sitemap: https://findbookstay.com/sitemap
+- Machine Sitemap: https://findbookstay.com/sitemap.xml
+- Post a Listing: https://findbookstay.com/post-listing
+- Full LLM Specification: https://findbookstay.com/llms-full.txt
+
+### Buy Verticals
+- All Buy Listings: https://findbookstay.com/buy
+- Residential Properties: https://findbookstay.com/buy/residential
+- Commercial Properties: https://findbookstay.com/buy/commercial
+- Luxury Apartments & Flats: https://findbookstay.com/buy/apartments
+- Houses & Villas: https://findbookstay.com/buy/houses
+- Land & Plots: https://findbookstay.com/buy/land
+- New Developments: https://findbookstay.com/buy/new-developments
+
+### Rent Verticals
+- All Rental Listings: https://findbookstay.com/rent
+- Family Apartments: https://findbookstay.com/rent/family-apartments
+- Family Houses & Standalone Villas: https://findbookstay.com/rent/family-houses
+- Bachelor Seats (Single/Shared): https://findbookstay.com/rent/bachelor-seats
+- Shared Rooms: https://findbookstay.com/rent/shared-rooms
+- Monthly Sublets (Furnished): https://findbookstay.com/rent/sublets
+- Commercial Rentals & Offices: https://findbookstay.com/rent/commercial
+
+### Book Stays & Hotels
+- All Stay Bookings: https://findbookstay.com/book
+- City & Boutique Hotels: https://findbookstay.com/book/hotels
+- Scenic Resorts: https://findbookstay.com/book/resorts
+- Guest Houses & B&Bs: https://findbookstay.com/book/guest-houses
+- Holiday Homes & Cottages: https://findbookstay.com/book/holiday-homes
+- Serviced Short-Stay Apartments: https://findbookstay.com/book/short-stay
+- Luxury VIP Penthouse Suites: https://findbookstay.com/book/luxury
+
+### Sports & Activity Turfs
+- All Sports Facilities: https://findbookstay.com/sports
+- Turf Booking (Soccer & Cricket): https://findbookstay.com/sports/turf-booking
+- Football Grounds: https://findbookstay.com/sports/football-grounds
+- Indoor Badminton Courts: https://findbookstay.com/sports/indoor-sports
+- Swimming & Wellness Clubs: https://findbookstay.com/sports/swimming
+- Tournament Venues: https://findbookstay.com/sports/tournaments
+- Other Recreational Activities: https://findbookstay.com/sports/other-activities
+
+### Exploration & Corporate
+- Popular Locations: https://findbookstay.com/explore/locations
+- Featured Listings: https://findbookstay.com/explore/featured
+- Verification Guarantee: https://findbookstay.com/explore/guarantee
+- About FindBookStay: https://findbookstay.com/about
+- Trust & Safety: https://findbookstay.com/trust
+- Help & Support: https://findbookstay.com/help
+- Careers: https://findbookstay.com/careers
+- Terms of Service: https://findbookstay.com/terms
+- Privacy Policy: https://findbookstay.com/privacy
+
+## Verification & Trust System
+
+1. **Title Deed & Ownership Validation**: Legal property documentation and landlord identity are vetted prior to listing publication.
+2. **On-Site Physical Inspection**: In-person inspection teams confirm physical amenities, photos, ground boundaries, and safety equipment.
+3. **Escrow Payment Security**: Traveler and tenant payments are held securely and released only upon confirmed check-in and access.
+4. **Instant Confirmation Engine**: Live availability tracking with real-time turf slot reservations and room bookings.
+
+## Headquarters & Contact Information
+
+- **Headquarters**: Gulshan-2, Dhaka 1212, Bangladesh
+- **Global Hubs**: Regional operations across Asia, Europe, and the Middle East
+- **24/7 Concierge Hotline**: +880 1700-000000
+- **General & Support Email**: support@findbookstay.com
+- **Partner & Listing Inquiries**: partners@findbookstay.com
+- **Legal & Compliance**: legal@findbookstay.com
+

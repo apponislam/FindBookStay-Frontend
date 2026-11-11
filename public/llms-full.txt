@@ -1,0 +1,70 @@
+# FindBookStay.com — Comprehensive System & Marketplace Knowledgebase
+
+FindBookStay (findbookstay.com) is an international unified real estate, hospitality, and sports recreation ecosystem. It bridges the gap between property buyers, home tenants, travelers seeking verified accommodations, and sports enthusiasts seeking tournament-grade sports turf facilities.
+
+## Architectural Philosophy & Brand Identity
+
+- **Color Tokens**:
+  - Primary: `#073B35` (Deep British Racing Emerald)
+  - Accent: `#10B981` / `#34D399` (Luminous Mint Emerald)
+  - Background: `#FFFFFF` / Dark `#0B1210`
+  - Surface: `#F8FAF9` / Dark `#111C1A`
+- **Typography**: Raleway (Google Fonts), geometric neo-grotesque sans-serif.
+- **Verification Guarantee**: 100% physically inspected listings, biometric landlord authentication, and dispute-free escrow processing.
+
+## Complete Platform Site Graph
+
+### 1. Property Acquisition (Buy)
+- `/buy`: High-level search and property index.
+- `/buy/residential`: Gated communities, family duplexes, single-family homes.
+- `/buy/commercial`: Office buildings, retail floors, corporate headquarters, bank-ready properties.
+- `/buy/apartments`: High-rise condominium penthouses, studio units, multi-bedroom flats.
+- `/buy/houses`: Standalone residential houses with private access and land ownership.
+- `/buy/land`: Demarcated residential plots, commercial development zones, agricultural land.
+- `/buy/new-developments`: Off-plan projects from reputable developers with milestone payments.
+
+### 2. Residential Leases & Room Rentals (Rent)
+- `/rent`: Residential leasing portal.
+- `/rent/family-apartments`: Long-term unfurnished and semi-furnished multi-room flats.
+- `/rent/family-houses`: Complete residential villas and independent multi-story homes.
+- `/rent/bachelor-seats`: Single beds and partitioned seats with inclusive utilities, Wi-Fi, and meal options.
+- `/rent/shared-rooms`: Two-to-three person rooms with verified flatmates and security checks.
+- `/rent/sublets`: Flexible 1 to 6-month leases for visiting professionals and students.
+- `/rent/commercial`: Commercial showrooms, retail street spaces, and serviced office cabins.
+
+### 3. Short-Term Stays & Hospitality (Book)
+- `/book`: Global accommodation reservations.
+- `/book/hotels`: City center business hotels, luxury 5-star properties, and boutique lifestyle stays.
+- `/book/resorts`: Eco-resorts, lakeside retreats, mountain lodges, and beachfront properties.
+- `/book/guest-houses`: Family-hosted bed and breakfasts with local culinary experiences.
+- `/book/holiday-homes`: Private vacation homes, cottages, and secluded retreats.
+- `/book/short-stay`: Fully furnished apartments with dedicated fiber Wi-Fi and work amenities.
+- `/book/luxury`: Presidential suites, villas with private pools, and VIP concierge packages.
+
+### 4. Sports & Recreation Venues (Sports)
+- `/sports`: Real-time venue booking directory.
+- `/sports/turf-booking`: FIFA-standard artificial grass pitches for 5-a-side, 7-a-side soccer and box cricket.
+- `/sports/football-grounds`: Full-size 11-a-side natural and hybrid grass pitches.
+- `/sports/indoor-sports`: Wooden and synthetic indoor badminton, squash, and basketball courts.
+- `/sports/swimming`: Temperature-controlled Olympic and training pools with certified coaches.
+- `/sports/tournaments`: Comprehensive venue rental for corporate sports days and competitive leagues.
+- `/sports/other-activities`: Go-karting tracks, paintball combat arenas, and bowling alleys.
+
+### 5. Corporate, Legal & Public Relations
+- `/post-listing`: Step-by-step listing wizard for property owners, hotel operators, and turf managers.
+- `/about`: Company history, executive leadership, and long-term roadmap.
+- `/trust`: Detailed breakdown of physical inspection protocols and fraud prevention.
+- `/help`: Customer support center, cancellation terms, and ticket submission.
+- `/careers`: Open engineering, operations, and inspection roles.
+- `/terms`: Terms of Service, liability, host obligations, and traveler rights.
+- `/privacy`: Data privacy, GDPR compliance, and user safety standards.
+- `/sitemap`: Interactive human-readable catalog of all marketplace destinations.
+- `/sitemap.xml`: XML sitemap structured for web indexing robots.
+- `/llms.txt`: Summary format for AI language model scans.
+
+## Integration Protocols & Machine Reading
+
+- Format: UTF-8 Markdown and Schema.org semantic microdata.
+- Primary Currency: BDT (Bangladeshi Taka) & USD (United States Dollar).
+- Payment Infrastructure: Credit/Debit Cards, Mobile Banking (bKash, Nagad), Bank Wire, and Escrow Hold.
+
