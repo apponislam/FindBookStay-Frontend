@@ -1,15 +1,15 @@
 # FindBookStay.com
 
-> FindBookStay is a premier, verified international marketplace to buy prime properties, rent homes and bachelor seats, book boutique hotels and resorts, and reserve artificial sports turfs worldwide.
+> FindBookStay is a premier, verified international marketplace to rent homes and bachelor seats, book boutique hotels and resorts, reserve artificial sports turfs, and buy prime properties worldwide.
 
 FindBookStay operates as an all-in-one digital ecosystem with verified listings, direct host connections, instant booking confirmations, and 24/7 concierge assistance across Bangladesh and global travel hubs.
 
 ## Core Marketplace Verticals
 
-- **Buy Properties**: Verified residential houses, luxury high-rise apartments, commercial towers, verified land and plots, and pre-launch developments.
 - **Rent Homes & Rooms**: Family apartments, standalone villas, bachelor seats with shared amenities, furnished monthly sublets, and commercial rentals.
 - **Book Stays & Hospitality**: Handpicked hotels, scenic lakeside & beach resorts, serviced short-stay executive apartments, cozy bed & breakfasts, and private holiday homes.
 - **Sports & Turfs**: Real-time booking of artificial grass soccer and cricket turfs with floodlights, indoor badminton courts, swimming wellness hubs, and tournament venue reservations.
+- **Buy Properties**: Verified residential houses, luxury high-rise apartments, commercial towers, verified land and plots, and pre-launch developments.
 - **Post a Listing**: Homeowner, host, and turf manager portal to list verified spaces directly to qualified seekers.
 
 ## Primary Canonical URLs
@@ -19,15 +19,6 @@ FindBookStay operates as an all-in-one digital ecosystem with verified listings,
 - Machine Sitemap: https://findbookstay.com/sitemap.xml
 - Post a Listing: https://findbookstay.com/post-listing
 - Full LLM Specification: https://findbookstay.com/llms-full.txt
-
-### Buy Verticals
-- All Buy Listings: https://findbookstay.com/buy
-- Residential Properties: https://findbookstay.com/buy/residential
-- Commercial Properties: https://findbookstay.com/buy/commercial
-- Luxury Apartments & Flats: https://findbookstay.com/buy/apartments
-- Houses & Villas: https://findbookstay.com/buy/houses
-- Land & Plots: https://findbookstay.com/buy/land
-- New Developments: https://findbookstay.com/buy/new-developments
 
 ### Rent Verticals
 - All Rental Listings: https://findbookstay.com/rent
@@ -55,6 +46,15 @@ FindBookStay operates as an all-in-one digital ecosystem with verified listings,
 - Swimming & Wellness Clubs: https://findbookstay.com/sports/swimming
 - Tournament Venues: https://findbookstay.com/sports/tournaments
 - Other Recreational Activities: https://findbookstay.com/sports/other-activities
+
+### Buy Verticals
+- All Buy Listings: https://findbookstay.com/buy
+- Residential Properties: https://findbookstay.com/buy/residential
+- Commercial Properties: https://findbookstay.com/buy/commercial
+- Luxury Apartments & Flats: https://findbookstay.com/buy/apartments
+- Houses & Villas: https://findbookstay.com/buy/houses
+- Land & Plots: https://findbookstay.com/buy/land
+- New Developments: https://findbookstay.com/buy/new-developments
 
 ### Exploration & Corporate
 - Popular Locations: https://findbookstay.com/explore/locations

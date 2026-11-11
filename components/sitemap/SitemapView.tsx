@@ -19,47 +19,8 @@ interface SitemapSection {
 
 const SECTIONS: SitemapSection[] = [
     {
-        id: "buy",
-        number: "01",
-        title: "Buy Properties",
-        href: "/buy",
-        items: [
-            {
-                name: "Residential Properties",
-                desc: "Family flats, townhouses and homes in prime vetted neighborhoods",
-                href: "/buy/residential",
-            },
-            {
-                name: "Commercial Properties",
-                desc: "Corporate offices, retail plazas, shopping centers and commercial plots",
-                href: "/buy/commercial",
-            },
-            {
-                name: "Apartments & Flats",
-                desc: "Modern luxury high-rise condominium units and cozy apartments",
-                href: "/buy/apartments",
-            },
-            {
-                name: "Houses & Villas",
-                desc: "Independent duplexes, standalone executive homes and private villas",
-                href: "/buy/houses",
-            },
-            {
-                name: "Land & Plots",
-                desc: "Verified residential, commercial and farmland plots with vetted title deeds",
-                href: "/buy/land",
-            },
-            {
-                name: "New Developments",
-                desc: "Pre-launch gated communities, off-plan projects and developer deals",
-                href: "/buy/new-developments",
-                badge: "New",
-            },
-        ],
-    },
-    {
         id: "rent",
-        number: "02",
+        number: "01",
         title: "Rent Properties",
         href: "/rent",
         items: [
@@ -98,7 +59,7 @@ const SECTIONS: SitemapSection[] = [
     },
     {
         id: "book",
-        number: "03",
+        number: "02",
         title: "Book Stays",
         href: "/book",
         items: [
@@ -137,7 +98,7 @@ const SECTIONS: SitemapSection[] = [
     },
     {
         id: "sports",
-        number: "04",
+        number: "03",
         title: "Sports & Turfs",
         href: "/sports",
         items: [
@@ -175,6 +136,45 @@ const SECTIONS: SitemapSection[] = [
         ],
     },
     {
+        id: "buy",
+        number: "04",
+        title: "Buy Properties",
+        href: "/buy",
+        items: [
+            {
+                name: "Residential Properties",
+                desc: "Family flats, townhouses and homes in prime vetted neighborhoods",
+                href: "/buy/residential",
+            },
+            {
+                name: "Commercial Properties",
+                desc: "Corporate offices, retail plazas, shopping centers and commercial plots",
+                href: "/buy/commercial",
+            },
+            {
+                name: "Apartments & Flats",
+                desc: "Modern luxury high-rise condominium units and cozy apartments",
+                href: "/buy/apartments",
+            },
+            {
+                name: "Houses & Villas",
+                desc: "Independent duplexes, standalone executive homes and private villas",
+                href: "/buy/houses",
+            },
+            {
+                name: "Land & Plots",
+                desc: "Verified residential, commercial and farmland plots with vetted title deeds",
+                href: "/buy/land",
+            },
+            {
+                name: "New Developments",
+                desc: "Pre-launch gated communities, off-plan projects and developer deals",
+                href: "/buy/new-developments",
+                badge: "New",
+            },
+        ],
+    },
+    {
         id: "explore",
         number: "05",
         title: "Explore & Destinations",
@@ -203,7 +203,7 @@ const SECTIONS: SitemapSection[] = [
             },
             {
                 name: "Verification Guarantee",
-                desc: "How we inspect 100% of properties and turfs on-site to eliminate scams",
+                desc: "Our trust standards, host verification guidelines, and safety practices",
                 href: "/explore/guarantee",
             },
             {
@@ -227,7 +227,7 @@ const SECTIONS: SitemapSection[] = [
             },
             {
                 name: "Verification Guarantee",
-                desc: "Biometric identity verification, title deed checks and fraud protection",
+                desc: "Host profile verification, authentic specifications and fraud protection",
                 href: "/trust",
             },
             {
@@ -237,12 +237,12 @@ const SECTIONS: SitemapSection[] = [
             },
             {
                 name: "Careers & Team",
-                desc: "Join our fast-growing engineering, operations and physical inspection teams",
+                desc: "Join our fast-growing engineering, product, operations and support teams",
                 href: "/careers",
             },
             {
                 name: "Terms of Service",
-                desc: "Host obligations, guest cancellation policies, liability and payment rules",
+                desc: "Host obligations, guest cancellation policies, liability and platform rules",
                 href: "/terms",
             },
             {
@@ -258,99 +258,75 @@ const SitemapView = () => {
     return (
         <div className="w-full bg-[#FFFFFF] text-[#172B2A]">
             {/* ============================================================== */}
-            {/* 1. EDITORIAL HEADER SECTION                                    */}
+            {/* 1. EDITORIAL HERO HEADER                                       */}
             {/* ============================================================== */}
-            <div className="border-b border-[#E2EAE6] bg-[#F8FAF9]/70">
+            <div className="border-b border-[#E2EAE6] bg-linear-to-b from-[#F0F5F3]/80 via-[#F8FAF9] to-white">
                 <div className="container mx-auto px-4 py-12 lg:py-16">
-                    <div className="max-w-3xl">
-                        <p className="text-xs font-bold uppercase tracking-widest text-[#10B981] mb-2">
-                            Platform Directory
-                        </p>
-                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#073B35] tracking-tight">
-                            Sitemap
-                        </h1>
-                        <p className="mt-3 text-sm sm:text-base text-[#64748B] leading-relaxed">
-                            A clear, complete overview of all verified properties, rental accommodations, hotels, and sports turf facilities across FindBookStay.
-                        </p>
-
-                        {/* Quick Jump Category Links */}
-                        <div className="mt-8 flex items-center flex-wrap gap-2 text-xs">
-                            <span className="text-[#64748B] font-medium mr-1">Jump to:</span>
-                            {SECTIONS.map((section) => (
-                                <a
-                                    key={section.id}
-                                    href={`#${section.id}`}
-                                    className="cursor-pointer px-3 py-1.5 rounded-full border border-[#E2EAE6] bg-white text-[#172B2A] hover:border-[#10B981] hover:text-[#073B35] hover:bg-[#F0F5F3] transition-colors"
-                                >
-                                    {section.title}
-                                </a>
-                            ))}
+                    <div className="max-w-3xl space-y-4">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-[#E2EAE6] shadow-2xs text-xs font-semibold text-[#073B35]">
+                            <span className="size-2 rounded-full bg-[#10B981]" />
+                            <span className="uppercase tracking-wider text-[11px] font-bold">Platform Directory</span>
                         </div>
+
+                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#073B35] tracking-tight">FindBookStay Sitemap</h1>
+
+                        <p className="text-sm sm:text-base text-[#64748B] leading-relaxed">A complete human-readable catalog of all marketplace destinations. Browse property rentals, hotel reservations, sports turf bookings, real estate purchases, and platform legal disclosures.</p>
+                    </div>
+
+                    {/* Quick Category Jump Pills */}
+                    <div className="flex flex-wrap gap-2 pt-6">
+                        {SECTIONS.map((sec) => (
+                            <a
+                                key={sec.id}
+                                href={`#${sec.id}`}
+                                className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-[#E2EAE6] text-[#172B2A] hover:border-[#10B981] hover:text-[#073B35] hover:bg-[#F0F5F3] shadow-2xs transition-all duration-200"
+                            >
+                                <span className="font-mono text-[#10B981] font-semibold">{sec.number}</span>
+                                <span>{sec.title}</span>
+                            </a>
+                        ))}
                     </div>
                 </div>
             </div>
 
             {/* ============================================================== */}
-            {/* 2. DIRECTORY SECTIONS: CLEAN MULTI-COLUMN LAYOUT               */}
+            {/* 2. CATEGORY SECTIONS GRID                                      */}
             {/* ============================================================== */}
-            <div className="container mx-auto px-4 py-12 lg:py-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
-                    {SECTIONS.map((section) => (
-                        <div
-                            key={section.id}
-                            id={section.id}
-                            className="scroll-mt-28 space-y-4"
-                        >
-                            {/* Section Header with Number & Index Link */}
-                            <div className="pb-3 border-b border-[#E2EAE6] flex items-baseline justify-between">
-                                <div className="flex items-center gap-2.5">
-                                    <span className="text-xs font-mono font-bold text-[#10B981]">
-                                        {section.number}
-                                    </span>
-                                    <h2 className="text-lg font-bold text-[#073B35] tracking-tight">
-                                        {section.title}
-                                    </h2>
-                                </div>
-                                <Link
-                                    href={section.href}
-                                    className="cursor-pointer text-xs font-semibold text-[#10B981] hover:text-[#059669] transition-colors inline-flex items-center gap-1 group"
-                                >
-                                    <span>Browse</span>
-                                    <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
-                                </Link>
+            <div className="container mx-auto px-4 py-12 lg:py-16 space-y-16">
+                {SECTIONS.map((section) => (
+                    <section key={section.id} id={section.id} className="scroll-mt-28 space-y-6">
+                        {/* Section Title Bar */}
+                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-[#E2EAE6] pb-4">
+                            <div className="flex items-center gap-3">
+                                <span className="text-xl sm:text-2xl font-mono font-bold text-[#10B981]">{section.number}</span>
+                                <h2 className="text-xl sm:text-2xl font-bold text-[#073B35]">{section.title}</h2>
                             </div>
-
-                            {/* Section Links List */}
-                            <ul className="space-y-3.5 pt-1">
-                                {section.items.map((item) => (
-                                    <li key={item.href}>
-                                        <Link
-                                            href={item.href}
-                                            className="cursor-pointer group flex items-start justify-between gap-3 text-[#172B2A] hover:text-[#073B35] transition-colors"
-                                        >
-                                            <div className="space-y-0.5 min-w-0">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-sm font-semibold text-[#172B2A] group-hover:text-[#073B35] group-hover:underline underline-offset-4 decoration-[#10B981] transition-all truncate">
-                                                        {item.name}
-                                                    </span>
-                                                    {item.badge && (
-                                                        <span className="px-1.5 py-0.2 text-[9px] font-bold uppercase tracking-wider rounded bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
-                                                            {item.badge}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                <p className="text-xs text-[#64748B] leading-relaxed line-clamp-1">
-                                                    {item.desc}
-                                                </p>
-                                            </div>
-                                            <ArrowRight className="size-3.5 text-[#A3B5AE] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#10B981] transition-all shrink-0 mt-0.5" />
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
+                            <Link href={section.href} className="cursor-pointer inline-flex items-center gap-1 text-xs font-semibold text-[#10B981] hover:text-[#059669] transition-colors group">
+                                <span>Browse all in {section.title}</span>
+                                <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
+                            </Link>
                         </div>
-                    ))}
-                </div>
+
+                        {/* Items Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {section.items.map((item, idx) => (
+                                <Link key={idx} href={item.href} className="cursor-pointer group flex flex-col justify-between p-4 rounded-xl border border-[#E2EAE6] bg-[#FFFFFF] hover:border-[#10B981]/60 hover:bg-[#F8FAF9] hover:shadow-2xs transition-all duration-200">
+                                    <div>
+                                        <div className="flex items-center justify-between gap-2">
+                                            <h3 className="text-sm font-semibold text-[#172B2A] group-hover:text-[#073B35] transition-colors">{item.name}</h3>
+                                            {item.badge && <span className="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#10B981]/10 text-[#073B35] uppercase tracking-wide">{item.badge}</span>}
+                                        </div>
+                                        <p className="mt-1.5 text-xs text-[#64748B] leading-relaxed line-clamp-2">{item.desc}</p>
+                                    </div>
+                                    <div className="mt-3 pt-3 border-t border-[#E2EAE6]/60 flex items-center justify-between text-xs font-medium text-[#10B981]">
+                                        <span className="font-mono text-[11px] text-[#64748B] group-hover:text-[#073B35] transition-colors truncate max-w-50">{item.href}</span>
+                                        <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+                ))}
             </div>
         </div>
     );

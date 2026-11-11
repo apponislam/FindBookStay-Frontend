@@ -91,18 +91,28 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Column 2: Buy & Rent Properties (col-span-2) */}
+                    {/* Column 2: Rent & Buy Properties (col-span-2) */}
                     <div className="lg:col-span-2 space-y-3">
-                        <h4 className="text-xs uppercase font-bold tracking-wider text-[#073B35]">Buy & Rent</h4>
+                        <h4 className="text-xs uppercase font-bold tracking-wider text-[#073B35]">Rent & Buy</h4>
                         <ul className="space-y-2 text-xs sm:text-[13px] text-[#64748B]">
                             <li>
-                                <Link href="/buy/residential" className="cursor-pointer hover:text-[#073B35] transition-colors">
-                                    Residential Homes
+                                <Link href="/rent/family-apartments" className="cursor-pointer hover:text-[#073B35] transition-colors">
+                                    Family Rental Flats
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/buy/commercial" className="cursor-pointer hover:text-[#073B35] transition-colors">
-                                    Commercial Spaces
+                                <Link href="/rent/bachelor-seats" className="cursor-pointer hover:text-[#073B35] transition-colors">
+                                    Bachelor Seats
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/rent/sublets" className="cursor-pointer hover:text-[#073B35] transition-colors">
+                                    Monthly Sublets
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/buy/residential" className="cursor-pointer hover:text-[#073B35] transition-colors">
+                                    Residential Homes
                                 </Link>
                             </li>
                             <li>
@@ -111,18 +121,8 @@ const Footer = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/buy/houses" className="cursor-pointer hover:text-[#073B35] transition-colors">
-                                    Houses & Villas
-                                </Link>
-                            </li>
-                            <li>
                                 <Link href="/buy/land" className="cursor-pointer hover:text-[#073B35] transition-colors">
                                     Verified Land & Plots
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/rent/family-apartments" className="cursor-pointer hover:text-[#073B35] transition-colors">
-                                    Family Rental Flats
                                 </Link>
                             </li>
                             <li>

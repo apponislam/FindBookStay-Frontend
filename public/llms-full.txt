@@ -1,6 +1,6 @@
 # FindBookStay.com — Comprehensive System & Marketplace Knowledgebase
 
-FindBookStay (findbookstay.com) is an international unified real estate, hospitality, and sports recreation ecosystem. It bridges the gap between property buyers, home tenants, travelers seeking verified accommodations, and sports enthusiasts seeking tournament-grade sports turf facilities.
+FindBookStay (findbookstay.com) is an international unified real estate, hospitality, and sports recreation ecosystem. It bridges the gap between home tenants, travelers seeking verified accommodations, sports enthusiasts seeking tournament-grade sports turf facilities, and property buyers.
 
 ## Architectural Philosophy & Brand Identity
 
@@ -14,16 +14,7 @@ FindBookStay (findbookstay.com) is an international unified real estate, hospita
 
 ## Complete Platform Site Graph
 
-### 1. Property Acquisition (Buy)
-- `/buy`: High-level search and property index.
-- `/buy/residential`: Gated communities, family duplexes, single-family homes.
-- `/buy/commercial`: Office buildings, retail floors, corporate headquarters, bank-ready properties.
-- `/buy/apartments`: High-rise condominium penthouses, studio units, multi-bedroom flats.
-- `/buy/houses`: Standalone residential houses with private access and land ownership.
-- `/buy/land`: Demarcated residential plots, commercial development zones, agricultural land.
-- `/buy/new-developments`: Off-plan projects from reputable developers with milestone updates.
-
-### 2. Residential Leases & Room Rentals (Rent)
+### 1. Residential Leases & Room Rentals (Rent)
 - `/rent`: Residential leasing portal.
 - `/rent/family-apartments`: Long-term unfurnished and semi-furnished multi-room flats.
 - `/rent/family-houses`: Complete residential villas and independent multi-story homes.
@@ -32,7 +23,7 @@ FindBookStay (findbookstay.com) is an international unified real estate, hospita
 - `/rent/sublets`: Flexible 1 to 6-month leases for visiting professionals and students.
 - `/rent/commercial`: Commercial showrooms, retail street spaces, and serviced office cabins.
 
-### 3. Short-Term Stays & Hospitality (Book)
+### 2. Short-Term Stays & Hospitality (Book)
 - `/book`: Global accommodation reservations.
 - `/book/hotels`: City center business hotels, luxury 5-star properties, and boutique lifestyle stays.
 - `/book/resorts`: Eco-resorts, lakeside retreats, mountain lodges, and beachfront properties.
@@ -41,7 +32,7 @@ FindBookStay (findbookstay.com) is an international unified real estate, hospita
 - `/book/short-stay`: Fully furnished apartments with dedicated fiber Wi-Fi and work amenities.
 - `/book/luxury`: Presidential suites, villas with private pools, and VIP concierge packages.
 
-### 4. Sports & Recreation Venues (Sports)
+### 3. Sports & Recreation Venues (Sports)
 - `/sports`: Real-time venue booking directory.
 - `/sports/turf-booking`: FIFA-standard artificial grass pitches for 5-a-side, 7-a-side soccer and box cricket.
 - `/sports/football-grounds`: Full-size 11-a-side natural and hybrid grass pitches.
@@ -49,6 +40,15 @@ FindBookStay (findbookstay.com) is an international unified real estate, hospita
 - `/sports/swimming`: Temperature-controlled Olympic and training pools.
 - `/sports/tournaments`: Comprehensive venue rental for corporate sports days and competitive leagues.
 - `/sports/other-activities`: Recreational tracks and sport facilities.
+
+### 4. Property Acquisition (Buy)
+- `/buy`: High-level search and property index.
+- `/buy/residential`: Gated communities, family duplexes, single-family homes.
+- `/buy/commercial`: Office buildings, retail floors, corporate headquarters, bank-ready properties.
+- `/buy/apartments`: High-rise condominium penthouses, studio units, multi-bedroom flats.
+- `/buy/houses`: Standalone residential houses with private access and land ownership.
+- `/buy/land`: Demarcated residential plots, commercial development zones, agricultural land.
+- `/buy/new-developments`: Off-plan projects from reputable developers with milestone updates.
 
 ### 5. Corporate, Legal & Public Relations
 - `/post-listing`: Step-by-step listing wizard for property owners, hotel operators, and turf managers.

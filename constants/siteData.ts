@@ -45,8 +45,8 @@ export const siteData: SiteData = {
     name: "FindBookStay",
     domain: "findbookstay.com",
     url: "https://findbookstay.com",
-    tagline: "Exclusive Stays, Verified Properties & Sports Turfs",
-    description: "FindBookStay is your premier verified marketplace to buy prime properties, rent homes, book luxury hotels & resorts, and reserve sports turfs worldwide.",
+    tagline: "Verified Home Rentals, Exclusive Stays, Sports Turfs & Properties",
+    description: "FindBookStay is your premier verified marketplace to rent homes, book luxury hotels & resorts, reserve sports turfs, and buy prime properties worldwide.",
     copyrightYear: 2026,
     address: {
         street: "Gulshan-2",

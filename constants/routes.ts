@@ -45,50 +45,6 @@ export interface CategoryMenu {
 
 export const CATEGORIES: CategoryMenu[] = [
   {
-    id: "buy",
-    label: "Buy",
-    href: "/buy",
-    items: [
-      {
-        name: "Residential Properties",
-        desc: "Flats, townhouses & homes in prime neighborhoods",
-        icon: Home,
-        href: "/buy/residential",
-      },
-      {
-        name: "Commercial Properties",
-        desc: "Offices, retail spaces, plazas & commercial plots",
-        icon: Building2,
-        href: "/buy/commercial",
-      },
-      {
-        name: "Apartments & Flats",
-        desc: "Modern luxury high-rise units & cozy apartments",
-        icon: Building,
-        href: "/buy/apartments",
-      },
-      {
-        name: "Houses & Villas",
-        desc: "Independent duplexes, standalone homes & villas",
-        icon: Warehouse,
-        href: "/buy/houses",
-      },
-      {
-        name: "Land & Plots",
-        desc: "Verified residential, commercial & farmland plots",
-        icon: MapPin,
-        href: "/buy/land",
-      },
-      {
-        name: "New Developments",
-        desc: "Pre-launch gated communities & off-plan deals",
-        icon: Sparkles,
-        href: "/buy/new-developments",
-        badge: "New",
-      },
-    ],
-  },
-  {
     id: "rent",
     label: "Rent",
     href: "/rent",
@@ -221,6 +177,50 @@ export const CATEGORIES: CategoryMenu[] = [
     ],
   },
   {
+    id: "buy",
+    label: "Buy",
+    href: "/buy",
+    items: [
+      {
+        name: "Residential Properties",
+        desc: "Flats, townhouses & homes in prime neighborhoods",
+        icon: Home,
+        href: "/buy/residential",
+      },
+      {
+        name: "Commercial Properties",
+        desc: "Offices, retail spaces, plazas & commercial plots",
+        icon: Building2,
+        href: "/buy/commercial",
+      },
+      {
+        name: "Apartments & Flats",
+        desc: "Modern luxury high-rise units & cozy apartments",
+        icon: Building,
+        href: "/buy/apartments",
+      },
+      {
+        name: "Houses & Villas",
+        desc: "Independent duplexes, standalone homes & villas",
+        icon: Warehouse,
+        href: "/buy/houses",
+      },
+      {
+        name: "Land & Plots",
+        desc: "Verified residential, commercial & farmland plots",
+        icon: MapPin,
+        href: "/buy/land",
+      },
+      {
+        name: "New Developments",
+        desc: "Pre-launch gated communities & off-plan deals",
+        icon: Sparkles,
+        href: "/buy/new-developments",
+        badge: "New",
+      },
+    ],
+  },
+  {
     id: "explore",
     label: "Explore",
     href: "/explore",
@@ -252,7 +252,7 @@ export const CATEGORIES: CategoryMenu[] = [
       },
       {
         name: "Verified Guarantee",
-        desc: "How we inspect 100% of properties to eliminate scams",
+        desc: "Transparent trust standards and host verification framework",
         icon: ShieldCheck,
         href: "/explore/guarantee",
       },
@@ -265,4 +265,3 @@ export const CATEGORIES: CategoryMenu[] = [
     ],
   },
 ];
-

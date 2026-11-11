@@ -6,7 +6,7 @@ import AboutView from "@/components/about/AboutView";
 export const metadata: Metadata = {
     title: `About Us | ${siteData.name}`,
     description:
-        "Learn about FindBookStay's mission to create an international verified marketplace for property buying, home rentals, hotel stays, and sports turf reservations.",
+        "Learn about FindBookStay's mission to create an international verified marketplace for home rentals, hotel stays, sports turf reservations, and property buying.",
 };
 
 const AboutPage = () => {
