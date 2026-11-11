@@ -1,5 +1,6 @@
 import {
     ChevronDown,
+    ChevronRight,
     Menu,
     X,
     User,
@@ -45,6 +46,7 @@ export type Icon = LucideIcon;
 
 export {
     ChevronDown,
+    ChevronRight,
     Menu,
     X,
     User,

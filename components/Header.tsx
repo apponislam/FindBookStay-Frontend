@@ -15,7 +15,7 @@ const Header = () => {
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
     const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
     const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(true); // default true for preview
+    const [isAuthenticated, setIsAuthenticated] = useState(false); // default logged out
     const [favoritesCount] = useState(3);
     const [notificationsCount] = useState(2);
 
