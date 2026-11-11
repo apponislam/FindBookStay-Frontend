@@ -1,5 +1,5 @@
 import React from "react";
-import { Check } from "lucide-react";
+import { Check, AlertCircle } from "lucide-react";
 
 export interface AuthCheckboxProps {
     id: string;
@@ -21,7 +21,22 @@ export const AuthCheckbox = ({ id, checked, onChange, label, error, disabled = f
                 </div>
                 <div className="text-xs text-text-secondary leading-snug">{label}</div>
             </label>
-            {error && <p className="text-xs text-destructive font-medium pl-6">{error}</p>}
+            {error && (
+                <div className="pl-6 pt-1 animate-in fade-in slide-in-from-top-1 duration-150">
+                    <div
+                        role="alert"
+                        className="relative inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-destructive text-white text-xs font-semibold shadow-sm select-none"
+                    >
+                        {/* Arrow pointing UP towards the checkbox */}
+                        <span
+                            aria-hidden="true"
+                            className="absolute -top-1 left-3 size-2 bg-destructive rotate-45 transform"
+                        />
+                        <AlertCircle className="size-3.5 shrink-0" />
+                        <span>{error}</span>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

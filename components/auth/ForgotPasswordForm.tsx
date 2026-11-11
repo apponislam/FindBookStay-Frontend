@@ -82,7 +82,7 @@ export const ForgotPasswordForm = () => {
                 subtitle="Enter your verified account email address and we'll dispatch password reset instructions."
             />
 
-            <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+            <form onSubmit={handleSubmit} className="space-y-2.5" noValidate>
                 <AuthInput
                     label="Account Email"
                     name="email"
@@ -95,18 +95,18 @@ export const ForgotPasswordForm = () => {
                     autoComplete="email"
                 />
 
-                <div className="pt-2">
+                <div className="pt-1.5">
                     <AuthButton
                         type="submit"
                         isLoading={isLoading}
-                        icon={<ArrowRight className="size-4" />}
+                        icon={<ArrowRight className="size-3.5" />}
                     >
                         Send Instructions
                     </AuthButton>
                 </div>
             </form>
 
-            <div className="pt-6 border-t border-border mt-8 text-center">
+            <div className="pt-3 border-t border-border mt-4 text-center">
                 <Link
                     href="/auth/login"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-text-secondary hover:text-primary transition-colors cursor-pointer"

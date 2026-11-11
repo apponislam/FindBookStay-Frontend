@@ -16,8 +16,8 @@ export interface AuthLayoutProps {
 
 export const AuthLayout = ({
     children,
-    imageSrc = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop",
-    imageAlt = "Modern architectural residence - FindBookStay",
+    imageSrc = "/auth-hero.jpg",
+    imageAlt = "Modern luxury architectural residence - FindBookStay",
     sectionTag = "01 / VERIFIED LIVING",
     headline = "Spaces crafted for how you live, travel, and play.",
     subheadline = "Direct connections with verified owners and turf managers. Seamless discovery, zero broker commission.",

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import AuthHeader from "./AuthHeader";
 import AuthInput from "./AuthInput";
@@ -15,6 +16,7 @@ interface LoginFormProps {
 }
 
 export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
+    const router = useRouter();
     const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
     const [turnstileToken, setTurnstileToken] = useState("");
@@ -52,7 +54,7 @@ export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
             if (onSuccess) {
                 onSuccess();
             } else {
-                window.location.href = redirectUrl;
+                router.push(redirectUrl);
             }
         } catch {
             setErrors({ general: "Invalid credentials. Please verify your details and try again." });
@@ -70,12 +72,12 @@ export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
             />
 
             {errors.general && (
-                <div className="mb-5 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium">
+                <div className="mb-3 p-2.5 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium">
                     {errors.general}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+            <form onSubmit={handleSubmit} className="space-y-2.5" noValidate>
                 <AuthInput
                     label="Email or Phone Number"
                     name="identifier"
@@ -109,30 +111,30 @@ export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
                 />
 
                 {/* Cloudflare Turnstile Human Verification */}
-                <div className="pt-1">
+                <div className="pt-0.5">
                     <TurnstileWidget
                         onVerify={(token) => setTurnstileToken(token)}
                         onExpire={() => setTurnstileToken("")}
                     />
                     {errors.turnstile && (
-                        <p className="text-xs text-destructive font-medium pt-1">
+                        <p className="text-[11px] text-destructive font-medium pt-0.5">
                             {errors.turnstile}
                         </p>
                     )}
                 </div>
 
-                <div className="pt-2">
+                <div className="pt-1.5">
                     <AuthButton
                         type="submit"
                         isLoading={isLoading}
-                        icon={<ArrowRight className="size-4" />}
+                        icon={<ArrowRight className="size-3.5" />}
                     >
                         Sign In
                     </AuthButton>
                 </div>
             </form>
 
-            <div className="pt-6 border-t border-border mt-8">
+            <div className="pt-3 border-t border-border mt-4">
                 <AuthFooterLink
                     promptText="Don't have an account yet?"
                     linkText="Create an account"

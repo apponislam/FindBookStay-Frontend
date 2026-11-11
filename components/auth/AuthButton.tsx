@@ -23,11 +23,11 @@ export const AuthButton = ({
 
     const variantStyles = {
         primary:
-            "bg-primary text-primary-foreground hover:bg-primary-hover shadow-xs py-3 sm:py-3.5 px-5 active:scale-[0.99] focus-visible:ring-primary",
+            "bg-primary text-primary-foreground hover:bg-primary-hover shadow-xs h-11 px-5 active:scale-[0.99] focus-visible:ring-primary",
         secondary:
-            "bg-secondary text-secondary-foreground hover:bg-surface-secondary py-3 sm:py-3.5 px-5",
+            "bg-secondary text-secondary-foreground hover:bg-surface-secondary h-11 px-5",
         outline:
-            "bg-transparent border border-border text-foreground hover:bg-surface py-3 sm:py-3.5 px-5",
+            "bg-transparent border border-border text-foreground hover:bg-surface h-11 px-5",
     };
 
     return (
