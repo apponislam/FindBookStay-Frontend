@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="fbs-teal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D2C4" />
+      <stop offset="100%" stop-color="#009B92" />
+    </linearGradient>
+    <linearGradient id="fbs-navy" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#023064" />
+      <stop offset="100%" stop-color="#011B38" />
+    </linearGradient>
+  </defs>
+  <!-- Background soft rounded container -->
+  <rect width="64" height="64" rx="14" fill="#FFFFFF" />
+  
+  <!-- Outer / Roof House Pin Shape -->
+  <path d="M32 7L13 22V42C13 47.5 17.5 52 23 52H25C25 45 28 39 33 36C38 33 44 33 49 36C49 32 49 28 49 22L32 7Z" fill="url(#fbs-navy)" />
+  
+  <!-- Interior House Opening / Doorway -->
+  <path d="M32 18L21 27V42H28V32H36V42H41V27L32 18Z" fill="#FFFFFF" />
+  
+  <!-- Modern Teal Location / Check Swoosh -->
+  <path d="M29 55C37 55 46 51 51 44C53 41 53.5 38 52 35C50.5 32 47 32 44.5 34C40 37.5 34 38 29 37C24.5 36.2 21 34 18 31C16.8 34.2 16.5 37.5 17.5 40.5C19.5 46.5 24 55 29 55Z" fill="url(#fbs-teal)" />
+</svg>
+
