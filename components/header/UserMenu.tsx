@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ChevronDown, ChevronRight, User, Heart, Settings, LogOut, CheckCircle2, HelpCircle, SlidersHorizontal, CalendarDays, Building } from "@/components/Icons";
+import { ChevronDown, ChevronRight, User, Heart, Settings, LogOut, CheckCircle2, HelpCircle, SlidersHorizontal, CalendarDays, Building, ArrowRight } from "@/components/Icons";
 
 interface UserMenuProps {
     isAuthenticated: boolean;
@@ -19,22 +19,34 @@ const UserMenu = ({ isAuthenticated, onToggleAuth, favoritesCount, isOpen, onTog
     // -------------------------------------------------------------
     if (!isAuthenticated) {
         return (
-            <div className="flex items-center gap-1.5 sm:gap-2">
-                <Link href="/login" className="cursor-pointer px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold text-[#172B2A] hover:text-[#073B35] hover:bg-[#F0F5F3] transition-colors">
-                    Log In
+            <div className="flex items-center gap-2 sm:gap-2.5">
+                {/* Modern Tactile Log In Button */}
+                <Link
+                    href="/login"
+                    className="group cursor-pointer inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-[#172B2A] hover:text-[#073B35] bg-white hover:bg-[#F0F5F3] border border-[#E2EAE6] hover:border-[#10B981]/50 shadow-2xs hover:shadow-xs transition-all duration-200"
+                >
+                    <User className="size-3.5 text-[#64748B] group-hover:text-[#073B35] transition-colors" />
+                    <span>Log In</span>
                 </Link>
-                <Link href="/signup" className="cursor-pointer px-4 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold bg-[#10B981] hover:bg-[#059669] text-white shadow-xs hover:shadow transition-all duration-200">
-                    Sign Up
+
+                {/* High-Impact Emerald Gradient Sign Up Button */}
+                <Link
+                    href="/signup"
+                    className="group cursor-pointer relative inline-flex items-center gap-1.5 px-4 sm:px-4.5 py-2 rounded-xl text-xs sm:text-[13px] font-bold text-white bg-linear-to-r from-[#10B981] to-[#059669] hover:from-[#059669] hover:to-[#10B981] shadow-[0_4px_12px_rgba(16,185,129,0.28)] hover:shadow-[0_6px_18px_rgba(16,185,129,0.38)] transition-all duration-250 hover:scale-[1.02] active:scale-[0.98]"
+                >
+                    <span>Sign Up</span>
+                    <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </Link>
-                {/* Interactive Demo switch back to Authenticated View */}
+
+                {/* Interactive Demo Switcher */}
                 <button
                     type="button"
                     onClick={() => onToggleAuth(true)}
                     title="Preview Logged-in Profile Menu (Demo)"
-                    className="cursor-pointer relative flex items-center justify-center size-8 sm:size-9 rounded-xl border border-[#E2EAE6] text-[#64748B] hover:text-[#073B35] hover:border-[#10B981]/40 hover:bg-[#F0F5F3] transition-colors"
+                    className="cursor-pointer group relative flex items-center justify-center size-8.5 sm:size-9 rounded-xl border border-[#E2EAE6] bg-white hover:bg-[#F0F5F3] hover:border-[#10B981]/40 text-[#64748B] hover:text-[#073B35] shadow-2xs transition-all duration-200"
                     aria-label="Switch to Authenticated View (Demo)"
                 >
-                    <User className="size-4" />
+                    <SlidersHorizontal className="size-3.5 transition-transform duration-300 group-hover:rotate-180" />
                     <span className="absolute -top-1 -right-1 flex size-2">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75" />
                         <span className="relative inline-flex rounded-full size-2 bg-[#10B981]" />
