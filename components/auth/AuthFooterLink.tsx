@@ -15,11 +15,11 @@ export const AuthFooterLink = ({
     className = "",
 }: AuthFooterLinkProps) => {
     return (
-        <p className={`text-center text-xs text-[#64748B] dark:text-[#A3B5AE] ${className}`}>
+        <p className={`text-center text-xs text-text-secondary ${className}`}>
             {promptText}{" "}
             <Link
                 href={href}
-                className="font-semibold text-[#073B35] dark:text-[#34D399] hover:underline underline-offset-4 transition-colors ml-1 cursor-pointer"
+                className="font-semibold text-primary hover:underline underline-offset-4 transition-colors ml-1 cursor-pointer"
             >
                 {linkText}
             </Link>

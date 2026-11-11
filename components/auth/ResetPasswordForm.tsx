@@ -48,15 +48,15 @@ export const ResetPasswordForm = () => {
     if (isSuccess) {
         return (
             <div className="w-full text-center space-y-5 animate-in fade-in duration-200">
-                <div className="size-12 mx-auto rounded-full bg-[#10B981]/10 flex items-center justify-center text-[#10B981]">
+                <div className="size-12 mx-auto rounded-full bg-accent/10 flex items-center justify-center text-accent">
                     <CheckCircle2 className="size-7" />
                 </div>
 
                 <div className="space-y-1.5">
-                    <h1 className="text-xl font-bold text-[#172B2A] dark:text-white">
+                    <h1 className="text-xl font-bold text-foreground">
                         Password updated
                     </h1>
-                    <p className="text-sm text-[#64748B] dark:text-[#A3B5AE] leading-relaxed max-w-xs mx-auto">
+                    <p className="text-sm text-text-secondary leading-relaxed max-w-xs mx-auto">
                         Your credentials have been securely updated. You can now access your account.
                     </p>
                 </div>
@@ -64,7 +64,7 @@ export const ResetPasswordForm = () => {
                 <div className="pt-2">
                     <Link
                         href="/auth/login"
-                        className="cursor-pointer w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#073B35] text-white text-sm font-semibold hover:bg-[#052F2A] transition-colors"
+                        className="cursor-pointer w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary-hover transition-colors"
                     >
                         <span>Continue to Sign In</span>
                         <ArrowRight className="size-4" />
@@ -83,7 +83,7 @@ export const ResetPasswordForm = () => {
             />
 
             {error && (
-                <div className="mb-4 p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-xs text-rose-700 dark:text-rose-300 font-medium">
+                <div className="mb-4 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium">
                     {error}
                 </div>
             )}
@@ -112,32 +112,32 @@ export const ResetPasswordForm = () => {
                 />
 
                 {/* Password Criteria Checklist */}
-                <div className="space-y-1 pt-1 text-xs text-[#64748B] dark:text-[#A3B5AE]">
+                <div className="space-y-1 pt-1 text-xs text-text-secondary">
                     <div className="flex items-center gap-2">
-                        <span className={`size-1.5 rounded-full ${hasMinLength ? "bg-[#10B981]" : "bg-[#CBD5E1]"}`} />
-                        <span className={hasMinLength ? "text-[#172B2A] dark:text-white font-medium" : ""}>
+                        <span className={`size-1.5 rounded-full ${hasMinLength ? "bg-accent" : "bg-border"}`} />
+                        <span className={hasMinLength ? "text-foreground font-medium" : ""}>
                             At least 8 characters long
                         </span>
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <span className={`size-1.5 rounded-full ${hasUppercase ? "bg-[#10B981]" : "bg-[#CBD5E1]"}`} />
-                        <span className={hasUppercase ? "text-[#172B2A] dark:text-white font-medium" : ""}>
+                        <span className={`size-1.5 rounded-full ${hasUppercase ? "bg-accent" : "bg-border"}`} />
+                        <span className={hasUppercase ? "text-foreground font-medium" : ""}>
                             Contains at least one uppercase letter
                         </span>
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <span className={`size-1.5 rounded-full ${hasNumber ? "bg-[#10B981]" : "bg-[#CBD5E1]"}`} />
-                        <span className={hasNumber ? "text-[#172B2A] dark:text-white font-medium" : ""}>
+                        <span className={`size-1.5 rounded-full ${hasNumber ? "bg-accent" : "bg-border"}`} />
+                        <span className={hasNumber ? "text-foreground font-medium" : ""}>
                             Contains at least one number
                         </span>
                     </div>
 
                     {confirmPassword.length > 0 && (
                         <div className="flex items-center gap-2">
-                            <span className={`size-1.5 rounded-full ${passwordsMatch ? "bg-[#10B981]" : "bg-rose-500"}`} />
-                            <span className={passwordsMatch ? "text-[#172B2A] dark:text-white font-medium" : "text-rose-600"}>
+                            <span className={`size-1.5 rounded-full ${passwordsMatch ? "bg-accent" : "bg-destructive"}`} />
+                            <span className={passwordsMatch ? "text-foreground font-medium" : "text-destructive"}>
                                 Passwords match
                             </span>
                         </div>

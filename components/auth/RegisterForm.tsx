@@ -86,21 +86,21 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
             />
 
             {errors.general && (
-                <div className="mb-5 p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-xs text-rose-700 dark:text-rose-300 font-medium">
+                <div className="mb-5 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium">
                     {errors.general}
                 </div>
             )}
 
             {/* Account Type Selector */}
             <div className="mb-5">
-                <div className="grid grid-cols-2 gap-1.5 p-1 bg-[#F0F5F3] dark:bg-[#192824] rounded-xl">
+                <div className="grid grid-cols-2 gap-1.5 p-1 bg-surface-secondary rounded-xl">
                     <button
                         type="button"
                         onClick={() => setAccountType("individual")}
                         className={`cursor-pointer py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
                             accountType === "individual"
-                                ? "bg-white dark:bg-[#111C1A] text-[#073B35] dark:text-[#34D399] shadow-xs"
-                                : "text-[#64748B] dark:text-[#A3B5AE] hover:text-[#172B2A] dark:hover:text-white"
+                                ? "bg-surface text-primary shadow-xs"
+                                : "text-text-secondary hover:text-foreground"
                         }`}
                     >
                         Tenant / Guest
@@ -111,8 +111,8 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                         onClick={() => setAccountType("partner")}
                         className={`cursor-pointer py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
                             accountType === "partner"
-                                ? "bg-white dark:bg-[#111C1A] text-[#073B35] dark:text-[#34D399] shadow-xs"
-                                : "text-[#64748B] dark:text-[#A3B5AE] hover:text-[#172B2A] dark:hover:text-white"
+                                ? "bg-surface text-primary shadow-xs"
+                                : "text-text-secondary hover:text-foreground"
                         }`}
                     >
                         Host / Landlord
@@ -177,11 +177,11 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                         className={`rounded-full h-full transition-colors ${
                                             passwordScore >= step
                                                 ? passwordScore <= 1
-                                                    ? "bg-rose-500"
+                                                    ? "bg-destructive"
                                                     : passwordScore === 2
-                                                    ? "bg-amber-500"
-                                                    : "bg-[#10B981]"
-                                                : "bg-[#E2EAE6] dark:bg-[#263B34]"
+                                                    ? "bg-warning"
+                                                    : "bg-success"
+                                                : "bg-border"
                                         }`}
                                     />
                                 ))}
@@ -202,7 +202,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                 <Link
                                     href="/terms"
                                     target="_blank"
-                                    className="font-medium text-[#10B981] hover:underline"
+                                    className="font-medium text-primary hover:underline"
                                 >
                                     Terms of Service
                                 </Link>{" "}
@@ -210,7 +210,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                 <Link
                                     href="/privacy"
                                     target="_blank"
-                                    className="font-medium text-[#10B981] hover:underline"
+                                    className="font-medium text-primary hover:underline"
                                 >
                                     Privacy Policy
                                 </Link>
@@ -233,7 +233,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                 </div>
             </form>
 
-            <div className="pt-6 border-t border-[#E2EAE6] dark:border-[#263B34] mt-8">
+            <div className="pt-6 border-t border-border mt-8">
                 <AuthFooterLink
                     promptText="Already have an account?"
                     linkText="Sign in"

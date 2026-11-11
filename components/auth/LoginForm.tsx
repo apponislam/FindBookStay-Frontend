@@ -5,9 +5,9 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import AuthHeader from "./AuthHeader";
 import AuthInput from "./AuthInput";
-import AuthCheckbox from "./AuthCheckbox";
 import AuthButton from "./AuthButton";
 import AuthFooterLink from "./AuthFooterLink";
+import TurnstileWidget from "./TurnstileWidget";
 
 interface LoginFormProps {
     onSuccess?: () => void;
@@ -17,9 +17,9 @@ interface LoginFormProps {
 export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
     const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
-    const [rememberMe, setRememberMe] = useState(true);
+    const [turnstileToken, setTurnstileToken] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [errors, setErrors] = useState<{ identifier?: string; password?: string; general?: string }>({});
+    const [errors, setErrors] = useState<{ identifier?: string; password?: string; turnstile?: string; general?: string }>({});
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,6 +33,10 @@ export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
             newErrors.password = "Please enter your password";
         } else if (password.length < 6) {
             newErrors.password = "Password must be at least 6 characters";
+        }
+
+        if (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken) {
+            newErrors.turnstile = "Please complete the verification check";
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -66,7 +70,7 @@ export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
             />
 
             {errors.general && (
-                <div className="mb-5 p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-xs text-rose-700 dark:text-rose-300 font-medium">
+                <div className="mb-5 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium">
                     {errors.general}
                 </div>
             )}
@@ -97,23 +101,27 @@ export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
                     rightElement={
                         <Link
                             href="/auth/forgot-password"
-                            className="text-xs font-medium text-[#10B981] hover:text-[#059669] hover:underline transition-colors cursor-pointer"
+                            className="text-xs font-medium text-primary hover:underline transition-colors cursor-pointer"
                         >
                             Forgot password?
                         </Link>
                     }
                 />
 
+                {/* Cloudflare Turnstile Human Verification */}
                 <div className="pt-1">
-                    <AuthCheckbox
-                        id="remember-me"
-                        checked={rememberMe}
-                        onChange={setRememberMe}
-                        label="Keep me signed in on this device"
+                    <TurnstileWidget
+                        onVerify={(token) => setTurnstileToken(token)}
+                        onExpire={() => setTurnstileToken("")}
                     />
+                    {errors.turnstile && (
+                        <p className="text-xs text-destructive font-medium pt-1">
+                            {errors.turnstile}
+                        </p>
+                    )}
                 </div>
 
-                <div className="pt-3">
+                <div className="pt-2">
                     <AuthButton
                         type="submit"
                         isLoading={isLoading}
@@ -124,7 +132,7 @@ export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
                 </div>
             </form>
 
-            <div className="pt-6 border-t border-[#E2EAE6] dark:border-[#263B34] mt-8">
+            <div className="pt-6 border-t border-border mt-8">
                 <AuthFooterLink
                     promptText="Don't have an account yet?"
                     linkText="Create an account"
