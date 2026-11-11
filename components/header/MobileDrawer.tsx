@@ -129,7 +129,7 @@ const MobileDrawer = ({ isOpen, onClose, categories, expandedCategory, onToggleC
                     ) : (
                         <div className="space-y-2">
                             <Link
-                                href="/signup"
+                                href="/auth/register"
                                 onClick={onClose}
                                 className="cursor-pointer w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-linear-to-r from-[#10B981] to-[#059669] text-white text-xs font-bold shadow-[0_4px_12px_rgba(16,185,129,0.25)] hover:shadow transition-all"
                             >
@@ -137,7 +137,7 @@ const MobileDrawer = ({ isOpen, onClose, categories, expandedCategory, onToggleC
                                 <ArrowRight className="size-3.5" />
                             </Link>
                             <Link
-                                href="/login"
+                                href="/auth/login"
                                 onClick={onClose}
                                 className="cursor-pointer w-full flex items-center justify-center gap-1.5 py-2 px-4 rounded-xl border border-[#E2EAE6] bg-white text-[#172B2A] text-xs font-semibold hover:bg-[#F0F5F3] hover:border-[#10B981]/40 transition-colors shadow-2xs"
                             >

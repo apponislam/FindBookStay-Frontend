@@ -22,7 +22,7 @@ const UserMenu = ({ isAuthenticated, onToggleAuth, favoritesCount, isOpen, onTog
             <div className="flex items-center gap-2 sm:gap-2.5">
                 {/* Modern Tactile Log In Button */}
                 <Link
-                    href="/login"
+                    href="/auth/login"
                     className="group cursor-pointer inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-[#172B2A] hover:text-[#073B35] bg-white hover:bg-[#F0F5F3] border border-[#E2EAE6] hover:border-[#10B981]/50 shadow-2xs hover:shadow-xs transition-all duration-200"
                 >
                     <User className="size-3.5 text-[#64748B] group-hover:text-[#073B35] transition-colors" />
@@ -31,7 +31,7 @@ const UserMenu = ({ isAuthenticated, onToggleAuth, favoritesCount, isOpen, onTog
 
                 {/* High-Impact Emerald Gradient Sign Up Button */}
                 <Link
-                    href="/signup"
+                    href="/auth/register"
                     className="group cursor-pointer relative inline-flex items-center gap-1.5 px-4 sm:px-4.5 py-2 rounded-xl text-xs sm:text-[13px] font-bold text-white bg-linear-to-r from-[#10B981] to-[#059669] hover:from-[#059669] hover:to-[#10B981] shadow-[0_4px_12px_rgba(16,185,129,0.28)] hover:shadow-[0_6px_18px_rgba(16,185,129,0.38)] transition-all duration-250 hover:scale-[1.02] active:scale-[0.98]"
                 >
                     <span>Sign Up</span>
