@@ -215,6 +215,11 @@ const Footer = () => {
                                     </Link>
                                 </li>
                                 <li>
+                                    <Link href="/contact" className="cursor-pointer hover:text-[#073B35] transition-colors font-medium text-[#10B981]">
+                                        Contact Us
+                                    </Link>
+                                </li>
+                                <li>
                                     <Link href="/trust" className="cursor-pointer hover:text-[#073B35] transition-colors">
                                         Verification Guarantee
                                     </Link>

@@ -35,7 +35,9 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <html lang="en" className={`${raleway.variable} font-sans h-full antialiased`}>
-            <body className="min-h-full flex flex-col bg-white text-[#172B2A]">{children}</body>
+            <body className="min-h-full flex flex-col bg-white text-[#172B2A]" cz-shortcut-listen="true">
+                {children}
+            </body>
         </html>
     );
 };

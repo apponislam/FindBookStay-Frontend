@@ -226,6 +226,12 @@ const SECTIONS: SitemapSection[] = [
                 badge: "Host",
             },
             {
+                name: "Contact Us & Concierge Desk",
+                desc: "Direct contact, inquiries, host partnership support, and headquarters details",
+                href: "/contact",
+                badge: "Support",
+            },
+            {
                 name: "Verification Guarantee",
                 desc: "Host profile verification, authentic specifications and fraud protection",
                 href: "/trust",
