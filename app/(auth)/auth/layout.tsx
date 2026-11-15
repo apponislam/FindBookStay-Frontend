@@ -2,6 +2,8 @@ import React from "react";
 import type { Metadata } from "next";
 import AuthLayout from "@/components/auth/AuthLayout";
 
+export const instant = false;
+
 export const metadata: Metadata = {
     title: {
         default: "Authentication | FindBookStay",

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, AlertCircle, RefreshCw, ArrowRight } from "lucide-react";
@@ -12,30 +12,41 @@ export const VerifyNewEmailView = () => {
     const token = searchParams.get("token") || "";
     const email = searchParams.get("email") || "";
 
-    const [triggerVerify, { isFetching }] = useLazyVerifyNewEmailQuery();
-    const [status, setStatus] = useState<"VERIFYING" | "SUCCESS" | "ERROR">("VERIFYING");
-    const [errorMessage, setErrorMessage] = useState("");
-
-    const verify = useCallback(async () => {
-        if (!token || !email) {
-            setStatus("ERROR");
-            setErrorMessage("Invalid or missing verification link parameters.");
-            return;
-        }
-
-        try {
-            await triggerVerify({ email, token }).unwrap();
-            setStatus("SUCCESS");
-        } catch (err: unknown) {
-            setStatus("ERROR");
-            const apiError = err as { data?: { message?: string }; error?: string };
-            setErrorMessage(apiError?.data?.message || apiError?.error || "Failed to verify new email. The link may have expired or is invalid.");
-        }
-    }, [email, token, triggerVerify]);
+    const [triggerVerify] = useLazyVerifyNewEmailQuery();
+    const [status, setStatus] = useState<"VERIFYING" | "SUCCESS" | "ERROR">(
+        token && email ? "VERIFYING" : "ERROR"
+    );
+    const [errorMessage, setErrorMessage] = useState(
+        token && email ? "" : "Invalid or missing verification link parameters."
+    );
+    const verifiedRef = useRef(false);
 
     useEffect(() => {
-        verify();
-    }, [verify]);
+        if (!token || !email || verifiedRef.current) return;
+        verifiedRef.current = true;
+
+        let isMounted = true;
+        (async () => {
+            try {
+                await triggerVerify({ email, token }).unwrap();
+                if (isMounted) setStatus("SUCCESS");
+            } catch (err: unknown) {
+                if (isMounted) {
+                    setStatus("ERROR");
+                    const apiError = err as { data?: { message?: string }; error?: string };
+                    setErrorMessage(
+                        apiError?.data?.message ||
+                        apiError?.error ||
+                        "Failed to verify new email. The link may have expired or is invalid."
+                    );
+                }
+            }
+        })();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [email, token, triggerVerify]);
 
     if (status === "SUCCESS") {
         return (

@@ -3,11 +3,36 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { ArrowLeft, ArrowRight, ShieldCheck, Mail, RefreshCw } from "lucide-react";
 import AuthHeader from "./AuthHeader";
 import AuthInput from "./AuthInput";
 import AuthButton from "./AuthButton";
+import { cn } from "@/lib/utils";
 import { useForgotPasswordMutation, useVerifyOtpMutation, useResendOtpMutation } from "@/redux/features/auth/authApi";
+
+// Zod Schemas for the 2 Steps
+const requestOtpSchema = z.object({
+    email: z
+        .string()
+        .trim()
+        .min(1, "Email address is required")
+        .email("Enter a valid email address"),
+});
+
+const verifyOtpSchema = z.object({
+    otp: z
+        .string()
+        .trim()
+        .min(6, "Verification code must be 6 digits")
+        .max(6, "Verification code must be 6 digits")
+        .regex(/^\d{6}$/, "Must be a 6-digit number"),
+});
+
+type RequestOtpFormData = z.infer<typeof requestOtpSchema>;
+type VerifyOtpFormData = z.infer<typeof verifyOtpSchema>;
 
 export const ForgotPasswordForm = () => {
     const router = useRouter();
@@ -16,15 +41,36 @@ export const ForgotPasswordForm = () => {
     const [verifyOtpMutation, { isLoading: isVerifyingOtp }] = useVerifyOtpMutation();
     const [resendOtpMutation, { isLoading: isResendingOtp }] = useResendOtpMutation();
 
-    const [email, setEmail] = useState("");
-    const [otp, setOtp] = useState("");
+    const [submittedEmail, setSubmittedEmail] = useState("");
     const [step, setStep] = useState<"REQUEST_EMAIL" | "ENTER_OTP">("REQUEST_EMAIL");
-    const [error, setError] = useState("");
+    const [serverError, setServerError] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
-
-    // Cooldown countdown timer (60s matching backend Redis rate limit)
     const [countdown, setCountdown] = useState(0);
 
+    // Form 1: Request Email
+    const {
+        register: registerEmail,
+        handleSubmit: handleSubmitEmail,
+        formState: { errors: emailErrors },
+    } = useForm<RequestOtpFormData>({
+        resolver: zodResolver(requestOtpSchema),
+        defaultValues: { email: "" },
+        mode: "onTouched",
+    });
+
+    // Form 2: Verify OTP
+    const {
+        register: registerOtp,
+        handleSubmit: handleSubmitOtp,
+        reset: resetOtp,
+        formState: { errors: otpErrors },
+    } = useForm<VerifyOtpFormData>({
+        resolver: zodResolver(verifyOtpSchema),
+        defaultValues: { otp: "" },
+        mode: "onTouched",
+    });
+
+    // Cooldown countdown timer
     useEffect(() => {
         let timer: NodeJS.Timeout;
         if (countdown > 0) {
@@ -33,71 +79,59 @@ export const ForgotPasswordForm = () => {
         return () => clearTimeout(timer);
     }, [countdown]);
 
-    // Step 1: Request Password Reset OTP
-    const handleRequestOtp = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError("");
+    // Step 1: Dispatch OTP request
+    const onRequestEmailSubmit = async (data: RequestOtpFormData) => {
+        setServerError("");
         setSuccessMessage("");
-
-        const trimmedEmail = email.trim().toLowerCase();
-        if (!trimmedEmail || !/^\S+@\S+\.\S+$/.test(trimmedEmail)) {
-            setError("Please enter a valid email address");
-            return;
-        }
+        const cleanEmail = data.email.trim().toLowerCase();
 
         try {
-            await forgotPasswordMutation({ email: trimmedEmail }).unwrap();
+            await forgotPasswordMutation({ email: cleanEmail }).unwrap();
+            setSubmittedEmail(cleanEmail);
             setStep("ENTER_OTP");
             setCountdown(60);
-            setSuccessMessage(`A 6-digit verification code has been dispatched to ${trimmedEmail}.`);
+            setSuccessMessage(`A 6-digit verification code has been dispatched to ${cleanEmail}.`);
         } catch (err: unknown) {
             const apiError = err as { data?: { message?: string }; error?: string };
-            setError(apiError?.data?.message || apiError?.error || "Unable to send reset code. Please try again.");
+            setServerError(apiError?.data?.message || apiError?.error || "Unable to send reset code. Please try again.");
         }
     };
 
     // Step 2: Verify the 6-Digit OTP
-    const handleVerifyOtp = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError("");
-
-        const cleanOtp = otp.trim();
-        if (cleanOtp.length !== 6) {
-            setError("Please enter the complete 6-digit verification code");
-            return;
-        }
+    const onVerifyOtpSubmit = async (data: VerifyOtpFormData) => {
+        setServerError("");
 
         try {
             const res = await verifyOtpMutation({
-                email: email.trim().toLowerCase(),
-                otp: cleanOtp,
+                email: submittedEmail,
+                otp: data.otp.trim(),
             }).unwrap();
 
             if (res.data?.token) {
-                // Navigate to Reset Password page with the validated reset token
                 router.push(
-                    `/auth/reset-password?token=${encodeURIComponent(res.data.token)}&email=${encodeURIComponent(email)}`
+                    `/auth/reset-password?token=${encodeURIComponent(res.data.token)}&email=${encodeURIComponent(submittedEmail)}`
                 );
             }
         } catch (err: unknown) {
             const apiError = err as { data?: { message?: string }; error?: string };
-            setError(apiError?.data?.message || apiError?.error || "Invalid or expired verification code.");
+            setServerError(apiError?.data?.message || apiError?.error || "Invalid or expired verification code.");
         }
     };
 
     // Resend OTP with cooldown
     const handleResendOtp = async () => {
-        if (countdown > 0 || isResendingOtp) return;
-        setError("");
+        if (countdown > 0 || isResendingOtp || !submittedEmail) return;
+        setServerError("");
         setSuccessMessage("");
 
         try {
-            await resendOtpMutation({ email: email.trim().toLowerCase() }).unwrap();
+            await resendOtpMutation({ email: submittedEmail }).unwrap();
             setCountdown(60);
+            resetOtp({ otp: "" });
             setSuccessMessage("A fresh verification code has been sent.");
         } catch (err: unknown) {
             const apiError = err as { data?: { message?: string }; error?: string };
-            setError(apiError?.data?.message || apiError?.error || "Please wait before requesting another code.");
+            setServerError(apiError?.data?.message || apiError?.error || "Please wait before requesting another code.");
         }
     };
 
@@ -110,7 +144,7 @@ export const ForgotPasswordForm = () => {
                 <AuthHeader
                     category="Step 2 of 2"
                     title="Enter verification code"
-                    subtitle={`Please enter the 6-digit code sent to ${email}. Code expires in 5 minutes.`}
+                    subtitle={`Please enter the 6-digit code sent to ${submittedEmail}. Code expires in 5 minutes.`}
                 />
 
                 {successMessage && (
@@ -119,26 +153,24 @@ export const ForgotPasswordForm = () => {
                     </div>
                 )}
 
-                {error && (
+                {serverError && (
                     <div className="mb-3 p-2.5 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium animate-in fade-in duration-150">
-                        {error}
+                        {serverError}
                     </div>
                 )}
 
-                <form onSubmit={handleVerifyOtp} className="space-y-3" noValidate>
+                <form onSubmit={handleSubmitOtp(onVerifyOtpSubmit)} className="space-y-3" noValidate>
                     <AuthInput
                         label="6-Digit Verification Code"
-                        name="otp"
                         type="text"
                         inputMode="numeric"
                         maxLength={6}
                         placeholder="123456"
                         icon={ShieldCheck}
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                        error={otpErrors.otp?.message}
                         required
-                        autoComplete="one-time-code"
                         autoFocus
+                        {...registerOtp("otp")}
                     />
 
                     <div className="flex items-center justify-between text-xs pt-0.5">
@@ -146,7 +178,7 @@ export const ForgotPasswordForm = () => {
                             type="button"
                             onClick={() => {
                                 setStep("REQUEST_EMAIL");
-                                setError("");
+                                setServerError("");
                                 setSuccessMessage("");
                             }}
                             className="text-text-secondary hover:text-foreground transition-colors cursor-pointer"
@@ -158,7 +190,12 @@ export const ForgotPasswordForm = () => {
                             type="button"
                             onClick={handleResendOtp}
                             disabled={countdown > 0 || isResendingOtp}
-                            className="inline-flex items-center gap-1 font-semibold text-primary disabled:text-text-secondary hover:underline cursor-pointer disabled:cursor-not-allowed transition-colors"
+                            className={cn(
+                                "inline-flex items-center gap-1 font-semibold transition-colors",
+                                countdown > 0 || isResendingOtp
+                                    ? "text-text-secondary cursor-not-allowed"
+                                    : "text-primary hover:underline cursor-pointer"
+                            )}
                         >
                             <RefreshCw className={`size-3 ${isResendingOtp ? "animate-spin" : ""}`} />
                             <span>{countdown > 0 ? `Resend in ${countdown}s` : "Resend code"}</span>
@@ -200,23 +237,22 @@ export const ForgotPasswordForm = () => {
                 subtitle="Enter your verified account email and we'll dispatch a secure 6-digit OTP code."
             />
 
-            {error && (
+            {serverError && (
                 <div className="mb-3 p-2.5 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium animate-in fade-in duration-150">
-                    {error}
+                    {serverError}
                 </div>
             )}
 
-            <form onSubmit={handleRequestOtp} className="space-y-2.5" noValidate>
+            <form onSubmit={handleSubmitEmail(onRequestEmailSubmit)} className="space-y-2.5" noValidate>
                 <AuthInput
                     label="Account Email"
-                    name="email"
                     type="email"
                     placeholder="Enter account email"
                     icon={Mail}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    error={emailErrors.email?.message}
                     required
                     autoComplete="email"
+                    {...registerEmail("email")}
                 />
 
                 <div className="pt-1.5">

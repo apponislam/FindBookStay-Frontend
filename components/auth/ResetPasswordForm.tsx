@@ -1,13 +1,39 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { ArrowRight, CheckCircle2, Lock, KeyRound } from "lucide-react";
 import AuthHeader from "./AuthHeader";
 import AuthInput from "./AuthInput";
 import AuthButton from "./AuthButton";
 import { useResetPasswordMutation } from "@/redux/features/auth/authApi";
+
+// Zod Schema for Reset Password
+const resetPasswordSchema = z
+    .object({
+        token: z
+            .string()
+            .trim()
+            .min(1, "Reset token is required"),
+        password: z
+            .string()
+            .min(8, "Must be at least 8 characters")
+            .regex(/[A-Z]/, "Must contain at least one uppercase letter")
+            .regex(/[0-9]/, "Must contain at least one number"),
+        confirmPassword: z
+            .string()
+            .min(1, "Please confirm your password"),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+    });
+
+type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 
 export const ResetPasswordForm = () => {
     const searchParams = useSearchParams();
@@ -15,48 +41,51 @@ export const ResetPasswordForm = () => {
     const email = searchParams.get("email") || "";
 
     const [resetPasswordMutation, { isLoading }] = useResetPasswordMutation();
-
-    const [token, setToken] = useState(urlToken);
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
-    const [error, setError] = useState("");
+    const [serverError, setServerError] = useState("");
 
-    const hasMinLength = password.length >= 8;
-    const hasNumber = /[0-9]/.test(password);
-    const hasUppercase = /[A-Z]/.test(password);
-    const passwordsMatch = password.length > 0 && password === confirmPassword;
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        control,
+        formState: { errors },
+    } = useForm<ResetPasswordFormData>({
+        resolver: zodResolver(resetPasswordSchema),
+        defaultValues: {
+            token: urlToken,
+            password: "",
+            confirmPassword: "",
+        },
+        mode: "onTouched",
+    });
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError("");
+    const passwordValue = useWatch({ control, name: "password" }) || "";
+    const confirmPasswordValue = useWatch({ control, name: "confirmPassword" }) || "";
 
-        const cleanToken = token.trim() || urlToken;
-        if (!cleanToken) {
-            setError("Reset token is missing. Please restart password recovery from the forgot password page.");
-            return;
-        }
+    // Sync token from URL query params
+    useEffect(() => {
+        if (urlToken) setValue("token", urlToken);
+    }, [urlToken, setValue]);
 
-        if (!hasMinLength || !hasNumber || !hasUppercase) {
-            setError("Password must be at least 8 characters with at least one number and one uppercase letter.");
-            return;
-        }
+    const hasMinLength = passwordValue.length >= 8;
+    const hasNumber = /[0-9]/.test(passwordValue);
+    const hasUppercase = /[A-Z]/.test(passwordValue);
+    const passwordsMatch = passwordValue.length > 0 && passwordValue === confirmPasswordValue;
 
-        if (password !== confirmPassword) {
-            setError("Passwords do not match.");
-            return;
-        }
+    const onSubmit = async (data: ResetPasswordFormData) => {
+        setServerError("");
 
         try {
             await resetPasswordMutation({
-                token: cleanToken,
-                newPassword: password,
+                token: data.token.trim(),
+                newPassword: data.password,
             }).unwrap();
 
             setIsSuccess(true);
         } catch (err: unknown) {
             const apiError = err as { data?: { message?: string }; error?: string };
-            setError(
+            setServerError(
                 apiError?.data?.message ||
                 apiError?.error ||
                 "Failed to update password. Your reset link or token may have expired."
@@ -103,49 +132,46 @@ export const ResetPasswordForm = () => {
                 }
             />
 
-            {error && (
+            {serverError && (
                 <div className="mb-4 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium animate-in fade-in duration-150">
-                    {error}
+                    {serverError}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-3.5" noValidate>
-                {/* Fallback Token Input if not present in URL */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5" noValidate>
+                {/* Fallback Token Input if not in URL */}
                 {!urlToken && (
                     <AuthInput
                         label="Reset Token / Code"
-                        name="token"
                         type="text"
                         placeholder="Paste reset token from email"
                         icon={KeyRound}
-                        value={token}
-                        onChange={(e) => setToken(e.target.value)}
+                        error={errors.token?.message}
                         required
+                        {...register("token")}
                     />
                 )}
 
                 <AuthInput
                     label="New Password"
-                    name="password"
                     type="password"
                     placeholder="Enter at least 8 characters"
                     icon={Lock}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    error={errors.password?.message}
                     required
                     autoComplete="new-password"
+                    {...register("password")}
                 />
 
                 <AuthInput
                     label="Confirm New Password"
-                    name="confirmPassword"
                     type="password"
                     placeholder="Re-enter your new password"
                     icon={Lock}
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    error={errors.confirmPassword?.message}
                     required
                     autoComplete="new-password"
+                    {...register("confirmPassword")}
                 />
 
                 {/* Password Criteria Checklist */}
@@ -171,7 +197,7 @@ export const ResetPasswordForm = () => {
                         </span>
                     </div>
 
-                    {confirmPassword.length > 0 && (
+                    {confirmPasswordValue.length > 0 && (
                         <div className="flex items-center gap-2">
                             <span
                                 className={`size-1.5 rounded-full ${passwordsMatch ? "bg-primary" : "bg-destructive"}`}

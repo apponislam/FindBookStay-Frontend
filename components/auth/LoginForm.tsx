@@ -3,7 +3,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { ArrowRight, Mail, Lock } from "lucide-react";
 import AuthHeader from "./AuthHeader";
 import AuthInput from "./AuthInput";
 import AuthButton from "./AuthButton";
@@ -12,6 +15,20 @@ import TurnstileWidget from "./TurnstileWidget";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { redirectPath, setUser } from "@/redux/features/auth/authSlice";
+
+// Zod Schema for Login Form
+const loginSchema = z.object({
+    identifier: z
+        .string()
+        .trim()
+        .min(1, "Please enter your email address")
+        .email("Enter a valid email address"),
+    password: z
+        .string()
+        .min(6, "Password must be at least 6 characters"),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 interface LoginFormProps {
     onSuccess?: () => void;
@@ -28,43 +45,36 @@ export const LoginForm = ({ onSuccess, redirectUrl }: LoginFormProps) => {
 
     const [loginMutation, { isLoading }] = useLoginMutation();
 
-    const [identifier, setIdentifier] = useState("");
-    const [password, setPassword] = useState("");
     const [turnstileToken, setTurnstileToken] = useState("");
-    const [errors, setErrors] = useState<{
-        identifier?: string;
-        password?: string;
-        turnstile?: string;
-        general?: string;
-    }>({});
+    const [generalError, setGeneralError] = useState("");
+    const [turnstileError, setTurnstileError] = useState("");
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setErrors({});
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginFormData>({
+        resolver: zodResolver(loginSchema),
+        defaultValues: {
+            identifier: "",
+            password: "",
+        },
+        mode: "onTouched",
+    });
 
-        const newErrors: typeof errors = {};
-        if (!identifier.trim()) {
-            newErrors.identifier = "Please enter your email";
-        }
-        if (!password) {
-            newErrors.password = "Please enter your password";
-        } else if (password.length < 6) {
-            newErrors.password = "Password must be at least 6 characters";
-        }
+    const onSubmit = async (data: LoginFormData) => {
+        setGeneralError("");
+        setTurnstileError("");
 
         if (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken) {
-            newErrors.turnstile = "Please complete the verification check";
-        }
-
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
+            setTurnstileError("Please complete the verification check");
             return;
         }
 
         try {
             const res = await loginMutation({
-                email: identifier.trim().toLowerCase(),
-                password,
+                email: data.identifier.trim().toLowerCase(),
+                password: data.password,
             }).unwrap();
 
             if (res.data?.user && res.data?.accessToken) {
@@ -87,7 +97,7 @@ export const LoginForm = ({ onSuccess, redirectUrl }: LoginFormProps) => {
                 apiError?.data?.message ||
                 apiError?.error ||
                 "Invalid credentials. Please verify your email and password.";
-            setErrors({ general: errorMessage });
+            setGeneralError(errorMessage);
         }
     };
 
@@ -99,33 +109,30 @@ export const LoginForm = ({ onSuccess, redirectUrl }: LoginFormProps) => {
                 subtitle="Enter your verified credentials to access your listings, reservations, and saved spaces."
             />
 
-            {errors.general && (
+            {generalError && (
                 <div className="mb-3 p-2.5 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium animate-in fade-in duration-150">
-                    {errors.general}
+                    {generalError}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-2.5" noValidate>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-2.5" noValidate>
                 <AuthInput
                     label="Email Address"
-                    name="identifier"
                     type="email"
                     placeholder="name@example.com"
-                    value={identifier}
-                    onChange={(e) => setIdentifier(e.target.value)}
-                    error={errors.identifier}
+                    icon={Mail}
+                    error={errors.identifier?.message}
                     required
                     autoComplete="username"
+                    {...register("identifier")}
                 />
 
                 <AuthInput
                     label="Password"
-                    name="password"
                     type="password"
                     placeholder="Enter account password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    error={errors.password}
+                    icon={Lock}
+                    error={errors.password?.message}
                     required
                     autoComplete="current-password"
                     rightElement={
@@ -136,17 +143,21 @@ export const LoginForm = ({ onSuccess, redirectUrl }: LoginFormProps) => {
                             Forgot password?
                         </Link>
                     }
+                    {...register("password")}
                 />
 
                 {/* Cloudflare Turnstile Human Verification */}
                 <div className="pt-0.5">
                     <TurnstileWidget
-                        onVerify={(token) => setTurnstileToken(token)}
+                        onVerify={(token) => {
+                            setTurnstileToken(token);
+                            setTurnstileError("");
+                        }}
                         onExpire={() => setTurnstileToken("")}
                     />
-                    {errors.turnstile && (
+                    {turnstileError && (
                         <p className="text-[11px] text-destructive font-medium pt-0.5">
-                            {errors.turnstile}
+                            {turnstileError}
                         </p>
                     )}
                 </div>
