@@ -8,19 +8,45 @@ import { CATEGORIES } from "@/constants/routes";
 import NavItem from "@/components/header/NavItem";
 import UserMenu from "@/components/header/UserMenu";
 import MobileDrawer from "@/components/header/MobileDrawer";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { currentUser, currentToken, logOut } from "@/redux/features/auth/authSlice";
+import { useGetMeQuery, useLogoutMutation } from "@/redux/features/auth/authApi";
 
 const Header = () => {
+    const dispatch = useAppDispatch();
+    const user = useAppSelector(currentUser);
+    const token = useAppSelector(currentToken);
+
+    // Keep profile fresh when token exists
+    useGetMeQuery(undefined, { skip: !token });
+    const [logoutMutation] = useLogoutMutation();
+
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
     const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
     const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false); // default logged out
+    const [demoAuth, setDemoAuth] = useState(false);
+
+    const isAuthenticated = Boolean(user && token) || demoAuth;
+
     const [favoritesCount] = useState(3);
     const [notificationsCount] = useState(2);
 
     const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
     const navContainerRef = useRef<HTMLDivElement>(null);
+
+    const handleLogout = async () => {
+        try {
+            await logoutMutation().unwrap();
+        } catch {
+            // silent catch
+        } finally {
+            dispatch(logOut());
+            setDemoAuth(false);
+            setUserDropdownOpen(false);
+        }
+    };
 
     // Handle sticky navbar scroll effect
     useEffect(() => {
@@ -83,77 +109,70 @@ const Header = () => {
     const handleMouseLeave = () => {
         hoverTimerRef.current = setTimeout(() => {
             setActiveMenu(null);
-        }, 180);
+        }, 150);
     };
 
     const toggleMobileCategory = (catId: string) => {
-        setMobileExpandedCat((prev) => (prev === catId ? null : catId));
+        setMobileExpandedCat(mobileExpandedCat === catId ? null : catId);
     };
 
     return (
         <>
             <header
-                ref={navContainerRef}
-                className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+                className={`sticky top-0 z-40 w-full transition-all duration-300 ${
                     isScrolled
-                        ? "bg-white/95 backdrop-blur-md shadow-xs border-b border-[#E5EAE8] py-2.5"
-                        : "bg-white border-b border-[#E5EAE8]/70 py-4"
+                        ? "bg-white/95 backdrop-blur-md shadow-xs py-2.5 border-b border-[#E2EAE6]"
+                        : "bg-white py-3.5 border-b border-[#E2EAE6]"
                 }`}
             >
-                <div className="container mx-auto px-4">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between gap-4">
                         {/* 1. Brand Logo */}
-                        <div className="flex items-center shrink-0">
-                            <Link
-                                href="/"
-                                className="group flex items-center gap-2.5 transition-transform duration-200 hover:opacity-95 cursor-pointer"
-                                aria-label="FindBookStay Homepage"
-                            >
-                                <div className="relative h-9 sm:h-10 w-auto flex items-center">
-                                    <Image
-                                        src="/findbookstay-logo.png"
-                                        alt="FindBookStay Logo"
-                                        width={180}
-                                        height={52}
-                                        priority
-                                        className="h-9 sm:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
-                                    />
-                                </div>
+                        <div className="shrink-0">
+                            <Link href="/" className="cursor-pointer flex items-center gap-2 group">
+                                <Image
+                                    src="/findbookstay-logo.png"
+                                    alt="FindBookStay - Real Estate, Stays & Turfs"
+                                    width={180}
+                                    height={50}
+                                    className="h-9 sm:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-102"
+                                    priority
+                                />
                             </Link>
                         </div>
 
-                        {/* 2. Desktop Navigation Mega Menus */}
-                        <nav className="hidden lg:flex items-center space-x-1" aria-label="Main Navigation">
-                            {CATEGORIES.map((cat) => (
-                                <NavItem
-                                    key={cat.id}
-                                    category={cat}
-                                    isOpen={activeMenu === cat.id}
-                                    onToggle={() => setActiveMenu(activeMenu === cat.id ? null : cat.id)}
-                                    onMouseEnter={() => handleMouseEnter(cat.id)}
-                                    onMouseLeave={handleMouseLeave}
-                                    onClose={() => setActiveMenu(null)}
-                                />
-                            ))}
-                        </nav>
+                        {/* 2. Desktop Navigation Menu */}
+                        <div ref={navContainerRef} className="hidden lg:flex items-center gap-1 xl:gap-2">
+                            <nav className="flex items-center gap-0.5 xl:gap-1">
+                                {CATEGORIES.map((category) => (
+                                    <NavItem
+                                        key={category.id}
+                                        category={category}
+                                        isOpen={activeMenu === category.id}
+                                        onToggle={() => setActiveMenu(activeMenu === category.id ? null : category.id)}
+                                        onMouseEnter={() => handleMouseEnter(category.id)}
+                                        onMouseLeave={handleMouseLeave}
+                                        onClose={() => setActiveMenu(null)}
+                                    />
+                                ))}
+                            </nav>
+                        </div>
 
-                        {/* 3. Action CTAs & User Menu */}
-                        <div className="flex items-center gap-2 sm:gap-2.5">
-                            {/* Saved Favorites Icon */}
+                        {/* 3. Action Buttons & Profile Menu */}
+                        <div className="flex items-center gap-2 sm:gap-3">
+                            {/* Wishlist Link */}
                             <Link
                                 href="/saved"
                                 className="cursor-pointer relative hidden sm:flex items-center justify-center size-9 rounded-full text-[#172B2A] hover:text-[#10B981] hover:bg-[#F8FAF9] transition-colors"
-                                aria-label="Saved Listings"
+                                aria-label="View Saved Favorites"
                             >
                                 <Heart className="size-4.5" />
                                 {favoritesCount > 0 && (
-                                    <span className="absolute top-1 right-1 flex items-center justify-center size-4 rounded-full bg-[#10B981] text-[10px] font-bold text-white shadow-2xs">
-                                        {favoritesCount}
-                                    </span>
+                                    <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-[#10B981] ring-2 ring-white" />
                                 )}
                             </Link>
 
-                            {/* Notifications Icon (when authenticated) */}
+                            {/* Notifications Link (Authenticated) */}
                             {isAuthenticated && (
                                 <Link
                                     href="/notifications"
@@ -170,7 +189,9 @@ const Header = () => {
                             {/* User Profile / Guest Menu */}
                             <UserMenu
                                 isAuthenticated={isAuthenticated}
-                                onToggleAuth={setIsAuthenticated}
+                                user={user}
+                                onLogout={handleLogout}
+                                onToggleAuth={setDemoAuth}
                                 favoritesCount={favoritesCount}
                                 isOpen={userDropdownOpen}
                                 onToggle={() => setUserDropdownOpen(!userDropdownOpen)}
@@ -199,7 +220,9 @@ const Header = () => {
                 expandedCategory={mobileExpandedCat}
                 onToggleCategory={toggleMobileCategory}
                 isAuthenticated={isAuthenticated}
-                onToggleAuth={setIsAuthenticated}
+                user={user}
+                onLogout={handleLogout}
+                onToggleAuth={setDemoAuth}
                 favoritesCount={favoritesCount}
             />
         </>

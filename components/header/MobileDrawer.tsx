@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, X, Plus, Heart, PhoneCall, User, ArrowRight } from "@/components/Icons";
 import type { CategoryMenu } from "@/constants/routes";
+import type { TUser } from "@/redux/features/auth/authSlice";
 
 interface MobileDrawerProps {
     isOpen: boolean;
@@ -13,12 +14,38 @@ interface MobileDrawerProps {
     expandedCategory: string | null;
     onToggleCategory: (catId: string) => void;
     isAuthenticated: boolean;
+    user?: TUser | null;
+    onLogout?: () => void;
     onToggleAuth: (val: boolean) => void;
     favoritesCount: number;
 }
 
-const MobileDrawer = ({ isOpen, onClose, categories, expandedCategory, onToggleCategory, isAuthenticated, onToggleAuth, favoritesCount }: MobileDrawerProps) => {
+const MobileDrawer = ({
+    isOpen,
+    onClose,
+    categories,
+    expandedCategory,
+    onToggleCategory,
+    isAuthenticated,
+    user,
+    onLogout,
+    onToggleAuth,
+    favoritesCount,
+}: MobileDrawerProps) => {
     if (!isOpen) return null;
+
+    const initials = user?.name
+        ? user.name
+              .split(" ")
+              .filter(Boolean)
+              .map((n) => n[0])
+              .slice(0, 2)
+              .join("")
+              .toUpperCase()
+        : "AI";
+
+    const displayName = user?.name || "User";
+    const displayEmail = user?.email || "user@findbookstay.com";
 
     return (
         <div className="fixed inset-0 z-50 lg:hidden">
@@ -104,10 +131,16 @@ const MobileDrawer = ({ isOpen, onClose, categories, expandedCategory, onToggleC
                     {isAuthenticated ? (
                         <div className="space-y-3">
                             <div className="flex items-center gap-3">
-                                <div className="size-9 rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-xs font-bold uppercase">AI</div>
+                                <div className="relative size-9 rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-xs font-bold uppercase overflow-hidden">
+                                    {user?.profileImage ? (
+                                        <Image src={user.profileImage} alt={displayName} fill className="object-cover" />
+                                    ) : (
+                                        initials
+                                    )}
+                                </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-xs font-bold text-[#172B2A] truncate">Appon Islam</p>
-                                    <p className="text-[11px] text-[#64748B] truncate">appon@findbookstay.com</p>
+                                    <p className="text-xs font-bold text-[#172B2A] truncate">{displayName}</p>
+                                    <p className="text-[11px] text-[#64748B] truncate">{displayEmail}</p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-2 pt-1">
@@ -117,7 +150,11 @@ const MobileDrawer = ({ isOpen, onClose, categories, expandedCategory, onToggleC
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        onToggleAuth(false);
+                                        if (onLogout) {
+                                            onLogout();
+                                        } else {
+                                            onToggleAuth(false);
+                                        }
                                         onClose();
                                     }}
                                     className="cursor-pointer py-1.5 px-3 rounded-lg bg-rose-50 border border-rose-200 text-xs font-semibold text-rose-600 hover:bg-rose-100"

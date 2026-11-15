@@ -2,26 +2,41 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import AuthHeader from "./AuthHeader";
 import AuthInput from "./AuthInput";
 import AuthButton from "./AuthButton";
 import AuthFooterLink from "./AuthFooterLink";
 import TurnstileWidget from "./TurnstileWidget";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { redirectPath, setUser } from "@/redux/features/auth/authSlice";
 
 interface LoginFormProps {
     onSuccess?: () => void;
     redirectUrl?: string;
 }
 
-export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
+export const LoginForm = ({ onSuccess, redirectUrl }: LoginFormProps) => {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const dispatch = useAppDispatch();
+    const savedRedirectPath = useAppSelector(redirectPath);
+
+    const targetUrl = redirectUrl || searchParams.get("redirect") || savedRedirectPath || "/";
+
+    const [loginMutation, { isLoading }] = useLoginMutation();
+
     const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
     const [turnstileToken, setTurnstileToken] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [errors, setErrors] = useState<{ identifier?: string; password?: string; turnstile?: string; general?: string }>({});
+    const [errors, setErrors] = useState<{
+        identifier?: string;
+        password?: string;
+        turnstile?: string;
+        general?: string;
+    }>({});
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,7 +44,7 @@ export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
 
         const newErrors: typeof errors = {};
         if (!identifier.trim()) {
-            newErrors.identifier = "Please enter your email or phone number";
+            newErrors.identifier = "Please enter your email";
         }
         if (!password) {
             newErrors.password = "Please enter your password";
@@ -46,20 +61,33 @@ export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
             return;
         }
 
-        setIsLoading(true);
-
         try {
-            await new Promise((resolve) => setTimeout(resolve, 800));
+            const res = await loginMutation({
+                email: identifier.trim().toLowerCase(),
+                password,
+            }).unwrap();
 
-            if (onSuccess) {
-                onSuccess();
-            } else {
-                router.push(redirectUrl);
+            if (res.data?.user && res.data?.accessToken) {
+                dispatch(
+                    setUser({
+                        user: res.data.user,
+                        token: res.data.accessToken,
+                    })
+                );
+
+                if (onSuccess) {
+                    onSuccess();
+                } else {
+                    router.push(targetUrl);
+                }
             }
-        } catch {
-            setErrors({ general: "Invalid credentials. Please verify your details and try again." });
-        } finally {
-            setIsLoading(false);
+        } catch (err: unknown) {
+            const apiError = err as { data?: { message?: string }; error?: string };
+            const errorMessage =
+                apiError?.data?.message ||
+                apiError?.error ||
+                "Invalid credentials. Please verify your email and password.";
+            setErrors({ general: errorMessage });
         }
     };
 
@@ -72,17 +100,17 @@ export const LoginForm = ({ onSuccess, redirectUrl = "/" }: LoginFormProps) => {
             />
 
             {errors.general && (
-                <div className="mb-3 p-2.5 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium">
+                <div className="mb-3 p-2.5 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium animate-in fade-in duration-150">
                     {errors.general}
                 </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-2.5" noValidate>
                 <AuthInput
-                    label="Email or Phone Number"
+                    label="Email Address"
                     name="identifier"
-                    type="text"
-                    placeholder="name@example.com or +880 1..."
+                    type="email"
+                    placeholder="name@example.com"
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
                     error={errors.identifier}

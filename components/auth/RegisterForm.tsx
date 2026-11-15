@@ -6,13 +6,16 @@ import { useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowRight, ArrowLeft, Building2, User } from "lucide-react";
+import { ArrowRight, ArrowLeft, Building2, User, Gift, CheckCircle2 } from "lucide-react";
 import AuthHeader from "./AuthHeader";
 import AuthInput from "./AuthInput";
 import AuthCheckbox from "./AuthCheckbox";
 import AuthButton from "./AuthButton";
 import AuthFooterLink from "./AuthFooterLink";
 import { cn } from "@/lib/utils";
+import { useRegisterMutation, useLazyValidateReferralCodeQuery } from "@/redux/features/auth/authApi";
+import { useAppDispatch } from "@/redux/hooks";
+import { setUser } from "@/redux/features/auth/authSlice";
 
 interface RegisterFormProps {
     onSuccess?: () => void;
@@ -41,6 +44,10 @@ const registerSchema = z.object({
             (val) => !val || /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]{6,15}$/.test(val),
             "Enter a valid phone number"
         ),
+    referralCode: z
+        .string()
+        .trim()
+        .optional(),
     password: z
         .string()
         .min(8, "Must be at least 8 characters")
@@ -54,7 +61,16 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 
 export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps) => {
     const router = useRouter();
+    const dispatch = useAppDispatch();
     const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+
+    const [registerMutation] = useRegisterMutation();
+    const [triggerValidateReferral] = useLazyValidateReferralCodeQuery();
+
+    const [referrerInfo, setReferrerInfo] = useState<{ id: string; name: string } | null>(null);
+    const [referralStatus, setReferralStatus] = useState<string | null>(null);
+    const [isRegistered, setIsRegistered] = useState(false);
+    const [registeredEmail, setRegisteredEmail] = useState("");
 
     const {
         register,
@@ -69,6 +85,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
             fullName: "",
             email: "",
             phone: "",
+            referralCode: "",
             password: "",
             agreeToTerms: false,
         },
@@ -77,6 +94,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
 
     const passwordValue = useWatch({ control, name: "password" }) || "";
     const agreeToTermsValue = useWatch({ control, name: "agreeToTerms" });
+    const referralCodeValue = useWatch({ control, name: "referralCode" }) || "";
 
     const getPasswordScore = (pass: string) => {
         let score = 0;
@@ -89,19 +107,98 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
 
     const passwordScore = getPasswordScore(passwordValue);
 
-    const onSubmit = async () => {
+    // Validate referral code when user checks it
+    const handleCheckReferral = async () => {
+        if (!referralCodeValue.trim()) return;
+        setReferralStatus("Checking...");
         try {
-            await new Promise((resolve) => setTimeout(resolve, 900));
-
-            if (onSuccess) {
-                onSuccess();
+            const res = await triggerValidateReferral(referralCodeValue.trim()).unwrap();
+            if (res.data?.valid) {
+                setReferrerInfo({ id: res.data.referrerId, name: res.data.referrerName });
+                setReferralStatus(`Invited by ${res.data.referrerName}`);
             } else {
-                router.push(redirectUrl);
+                setReferrerInfo(null);
+                setReferralStatus("Invalid referral code");
             }
         } catch {
-            setError("root", { message: "Failed to create account. Please try again." });
+            setReferrerInfo(null);
+            setReferralStatus("Invalid or expired referral code");
         }
     };
+
+    const onSubmit = async (data: RegisterFormData) => {
+        try {
+            const res = await registerMutation({
+                name: data.fullName,
+                email: data.email.toLowerCase(),
+                phone: data.phone || undefined,
+                password: data.password,
+                role: "USER",
+                referredBy: referrerInfo?.id || undefined,
+            }).unwrap();
+
+            if (res.data?.user && res.data?.accessToken) {
+                dispatch(
+                    setUser({
+                        user: res.data.user,
+                        token: res.data.accessToken,
+                    })
+                );
+
+                setRegisteredEmail(data.email);
+                setIsRegistered(true);
+
+                if (onSuccess) {
+                    onSuccess();
+                }
+            }
+        } catch (err: unknown) {
+            const apiError = err as { data?: { message?: string }; error?: string };
+            const errorMessage =
+                apiError?.data?.message ||
+                apiError?.error ||
+                "Failed to create account. Please verify details and try again.";
+            setError("root", { message: errorMessage });
+        }
+    };
+
+    // -------------------------------------------------------------------------
+    // POST-REGISTRATION SUCCESS SCREEN
+    // -------------------------------------------------------------------------
+    if (isRegistered) {
+        return (
+            <div className="w-full text-center space-y-5 animate-in fade-in duration-200">
+                <div className="size-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <CheckCircle2 className="size-7" />
+                </div>
+
+                <div className="space-y-1.5">
+                    <h1 className="text-xl font-bold text-foreground">Account Created!</h1>
+                    <p className="text-sm text-text-secondary leading-relaxed max-w-sm mx-auto">
+                        Welcome to FindBookStay! We&apos;ve sent a verification link to{" "}
+                        <span className="font-semibold text-foreground">{registeredEmail}</span>.
+                    </p>
+                </div>
+
+                <div className="pt-2 space-y-2">
+                    <button
+                        type="button"
+                        onClick={() => router.push(redirectUrl)}
+                        className="cursor-pointer w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary-hover transition-colors shadow-xs"
+                    >
+                        <span>Continue to FindBookStay</span>
+                        <ArrowRight className="size-4" />
+                    </button>
+                    <Link
+                        href={`/verify-email?email=${encodeURIComponent(registeredEmail)}`}
+                        className="block text-xs font-medium text-primary hover:underline text-center"
+                    >
+                        Enter 6-digit verification code manually &rarr;
+                    </Link>
+                </div>
+            </div>
+        );
+    }
 
     // -------------------------------------------------------------------------
     // STEP 1: ROLE SELECTION
@@ -115,7 +212,6 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                     subtitle="Choose how you want to use FindBookStay to continue."
                 />
 
-                {/* 2-Column Modern Role Selection Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1.5">
                     {/* Role Card 1: Tenant / Guest / Player */}
                     <button
@@ -124,7 +220,6 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                         className="group cursor-pointer relative text-left p-4.5 rounded-2xl border border-border hover:border-primary bg-input/70 hover:bg-surface-secondary/50 transition-all duration-200 flex flex-col justify-between active:scale-[0.98] hover:-translate-y-1 hover:shadow-md hover:shadow-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
                         <div>
-                            {/* Top bar with icon and micro indicator */}
                             <div className="flex items-center justify-between mb-3.5">
                                 <div className="size-10 rounded-xl bg-surface-secondary flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105 transition-all duration-200 shadow-2xs">
                                     <User className="size-5" />
@@ -142,7 +237,6 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                             </p>
                         </div>
 
-                        {/* Interactive footer row */}
                         <div className="pt-3.5 mt-3.5 border-t border-border/80 flex items-center justify-between">
                             <span className="text-[11px] font-medium text-text-secondary group-hover:text-foreground transition-colors">
                                 Select role
@@ -161,7 +255,6 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                         className="group cursor-pointer relative text-left p-4.5 rounded-2xl border border-border hover:border-primary bg-input/70 hover:bg-surface-secondary/50 transition-all duration-200 flex flex-col justify-between active:scale-[0.98] hover:-translate-y-1 hover:shadow-md hover:shadow-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
                         <div>
-                            {/* Top bar with icon and micro indicator */}
                             <div className="flex items-center justify-between mb-3.5">
                                 <div className="size-10 rounded-xl bg-surface-secondary flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105 transition-all duration-200 shadow-2xs">
                                     <Building2 className="size-5" />
@@ -179,7 +272,6 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                             </p>
                         </div>
 
-                        {/* Interactive footer row */}
                         <div className="pt-3.5 mt-3.5 border-t border-border/80 flex items-center justify-between">
                             <span className="text-[11px] font-medium text-text-secondary group-hover:text-foreground transition-colors">
                                 Select role
@@ -214,9 +306,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
             <div className="flex items-center justify-between mb-3 pb-2 border-b border-border">
                 <button
                     type="button"
-                    onClick={() => {
-                        setSelectedRole(null);
-                    }}
+                    onClick={() => setSelectedRole(null)}
                     className="inline-flex items-center gap-1 text-[11px] font-medium text-text-secondary hover:text-foreground transition-colors cursor-pointer group"
                 >
                     <ArrowLeft className="size-3 transition-transform group-hover:-translate-x-0.5" />
@@ -262,7 +352,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
             />
 
             {errors.root?.message && (
-                <div className="mb-3 p-2.5 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium">
+                <div className="mb-3 p-2.5 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium animate-in fade-in duration-150">
                     {errors.root.message}
                 </div>
             )}
@@ -297,17 +387,47 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                 />
 
                 <AuthInput
-                    label="Phone Number"
+                    label="Phone Number (Optional)"
                     type="tel"
-                    placeholder={
-                        isPartner
-                            ? "e.g. +880 1712-345678 (for tenant inquiries)"
-                            : "e.g. +880 1712-345678 (optional, for SMS alerts)"
-                    }
+                    placeholder="e.g. +880 1712-345678"
                     error={errors.phone?.message}
                     autoComplete="tel"
                     {...register("phone")}
                 />
+
+                {/* Optional Referral Code */}
+                <div className="space-y-1">
+                    <AuthInput
+                        label="Referral Code (Optional)"
+                        type="text"
+                        placeholder="e.g. FB8K2026"
+                        icon={Gift}
+                        autoCapitalize="characters"
+                        error={errors.referralCode?.message}
+                        rightElement={
+                            referralCodeValue.trim() ? (
+                                <button
+                                    type="button"
+                                    onClick={handleCheckReferral}
+                                    className="text-[11px] font-semibold text-primary hover:underline cursor-pointer"
+                                >
+                                    Validate
+                                </button>
+                            ) : null
+                        }
+                        {...register("referralCode")}
+                    />
+                    {referralStatus && (
+                        <p
+                            className={cn(
+                                "text-[11px] font-medium px-1",
+                                referrerInfo ? "text-primary" : "text-destructive"
+                            )}
+                        >
+                            {referralStatus}
+                        </p>
+                    )}
+                </div>
 
                 <div className="space-y-1">
                     <AuthInput
@@ -379,9 +499,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                         isLoading={isSubmitting}
                         icon={<ArrowRight className="size-3.5" />}
                     >
-                        {isPartner
-                            ? "Complete Host Registration"
-                            : "Create Account"}
+                        {isPartner ? "Complete Host Registration" : "Create Account"}
                     </AuthButton>
                 </div>
             </form>
