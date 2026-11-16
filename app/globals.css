@@ -142,3 +142,7 @@
     transform: rotate(360deg);
   }
 }
+
+.animate-border-beam-spin {
+  animation: border-beam-spin 3.5s linear infinite;
+}

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Raleway } from "next/font/google";
-import Providers from "@/components/Providers";
+import { ReduxProviders } from "@/providers/ReduxProvider";
 import "./globals.css";
 
 const raleway = Raleway({
@@ -37,7 +37,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <html lang="en" className={`${raleway.variable} font-sans h-full antialiased`}>
             <body className="min-h-full flex flex-col bg-white text-[#172B2A]" cz-shortcut-listen="true">
-                <Providers>{children}</Providers>
+                <ReduxProviders>{children}</ReduxProviders>
             </body>
         </html>
     );

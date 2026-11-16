@@ -31,7 +31,7 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
 
     const displayName = user?.name || "User";
     const displayEmail = user?.email || "user@findbookstay.com";
-    const isVerified = user?.isEmailVerified ?? true;
+    const isVerified = Boolean(user?.isEmailVerified);
 
     // -------------------------------------------------------------
     // GUEST VIEW (Default Logged Out)
@@ -40,10 +40,7 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
         return (
             <div className="flex items-center gap-2 sm:gap-2.5">
                 {/* Modern Tactile Log In Button */}
-                <Link
-                    href="/auth/login"
-                    className="group cursor-pointer inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-[#172B2A] hover:text-[#073B35] bg-white hover:bg-[#F0F5F3] border border-[#E2EAE6] hover:border-[#10B981]/50 shadow-2xs hover:shadow-xs transition-all duration-200"
-                >
+                <Link href="/auth/login" className="group cursor-pointer inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-[#172B2A] hover:text-[#073B35] bg-white hover:bg-[#F0F5F3] border border-[#E2EAE6] hover:border-[#10B981]/50 shadow-2xs hover:shadow-xs transition-all duration-200">
                     <User className="size-3.5 text-[#64748B] group-hover:text-[#073B35] transition-colors" />
                     <span>Log In</span>
                 </Link>
@@ -81,39 +78,41 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
     return (
         <div className="relative">
             {/* User Pill Trigger Button */}
-            <button
-                type="button"
-                onClick={onToggle}
-                className={`cursor-pointer flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-full border transition-all duration-200 ${isOpen ? "border-[#10B981] bg-[#F0F5F3] shadow-xs" : "border-[#E2EAE6] hover:border-[#10B981]/40 hover:bg-[#F8FAF9]"}`}
-                aria-expanded={isOpen}
-                aria-label="User profile menu"
-            >
-                <div className="relative size-7 rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-xs font-bold uppercase shadow-2xs overflow-hidden">
-                    {user?.profileImage ? (
-                        <Image src={user.profileImage} alt={displayName} fill className="object-cover" />
-                    ) : (
-                        initials
-                    )}
-                    <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-[#10B981] ring-2 ring-white" />
+            <button type="button" onClick={onToggle} className={`cursor-pointer flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-full border transition-all duration-200 ${isOpen ? "border-[#10B981] bg-[#F0F5F3] shadow-xs" : "border-[#E2EAE6] hover:border-[#10B981]/40 hover:bg-[#F8FAF9]"}`} aria-expanded={isOpen} aria-label="User profile menu">
+                <div className="relative size-7 shrink-0">
+                    <div className="size-full rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-xs font-bold uppercase shadow-2xs overflow-hidden">{user?.profileImage ? <Image src={user.profileImage} alt={displayName} fill className="object-cover" /> : initials}</div>
+                    {/* Verification / status indicator dot */}
+                    <span className={`absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full ring-2 ring-white z-10 ${isVerified ? "bg-[#10B981]" : "bg-amber-400"}`} title={isVerified ? "Verified Account" : "Unverified Account"} />
                 </div>
-                <span className="hidden xl:inline-block text-[13px] font-semibold text-[#172B2A] max-w-[120px] truncate">
-                    {user?.name?.split(" ")[0] || "Account"}
-                </span>
+                <span className="hidden xl:inline-block text-[13px] font-semibold text-[#172B2A] max-w-30 truncate">{user?.name?.split(" ")[0] || "Account"}</span>
                 <ChevronDown className={`size-3.5 text-[#64748B] transition-transform duration-200 ${isOpen ? "rotate-180 text-[#073B35]" : ""}`} />
             </button>
 
             {/* Profile Dropdown with rotating glowing border beam */}
             {isOpen && (
                 <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 rounded-2xl p-[1.5px] overflow-hidden shadow-2xl bg-[#E2EAE6] z-50 origin-top-right transition-all duration-300 ease-out animate-in fade-in zoom-in-95 slide-in-from-top-1">
+                    {/* Inline keyframe definition to guarantee instant execution */}
+                    <style>{`
+                        @keyframes border-beam-spin {
+                            0% {
+                                transform: rotate(0deg);
+                            }
+                            100% {
+                                transform: rotate(360deg);
+                            }
+                        }
+                    `}</style>
+
                     {/* 1. Neon Bloom Layer */}
                     <div
-                        className="pointer-events-none absolute left-1/2 top-1/2 blur-xs opacity-90 animate-border-beam-spin"
+                        className="pointer-events-none absolute left-1/2 top-1/2 blur-xs opacity-90"
                         style={{
                             width: 600,
                             height: 600,
                             marginLeft: -300,
                             marginTop: -300,
                             background: "conic-gradient(from 0deg, transparent 0deg, transparent 240deg, #073B35 280deg, #10B981 320deg, #34D399 350deg, transparent 360deg)",
+                            animation: "border-beam-spin 3.5s linear infinite",
                             transformOrigin: "center center",
                             willChange: "transform",
                         }}
@@ -121,13 +120,14 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
 
                     {/* 2. Sharp Light Beam Layer */}
                     <div
-                        className="pointer-events-none absolute left-1/2 top-1/2 animate-border-beam-spin"
+                        className="pointer-events-none absolute left-1/2 top-1/2"
                         style={{
                             width: 600,
                             height: 600,
                             marginLeft: -300,
                             marginTop: -300,
                             background: "conic-gradient(from 0deg, transparent 0deg, transparent 240deg, #073B35 280deg, #10B981 320deg, #34D399 350deg, transparent 360deg)",
+                            animation: "border-beam-spin 3.5s linear infinite",
                             transformOrigin: "center center",
                             willChange: "transform",
                         }}
@@ -138,24 +138,17 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
                         {/* Profile Header Card */}
                         <div className="p-3 mb-2 rounded-xl bg-linear-to-br from-[#F0F5F3] to-[#F8FAF9] border border-[#E2EAE6]/70">
                             <div className="flex items-center gap-3">
-                                <div className="relative size-11 rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-sm font-bold shadow-xs shrink-0 overflow-hidden">
-                                    {user?.profileImage ? (
-                                        <Image src={user.profileImage} alt={displayName} fill className="object-cover" />
-                                    ) : (
-                                        initials
-                                    )}
-                                    {isVerified && (
-                                        <div className="absolute -bottom-0.5 -right-0.5 size-3.5 rounded-full bg-[#10B981] text-white flex items-center justify-center ring-2 ring-white">
-                                            <CheckCircle2 className="size-2.5" />
-                                        </div>
-                                    )}
+                                <div className="relative size-11 shrink-0">
+                                    <div className="size-full rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-sm font-bold shadow-xs overflow-hidden">{user?.profileImage ? <Image src={user.profileImage} alt={displayName} fill className="object-cover" /> : initials}</div>
+                                    {/* Verification round badge */}
+                                    <div className={`absolute -bottom-0.5 -right-0.5 size-4 rounded-full text-white flex items-center justify-center ring-2 ring-white shadow-xs z-10 ${isVerified ? "bg-[#10B981]" : "bg-amber-500"}`} title={isVerified ? "Verified Account" : "Unverified Account"}>
+                                        <CheckCircle2 className="size-3 text-white" />
+                                    </div>
                                 </div>
                                 <div className="min-w-0 flex-1">
                                     <div className="flex items-center gap-1.5">
                                         <h4 className="text-[13.5px] font-bold text-[#172B2A] truncate">{displayName}</h4>
-                                        <span className={`shrink-0 px-1.5 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider border ${isVerified ? "bg-[#10B981]/15 text-[#059669] border-[#10B981]/20" : "bg-amber-50 text-amber-600 border-amber-200"}`}>
-                                            {isVerified ? "Verified" : "Unverified"}
-                                        </span>
+                                        <span className={`shrink-0 px-1.5 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider border ${isVerified ? "bg-[#10B981]/15 text-[#059669] border-[#10B981]/20" : "bg-amber-50 text-amber-600 border-amber-200"}`}>{isVerified ? "Verified" : "Unverified"}</span>
                                     </div>
                                     <p className="text-[11.5px] text-[#64748B] truncate mt-0.5">{displayEmail}</p>
                                 </div>

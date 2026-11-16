@@ -131,12 +131,19 @@ const MobileDrawer = ({
                     {isAuthenticated ? (
                         <div className="space-y-3">
                             <div className="flex items-center gap-3">
-                                <div className="relative size-9 rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-xs font-bold uppercase overflow-hidden">
-                                    {user?.profileImage ? (
-                                        <Image src={user.profileImage} alt={displayName} fill className="object-cover" />
-                                    ) : (
-                                        initials
-                                    )}
+                                <div className="relative size-9 shrink-0">
+                                    <div className="size-full rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-xs font-bold uppercase overflow-hidden shadow-2xs">
+                                        {user?.profileImage ? (
+                                            <Image src={user.profileImage} alt={displayName} fill className="object-cover" />
+                                        ) : (
+                                            initials
+                                        )}
+                                    </div>
+                                    <span
+                                        className={`absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full ring-2 ring-white z-10 ${
+                                            user?.isEmailVerified ? "bg-[#10B981]" : "bg-amber-400"
+                                        }`}
+                                    />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <p className="text-xs font-bold text-[#172B2A] truncate">{displayName}</p>

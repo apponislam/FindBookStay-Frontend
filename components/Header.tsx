@@ -9,8 +9,8 @@ import NavItem from "@/components/header/NavItem";
 import UserMenu from "@/components/header/UserMenu";
 import MobileDrawer from "@/components/header/MobileDrawer";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { currentUser, currentToken, logOut } from "@/redux/features/auth/authSlice";
-import { useGetMeQuery, useLogoutMutation } from "@/redux/features/auth/authApi";
+import { currentUser, currentToken, logOut, updateUserState } from "@/redux/features/auth/authSlice";
+import { useGetMeQuery, useLogoutMutation, authApi } from "@/redux/features/auth/authApi";
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -18,8 +18,14 @@ const Header = () => {
     const token = useAppSelector(currentToken);
 
     // Keep profile fresh when token exists
-    useGetMeQuery(undefined, { skip: !token });
+    const { data: meData } = useGetMeQuery(undefined, { skip: !token });
     const [logoutMutation] = useLogoutMutation();
+
+    useEffect(() => {
+        if (meData?.data) {
+            dispatch(updateUserState(meData.data));
+        }
+    }, [meData, dispatch]);
 
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -35,6 +41,7 @@ const Header = () => {
 
     const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
     const navContainerRef = useRef<HTMLDivElement>(null);
+    const userMenuRef = useRef<HTMLDivElement>(null);
 
     const handleLogout = async () => {
         try {
@@ -43,6 +50,7 @@ const Header = () => {
             // silent catch
         } finally {
             dispatch(logOut());
+            dispatch(authApi.util.resetApiState());
             setDemoAuth(false);
             setUserDropdownOpen(false);
         }
@@ -90,8 +98,11 @@ const Header = () => {
     // Close menus on outside click
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
-            if (navContainerRef.current && !navContainerRef.current.contains(e.target as Node)) {
+            const target = e.target as Node;
+            if (navContainerRef.current && !navContainerRef.current.contains(target)) {
                 setActiveMenu(null);
+            }
+            if (userMenuRef.current && !userMenuRef.current.contains(target)) {
                 setUserDropdownOpen(false);
             }
         };
@@ -187,16 +198,18 @@ const Header = () => {
                             )}
 
                             {/* User Profile / Guest Menu */}
-                            <UserMenu
-                                isAuthenticated={isAuthenticated}
-                                user={user}
-                                onLogout={handleLogout}
-                                onToggleAuth={setDemoAuth}
-                                favoritesCount={favoritesCount}
-                                isOpen={userDropdownOpen}
-                                onToggle={() => setUserDropdownOpen(!userDropdownOpen)}
-                                onClose={() => setUserDropdownOpen(false)}
-                            />
+                            <div ref={userMenuRef} className="relative">
+                                <UserMenu
+                                    isAuthenticated={isAuthenticated}
+                                    user={user}
+                                    onLogout={handleLogout}
+                                    onToggleAuth={setDemoAuth}
+                                    favoritesCount={favoritesCount}
+                                    isOpen={userDropdownOpen}
+                                    onToggle={() => setUserDropdownOpen(!userDropdownOpen)}
+                                    onClose={() => setUserDropdownOpen(false)}
+                                />
+                            </div>
 
                             {/* Mobile Drawer Hamburger Trigger */}
                             <button
