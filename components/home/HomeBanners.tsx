@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Home, Hotel, Trophy, Building2, ArrowRight, ArrowLeft, Sparkles, CheckCircle2 } from "lucide-react";
@@ -94,61 +94,52 @@ const AUTOPLAY_INTERVAL = 6000;
 export const HomeBanners = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
-    const [isTransitioning, setIsTransitioning] = useState(false);
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     const currentSlide = BANNER_SLIDES[currentIndex];
 
-    const goToSlide = useCallback(
-        (index: number) => {
-            if (isTransitioning || index === currentIndex) return;
-            setIsTransitioning(true);
-            setCurrentIndex(index);
-            setTimeout(() => setIsTransitioning(false), 500);
-        },
-        [currentIndex, isTransitioning],
-    );
+    const handleNext = useCallback(() => {
+        setCurrentIndex((prev) => (prev + 1) % BANNER_SLIDES.length);
+    }, []);
 
-    const nextSlide = useCallback(() => {
-        goToSlide((currentIndex + 1) % BANNER_SLIDES.length);
-    }, [currentIndex, goToSlide]);
+    const handlePrev = useCallback(() => {
+        setCurrentIndex((prev) => (prev - 1 + BANNER_SLIDES.length) % BANNER_SLIDES.length);
+    }, []);
 
-    const prevSlide = useCallback(() => {
-        goToSlide((currentIndex - 1 + BANNER_SLIDES.length) % BANNER_SLIDES.length);
-    }, [currentIndex, goToSlide]);
+    const goToSlide = useCallback((index: number) => {
+        setCurrentIndex(index);
+    }, []);
 
+    // Autoplay interval
     useEffect(() => {
         if (isPaused) return;
 
-        timerRef.current = setInterval(() => {
-            nextSlide();
+        const interval = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % BANNER_SLIDES.length);
         }, AUTOPLAY_INTERVAL);
 
-        return () => {
-            if (timerRef.current) clearInterval(timerRef.current);
-        };
-    }, [isPaused, nextSlide]);
+        return () => clearInterval(interval);
+    }, [isPaused]);
 
     return (
-        <section aria-label="FindBookStay Featured Banners" className="relative w-full overflow-hidden bg-foreground text-background" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
+        <section aria-label="FindBookStay Featured Banners" className="relative w-full overflow-hidden bg-foreground text-background select-none" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
             {/* Background Carousel */}
             <div className="relative w-full h-135 sm:h-145 md:h-155 lg:h-165">
                 {BANNER_SLIDES.map((slide, index) => {
                     const isActive = index === currentIndex;
                     return (
-                        <div key={slide.id} className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}>
-                            <Image src={slide.image} alt={slide.title} fill priority={index === 0} sizes="100vw" className="object-cover object-center scale-105 animate-in zoom-in duration-1000" />
-                            {/* Cinematic gradients for contrast and readability */}
-                            <div className="absolute inset-0 bg-linear-to-r from-black/90 via-black/70 to-black/35" />
-                            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-black/30" />
+                        <div key={slide.id} className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${isActive ? "opacity-100 z-10 pointer-events-none" : "opacity-0 z-0 pointer-events-none"}`}>
+                            <Image src={slide.image} alt={slide.title} fill priority={index === 0} sizes="100vw" className="object-cover object-center scale-105" />
+                            {/* Cinematic contrast gradients */}
+                            <div className="absolute inset-0 bg-linear-to-r from-black/90 via-black/70 to-black/35 pointer-events-none" />
+                            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-black/30 pointer-events-none" />
                         </div>
                     );
                 })}
 
                 {/* Banner Content Container (strict container mx-auto px-4) */}
-                <div className="relative z-20 h-full container mx-auto px-4 flex flex-col justify-between py-8 sm:py-12">
+                <div className="relative z-20 h-full container mx-auto px-4 flex flex-col justify-between py-8 sm:py-12 pointer-events-auto">
                     {/* Top: 4 Purpose Tabs */}
-                    <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+                    <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none relative z-30">
                         {BANNER_SLIDES.map((slide, index) => {
                             const isActive = index === currentIndex;
                             const IconComponent = slide.icon;
@@ -162,7 +153,7 @@ export const HomeBanners = () => {
                     </div>
 
                     {/* Middle: Slide Headline & CTA */}
-                    <div className="max-w-2xl space-y-4 sm:space-y-6 my-auto">
+                    <div className="max-w-2xl space-y-4 sm:space-y-6 my-auto relative z-30">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-emerald-300 text-xs font-medium">
                             <Sparkles className="size-3.5 animate-pulse" />
                             <span>{currentSlide.tagline}</span>
@@ -194,7 +185,7 @@ export const HomeBanners = () => {
                     </div>
 
                     {/* Bottom: Progress Dots & Arrow Controls */}
-                    <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                    <div className="flex items-center justify-between pt-4 border-t border-white/10 relative z-30">
                         <div className="flex items-center gap-2">
                             {BANNER_SLIDES.map((slide, index) => {
                                 const isActive = index === currentIndex;
@@ -202,12 +193,31 @@ export const HomeBanners = () => {
                             })}
                         </div>
 
-                        <div className="flex items-center gap-2">
-                            <button type="button" aria-label="Previous banner" onClick={prevSlide} className="size-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur-md border border-white/15 transition-colors cursor-pointer">
-                                <ArrowLeft className="size-4" />
+                        {/* Arrow Buttons Pair */}
+                        <div className="flex items-center gap-2 relative z-40">
+                            <button
+                                type="button"
+                                aria-label="Previous banner"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handlePrev();
+                                }}
+                                className="size-9 rounded-full bg-white/10 hover:bg-white/25 active:scale-95 text-white flex items-center justify-center backdrop-blur-md border border-white/15 transition-all cursor-pointer relative z-50 pointer-events-auto"
+                            >
+                                <ArrowLeft className="size-4 pointer-events-none" />
                             </button>
-                            <button type="button" aria-label="Next banner" onClick={nextSlide} className="size-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur-md border border-white/15 transition-colors cursor-pointer">
-                                <ArrowRight className="size-4" />
+                            <button
+                                type="button"
+                                aria-label="Next banner"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleNext();
+                                }}
+                                className="size-9 rounded-full bg-white/10 hover:bg-white/25 active:scale-95 text-white flex items-center justify-center backdrop-blur-md border border-white/15 transition-all cursor-pointer relative z-50 pointer-events-auto"
+                            >
+                                <ArrowRight className="size-4 pointer-events-none" />
                             </button>
                         </div>
                     </div>

@@ -49,14 +49,14 @@ const FloatingPostButton = () => {
     return (
         <div
             ref={menuRef}
-            className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 select-none"
+            className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 select-none pointer-events-none"
         >
             {/* 4 Floating Service Buttons (NO CARD, WITH HOVER INFO PILL ON LEFT) */}
             <div
                 className={`flex flex-col items-end gap-2.5 transition-all duration-300 ${
                     isOpen
-                        ? "opacity-100 translate-y-0 pointer-events-auto"
-                        : "opacity-0 translate-y-4 pointer-events-none"
+                        ? "opacity-100 translate-y-0 pointer-events-auto visible"
+                        : "opacity-0 translate-y-4 pointer-events-none invisible h-0 overflow-hidden"
                 }`}
                 aria-hidden={!isOpen}
             >
@@ -100,7 +100,7 @@ const FloatingPostButton = () => {
             <button
                 type="button"
                 onClick={() => setIsOpen((prev) => !prev)}
-                className={`cursor-pointer group relative flex items-center gap-2 px-4.5 py-3 rounded-full bg-[#073B35] hover:bg-[#052F2A] text-white shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 ${
+                className={`cursor-pointer group relative flex items-center gap-2 px-4.5 py-3 rounded-full bg-[#073B35] hover:bg-[#052F2A] text-white shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 pointer-events-auto ${
                     isOpen ? "ring-4 ring-[#10B981]/30 bg-[#052F2A]" : ""
                 }`}
                 aria-expanded={isOpen}
