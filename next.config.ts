@@ -27,6 +27,16 @@ const nextConfig: NextConfig = {
                 destination: "/auth/register",
                 permanent: true,
             },
+            {
+                source: "/verify-email",
+                destination: "/auth/verify-email",
+                permanent: true,
+            },
+            {
+                source: "/verify-new-email",
+                destination: "/auth/verify-new-email",
+                permanent: true,
+            },
         ];
     },
     turbopack: {

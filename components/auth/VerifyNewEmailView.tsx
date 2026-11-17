@@ -3,8 +3,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle2, AlertCircle, RefreshCw, ArrowRight } from "lucide-react";
+import { CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 import AuthHeader from "./AuthHeader";
+import AuthLoading from "./AuthLoading";
 import { useLazyVerifyNewEmailQuery } from "@/redux/features/auth/authApi";
 
 export const VerifyNewEmailView = () => {
@@ -94,11 +95,9 @@ export const VerifyNewEmailView = () => {
     }
 
     return (
-        <div className="w-full text-center space-y-4 py-8 animate-in fade-in duration-200">
+        <div className="w-full text-center space-y-4 py-4 animate-in fade-in duration-200">
             <AuthHeader category="Account Security" title="Updating your email" subtitle="Verifying and updating your email address..." />
-            <div className="size-12 mx-auto rounded-full bg-surface-secondary flex items-center justify-center text-primary animate-spin">
-                <RefreshCw className="size-6" />
-            </div>
+            <AuthLoading message={null} />
         </div>
     );
 };

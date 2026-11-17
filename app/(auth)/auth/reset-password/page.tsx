@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import ResetPasswordForm from "@/components/auth/ResetPasswordForm";
+import AuthLoading from "@/components/auth/AuthLoading";
 
 export const metadata: Metadata = {
     title: "Reset Password",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ResetPasswordPage() {
     return (
-        <Suspense fallback={<div className="h-48 flex items-center justify-center text-xs text-text-secondary">Loading...</div>}>
+        <Suspense fallback={<AuthLoading message="Loading password reset" description="Preparing secure reset session..." />}>
             <ResetPasswordForm />
         </Suspense>
     );

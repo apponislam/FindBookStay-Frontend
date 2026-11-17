@@ -106,11 +106,21 @@ export const AuthLayout = ({
                 <div className="pt-8 w-full max-w-100 mx-auto text-center">
                     <p className="text-[11px] text-muted-foreground leading-relaxed">
                         Protected by FindBookStay verification protocols. By proceeding you agree to our{" "}
-                        <Link href="/terms" className="text-text-secondary hover:text-foreground underline underline-offset-2 transition-colors">
+                        <Link
+                            href="/terms"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-text-secondary hover:text-foreground underline underline-offset-2 transition-colors"
+                        >
                             Terms
                         </Link>{" "}
                         and{" "}
-                        <Link href="/privacy" className="text-text-secondary hover:text-foreground underline underline-offset-2 transition-colors">
+                        <Link
+                            href="/privacy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-text-secondary hover:text-foreground underline underline-offset-2 transition-colors"
+                        >
                             Privacy Policy
                         </Link>
                         .

@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { CheckCircle2, AlertCircle, RefreshCw, ArrowRight, Mail, Edit2 } from "lucide-react";
 import AuthHeader from "./AuthHeader";
 import AuthButton from "./AuthButton";
+import AuthLoading from "./AuthLoading";
 import OtpInput from "./OtpInput";
 import { cn } from "@/lib/utils";
 import { useLazyVerifyEmailQuery, useResendVerificationEmailMutation } from "@/redux/features/auth/authApi";
@@ -177,15 +178,10 @@ export const VerifyEmailView = () => {
     // -------------------------------------------------------------------------
     if (status === "VERIFYING" && isFetching && urlToken) {
         return (
-            <div className="w-full text-center space-y-4 py-8 animate-in fade-in duration-200">
-                <div className="size-12 mx-auto rounded-full bg-surface-secondary flex items-center justify-center text-primary animate-spin">
-                    <RefreshCw className="size-6" />
-                </div>
-                <div className="space-y-1">
-                    <h2 className="text-base font-bold text-foreground">Verifying your email...</h2>
-                    <p className="text-xs text-text-secondary">Securing your account credentials with FindBookStay.</p>
-                </div>
-            </div>
+            <AuthLoading
+                message="Verifying your email..."
+                description="Securing your account credentials with FindBookStay."
+            />
         );
     }
 
