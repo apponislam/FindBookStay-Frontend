@@ -3,13 +3,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowLeft, ArrowRight, ShieldCheck, Mail, RefreshCw } from "lucide-react";
+import { ArrowLeft, ArrowRight, Mail, RefreshCw } from "lucide-react";
 import AuthHeader from "./AuthHeader";
 import AuthInput from "./AuthInput";
 import AuthButton from "./AuthButton";
+import OtpInput from "./OtpInput";
 import { cn } from "@/lib/utils";
 import { useForgotPasswordMutation, useVerifyOtpMutation, useResendOtpMutation } from "@/redux/features/auth/authApi";
 
@@ -60,15 +61,18 @@ export const ForgotPasswordForm = () => {
 
     // Form 2: Verify OTP
     const {
-        register: registerOtp,
+        control: controlOtp,
         handleSubmit: handleSubmitOtp,
         reset: resetOtp,
+        setValue: setValueOtp,
         formState: { errors: otpErrors },
     } = useForm<VerifyOtpFormData>({
         resolver: zodResolver(verifyOtpSchema),
         defaultValues: { otp: "" },
         mode: "onTouched",
     });
+
+    const otpValue = useWatch({ control: controlOtp, name: "otp" }) || "";
 
     // Cooldown countdown timer
     useEffect(() => {
@@ -159,19 +163,27 @@ export const ForgotPasswordForm = () => {
                     </div>
                 )}
 
-                <form onSubmit={handleSubmitOtp(onVerifyOtpSubmit)} className="space-y-3" noValidate>
-                    <AuthInput
-                        label="6-Digit Verification Code"
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={6}
-                        placeholder="123456"
-                        icon={ShieldCheck}
-                        error={otpErrors.otp?.message}
-                        required
-                        autoFocus
-                        {...registerOtp("otp")}
-                    />
+                <form onSubmit={handleSubmitOtp(onVerifyOtpSubmit)} className="space-y-4" noValidate>
+                    <div className="space-y-2">
+                        <label className="block text-center text-xs font-semibold text-text-secondary">
+                            6-Digit Security Code
+                        </label>
+                        <OtpInput
+                            value={otpValue}
+                            onChange={(val) => {
+                                setValueOtp("otp", val, { shouldValidate: true });
+                                if (serverError) setServerError("");
+                            }}
+                            length={6}
+                            error={Boolean(otpErrors.otp?.message || serverError)}
+                            disabled={isVerifyingOtp}
+                        />
+                        {otpErrors.otp?.message && (
+                            <p className="text-center text-xs text-destructive mt-1">
+                                {otpErrors.otp.message}
+                            </p>
+                        )}
+                    </div>
 
                     <div className="flex items-center justify-between text-xs pt-0.5">
                         <button

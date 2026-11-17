@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronDown, ChevronRight, User, Heart, Settings, LogOut, CheckCircle2, HelpCircle, SlidersHorizontal, CalendarDays, Building, ArrowRight } from "@/components/Icons";
+import { getImageUrl } from "@/lib/utils";
 import type { TUser } from "@/redux/features/auth/authSlice";
 
 interface UserMenuProps {
@@ -80,7 +81,7 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
             {/* User Pill Trigger Button */}
             <button type="button" onClick={onToggle} className={`cursor-pointer flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-full border transition-all duration-200 ${isOpen ? "border-[#10B981] bg-[#F0F5F3] shadow-xs" : "border-[#E2EAE6] hover:border-[#10B981]/40 hover:bg-[#F8FAF9]"}`} aria-expanded={isOpen} aria-label="User profile menu">
                 <div className="relative size-7 shrink-0">
-                    <div className="size-full rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-xs font-bold uppercase shadow-2xs overflow-hidden">{user?.profileImage ? <Image src={user.profileImage} alt={displayName} fill className="object-cover" /> : initials}</div>
+                    <div className="size-full rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-xs font-bold uppercase shadow-2xs overflow-hidden">{user?.profileImage ? <Image src={getImageUrl(user.profileImage)} alt={displayName} fill unoptimized className="object-cover" /> : initials}</div>
                     {/* Verification / status indicator dot */}
                     <span className={`absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full ring-2 ring-white z-10 ${isVerified ? "bg-[#10B981]" : "bg-amber-400"}`} title={isVerified ? "Verified Account" : "Unverified Account"} />
                 </div>
@@ -139,7 +140,7 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
                         <div className="p-3 mb-2 rounded-xl bg-linear-to-br from-[#F0F5F3] to-[#F8FAF9] border border-[#E2EAE6]/70">
                             <div className="flex items-center gap-3">
                                 <div className="relative size-11 shrink-0">
-                                    <div className="size-full rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-sm font-bold shadow-xs overflow-hidden">{user?.profileImage ? <Image src={user.profileImage} alt={displayName} fill className="object-cover" /> : initials}</div>
+                                    <div className="size-full rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-sm font-bold shadow-xs overflow-hidden">{user?.profileImage ? <Image src={getImageUrl(user.profileImage)} alt={displayName} fill unoptimized className="object-cover" /> : initials}</div>
                                     {/* Verification round badge */}
                                     <div className={`absolute -bottom-0.5 -right-0.5 size-4 rounded-full text-white flex items-center justify-center ring-2 ring-white shadow-xs z-10 ${isVerified ? "bg-[#10B981]" : "bg-amber-500"}`} title={isVerified ? "Verified Account" : "Unverified Account"}>
                                         <CheckCircle2 className="size-3 text-white" />

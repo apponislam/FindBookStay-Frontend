@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, X, Plus, Heart, PhoneCall, User, ArrowRight } from "@/components/Icons";
+import { getImageUrl } from "@/lib/utils";
 import type { CategoryMenu } from "@/constants/routes";
 import type { TUser } from "@/redux/features/auth/authSlice";
 
@@ -134,7 +135,7 @@ const MobileDrawer = ({
                                 <div className="relative size-9 shrink-0">
                                     <div className="size-full rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-xs font-bold uppercase overflow-hidden shadow-2xs">
                                         {user?.profileImage ? (
-                                            <Image src={user.profileImage} alt={displayName} fill className="object-cover" />
+                                            <Image src={getImageUrl(user.profileImage)} alt={displayName} fill unoptimized className="object-cover" />
                                         ) : (
                                             initials
                                         )}

@@ -35,7 +35,7 @@ export const AuthInput = React.forwardRef<HTMLInputElement, AuthInputProps>(({ l
                         <AlertCircle className="size-3.5 shrink-0" />
                         <span>{error}</span>
                         {/* Downward triangle arrow pointing to input */}
-                        <span aria-hidden="true" className="absolute -bottom-1 right-3 size-2 bg-destructive rotate-45 transform" />
+                        <span aria-hidden="true" className="absolute -bottom-1 right-3 size-2 bg-destructive rotate-45" />
                     </div>
                 )}
 

@@ -1,19 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowRight, ArrowLeft, Building2, User, Gift, CheckCircle2 } from "lucide-react";
+import {
+    ArrowRight,
+    ArrowLeft,
+    User,
+    Mail,
+    Phone,
+    MapPin,
+    Building,
+    Gift,
+    Lock,
+    Check,
+    Camera,
+    Trash2,
+} from "lucide-react";
 import AuthHeader from "./AuthHeader";
 import AuthInput from "./AuthInput";
 import AuthCheckbox from "./AuthCheckbox";
 import AuthButton from "./AuthButton";
 import AuthFooterLink from "./AuthFooterLink";
 import { cn } from "@/lib/utils";
-import { useRegisterMutation, useLazyValidateReferralCodeQuery } from "@/redux/features/auth/authApi";
+import {
+    useRegisterMutation,
+    useLazyValidateReferralCodeQuery,
+} from "@/redux/features/auth/authApi";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/auth/authSlice";
 
@@ -22,55 +39,117 @@ interface RegisterFormProps {
     redirectUrl?: string;
 }
 
-type Role = "individual" | "partner";
+// Zod Schema for 3-Step Registration
+const registerSchema = z
+    .object({
+        // Step 1: Profile & Contact
+        profileImage: z.string().optional(),
+        name: z
+            .string()
+            .trim()
+            .min(2, "Name must be at least 2 characters")
+            .max(60, "Name cannot exceed 60 characters"),
+        email: z
+            .string()
+            .trim()
+            .min(1, "Email is required")
+            .email("Enter a valid email address"),
+        phone: z
+            .string()
+            .trim()
+            .min(6, "Phone number is required")
+            .regex(
+                /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]{6,15}$/,
+                "Enter a valid phone number"
+            ),
 
-// Zod Schema for Registration Form
-const registerSchema = z.object({
-    fullName: z
-        .string()
-        .trim()
-        .min(2, "Name must be at least 2 characters")
-        .max(60, "Name cannot exceed 60 characters"),
-    email: z
-        .string()
-        .trim()
-        .min(1, "Email is required")
-        .email("Enter a valid email address"),
-    phone: z
-        .string()
-        .trim()
-        .optional()
-        .refine(
-            (val) => !val || /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]{6,15}$/.test(val),
-            "Enter a valid phone number"
-        ),
-    referralCode: z
-        .string()
-        .trim()
-        .optional(),
-    password: z
-        .string()
-        .min(8, "Must be at least 8 characters")
-        .regex(/[0-9]/, "Must contain at least 1 number"),
-    agreeToTerms: z
-        .boolean()
-        .refine((val) => val === true, "Must accept the terms"),
-});
+        // Step 2: Address & Referral
+        street: z
+            .string()
+            .trim()
+            .min(2, "Street address / area is required"),
+        city: z
+            .string()
+            .trim()
+            .min(2, "City is required"),
+        state: z.string().trim().optional(),
+        zipCode: z.string().trim().optional(),
+        country: z
+            .string()
+            .trim()
+            .min(2, "Country is required"),
+        referralCode: z.string().trim().optional(),
+
+        // Step 3: Password & Terms
+        password: z
+            .string()
+            .min(8, "Password must be at least 8 characters")
+            .regex(/[0-9]/, "Password must contain at least 1 number"),
+        confirmPassword: z.string().min(1, "Please confirm your password"),
+        agreeToTerms: z
+            .boolean()
+            .refine((val) => val === true, "Must accept terms of service"),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+    });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
+
+// Client-side image compressor: scales to avatar dimensions (400x400) and compresses to ~30-50KB
+const compressImage = (file: File, maxWidth = 400, maxHeight = 400, quality = 0.82): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new window.Image();
+            img.src = event.target?.result as string;
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                let { width, height } = img;
+
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width = Math.round((width * maxHeight) / height);
+                        height = maxHeight;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext("2d");
+                if (!ctx) {
+                    resolve(event.target?.result as string);
+                    return;
+                }
+                ctx.drawImage(img, 0, 0, width, height);
+                resolve(canvas.toDataURL("image/jpeg", quality));
+            };
+            img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
+    });
+};
 
 export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps) => {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+
+    const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const [registerMutation] = useRegisterMutation();
-    const [triggerValidateReferral] = useLazyValidateReferralCodeQuery();
+    const [triggerValidateReferral, { isFetching: isValidatingReferral }] = useLazyValidateReferralCodeQuery();
 
     const [referrerInfo, setReferrerInfo] = useState<{ id: string; name: string } | null>(null);
     const [referralStatus, setReferralStatus] = useState<string | null>(null);
-    const [isRegistered, setIsRegistered] = useState(false);
-    const [registeredEmail, setRegisteredEmail] = useState("");
 
     const {
         register,
@@ -78,15 +157,23 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
         control,
         setValue,
         setError,
+        trigger,
         formState: { errors, isSubmitting },
     } = useForm<RegisterFormData>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
-            fullName: "",
+            profileImage: "",
+            name: "",
             email: "",
             phone: "",
+            street: "",
+            city: "",
+            state: "",
+            zipCode: "",
+            country: "",
             referralCode: "",
             password: "",
+            confirmPassword: "",
             agreeToTerms: false,
         },
         mode: "onTouched",
@@ -96,6 +183,32 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
     const agreeToTermsValue = useWatch({ control, name: "agreeToTerms" });
     const referralCodeValue = useWatch({ control, name: "referralCode" }) || "";
 
+    // Image upload handler with client-side compression
+    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (file.size > 10 * 1024 * 1024) {
+            setError("profileImage", { message: "Image size must be under 10MB" });
+            return;
+        }
+
+        try {
+            const compressedBase64 = await compressImage(file, 400, 400, 0.82);
+            setImagePreview(compressedBase64);
+            setValue("profileImage", compressedBase64, { shouldValidate: true });
+        } catch {
+            setError("profileImage", { message: "Failed to process image. Please try another." });
+        }
+    };
+
+    const handleRemoveImage = () => {
+        setImagePreview(null);
+        setValue("profileImage", "");
+        if (fileInputRef.current) fileInputRef.current.value = "";
+    };
+
+    // Calculate password strength score
     const getPasswordScore = (pass: string) => {
         let score = 0;
         if (pass.length >= 8) score++;
@@ -107,10 +220,10 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
 
     const passwordScore = getPasswordScore(passwordValue);
 
-    // Validate referral code when user checks it
+    // Validate referral code
     const handleCheckReferral = async () => {
         if (!referralCodeValue.trim()) return;
-        setReferralStatus("Checking...");
+        setReferralStatus("Checking code...");
         try {
             const res = await triggerValidateReferral(referralCodeValue.trim()).unwrap();
             if (res.data?.valid) {
@@ -126,32 +239,61 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
         }
     };
 
+    // Step navigation validations
+    const handleGoToStep2 = async () => {
+        const isValid = await trigger(["name", "email", "phone"]);
+        if (isValid) {
+            setCurrentStep(2);
+        }
+    };
+
+    const handleGoToStep3 = async () => {
+        const isValid = await trigger(["street", "city", "country"]);
+        if (isValid) {
+            setCurrentStep(3);
+        }
+    };
+
+    // Final Form Submission
     const onSubmit = async (data: RegisterFormData) => {
         try {
+            const address = {
+                street: data.street.trim() || undefined,
+                city: data.city.trim() || undefined,
+                state: data.state?.trim() || undefined,
+                zipCode: data.zipCode?.trim() || undefined,
+                country: data.country.trim() || undefined,
+            };
+
             const res = await registerMutation({
-                name: data.fullName,
-                email: data.email.toLowerCase(),
-                phone: data.phone || undefined,
+                name: data.name.trim(),
+                email: data.email.trim().toLowerCase(),
+                phone: data.phone.trim() || undefined,
+                profileImage: data.profileImage || undefined,
                 password: data.password,
                 role: "USER",
-                referredBy: referrerInfo?.id || undefined,
+                presentAddress: address,
+                permanentAddress: address,
+                referredBy: referrerInfo?.id || data.referralCode?.trim() || undefined,
             }).unwrap();
 
-            if (res.data?.user && res.data?.accessToken) {
+            if (res.data?.user) {
                 dispatch(
                     setUser({
                         user: res.data.user,
-                        token: res.data.accessToken,
+                        token: res.data.accessToken || "",
                     })
                 );
-
-                setRegisteredEmail(data.email);
-                setIsRegistered(true);
-
-                if (onSuccess) {
-                    onSuccess();
-                }
             }
+
+            if (onSuccess) {
+                onSuccess();
+            }
+
+            // Redirect to dedicated OTP verification page under /auth/
+            const cleanEmail = data.email.trim().toLowerCase();
+            const redirectParam = redirectUrl && redirectUrl !== "/" ? `&redirectUrl=${encodeURIComponent(redirectUrl)}` : "";
+            router.push(`/auth/verify-email?email=${encodeURIComponent(cleanEmail)}${redirectParam}`);
         } catch (err: unknown) {
             const apiError = err as { data?: { message?: string }; error?: string };
             const errorMessage =
@@ -162,192 +304,66 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
         }
     };
 
-    // -------------------------------------------------------------------------
-    // POST-REGISTRATION SUCCESS SCREEN
-    // -------------------------------------------------------------------------
-    if (isRegistered) {
-        return (
-            <div className="w-full text-center space-y-5 animate-in fade-in duration-200">
-                <div className="size-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                    <CheckCircle2 className="size-7" />
-                </div>
-
-                <div className="space-y-1.5">
-                    <h1 className="text-xl font-bold text-foreground">Account Created!</h1>
-                    <p className="text-sm text-text-secondary leading-relaxed max-w-sm mx-auto">
-                        Welcome to FindBookStay! We&apos;ve sent a verification link to{" "}
-                        <span className="font-semibold text-foreground">{registeredEmail}</span>.
-                    </p>
-                </div>
-
-                <div className="pt-2 space-y-2">
-                    <button
-                        type="button"
-                        onClick={() => router.push(redirectUrl)}
-                        className="cursor-pointer w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary-hover transition-colors shadow-xs"
-                    >
-                        <span>Continue to FindBookStay</span>
-                        <ArrowRight className="size-4" />
-                    </button>
-                    <Link
-                        href={`/verify-email?email=${encodeURIComponent(registeredEmail)}`}
-                        className="block text-xs font-medium text-primary hover:underline text-center"
-                    >
-                        Enter 6-digit verification code manually &rarr;
-                    </Link>
-                </div>
-            </div>
-        );
-    }
-
-    // -------------------------------------------------------------------------
-    // STEP 1: ROLE SELECTION
-    // -------------------------------------------------------------------------
-    if (!selectedRole) {
-        return (
-            <div className="w-full animate-in fade-in slide-in-from-bottom-1 duration-200">
-                <AuthHeader
-                    category="Step 1 of 2"
-                    title="Select your role"
-                    subtitle="Choose how you want to use FindBookStay to continue."
-                />
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1.5">
-                    {/* Role Card 1: Tenant / Guest / Player */}
-                    <button
-                        type="button"
-                        onClick={() => setSelectedRole("individual")}
-                        className="group cursor-pointer relative text-left p-4.5 rounded-2xl border border-border hover:border-primary bg-input/70 hover:bg-surface-secondary/50 transition-all duration-200 flex flex-col justify-between active:scale-[0.98] hover:-translate-y-1 hover:shadow-md hover:shadow-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                    >
-                        <div>
-                            <div className="flex items-center justify-between mb-3.5">
-                                <div className="size-10 rounded-xl bg-surface-secondary flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105 transition-all duration-200 shadow-2xs">
-                                    <User className="size-5" />
-                                </div>
-                                <div className="size-7 rounded-full border border-border/80 flex items-center justify-center text-text-secondary group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-200">
-                                    <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
-                                </div>
-                            </div>
-
-                            <h2 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
-                                Tenant, Guest or Player
-                            </h2>
-                            <p className="text-xs text-text-secondary mt-1.5 leading-relaxed">
-                                Rent family apartments, bachelor seats, book hotel stays, or reserve sports turfs.
-                            </p>
-                        </div>
-
-                        <div className="pt-3.5 mt-3.5 border-t border-border/80 flex items-center justify-between">
-                            <span className="text-[11px] font-medium text-text-secondary group-hover:text-foreground transition-colors">
-                                Select role
-                            </span>
-                            <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary transition-transform duration-200 group-hover:translate-x-1">
-                                <span>Get started</span>
-                                <ArrowRight className="size-3" />
-                            </div>
-                        </div>
-                    </button>
-
-                    {/* Role Card 2: Host / Landlord / Turf Owner */}
-                    <button
-                        type="button"
-                        onClick={() => setSelectedRole("partner")}
-                        className="group cursor-pointer relative text-left p-4.5 rounded-2xl border border-border hover:border-primary bg-input/70 hover:bg-surface-secondary/50 transition-all duration-200 flex flex-col justify-between active:scale-[0.98] hover:-translate-y-1 hover:shadow-md hover:shadow-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                    >
-                        <div>
-                            <div className="flex items-center justify-between mb-3.5">
-                                <div className="size-10 rounded-xl bg-surface-secondary flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105 transition-all duration-200 shadow-2xs">
-                                    <Building2 className="size-5" />
-                                </div>
-                                <div className="size-7 rounded-full border border-border/80 flex items-center justify-center text-text-secondary group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-200">
-                                    <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
-                                </div>
-                            </div>
-
-                            <h2 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
-                                Host, Landlord or Turf Owner
-                            </h2>
-                            <p className="text-xs text-text-secondary mt-1.5 leading-relaxed">
-                                List residential properties, rent shared seats, or manage sports turf reservations.
-                            </p>
-                        </div>
-
-                        <div className="pt-3.5 mt-3.5 border-t border-border/80 flex items-center justify-between">
-                            <span className="text-[11px] font-medium text-text-secondary group-hover:text-foreground transition-colors">
-                                Select role
-                            </span>
-                            <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary transition-transform duration-200 group-hover:translate-x-1">
-                                <span>Get started</span>
-                                <ArrowRight className="size-3" />
-                            </div>
-                        </div>
-                    </button>
-                </div>
-
-                <div className="pt-3 border-t border-border mt-4">
-                    <AuthFooterLink
-                        promptText="Already have an account?"
-                        linkText="Sign in"
-                        href="/auth/login"
-                    />
-                </div>
-            </div>
-        );
-    }
-
-    // -------------------------------------------------------------------------
-    // STEP 2: REGISTRATION FORM FOR THE SELECTED ROLE
-    // -------------------------------------------------------------------------
-    const isPartner = selectedRole === "partner";
-
     return (
         <div className="w-full animate-in fade-in duration-150">
-            {/* Header Switcher: 1-Click Role Switch & Back Arrow */}
-            <div className="flex items-center justify-between mb-3 pb-2 border-b border-border">
-                <button
-                    type="button"
-                    onClick={() => setSelectedRole(null)}
-                    className="inline-flex items-center gap-1 text-[11px] font-medium text-text-secondary hover:text-foreground transition-colors cursor-pointer group"
-                >
-                    <ArrowLeft className="size-3 transition-transform group-hover:-translate-x-0.5" />
-                    <span>Back to roles</span>
-                </button>
-
-                <div className="inline-flex items-center gap-0.5 p-0.5 bg-surface-secondary rounded-lg">
-                    <button
-                        type="button"
-                        onClick={() => setSelectedRole("individual")}
-                        className={cn(
-                            "px-2 py-0.5 text-[10px] font-semibold rounded-md transition-all cursor-pointer",
-                            !isPartner
-                                ? "bg-surface text-primary shadow-xs"
-                                : "text-text-secondary hover:text-foreground"
-                        )}
-                    >
-                        Tenant
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => setSelectedRole("partner")}
-                        className={cn(
-                            "px-2 py-0.5 text-[10px] font-semibold rounded-md transition-all cursor-pointer",
-                            isPartner
-                                ? "bg-surface text-primary shadow-xs"
-                                : "text-text-secondary hover:text-foreground"
-                        )}
-                    >
-                        Host
-                    </button>
-                </div>
+            {/* 3-Step Centered Glowing Indicator */}
+            <div className="flex items-center justify-center gap-3 mb-5 select-none">
+                {[1, 2, 3].map((step, index) => {
+                    const isCurrent = currentStep === step;
+                    const isCompleted = currentStep > step;
+                    return (
+                        <React.Fragment key={step}>
+                            <div className="relative flex items-center justify-center">
+                                {isCurrent && (
+                                    <span className="absolute -inset-1.5 rounded-full bg-accent/35 blur-sm pointer-events-none animate-pulse" />
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        if (isCompleted) setCurrentStep(step as 1 | 2 | 3);
+                                    }}
+                                    disabled={!isCompleted && !isCurrent}
+                                    className={cn(
+                                        "relative size-9 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300",
+                                        isCurrent
+                                            ? "bg-primary text-primary-foreground ring-4 ring-accent/30 shadow-[0_0_18px_rgba(16,185,129,0.5)] scale-105"
+                                            : isCompleted
+                                            ? "bg-primary text-primary-foreground shadow-xs cursor-pointer hover:scale-105"
+                                            : "bg-surface-secondary text-text-secondary border border-border opacity-70"
+                                    )}
+                                    aria-label={`Step ${step}`}
+                                >
+                                    {isCompleted ? <Check className="size-4 stroke-[2.5]" /> : step}
+                                </button>
+                            </div>
+                            {index < 2 && (
+                                <div
+                                    className={cn(
+                                        "w-12 sm:w-16 h-0.5 rounded-full transition-colors duration-300",
+                                        currentStep > step ? "bg-accent" : "bg-border"
+                                    )}
+                                />
+                            )}
+                        </React.Fragment>
+                    );
+                })}
             </div>
 
             <AuthHeader
-                category={isPartner ? "Host Account" : "Tenant Account"}
-                title="Create your account"
+                category={`Step ${currentStep} of 3`}
+                title={
+                    currentStep === 1
+                        ? "Personal Information"
+                        : currentStep === 2
+                        ? "Address & Referral"
+                        : "Secure Your Account"
+                }
                 subtitle={
-                    isPartner
-                        ? "Register to start listing residential spaces, rooms, or sports turf facilities."
-                        : "Register to discover verified stays, rent apartments, and book sports turfs."
+                    currentStep === 1
+                        ? "Upload a photo and provide your name, email, and phone."
+                        : currentStep === 2
+                        ? "Enter your primary address and optional referral invite code."
+                        : "Set a strong password to complete your FindBookStay account."
                 }
             />
 
@@ -357,151 +373,366 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                 </div>
             )}
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-2.5" noValidate>
-                <AuthInput
-                    label="Full Name"
-                    type="text"
-                    placeholder={
-                        isPartner
-                            ? "e.g. David Miller (or Agency / Property Name)"
-                            : "e.g. Alex Tan or Sarah Jenkins"
-                    }
-                    error={errors.fullName?.message}
-                    required
-                    autoComplete="name"
-                    {...register("fullName")}
-                />
-
-                <AuthInput
-                    label="Email Address"
-                    type="email"
-                    placeholder={
-                        isPartner
-                            ? "host@example.com (for booking inquiries)"
-                            : "alex.tan@example.com (for booking confirmations)"
-                    }
-                    error={errors.email?.message}
-                    required
-                    autoComplete="email"
-                    {...register("email")}
-                />
-
-                <AuthInput
-                    label="Phone Number (Optional)"
-                    type="tel"
-                    placeholder="e.g. +880 1712-345678"
-                    error={errors.phone?.message}
-                    autoComplete="tel"
-                    {...register("phone")}
-                />
-
-                {/* Optional Referral Code */}
-                <div className="space-y-1">
-                    <AuthInput
-                        label="Referral Code (Optional)"
-                        type="text"
-                        placeholder="e.g. FB8K2026"
-                        icon={Gift}
-                        autoCapitalize="characters"
-                        error={errors.referralCode?.message}
-                        rightElement={
-                            referralCodeValue.trim() ? (
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-3" noValidate>
+                {/* ========================================================= */}
+                {/* STEP 1: IMAGE, NAME, EMAIL, PHONE                         */}
+                {/* ========================================================= */}
+                {currentStep === 1 && (
+                    <div className="space-y-3 animate-in fade-in duration-150">
+                        {/* Profile Photo Uploader */}
+                        <div className="flex flex-col items-center justify-center py-1 mb-1">
+                            <div className="relative group">
+                                <div
+                                    className={cn(
+                                        "relative size-20 rounded-full flex items-center justify-center overflow-hidden bg-surface-secondary shadow-2xs transition-colors",
+                                        imagePreview
+                                            ? "border-2 border-primary/50"
+                                            : "border-2 border-dashed border-border group-hover:border-primary"
+                                    )}
+                                >
+                                    {imagePreview ? (
+                                        <Image
+                                            src={imagePreview}
+                                            alt="Profile Preview"
+                                            fill
+                                            sizes="80px"
+                                            unoptimized
+                                            className="object-cover rounded-full"
+                                        />
+                                    ) : (
+                                        <User className="size-8 text-text-secondary" />
+                                    )}
+                                </div>
                                 <button
                                     type="button"
-                                    onClick={handleCheckReferral}
+                                    onClick={() => fileInputRef.current?.click()}
+                                    className="cursor-pointer absolute -bottom-1 -right-1 size-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-xs hover:bg-primary-hover transition-colors ring-2 ring-background z-10"
+                                    title="Upload photo"
+                                >
+                                    <Camera className="size-3.5" />
+                                </button>
+                            </div>
+
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="hidden"
+                            />
+
+                            <div className="flex items-center gap-2 mt-2">
+                                <button
+                                    type="button"
+                                    onClick={() => fileInputRef.current?.click()}
                                     className="text-[11px] font-semibold text-primary hover:underline cursor-pointer"
                                 >
-                                    Validate
+                                    {imagePreview ? "Change Photo" : "Upload Photo (Optional)"}
                                 </button>
-                            ) : null
-                        }
-                        {...register("referralCode")}
-                    />
-                    {referralStatus && (
-                        <p
-                            className={cn(
-                                "text-[11px] font-medium px-1",
-                                referrerInfo ? "text-primary" : "text-destructive"
+                                {imagePreview && (
+                                    <>
+                                        <span className="text-text-secondary text-xs">•</span>
+                                        <button
+                                            type="button"
+                                            onClick={handleRemoveImage}
+                                            className="text-[11px] font-semibold text-destructive hover:underline cursor-pointer inline-flex items-center gap-0.5"
+                                        >
+                                            <Trash2 className="size-3" />
+                                            <span>Remove</span>
+                                        </button>
+                                    </>
+                                )}
+                            </div>
+                            {errors.profileImage && (
+                                <p className="text-xs text-destructive mt-1">{errors.profileImage.message}</p>
                             )}
-                        >
-                            {referralStatus}
-                        </p>
-                    )}
-                </div>
+                        </div>
 
-                <div className="space-y-1">
-                    <AuthInput
-                        label="Password"
-                        type="password"
-                        placeholder="Min. 8 characters with at least 1 number"
-                        error={errors.password?.message}
-                        required
-                        autoComplete="new-password"
-                        {...register("password")}
-                    />
+                        {/* Full Name */}
+                        <AuthInput
+                            label="Full Name"
+                            type="text"
+                            placeholder="e.g. Appon Islam"
+                            icon={User}
+                            error={errors.name?.message}
+                            required
+                            autoComplete="name"
+                            {...register("name")}
+                        />
 
-                    {passwordValue && (
-                        <div className="pt-0.5">
-                            <div className="grid grid-cols-4 gap-1 h-1">
-                                {[1, 2, 3, 4].map((step) => (
-                                    <div
-                                        key={step}
-                                        className={cn(
-                                            "rounded-full h-full transition-colors",
-                                            passwordScore >= step
-                                                ? passwordScore <= 1
-                                                    ? "bg-destructive"
-                                                    : passwordScore === 2
-                                                    ? "bg-warning"
-                                                    : "bg-success"
-                                                : "bg-border"
-                                        )}
-                                    />
-                                ))}
+                        {/* Email Address */}
+                        <AuthInput
+                            label="Email Address"
+                            type="email"
+                            placeholder="e.g. appon@example.com"
+                            icon={Mail}
+                            error={errors.email?.message}
+                            required
+                            autoComplete="email"
+                            {...register("email")}
+                        />
+
+                        {/* Phone Number */}
+                        <AuthInput
+                            label="Phone Number"
+                            type="tel"
+                            placeholder="e.g. +1 555-0199"
+                            icon={Phone}
+                            error={errors.phone?.message}
+                            required
+                            autoComplete="tel"
+                            {...register("phone")}
+                        />
+
+                        {/* Step 1 Next Button */}
+                        <div className="pt-2">
+                            <AuthButton
+                                type="button"
+                                onClick={handleGoToStep2}
+                                icon={<ArrowRight className="size-3.5" />}
+                            >
+                                Continue
+                            </AuthButton>
+                        </div>
+                    </div>
+                )}
+
+                {/* ========================================================= */}
+                {/* STEP 2: ADDRESS & REFERRAL                                */}
+                {/* ========================================================= */}
+                {currentStep === 2 && (
+                    <div className="space-y-3 animate-in fade-in duration-150">
+                        {/* Street / Road Address */}
+                        <AuthInput
+                            label="Street / Road / Area Address"
+                            type="text"
+                            placeholder="e.g. 123 Main St, Apt 4B"
+                            icon={MapPin}
+                            error={errors.street?.message}
+                            required
+                            autoComplete="street-address"
+                            {...register("street")}
+                        />
+
+                        {/* City & State / Division Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <AuthInput
+                                label="City"
+                                type="text"
+                                placeholder="e.g. New York"
+                                icon={Building}
+                                error={errors.city?.message}
+                                required
+                                autoComplete="address-level2"
+                                {...register("city")}
+                            />
+                            <AuthInput
+                                label="State / Province / Division (Optional)"
+                                type="text"
+                                placeholder="e.g. NY"
+                                error={errors.state?.message}
+                                autoComplete="address-level1"
+                                {...register("state")}
+                            />
+                        </div>
+
+                        {/* Postal Code & Country Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <AuthInput
+                                label="Postal / Zip Code (Optional)"
+                                type="text"
+                                placeholder="e.g. 10001"
+                                error={errors.zipCode?.message}
+                                autoComplete="postal-code"
+                                {...register("zipCode")}
+                            />
+                            <AuthInput
+                                label="Country"
+                                type="text"
+                                placeholder="Enter country"
+                                error={errors.country?.message}
+                                required
+                                autoComplete="country-name"
+                                {...register("country")}
+                            />
+                        </div>
+
+                        {/* Optional Referral Code */}
+                        <div className="space-y-1 pt-0.5">
+                            <AuthInput
+                                label="Referral Code (Optional)"
+                                type="text"
+                                placeholder="e.g. FB8K2026"
+                                icon={Gift}
+                                autoCapitalize="characters"
+                                error={errors.referralCode?.message}
+                                rightElement={
+                                    referralCodeValue.trim() ? (
+                                        <button
+                                            type="button"
+                                            onClick={handleCheckReferral}
+                                            disabled={isValidatingReferral}
+                                            className="text-[11px] font-semibold text-primary hover:underline cursor-pointer disabled:opacity-50"
+                                        >
+                                            {isValidatingReferral ? "Checking..." : "Validate"}
+                                        </button>
+                                    ) : null
+                                }
+                                {...register("referralCode")}
+                            />
+                            {referralStatus && (
+                                <p
+                                    className={cn(
+                                        "text-[11px] font-medium px-1",
+                                        referrerInfo ? "text-primary" : "text-destructive"
+                                    )}
+                                >
+                                    {referralStatus}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Step 2 Buttons */}
+                        <div className="flex items-center gap-2 pt-2">
+                            <button
+                                type="button"
+                                onClick={() => setCurrentStep(1)}
+                                className="cursor-pointer inline-flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl border border-border bg-surface text-foreground text-xs font-semibold hover:bg-surface-secondary transition-colors"
+                            >
+                                <ArrowLeft className="size-3.5" />
+                                <span>Back</span>
+                            </button>
+                            <div className="flex-1">
+                                <AuthButton
+                                    type="button"
+                                    onClick={handleGoToStep3}
+                                    icon={<ArrowRight className="size-3.5" />}
+                                >
+                                    Continue
+                                </AuthButton>
                             </div>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
 
-                <div className="pt-0.5">
-                    <AuthCheckbox
-                        id="agree-terms"
-                        checked={Boolean(agreeToTermsValue)}
-                        onChange={(checked) => setValue("agreeToTerms", checked, { shouldValidate: true })}
-                        error={errors.agreeToTerms?.message}
-                        label={
-                            <span>
-                                I accept the{" "}
-                                <Link
-                                    href="/terms"
-                                    target="_blank"
-                                    className="font-medium text-primary hover:underline"
-                                >
-                                    Terms of Service
-                                </Link>{" "}
-                                and acknowledge the{" "}
-                                <Link
-                                    href="/privacy"
-                                    target="_blank"
-                                    className="font-medium text-primary hover:underline"
-                                >
-                                    Privacy Policy
-                                </Link>
-                                .
-                            </span>
-                        }
-                    />
-                </div>
+                {/* ========================================================= */}
+                {/* STEP 3: PASSWORD & TERMS                                  */}
+                {/* ========================================================= */}
+                {currentStep === 3 && (
+                    <div className="space-y-3 animate-in fade-in duration-150">
+                        {/* Password */}
+                        <div className="space-y-1">
+                            <AuthInput
+                                label="Create Password"
+                                type="password"
+                                placeholder="Min. 8 characters with at least 1 number"
+                                icon={Lock}
+                                error={errors.password?.message}
+                                required
+                                autoComplete="new-password"
+                                {...register("password")}
+                            />
 
-                <div className="pt-1.5">
-                    <AuthButton
-                        type="submit"
-                        isLoading={isSubmitting}
-                        icon={<ArrowRight className="size-3.5" />}
-                    >
-                        {isPartner ? "Complete Host Registration" : "Create Account"}
-                    </AuthButton>
-                </div>
+                            {/* Live Password Strength Meter */}
+                            {passwordValue && (
+                                <div className="pt-0.5">
+                                    <div className="grid grid-cols-4 gap-1 h-1">
+                                        {[1, 2, 3, 4].map((step) => (
+                                            <div
+                                                key={step}
+                                                className={cn(
+                                                    "rounded-full h-full transition-colors",
+                                                    passwordScore >= step
+                                                        ? passwordScore <= 1
+                                                            ? "bg-destructive"
+                                                            : passwordScore === 2
+                                                            ? "bg-warning"
+                                                            : "bg-success"
+                                                        : "bg-border"
+                                                )}
+                                            />
+                                        ))}
+                                    </div>
+                                    <p className="text-[10px] text-text-secondary mt-1">
+                                        {passwordScore <= 1
+                                            ? "Weak password"
+                                            : passwordScore === 2
+                                            ? "Medium strength"
+                                            : passwordScore === 3
+                                            ? "Strong password"
+                                            : "Very strong password"}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Confirm Password */}
+                        <AuthInput
+                            label="Confirm Password"
+                            type="password"
+                            placeholder="Re-type your password"
+                            icon={Lock}
+                            error={errors.confirmPassword?.message}
+                            required
+                            autoComplete="new-password"
+                            {...register("confirmPassword")}
+                        />
+
+                        {/* Terms of Service Checkbox */}
+                        <div className="pt-1">
+                            <AuthCheckbox
+                                id="agree-terms"
+                                checked={Boolean(agreeToTermsValue)}
+                                onChange={(checked) =>
+                                    setValue("agreeToTerms", checked, { shouldValidate: true })
+                                }
+                                error={errors.agreeToTerms?.message}
+                                label={
+                                    <span>
+                                        I accept the{" "}
+                                        <Link
+                                            href="/terms"
+                                            target="_blank"
+                                            className="font-medium text-primary hover:underline"
+                                        >
+                                            Terms of Service
+                                        </Link>{" "}
+                                        and acknowledge the{" "}
+                                        <Link
+                                            href="/privacy"
+                                            target="_blank"
+                                            className="font-medium text-primary hover:underline"
+                                        >
+                                            Privacy Policy
+                                        </Link>
+                                        .
+                                    </span>
+                                }
+                            />
+                        </div>
+
+                        {/* Step 3 Buttons */}
+                        <div className="flex items-center gap-2 pt-2">
+                            <button
+                                type="button"
+                                onClick={() => setCurrentStep(2)}
+                                className="cursor-pointer inline-flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl border border-border bg-surface text-foreground text-xs font-semibold hover:bg-surface-secondary transition-colors"
+                            >
+                                <ArrowLeft className="size-3.5" />
+                                <span>Back</span>
+                            </button>
+                            <div className="flex-1">
+                                <AuthButton
+                                    type="submit"
+                                    isLoading={isSubmitting}
+                                    icon={<ArrowRight className="size-3.5" />}
+                                >
+                                    Create Account
+                                </AuthButton>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </form>
 
             <div className="pt-3 border-t border-border mt-4">

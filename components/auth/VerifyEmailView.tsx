@@ -3,32 +3,12 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { CheckCircle2, AlertCircle, RefreshCw, ArrowRight, ShieldCheck, Mail } from "lucide-react";
+import { CheckCircle2, AlertCircle, RefreshCw, ArrowRight, Mail, Edit2 } from "lucide-react";
 import AuthHeader from "./AuthHeader";
-import AuthInput from "./AuthInput";
 import AuthButton from "./AuthButton";
+import OtpInput from "./OtpInput";
 import { cn } from "@/lib/utils";
 import { useLazyVerifyEmailQuery, useResendVerificationEmailMutation } from "@/redux/features/auth/authApi";
-
-// Zod Schema for Manual Email Verification
-const verifyEmailSchema = z.object({
-    email: z
-        .string()
-        .trim()
-        .min(1, "Email address is required")
-        .email("Enter a valid email address"),
-    otp: z
-        .string()
-        .trim()
-        .min(6, "Verification code must be 6 digits")
-        .max(6, "Verification code must be 6 digits")
-        .regex(/^\d{6}$/, "Must be a 6-digit number"),
-});
-
-type VerifyEmailFormData = z.infer<typeof verifyEmailSchema>;
 
 export const VerifyEmailView = () => {
     const searchParams = useSearchParams();
@@ -39,28 +19,17 @@ export const VerifyEmailView = () => {
     const [triggerVerifyEmail, { isFetching }] = useLazyVerifyEmailQuery();
     const [resendVerificationEmail, { isLoading: isResending }] = useResendVerificationEmailMutation();
 
+    const [email, setEmail] = useState(urlEmail);
+    const [isEditingEmail, setIsEditingEmail] = useState(!urlEmail);
+    const [otp, setOtp] = useState(urlOtp || "");
+
     const [status, setStatus] = useState<"IDLE" | "VERIFYING" | "SUCCESS" | "ERROR">(
-        urlEmail && (urlToken || urlOtp) ? "VERIFYING" : "IDLE"
+        urlEmail && urlToken ? "VERIFYING" : "IDLE"
     );
     const [errorMessage, setErrorMessage] = useState("");
     const [infoMessage, setInfoMessage] = useState("");
     const [countdown, setCountdown] = useState(0);
     const autoVerifiedRef = useRef(false);
-
-    const {
-        register,
-        handleSubmit,
-        getValues,
-        setValue,
-        formState: { errors },
-    } = useForm<VerifyEmailFormData>({
-        resolver: zodResolver(verifyEmailSchema),
-        defaultValues: {
-            email: urlEmail,
-            otp: urlOtp,
-        },
-        mode: "onTouched",
-    });
 
     // Cooldown countdown timer
     useEffect(() => {
@@ -71,26 +40,30 @@ export const VerifyEmailView = () => {
         return () => clearTimeout(timer);
     }, [countdown]);
 
-    // Keep form values in sync if URL query parameters change
-    useEffect(() => {
-        if (urlEmail) setValue("email", urlEmail);
-        if (urlOtp) setValue("otp", urlOtp);
-    }, [urlEmail, urlOtp, setValue]);
+
 
     const executeVerification = useCallback(
         async (targetEmail: string, tokenVal?: string, otpVal?: string) => {
-            if (!targetEmail.trim()) {
+            const cleanEmail = targetEmail.trim().toLowerCase();
+            if (!cleanEmail) {
                 setStatus("ERROR");
                 setErrorMessage("Email address is required.");
                 return;
             }
 
+            if (!tokenVal && (!otpVal || otpVal.length !== 6)) {
+                setStatus("ERROR");
+                setErrorMessage("Please enter all 6 digits of the verification code.");
+                return;
+            }
+
             setStatus("VERIFYING");
             setErrorMessage("");
+            setInfoMessage("");
 
             try {
                 await triggerVerifyEmail({
-                    email: targetEmail.trim().toLowerCase(),
+                    email: cleanEmail,
                     token: tokenVal || undefined,
                     otp: otpVal || undefined,
                 }).unwrap();
@@ -102,16 +75,16 @@ export const VerifyEmailView = () => {
                 setErrorMessage(
                     apiError?.data?.message ||
                     apiError?.error ||
-                    "Invalid or expired verification link. Please request a new one."
+                    "Invalid or expired verification code. Please check and try again."
                 );
             }
         },
         [triggerVerifyEmail]
     );
 
-    // Auto-verify if token & email are provided in URL query parameters
+    // Auto-verify if full link token & email are provided in URL query parameters
     useEffect(() => {
-        if (!urlEmail || (!urlToken && !urlOtp) || autoVerifiedRef.current) return;
+        if (!urlEmail || !urlToken || autoVerifiedRef.current) return;
         autoVerifiedRef.current = true;
 
         let isMounted = true;
@@ -119,8 +92,7 @@ export const VerifyEmailView = () => {
             try {
                 await triggerVerifyEmail({
                     email: urlEmail.trim().toLowerCase(),
-                    token: urlToken || undefined,
-                    otp: urlOtp || undefined,
+                    token: urlToken,
                 }).unwrap();
                 if (isMounted) setStatus("SUCCESS");
             } catch (err: unknown) {
@@ -130,7 +102,7 @@ export const VerifyEmailView = () => {
                     setErrorMessage(
                         apiError?.data?.message ||
                         apiError?.error ||
-                        "Invalid or expired verification link. Please request a new one."
+                        "Invalid or expired verification link. Please enter your 6-digit code."
                     );
                 }
             }
@@ -139,22 +111,21 @@ export const VerifyEmailView = () => {
         return () => {
             isMounted = false;
         };
-    }, [urlEmail, urlToken, urlOtp, triggerVerifyEmail]);
+    }, [urlEmail, urlToken, triggerVerifyEmail]);
 
-    // Handle manual form submission validated through Zod
-    const onSubmit = async (data: VerifyEmailFormData) => {
-        setErrorMessage("");
-        setInfoMessage("");
-        await executeVerification(data.email, urlToken || undefined, data.otp);
+    // Handle manual verify button click
+    const handleManualVerify = async (e?: React.FormEvent) => {
+        if (e) e.preventDefault();
+        await executeVerification(email, urlToken || undefined, otp);
     };
 
     // Handle resending verification code
     const handleResend = async () => {
         if (countdown > 0 || isResending) return;
 
-        const currentEmail = getValues("email")?.trim().toLowerCase();
-        if (!currentEmail || !/^\S+@\S+\.\S+$/.test(currentEmail)) {
-            setErrorMessage("Please enter a valid email to resend verification.");
+        const cleanEmail = email.trim().toLowerCase();
+        if (!cleanEmail || !/^\S+@\S+\.\S+$/.test(cleanEmail)) {
+            setErrorMessage("Please enter a valid email address to resend verification.");
             return;
         }
 
@@ -162,9 +133,9 @@ export const VerifyEmailView = () => {
         setInfoMessage("");
 
         try {
-            await resendVerificationEmail({ email: currentEmail }).unwrap();
+            await resendVerificationEmail({ email: cleanEmail }).unwrap();
             setCountdown(60);
-            setInfoMessage("A fresh verification code and link have been dispatched to your inbox.");
+            setInfoMessage("A fresh 6-digit code has been sent to your email.");
         } catch (err: unknown) {
             const apiError = err as { data?: { message?: string }; error?: string };
             setErrorMessage(apiError?.data?.message || apiError?.error || "Please wait before resending.");
@@ -177,12 +148,12 @@ export const VerifyEmailView = () => {
     if (status === "SUCCESS") {
         return (
             <div className="w-full text-center space-y-5 animate-in fade-in duration-200">
-                <div className="size-14 mx-auto rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                <div className="size-14 mx-auto rounded-full bg-primary/10 flex items-center justify-center text-primary shadow-xs">
                     <CheckCircle2 className="size-8" />
                 </div>
 
                 <div className="space-y-1.5">
-                    <h1 className="text-xl font-bold text-foreground">Email Verified!</h1>
+                    <h1 className="text-xl sm:text-2xl font-bold text-foreground">Email Verified!</h1>
                     <p className="text-sm text-text-secondary leading-relaxed max-w-sm mx-auto">
                         Your account has been fully verified and activated. You can now access all features on FindBookStay.
                     </p>
@@ -202,9 +173,9 @@ export const VerifyEmailView = () => {
     }
 
     // -------------------------------------------------------------------------
-    // VERIFYING IN PROGRESS
+    // VERIFYING IN PROGRESS (Automated Token Link)
     // -------------------------------------------------------------------------
-    if (status === "VERIFYING" || isFetching) {
+    if (status === "VERIFYING" && isFetching && urlToken) {
         return (
             <div className="w-full text-center space-y-4 py-8 animate-in fade-in duration-200">
                 <div className="size-12 mx-auto rounded-full bg-surface-secondary flex items-center justify-center text-primary animate-spin">
@@ -219,54 +190,78 @@ export const VerifyEmailView = () => {
     }
 
     // -------------------------------------------------------------------------
-    // FORM WITH REACT-HOOK-FORM + ZOD VALIDATION
+    // 6-BOX OTP VERIFICATION FORM
     // -------------------------------------------------------------------------
     return (
         <div className="w-full animate-in fade-in duration-150">
             <AuthHeader
                 category="Account Verification"
-                title="Verify your email"
-                subtitle="Enter your email and the 6-digit verification code sent to your inbox."
+                title="Verify Your Email"
+                subtitle="Enter the 6-digit verification code sent to your inbox."
             />
 
+            {/* Email display / edit box */}
+            <div className="mb-4 p-3 rounded-xl bg-surface-secondary border border-border flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 min-w-0">
+                    <Mail className="size-4 text-text-secondary shrink-0" />
+                    {isEditingEmail ? (
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Enter your registered email"
+                            className="bg-transparent border-b border-primary/50 text-foreground font-medium outline-none text-xs w-full py-0.5"
+                            autoFocus
+                        />
+                    ) : (
+                        <div className="truncate">
+                            <span className="text-text-secondary">Code sent to: </span>
+                            <span className="font-semibold text-foreground">{email || "your email"}</span>
+                        </div>
+                    )}
+                </div>
+                <button
+                    type="button"
+                    onClick={() => setIsEditingEmail((prev) => !prev)}
+                    className="text-[11px] font-semibold text-primary hover:underline cursor-pointer shrink-0 ml-2 inline-flex items-center gap-1"
+                >
+                    <Edit2 className="size-3" />
+                    <span>{isEditingEmail ? "Done" : "Change"}</span>
+                </button>
+            </div>
+
             {infoMessage && (
-                <div className="mb-3 p-2.5 rounded-lg bg-primary/10 border border-primary/20 text-xs text-primary font-medium">
+                <div className="mb-3 p-2.5 rounded-lg bg-primary/10 border border-primary/20 text-xs text-primary font-medium animate-in fade-in duration-150">
                     {infoMessage}
                 </div>
             )}
 
             {errorMessage && (
-                <div className="mb-3 p-2.5 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium flex items-start gap-2">
+                <div className="mb-3 p-2.5 rounded-lg bg-destructive/10 border border-destructive/20 text-xs text-destructive font-medium flex items-start gap-2 animate-in fade-in duration-150">
                     <AlertCircle className="size-4 shrink-0 mt-0.5" />
                     <span>{errorMessage}</span>
                 </div>
             )}
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-3" noValidate>
-                <AuthInput
-                    label="Account Email"
-                    type="email"
-                    placeholder="Enter your registered email"
-                    icon={Mail}
-                    error={errors.email?.message}
-                    required
-                    autoComplete="email"
-                    {...register("email")}
-                />
+            <form onSubmit={handleManualVerify} className="space-y-4" noValidate>
+                {/* 6 Same-Size OTP Boxes */}
+                <div className="space-y-2">
+                    <label className="block text-center text-xs font-semibold text-text-secondary">
+                        6-Digit Security Code
+                    </label>
+                    <OtpInput
+                        value={otp}
+                        onChange={(val) => {
+                            setOtp(val);
+                            if (errorMessage) setErrorMessage("");
+                        }}
+                        length={6}
+                        error={Boolean(errorMessage)}
+                        disabled={isFetching}
+                    />
+                </div>
 
-                <AuthInput
-                    label="6-Digit Verification Code"
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={6}
-                    placeholder="123456"
-                    icon={ShieldCheck}
-                    error={errors.otp?.message}
-                    required
-                    {...register("otp")}
-                />
-
-                <div className="flex items-center justify-between text-xs pt-0.5">
+                <div className="flex items-center justify-between text-xs pt-1">
                     <span className="text-text-secondary">Didn&apos;t receive the code?</span>
                     <button
                         type="button"
@@ -279,15 +274,16 @@ export const VerifyEmailView = () => {
                                 : "text-primary hover:underline cursor-pointer"
                         )}
                     >
-                        <RefreshCw className={`size-3 ${isResending ? "animate-spin" : ""}`} />
+                        <RefreshCw className={cn("size-3", isResending && "animate-spin")} />
                         <span>{countdown > 0 ? `Resend in ${countdown}s` : "Resend code"}</span>
                     </button>
                 </div>
 
-                <div className="pt-1.5">
+                <div className="pt-2">
                     <AuthButton
                         type="submit"
                         isLoading={isFetching}
+                        disabled={otp.length !== 6 || !email.trim()}
                         icon={<ArrowRight className="size-3.5" />}
                     >
                         Verify Email
