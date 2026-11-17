@@ -49,4 +49,51 @@ export const getImageUrl = (
     return `${baseOrigin}/${normalizedPath}`;
 };
 
+/**
+ * Resizes and compresses an image File to a lightweight base64 JPEG
+ * to prevent payload-too-large errors when submitting to the server.
+ */
+export const compressImage = (
+    file: File,
+    maxWidth = 400,
+    maxHeight = 400,
+    quality = 0.82
+): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target?.result as string;
+            img.onload = () => {
+                let { width, height } = img;
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width = Math.round((width * maxHeight) / height);
+                        height = maxHeight;
+                    }
+                }
+                const canvas = document.createElement("canvas");
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext("2d");
+                if (!ctx) {
+                    resolve(event.target?.result as string);
+                    return;
+                }
+                ctx.drawImage(img, 0, 0, width, height);
+                const compressedBase64 = canvas.toDataURL("image/jpeg", quality);
+                resolve(compressedBase64);
+            };
+            img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
+    });
+};
+
 export default getImageUrl;
