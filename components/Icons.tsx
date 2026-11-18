@@ -2,6 +2,7 @@ import React from "react";
 import {
     ChevronDown,
     ChevronRight,
+    ChevronLeft,
     Menu,
     X,
     User,
@@ -12,6 +13,7 @@ import {
     LogOut,
     ArrowRight,
     ArrowLeft,
+    ArrowUp,
     CheckCircle2,
     HelpCircle,
     PhoneCall,
@@ -54,6 +56,14 @@ import {
     Maximize2,
     Lock,
     Headphones,
+    Check,
+    Filter,
+    LayoutGrid,
+    List,
+    RotateCcw,
+    Share2,
+    Wifi,
+    Car,
     type LucideIcon,
 } from "lucide-react";
 
@@ -149,6 +159,7 @@ export const PlayStore = GooglePlay;
 export {
     ChevronDown,
     ChevronRight,
+    ChevronLeft,
     Menu,
     X,
     User,
@@ -159,6 +170,7 @@ export {
     LogOut,
     ArrowRight,
     ArrowLeft,
+    ArrowUp,
     CheckCircle2,
     HelpCircle,
     PhoneCall,
@@ -201,6 +213,14 @@ export {
     Maximize2,
     Lock,
     Headphones,
+    Check,
+    Filter,
+    LayoutGrid,
+    List,
+    RotateCcw,
+    Share2,
+    Wifi,
+    Car,
 };
 
 export const Icons = {

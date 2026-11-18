@@ -51,50 +51,49 @@ const FloatingPostButton = () => {
             ref={menuRef}
             className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 select-none pointer-events-none"
         >
-            {/* 4 Floating Service Buttons (NO CARD, WITH HOVER INFO PILL ON LEFT) */}
-            <div
-                className={`flex flex-col items-end gap-2.5 transition-all duration-300 ${
-                    isOpen
-                        ? "opacity-100 translate-y-0 pointer-events-auto visible"
-                        : "opacity-0 translate-y-4 pointer-events-none invisible h-0 overflow-hidden"
-                }`}
-                aria-hidden={!isOpen}
-            >
-                {SERVICES.map((service, index) => {
-                    const ServiceIcon = service.icon;
-                    return (
-                        <Link
-                            key={service.id}
-                            href={service.href}
-                            onClick={() => setIsOpen(false)}
-                            style={{
-                                transitionDelay: isOpen ? `${index * 35}ms` : "0ms",
-                            }}
-                            className="cursor-pointer group relative flex items-center gap-3 pl-4.5 pr-2.5 py-2.5 rounded-full bg-white border border-[#E2EAE6] text-[#073B35] shadow-lg hover:shadow-xl hover:border-[#10B981] hover:bg-[#F0F5F3] hover:scale-105 active:scale-95 transition-all duration-200"
-                        >
-                            {/* Floating Hover Info Pill (Appears to the left on hover) */}
-                            <div className="pointer-events-none absolute right-full mr-3 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-2 whitespace-nowrap px-3.5 py-1.5 rounded-full bg-[#073B35] text-white text-xs shadow-xl opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-                                <span className="font-bold text-[#34D399] uppercase tracking-wider text-[10px]">
-                                    {service.tagline}
-                                </span>
-                                <span className="text-white/40">&middot;</span>
-                                <span className="text-white/95 font-medium">
-                                    {service.info}
-                                </span>
-                                {/* Small right arrow pointer towards the button */}
-                                <span className="absolute top-1/2 -translate-y-1/2 left-full border-4 border-transparent border-l-[#073B35]" />
-                            </div>
+            {/* 4 Floating Service Buttons (Only rendered when open to prevent taking any layout space or blocking clicks) */}
+            {isOpen && (
+                <div
+                    className="flex flex-col items-end gap-2.5 pointer-events-auto animate-in fade-in slide-in-from-bottom-3 duration-200"
+                    role="menu"
+                    aria-label="Listing options"
+                >
+                    {SERVICES.map((service, index) => {
+                        const ServiceIcon = service.icon;
+                        return (
+                            <Link
+                                key={service.id}
+                                href={service.href}
+                                onClick={() => setIsOpen(false)}
+                                style={{
+                                    animationDelay: `${index * 40}ms`,
+                                }}
+                                className="cursor-pointer group relative flex items-center gap-3 pl-4.5 pr-2.5 py-2.5 rounded-full bg-white border border-[#E2EAE6] text-[#073B35] shadow-lg hover:shadow-xl hover:border-[#10B981] hover:bg-[#F0F5F3] hover:scale-105 active:scale-95 transition-all duration-200"
+                            >
+                                {/* Floating Hover Info Pill (Appears to the left on hover) */}
+                                <div className="pointer-events-none absolute right-full mr-3 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-2 whitespace-nowrap px-3.5 py-1.5 rounded-full bg-[#073B35] text-white text-xs shadow-xl opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+                                    <span className="font-bold text-[#34D399] uppercase tracking-wider text-[10px]">
+                                        {service.tagline}
+                                    </span>
+                                    <span className="text-white/40">&middot;</span>
+                                    <span className="text-white/95 font-medium">
+                                        {service.info}
+                                    </span>
+                                    {/* Small right arrow pointer towards the button */}
+                                    <span className="absolute top-1/2 -translate-y-1/2 left-full border-4 border-transparent border-l-[#073B35]" />
+                                </div>
 
-                            <span className="text-xs sm:text-[13px] font-bold tracking-wide whitespace-nowrap">
-                                {service.label}
-                            </span>
-                            <div className="size-8 rounded-full bg-[#F0F5F3] group-hover:bg-[#10B981] group-hover:text-white text-[#10B981] flex items-center justify-center transition-colors shrink-0">
-                                <ServiceIcon className="size-4" />
-                            </div>
-                        </Link>
-                    );
-                })}
-            </div>
+                                <span className="text-xs sm:text-[13px] font-bold tracking-wide whitespace-nowrap">
+                                    {service.label}
+                                </span>
+                                <div className="size-8 rounded-full bg-[#F0F5F3] group-hover:bg-[#10B981] group-hover:text-white text-[#10B981] flex items-center justify-center transition-colors shrink-0">
+                                    <ServiceIcon className="size-4" />
+                                </div>
+                            </Link>
+                        );
+                    })}
+                </div>
+            )}
 
             {/* Main Floating Trigger Button */}
             <button
