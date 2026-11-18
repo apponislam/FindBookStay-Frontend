@@ -3,7 +3,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Home, Hotel, Trophy, Building2, ArrowRight, ArrowLeft, Sparkles, CheckCircle2 } from "lucide-react";
+import {
+    Home,
+    Hotel,
+    Trophy,
+    Building2,
+    ArrowRight,
+    ArrowLeft,
+    Sparkles,
+    CheckCircle2,
+} from "@/components/Icons";
 
 export interface BannerSlide {
     id: string;

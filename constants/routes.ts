@@ -107,7 +107,7 @@ export const CATEGORIES: CategoryMenu[] = [
     },
     {
         id: "sports",
-        label: "Sports & Activities",
+        label: "Sports",
         href: "/sports",
         items: [
             {

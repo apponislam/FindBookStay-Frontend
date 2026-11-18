@@ -47,6 +47,13 @@ import {
     CreditCard,
     Zap,
     Send,
+    Calendar,
+    DollarSign,
+    Bed,
+    Bath,
+    Maximize2,
+    Lock,
+    Headphones,
     type LucideIcon,
 } from "lucide-react";
 
@@ -187,6 +194,13 @@ export {
     CreditCard,
     Zap,
     Send,
+    Calendar,
+    DollarSign,
+    Bed,
+    Bath,
+    Maximize2,
+    Lock,
+    Headphones,
 };
 
 export const Icons = {
