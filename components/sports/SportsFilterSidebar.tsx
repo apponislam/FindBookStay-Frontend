@@ -1,13 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-    RotateCcw,
-    ShieldCheck,
-    Check,
-    X,
-    Clock,
-} from "@/components/Icons";
+import { RotateCcw, ShieldCheck, Check, X, Clock } from "@/components/Icons";
 import { SportsCategory, SportsFiltersState, TimeSlot } from "./types";
 import { SPORTS_AMENITY_OPTIONS } from "./sportsData";
 
@@ -47,72 +41,33 @@ const PRICE_PRESETS = [
     { label: "৳5k+", min: 5000, max: null },
 ];
 
-const SURFACE_OPTIONS = [
-    "all",
-    "FIFA Artificial Grass",
-    "Natural Grass",
-    "Synthetic Wooden Court",
-    "Olympic Acrylic",
-    "Clay Court",
-];
+const SURFACE_OPTIONS = ["all", "FIFA Artificial Grass", "Natural Grass", "Synthetic Wooden Court", "Olympic Acrylic", "Clay Court"];
 
-export const SportsFilterSidebar = ({
-    filters,
-    onChange,
-    onReset,
-    categoryCounts,
-    totalVenues,
-    isMobileDrawer = false,
-    onCloseMobileDrawer,
-}: SportsFilterSidebarProps) => {
+export const SportsFilterSidebar = ({ filters, onChange, onReset, categoryCounts, totalVenues, isMobileDrawer = false, onCloseMobileDrawer }: SportsFilterSidebarProps) => {
     const handleAmenityToggle = (amenity: string) => {
-        const next = filters.amenities.includes(amenity)
-            ? filters.amenities.filter((a) => a !== amenity)
-            : [...filters.amenities, amenity];
+        const next = filters.amenities.includes(amenity) ? filters.amenities.filter((a) => a !== amenity) : [...filters.amenities, amenity];
         onChange({ amenities: next });
     };
 
-    const hasActiveFilters =
-        filters.category !== "all" ||
-        filters.slot !== "any" ||
-        filters.surface !== "all" ||
-        filters.minPrice !== null ||
-        filters.maxPrice !== null ||
-        filters.amenities.length > 0 ||
-        filters.verifiedOnly ||
-        filters.search.trim().length > 0;
+    const hasActiveFilters = filters.category !== "all" || filters.slot !== "any" || filters.surface !== "all" || filters.minPrice !== null || filters.maxPrice !== null || filters.amenities.length > 0 || filters.verifiedOnly || filters.search.trim().length > 0;
 
     return (
-        <aside
-            className={`bg-white rounded-2xl border border-border p-5 space-y-6 ${
-                isMobileDrawer ? "shadow-none border-none p-4" : "shadow-xs"
-            }`}
-        >
+        <aside className={`bg-white rounded-2xl border border-border p-5 space-y-6 ${isMobileDrawer ? "shadow-none border-none p-4" : "shadow-xs"}`}>
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b border-border">
                 <div className="flex items-center gap-2">
                     <span className="font-bold text-base text-foreground">Filters</span>
-                    {hasActiveFilters && (
-                        <span className="size-2 rounded-full bg-primary animate-pulse" />
-                    )}
+                    {hasActiveFilters && <span className="size-2 rounded-full bg-primary animate-pulse" />}
                 </div>
                 <div className="flex items-center gap-2">
                     {hasActiveFilters && (
-                        <button
-                            type="button"
-                            onClick={onReset}
-                            className="text-xs font-semibold text-rose-600 hover:text-rose-700 flex items-center gap-1 cursor-pointer transition-colors"
-                        >
+                        <button type="button" onClick={onReset} className="text-xs font-semibold text-rose-600 hover:text-rose-700 flex items-center gap-1 cursor-pointer transition-colors">
                             <RotateCcw className="size-3" />
                             <span>Reset</span>
                         </button>
                     )}
                     {isMobileDrawer && onCloseMobileDrawer && (
-                        <button
-                            type="button"
-                            onClick={onCloseMobileDrawer}
-                            className="size-8 rounded-full bg-surface-secondary flex items-center justify-center text-foreground hover:bg-border transition-colors cursor-pointer"
-                        >
+                        <button type="button" onClick={onCloseMobileDrawer} className="size-8 rounded-full bg-surface-secondary flex items-center justify-center text-foreground hover:bg-border transition-colors cursor-pointer">
                             <X className="size-4" />
                         </button>
                     )}
@@ -128,20 +83,8 @@ export const SportsFilterSidebar = ({
                         <div className="text-[10px] text-text-secondary">Physical inspection done</div>
                     </div>
                 </div>
-                <button
-                    type="button"
-                    role="switch"
-                    aria-checked={filters.verifiedOnly}
-                    onClick={() => onChange({ verifiedOnly: !filters.verifiedOnly })}
-                    className={`relative w-10 h-6 rounded-full transition-colors cursor-pointer focus:outline-none ${
-                        filters.verifiedOnly ? "bg-primary" : "bg-zinc-300"
-                    }`}
-                >
-                    <span
-                        className={`absolute top-1 left-1 size-4 rounded-full bg-white transition-transform ${
-                            filters.verifiedOnly ? "translate-x-4" : "translate-x-0"
-                        }`}
-                    />
+                <button type="button" role="switch" aria-checked={filters.verifiedOnly} onClick={() => onChange({ verifiedOnly: !filters.verifiedOnly })} className={`relative w-10 h-6 rounded-full transition-colors cursor-pointer focus:outline-none ${filters.verifiedOnly ? "bg-primary" : "bg-zinc-300"}`}>
+                    <span className={`absolute top-1 left-1 size-4 rounded-full bg-white transition-transform ${filters.verifiedOnly ? "translate-x-4" : "translate-x-0"}`} />
                 </button>
             </div>
 
@@ -155,16 +98,7 @@ export const SportsFilterSidebar = ({
                     {SLOT_PRESETS.map((slot) => {
                         const isSelected = filters.slot === slot.id;
                         return (
-                            <button
-                                key={slot.id}
-                                type="button"
-                                onClick={() => onChange({ slot: slot.id })}
-                                className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                                    isSelected
-                                        ? "border-primary bg-primary/10 text-primary font-bold shadow-xs"
-                                        : "border-border text-foreground hover:bg-surface-secondary"
-                                }`}
-                            >
+                            <button key={slot.id} type="button" onClick={() => onChange({ slot: slot.id })} className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${isSelected ? "border-primary bg-primary/10 text-primary font-bold shadow-xs" : "border-border text-foreground hover:bg-surface-secondary"}`}>
                                 <div className="text-xs font-bold">{slot.label}</div>
                                 <div className="text-[10px] text-text-secondary">{slot.time}</div>
                             </button>
@@ -175,34 +109,15 @@ export const SportsFilterSidebar = ({
 
             {/* Categories */}
             <div>
-                <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">
-                    Sports & Venue Type
-                </label>
+                <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">Sports & Venue Type</label>
                 <div className="space-y-1">
                     {CATEGORY_ITEMS.map((cat) => {
                         const isSelected = filters.category === cat.id;
                         const count = cat.id === "all" ? totalVenues : categoryCounts[cat.id] || 0;
                         return (
-                            <button
-                                key={cat.id}
-                                type="button"
-                                onClick={() => onChange({ category: cat.id })}
-                                className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition-colors cursor-pointer ${
-                                    isSelected
-                                        ? "bg-primary text-white font-bold shadow-xs"
-                                        : "text-foreground hover:bg-surface-secondary"
-                                }`}
-                            >
+                            <button key={cat.id} type="button" onClick={() => onChange({ category: cat.id })} className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition-colors cursor-pointer ${isSelected ? "bg-primary text-white font-bold shadow-xs" : "text-foreground hover:bg-surface-secondary"}`}>
                                 <span className="truncate">{cat.label}</span>
-                                <span
-                                    className={`text-[11px] px-2 py-0.5 rounded-full ${
-                                        isSelected
-                                            ? "bg-white/20 text-white"
-                                            : "bg-surface-secondary text-text-secondary"
-                                    }`}
-                                >
-                                    {count}
-                                </span>
+                                <span className={`text-[11px] px-2 py-0.5 rounded-full ${isSelected ? "bg-white/20 text-white" : "bg-surface-secondary text-text-secondary"}`}>{count}</span>
                             </button>
                         );
                     })}
@@ -211,28 +126,14 @@ export const SportsFilterSidebar = ({
 
             {/* Price Range */}
             <div>
-                <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">
-                    Hourly Budget
-                </label>
+                <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">Hourly Budget</label>
 
                 {/* Preset Brackets */}
                 <div className="grid grid-cols-2 gap-1.5 mb-3">
                     {PRICE_PRESETS.map((preset, idx) => {
-                        const isSelected =
-                            filters.minPrice === preset.min && filters.maxPrice === preset.max;
+                        const isSelected = filters.minPrice === preset.min && filters.maxPrice === preset.max;
                         return (
-                            <button
-                                key={idx}
-                                type="button"
-                                onClick={() =>
-                                    onChange({ minPrice: preset.min, maxPrice: preset.max })
-                                }
-                                className={`px-2.5 py-1.5 rounded-lg text-[11px] font-semibold border text-center transition-colors cursor-pointer ${
-                                    isSelected
-                                        ? "border-primary bg-primary/10 text-primary font-bold"
-                                        : "border-border text-foreground hover:bg-surface-secondary"
-                                }`}
-                            >
+                            <button key={idx} type="button" onClick={() => onChange({ minPrice: preset.min, maxPrice: preset.max })} className={`px-2.5 py-1.5 rounded-lg text-[11px] font-semibold border text-center transition-colors cursor-pointer ${isSelected ? "border-primary bg-primary/10 text-primary font-bold" : "border-border text-foreground hover:bg-surface-secondary"}`}>
                                 {preset.label}
                             </button>
                         );
@@ -275,23 +176,12 @@ export const SportsFilterSidebar = ({
 
             {/* Surface Type */}
             <div>
-                <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">
-                    Playing Surface
-                </label>
+                <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">Playing Surface</label>
                 <div className="space-y-1">
                     {SURFACE_OPTIONS.map((surf) => {
                         const isSelected = filters.surface === surf;
                         return (
-                            <button
-                                key={surf}
-                                type="button"
-                                onClick={() => onChange({ surface: surf })}
-                                className={`w-full text-left px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center justify-between border transition-colors cursor-pointer ${
-                                    isSelected
-                                        ? "border-primary bg-primary/10 text-primary font-bold"
-                                        : "border-border text-foreground hover:bg-surface-secondary"
-                                }`}
-                            >
+                            <button key={surf} type="button" onClick={() => onChange({ surface: surf })} className={`w-full text-left px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center justify-between border transition-colors cursor-pointer ${isSelected ? "border-primary bg-primary/10 text-primary font-bold" : "border-border text-foreground hover:bg-surface-secondary"}`}>
                                 <span>{surf === "all" ? "Any Playing Surface" : surf}</span>
                                 {isSelected && <Check className="size-3.5 text-primary" />}
                             </button>
@@ -302,30 +192,14 @@ export const SportsFilterSidebar = ({
 
             {/* Key Amenities */}
             <div>
-                <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">
-                    Arena Facilities
-                </label>
+                <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">Arena Facilities</label>
                 <div className="space-y-2">
                     {SPORTS_AMENITY_OPTIONS.map((amenity) => {
                         const isChecked = filters.amenities.includes(amenity);
                         return (
-                            <label
-                                key={amenity}
-                                onClick={() => handleAmenityToggle(amenity)}
-                                className="flex items-center gap-2.5 text-xs text-foreground cursor-pointer select-none group"
-                            >
-                                <div
-                                    className={`size-4 rounded-md border flex items-center justify-center transition-colors ${
-                                        isChecked
-                                            ? "border-primary bg-primary text-white"
-                                            : "border-border group-hover:border-primary/60 bg-white"
-                                    }`}
-                                >
-                                    {isChecked && <Check className="size-3" />}
-                                </div>
-                                <span className={isChecked ? "font-bold text-primary" : "font-medium"}>
-                                    {amenity}
-                                </span>
+                            <label key={amenity} onClick={() => handleAmenityToggle(amenity)} className="flex items-center gap-2.5 text-xs text-foreground cursor-pointer select-none group">
+                                <div className={`size-4 rounded-md border flex items-center justify-center transition-colors ${isChecked ? "border-primary bg-primary text-white" : "border-border group-hover:border-primary/60 bg-white"}`}>{isChecked && <Check className="size-3" />}</div>
+                                <span className={isChecked ? "font-bold text-primary" : "font-medium"}>{amenity}</span>
                             </label>
                         );
                     })}
@@ -335,11 +209,7 @@ export const SportsFilterSidebar = ({
             {/* Close Button on Mobile */}
             {isMobileDrawer && onCloseMobileDrawer && (
                 <div className="pt-4 border-t border-border">
-                    <button
-                        type="button"
-                        onClick={onCloseMobileDrawer}
-                        className="w-full py-3 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-colors cursor-pointer shadow-md"
-                    >
+                    <button type="button" onClick={onCloseMobileDrawer} className="w-full py-3 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-colors cursor-pointer shadow-md">
                         Show Arenas
                     </button>
                 </div>

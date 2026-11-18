@@ -1,11 +1,4 @@
-export type SportsCategory =
-    | "all"
-    | "turf-booking"
-    | "football-grounds"
-    | "indoor-sports"
-    | "swimming"
-    | "tournaments"
-    | "other-activities";
+export type SportsCategory = "all" | "turf-booking" | "football-grounds" | "indoor-sports" | "swimming" | "tournaments" | "other-activities";
 
 export type TimeSlot = "any" | "morning" | "afternoon" | "evening" | "night";
 
@@ -43,12 +36,7 @@ export interface SportsVenue {
     };
 }
 
-export type SportsSortOption =
-    | "recommended"
-    | "price-asc"
-    | "price-desc"
-    | "rating-desc"
-    | "popular";
+export type SportsSortOption = "recommended" | "price-asc" | "price-desc" | "rating-desc" | "popular";
 
 export interface SportsFiltersState {
     search: string;

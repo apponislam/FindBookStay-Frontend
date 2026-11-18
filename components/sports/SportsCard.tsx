@@ -436,3 +436,4 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
         </div>
     );
 };
+

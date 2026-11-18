@@ -2,11 +2,7 @@
 
 import React, { useState, useMemo, useCallback } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import {
-    RotateCcw,
-    X,
-    Trophy,
-} from "@/components/Icons";
+import { RotateCcw, X, Trophy } from "@/components/Icons";
 import { SportsCategory, SportsFiltersState, SportsVenue, SportsSortOption, TimeSlot } from "./types";
 import { SPORTS_VENUES } from "./sportsData";
 import { SportsHeroHeader } from "./SportsHeroHeader";
@@ -57,9 +53,7 @@ export const SportsListings = () => {
             minP = 5000;
         }
 
-        const queryAmenities = searchParams.get("amenities")
-            ? searchParams.get("amenities")!.split(",").filter(Boolean)
-            : [];
+        const queryAmenities = searchParams.get("amenities") ? searchParams.get("amenities")!.split(",").filter(Boolean) : [];
         const queryVerified = searchParams.get("verified") === "true";
         const querySort = (searchParams.get("sort") as SportsSortOption) || "recommended";
 
@@ -130,7 +124,7 @@ export const SportsListings = () => {
             const newUrl = queryString ? `${pathname}?${queryString}` : pathname;
             router.replace(newUrl, { scroll: false });
         },
-        [pathname, router]
+        [pathname, router],
     );
 
     const handleFilterChange = (updated: Partial<SportsFiltersState>) => {
@@ -228,9 +222,7 @@ export const SportsListings = () => {
 
             // Amenities Filter (venue must have all checked amenities)
             if (filters.amenities.length > 0) {
-                const hasAllAmenities = filters.amenities.every((a) =>
-                    venue.amenities.includes(a)
-                );
+                const hasAllAmenities = filters.amenities.every((a) => venue.amenities.includes(a));
                 if (!hasAllAmenities) return false;
             }
 
@@ -263,10 +255,7 @@ export const SportsListings = () => {
     // Pagination calculations
     const total = filteredVenues.length;
     const totalPages = Math.max(1, Math.ceil(total / pageSize));
-    const paginatedVenues = filteredVenues.slice(
-        (currentPage - 1) * pageSize,
-        currentPage * pageSize
-    );
+    const paginatedVenues = filteredVenues.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
     const paginationMeta = {
         page: currentPage,
@@ -280,31 +269,17 @@ export const SportsListings = () => {
     return (
         <div className="space-y-6">
             {/* Hero Header */}
-            <SportsHeroHeader
-                filters={filters}
-                onChange={handleFilterChange}
-                totalMatches={filteredVenues.length}
-                viewMode={viewMode}
-                onViewModeChange={handleViewModeChange}
-                onOpenMobileFilters={() => setMobileFiltersOpen(true)}
-                activeFiltersCount={activeFiltersCount}
-            />
+            <SportsHeroHeader filters={filters} onChange={handleFilterChange} totalMatches={filteredVenues.length} viewMode={viewMode} onViewModeChange={handleViewModeChange} onOpenMobileFilters={() => setMobileFiltersOpen(true)} activeFiltersCount={activeFiltersCount} />
 
             {/* Active Filter Chips Bar */}
             {activeFiltersCount > 0 && (
                 <div className="flex flex-wrap items-center gap-2 pt-1 pb-2">
-                    <span className="text-xs font-bold text-text-secondary mr-1">
-                        Active Filters:
-                    </span>
+                    <span className="text-xs font-bold text-text-secondary mr-1">Active Filters:</span>
 
                     {filters.search && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
                             Search: &ldquo;{filters.search}&rdquo;
-                            <button
-                                type="button"
-                                onClick={() => handleFilterChange({ search: "" })}
-                                className="cursor-pointer hover:text-primary-hover"
-                            >
+                            <button type="button" onClick={() => handleFilterChange({ search: "" })} className="cursor-pointer hover:text-primary-hover">
                                 <X className="size-3" />
                             </button>
                         </span>
@@ -313,11 +288,7 @@ export const SportsListings = () => {
                     {filters.category !== "all" && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
                             Type: {filters.category.replace("-", " ")}
-                            <button
-                                type="button"
-                                onClick={() => handleFilterChange({ category: "all" })}
-                                className="cursor-pointer hover:text-primary-hover"
-                            >
+                            <button type="button" onClick={() => handleFilterChange({ category: "all" })} className="cursor-pointer hover:text-primary-hover">
                                 <X className="size-3" />
                             </button>
                         </span>
@@ -326,11 +297,7 @@ export const SportsListings = () => {
                     {filters.slot !== "any" && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20 capitalize">
                             Slot: {filters.slot}
-                            <button
-                                type="button"
-                                onClick={() => handleFilterChange({ slot: "any" })}
-                                className="cursor-pointer hover:text-primary-hover"
-                            >
+                            <button type="button" onClick={() => handleFilterChange({ slot: "any" })} className="cursor-pointer hover:text-primary-hover">
                                 <X className="size-3" />
                             </button>
                         </span>
@@ -339,11 +306,7 @@ export const SportsListings = () => {
                     {filters.surface !== "all" && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
                             Surface: {filters.surface}
-                            <button
-                                type="button"
-                                onClick={() => handleFilterChange({ surface: "all" })}
-                                className="cursor-pointer hover:text-primary-hover"
-                            >
+                            <button type="button" onClick={() => handleFilterChange({ surface: "all" })} className="cursor-pointer hover:text-primary-hover">
                                 <X className="size-3" />
                             </button>
                         </span>
@@ -351,13 +314,8 @@ export const SportsListings = () => {
 
                     {(filters.minPrice !== null || filters.maxPrice !== null) && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            Rate: {filters.minPrice ? `৳${filters.minPrice.toLocaleString()}` : "৳0"} -{" "}
-                            {filters.maxPrice ? `৳${filters.maxPrice.toLocaleString()}` : "Any"}
-                            <button
-                                type="button"
-                                onClick={() => handleFilterChange({ minPrice: null, maxPrice: null })}
-                                className="cursor-pointer hover:text-primary-hover"
-                            >
+                            Rate: {filters.minPrice ? `৳${filters.minPrice.toLocaleString()}` : "৳0"} - {filters.maxPrice ? `৳${filters.maxPrice.toLocaleString()}` : "Any"}
+                            <button type="button" onClick={() => handleFilterChange({ minPrice: null, maxPrice: null })} className="cursor-pointer hover:text-primary-hover">
                                 <X className="size-3" />
                             </button>
                         </span>
@@ -366,21 +324,14 @@ export const SportsListings = () => {
                     {filters.verifiedOnly && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
                             Verified Arenas
-                            <button
-                                type="button"
-                                onClick={() => handleFilterChange({ verifiedOnly: false })}
-                                className="cursor-pointer hover:text-emerald-800"
-                            >
+                            <button type="button" onClick={() => handleFilterChange({ verifiedOnly: false })} className="cursor-pointer hover:text-emerald-800">
                                 <X className="size-3" />
                             </button>
                         </span>
                     )}
 
                     {filters.amenities.map((amenity) => (
-                        <span
-                            key={amenity}
-                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-surface-secondary text-foreground border border-border"
-                        >
+                        <span key={amenity} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-surface-secondary text-foreground border border-border">
                             {amenity}
                             <button
                                 type="button"
@@ -396,11 +347,7 @@ export const SportsListings = () => {
                         </span>
                     ))}
 
-                    <button
-                        type="button"
-                        onClick={handleResetFilters}
-                        className="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1 ml-auto cursor-pointer"
-                    >
+                    <button type="button" onClick={handleResetFilters} className="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1 ml-auto cursor-pointer">
                         <RotateCcw className="size-3" />
                         <span>Clear All</span>
                     </button>
@@ -411,13 +358,7 @@ export const SportsListings = () => {
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
                 {/* Desktop Sticky Sidebar (1 col) */}
                 <div className="hidden lg:block lg:col-span-1 sticky top-24">
-                    <SportsFilterSidebar
-                        filters={filters}
-                        onChange={handleFilterChange}
-                        onReset={handleResetFilters}
-                        categoryCounts={categoryCounts}
-                        totalVenues={SPORTS_VENUES.length}
-                    />
+                    <SportsFilterSidebar filters={filters} onChange={handleFilterChange} onReset={handleResetFilters} categoryCounts={categoryCounts} totalVenues={SPORTS_VENUES.length} />
                 </div>
 
                 {/* Listings Grid / List (3 cols) */}
@@ -428,17 +369,9 @@ export const SportsListings = () => {
                             <div className="size-16 rounded-full bg-surface-secondary flex items-center justify-center text-text-secondary mb-4">
                                 <Trophy className="size-8 text-primary" />
                             </div>
-                            <h3 className="text-lg font-bold text-foreground mb-1">
-                                No Sports Arenas Match Your Criteria
-                            </h3>
-                            <p className="text-xs sm:text-sm text-text-secondary max-w-md mb-6">
-                                Try expanding your preferred playing slot, adjusting hourly budget, or clearing facility filters.
-                            </p>
-                            <button
-                                type="button"
-                                onClick={handleResetFilters}
-                                className="px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
-                            >
+                            <h3 className="text-lg font-bold text-foreground mb-1">No Sports Arenas Match Your Criteria</h3>
+                            <p className="text-xs sm:text-sm text-text-secondary max-w-md mb-6">Try expanding your preferred playing slot, adjusting hourly budget, or clearing facility filters.</p>
+                            <button type="button" onClick={handleResetFilters} className="px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-colors flex items-center gap-2 cursor-pointer shadow-sm">
                                 <RotateCcw className="size-3.5" />
                                 <span>Reset All Filters</span>
                             </button>
@@ -446,19 +379,9 @@ export const SportsListings = () => {
                     ) : (
                         <>
                             {/* Cards Container */}
-                            <div
-                                className={
-                                    viewMode === "grid"
-                                        ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
-                                        : "space-y-4"
-                                }
-                            >
+                            <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" : "space-y-4"}>
                                 {paginatedVenues.map((venue) => (
-                                    <SportsCard
-                                        key={venue.id}
-                                        venue={venue}
-                                        viewMode={viewMode}
-                                    />
+                                    <SportsCard key={venue.id} venue={venue} viewMode={viewMode} />
                                 ))}
                             </div>
 
@@ -483,22 +406,11 @@ export const SportsListings = () => {
             {mobileFiltersOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden">
                     {/* Backdrop */}
-                    <div
-                        onClick={() => setMobileFiltersOpen(false)}
-                        className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
-                    />
+                    <div onClick={() => setMobileFiltersOpen(false)} className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity" />
 
                     {/* Drawer Panel */}
                     <div className="fixed inset-y-0 right-0 max-w-sm w-full bg-white shadow-2xl p-4 overflow-y-auto z-10 animate-in slide-in-from-right duration-200">
-                        <SportsFilterSidebar
-                            filters={filters}
-                            onChange={handleFilterChange}
-                            onReset={handleResetFilters}
-                            categoryCounts={categoryCounts}
-                            totalVenues={SPORTS_VENUES.length}
-                            isMobileDrawer={true}
-                            onCloseMobileDrawer={() => setMobileFiltersOpen(false)}
-                        />
+                        <SportsFilterSidebar filters={filters} onChange={handleFilterChange} onReset={handleResetFilters} categoryCounts={categoryCounts} totalVenues={SPORTS_VENUES.length} isMobileDrawer={true} onCloseMobileDrawer={() => setMobileFiltersOpen(false)} />
                     </div>
                 </div>
             )}
