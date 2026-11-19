@@ -34,6 +34,28 @@ export interface SportsVenue {
         type: "Arena Operator" | "Sports Complex";
         phone?: string;
     };
+    description?: string;
+    operatingHours?: string;
+    pitchDimensions?: string;
+    pricingTiers?: {
+        name: string;
+        hours: string;
+        priceFormatted: string;
+        description?: string;
+        highlight?: boolean;
+    }[];
+    slotTimes?: {
+        time: string;
+        period: string;
+        available: boolean;
+        price: string;
+    }[];
+    reviews?: {
+        author: string;
+        rating: number;
+        date: string;
+        comment: string;
+    }[];
 }
 
 export type SportsSortOption = "recommended" | "price-asc" | "price-desc" | "rating-desc" | "popular";

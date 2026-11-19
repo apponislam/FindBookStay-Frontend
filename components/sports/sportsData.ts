@@ -395,3 +395,64 @@ export const SPORTS_VENUES: SportsVenue[] = [
 export const POPULAR_SPORTS_LOCATIONS = ["Bashundhara R/A", "Uttara", "Dhanmondi", "Banani", "Mirpur DOHS", "Purbachal", "Chittagong", "Sylhet"];
 
 export const SPORTS_AMENITY_OPTIONS = ["Floodlights", "Changing Room", "Hot Shower", "Parking", "Mineral Water", "Bibs & Balls Provided", "Air Conditioned", "CCTV"];
+
+export function getSportsVenueBySlug(slug: string): SportsVenue | undefined {
+    const venue = SPORTS_VENUES.find((item) => item.slug === slug);
+    if (!venue) return undefined;
+
+    return {
+        ...venue,
+        description:
+            venue.description ||
+            `Located conveniently at ${venue.location.address}, ${venue.name} provides premier sporting facilities for competitive tournaments, friendly team matches, and fitness training. Featuring world-class ${venue.surfaceType} surface quality, high-intensity LED floodlighting for late night matches, and dedicated players' lounges.\n\nWhether booking an after-work football scrimmage, weekend cricket clash, or structured coaching session, enjoy seamless slot reservation, chilled drinking water, secure gear storage, and vibrant spectator seating.`,
+        operatingHours: venue.operatingHours || "06:00 AM – 02:00 AM (7 Days a Week)",
+        pitchDimensions: venue.pitchDimensions || (venue.category === "turf-booking" ? "120ft × 75ft (Standard 7v7 Arena)" : "Official Tournament Regulation Size"),
+        pricingTiers: venue.pricingTiers || [
+            { name: "Daytime Hours", hours: "06:00 AM – 04:00 PM", priceFormatted: `৳${Math.round(venue.hourlyPrice * 0.8).toLocaleString()} / hr` },
+            { name: "Prime Evening", hours: "04:00 PM – 09:00 PM", priceFormatted: `${venue.priceFormatted} ${venue.priceUnit}`, highlight: true },
+            { name: "Late Night Floodlit", hours: "09:00 PM – 02:00 AM", priceFormatted: `৳${Math.round(venue.hourlyPrice * 1.1).toLocaleString()} / hr` },
+        ],
+        slotTimes: venue.slotTimes || [
+            { time: "06:00 PM - 07:00 PM", period: "evening", available: true, price: venue.priceFormatted },
+            { time: "07:00 PM - 08:00 PM", period: "evening", available: true, price: venue.priceFormatted },
+            { time: "08:00 PM - 09:00 PM", period: "evening", available: false, price: venue.priceFormatted },
+            { time: "09:00 PM - 10:00 PM", period: "night", available: true, price: `৳${Math.round(venue.hourlyPrice * 1.1).toLocaleString()}` },
+            { time: "10:00 PM - 11:00 PM", period: "night", available: true, price: `৳${Math.round(venue.hourlyPrice * 1.1).toLocaleString()}` },
+            { time: "11:00 PM - 12:00 AM", period: "night", available: true, price: `৳${Math.round(venue.hourlyPrice * 1.1).toLocaleString()}` },
+        ],
+        reviews: venue.reviews || [
+            {
+                author: "Sabbir Ahmed (Team Captain, Dhaka Strikers)",
+                rating: 5,
+                date: "3 days ago",
+                comment: "The grass quality and floodlight intensity are top-class. No blind spots at night, and the turf has great shock absorption. Our team's go-to turf!",
+            },
+            {
+                author: "Rashedul Haque",
+                rating: 4.8,
+                date: "2 weeks ago",
+                comment: "Very well maintained. Clean changing rooms and cold mineral water was readily provided. Super easy booking confirmation.",
+            },
+            {
+                author: "Imran Hossain",
+                rating: 4.9,
+                date: "Last month",
+                comment: "Great parking space and hassle-free match check-in. The ball and bibs provided were in brand-new condition.",
+            },
+        ],
+    };
+}
+
+export function getSimilarSportsVenues(currentId: string, category: string, limit = 3): SportsVenue[] {
+    const matching = SPORTS_VENUES.filter(
+        (item) => item.id !== currentId && item.category === category
+    );
+    if (matching.length >= limit) {
+        return matching.slice(0, limit);
+    }
+    const remaining = SPORTS_VENUES.filter(
+        (item) => item.id !== currentId && item.category !== category
+    );
+    return [...matching, ...remaining].slice(0, limit);
+}
+

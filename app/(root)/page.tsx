@@ -6,6 +6,7 @@ import CategoryGrid from "@/components/home/CategoryGrid";
 import FeaturedRentals from "@/components/home/FeaturedRentals";
 import TrendingStays from "@/components/home/TrendingStays";
 import SportsVenues from "@/components/home/SportsVenues";
+import FeaturedBuyProperties from "@/components/home/FeaturedBuyProperties";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import HostBannerCTA from "@/components/home/HostBannerCTA";
 
@@ -36,10 +37,13 @@ const HomePage = () => {
             {/* 6. Live Turf & Arena Booking (Sports Pillar) */}
             <SportsVenues />
 
-            {/* 7. Why Choose Us (Trust & Verification Framework) */}
+            {/* 7. Prime Properties for Sale (Buy Pillar) */}
+            <FeaturedBuyProperties />
+
+            {/* 8. Why Choose Us (Trust & Verification Framework) */}
             <WhyChooseUs />
 
-            {/* 8. Partner / Host Listing Call-to-Action */}
+            {/* 9. Partner / Host Listing Call-to-Action */}
             <HostBannerCTA />
         </main>
     );
