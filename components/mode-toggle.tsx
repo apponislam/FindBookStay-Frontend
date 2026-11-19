@@ -3,13 +3,11 @@
 import * as React from "react";
 import { Moon, Sun } from "@/components/Icons";
 import { useTheme } from "next-themes";
-
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const emptySubscribe = () => () => {};
 
-export function ModeToggle() {
+export function ModeToggle({ className }: { className?: string }) {
     const { setTheme, resolvedTheme } = useTheme();
     const mounted = React.useSyncExternalStore(
         emptySubscribe,
@@ -17,25 +15,24 @@ export function ModeToggle() {
         () => false
     );
 
+    const isDark = mounted && resolvedTheme === "dark";
+
+    const handleToggle = () => {
+        setTheme(isDark ? "light" : "dark");
+    };
+
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger
-                render={
-                    <Button variant="outline" size="icon">
-                        {mounted && resolvedTheme === "dark" ? (
-                            <Moon className="h-[1.2rem] w-[1.2rem]" />
-                        ) : (
-                            <Sun className="h-[1.2rem] w-[1.2rem]" />
-                        )}
-                        <span className="sr-only">Toggle theme</span>
-                    </Button>
-                }
-            />
-            <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <Button
+            variant="outline"
+            size="icon"
+            onClick={handleToggle}
+            className={`relative rounded-xl cursor-pointer transition-colors ${className ?? ""}`}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+        >
+            <Sun className={`h-[1.15rem] w-[1.15rem] transition-all duration-300 ${isDark ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"}`} />
+            <Moon className={`absolute h-[1.15rem] w-[1.15rem] transition-all duration-300 ${isDark ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"}`} />
+            <span className="sr-only">Toggle theme</span>
+        </Button>
     );
 }

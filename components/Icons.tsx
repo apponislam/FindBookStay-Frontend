@@ -71,6 +71,8 @@ import {
     FileText,
     Navigation,
     Layers,
+    BarChart3,
+    ExternalLink,
     type LucideIcon,
 } from "lucide-react";
 
@@ -235,6 +237,8 @@ export {
     FileText,
     Navigation,
     Layers,
+    BarChart3,
+    ExternalLink,
 };
 
 export const Icons = {
@@ -293,6 +297,8 @@ export const Icons = {
     fileText: FileText,
     navigation: Navigation,
     layers: Layers,
+    barChart: BarChart3,
+    externalLink: ExternalLink,
 };
 
 export default Icons;
