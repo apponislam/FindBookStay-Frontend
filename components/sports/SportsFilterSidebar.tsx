@@ -90,7 +90,7 @@ export const SportsFilterSidebar = ({ filters, onChange, onReset, categoryCounts
 
             {/* Time Slots */}
             <div>
-                <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                <label className="flex items-center gap-1.5 text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">
                     <Clock className="size-3.5 text-primary" />
                     <span>Preferred Playing Slot</span>
                 </label>

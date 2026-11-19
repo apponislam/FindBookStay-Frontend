@@ -11,6 +11,7 @@ import MobileDrawer from "@/components/header/MobileDrawer";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { currentUser, currentToken, logOut, updateUserState } from "@/redux/features/auth/authSlice";
 import { useGetMeQuery, useLogoutMutation, authApi } from "@/redux/features/auth/authApi";
+import { ModeToggle } from "./mode-toggle";
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -150,6 +151,9 @@ const Header = () => {
 
                         {/* 3. Action Buttons & Profile Menu */}
                         <div className="flex items-center gap-2 sm:gap-3">
+                            {/* Mode Toggle */}
+                            <ModeToggle />
+
                             {/* Wishlist Link */}
                             <Link href="/saved" className="cursor-pointer relative hidden sm:flex items-center justify-center size-9 rounded-full text-[#172B2A] hover:text-[#10B981] hover:bg-[#F8FAF9] transition-colors" aria-label="View Saved Favorites">
                                 <Heart className="size-4.5" />

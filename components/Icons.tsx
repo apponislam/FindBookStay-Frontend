@@ -64,6 +64,13 @@ import {
     Share2,
     Wifi,
     Car,
+    Sun,
+    Moon,
+    Camera,
+    MessageSquare,
+    FileText,
+    Navigation,
+    Layers,
     type LucideIcon,
 } from "lucide-react";
 
@@ -221,6 +228,13 @@ export {
     Share2,
     Wifi,
     Car,
+    Sun,
+    Moon,
+    Camera,
+    MessageSquare,
+    FileText,
+    Navigation,
+    Layers,
 };
 
 export const Icons = {
@@ -272,6 +286,13 @@ export const Icons = {
     appStore: Apple,
     googlePlay: GooglePlay,
     playStore: GooglePlay,
+    sun: Sun,
+    moon: Moon,
+    camera: Camera,
+    messageSquare: MessageSquare,
+    fileText: FileText,
+    navigation: Navigation,
+    layers: Layers,
 };
 
 export default Icons;

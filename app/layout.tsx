@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Raleway } from "next/font/google";
 import { ReduxProviders } from "@/providers/ReduxProvider";
 import "./globals.css";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 const raleway = Raleway({
     variable: "--font-sans",
@@ -35,9 +36,11 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <html lang="en" className={`${raleway.variable} font-sans h-full antialiased`}>
+        <html lang="en" className={`${raleway.variable} font-sans h-full antialiased`} suppressHydrationWarning>
             <body className="min-h-full flex flex-col bg-white text-[#172B2A]" cz-shortcut-listen="true">
-                <ReduxProviders>{children}</ReduxProviders>
+                <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                    <ReduxProviders>{children}</ReduxProviders>
+                </ThemeProvider>
             </body>
         </html>
     );

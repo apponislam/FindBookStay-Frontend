@@ -31,6 +31,26 @@ export interface RentProperty {
     };
     rating: number;
     reviewsCount: number;
+    description?: string;
+    floor?: string;
+    totalFloors?: number;
+    facing?: string;
+    balconies?: number;
+    deposit?: string;
+    serviceCharge?: string;
+    utilityBills?: {
+        electricity?: string;
+        gas?: string;
+        water?: string;
+        waste?: string;
+    };
+    preferredTenant?: string;
+    rules?: string[];
+    nearbyPlaces?: {
+        name: string;
+        distance: string;
+        type: "Metro" | "School" | "Hospital" | "Market" | "Park" | "Other";
+    }[];
 }
 
 export type SortOption = "recommended" | "price-asc" | "price-desc" | "newest" | "sqft-desc";

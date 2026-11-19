@@ -437,3 +437,56 @@ export const AMENITY_OPTIONS = [
     "CCTV Security",
 ];
 
+export function getRentPropertyBySlug(slug: string): RentProperty | undefined {
+    const property = RENT_PROPERTIES.find((item) => item.slug === slug);
+    if (!property) return undefined;
+
+    // Provide default detail enrichments if not explicitly specified
+    return {
+        ...property,
+        description:
+            property.description ||
+            `Experience comfortable modern living in this ${property.categoryLabel.toLowerCase()} located at ${property.location.address}. This property boasts ${property.sqft} sq ft of thoughtfully designed living space with ${property.beds} spacious bedroom${property.beds > 1 ? "s" : ""}, ${property.baths} modern bathroom${property.baths > 1 ? "s" : ""}, and premium finishes throughout.\n\nEnjoy exceptional convenience, reliable 24/7 building security, dedicated parking facilities, and smooth connectivity to major transport routes, shopping centers, and prestigious educational institutions. Perfect for tenants seeking quality, security, and peace of mind.`,
+        floor: property.floor || "4th Floor (Front Facing)",
+        totalFloors: property.totalFloors || 8,
+        facing: property.facing || "South-East (Great natural ventilation)",
+        balconies: property.balconies ?? (property.beds >= 2 ? 2 : 1),
+        deposit: property.deposit || "2 Months Advance Security Deposit",
+        serviceCharge: property.serviceCharge || "৳4,500 / month (Includes Lift, Security, Water)",
+        utilityBills: property.utilityBills || {
+            electricity: "Prepaid meter (as per usage)",
+            gas: "Government Line Gas (Included in bill)",
+            water: "Deep tubewell connection (Included in service charge)",
+            waste: "৳150 / month door-to-door collection",
+        },
+        preferredTenant: property.preferredTenant || (property.category === "bachelor-seats" ? "Job Holder / Student Bachelor" : "Small Family / Corporate Professionals"),
+        rules: property.rules || [
+            "Valid NID / Passport copy required for police verification",
+            "Smoking strictly restricted to designated balconies",
+            "Late night visitor policy in accordance with building committee",
+            "Prompt rent payment within the 1st to 7th of every calendar month",
+        ],
+        nearbyPlaces: property.nearbyPlaces || [
+            { name: "MRT Metro Station", distance: "6 mins walk (450m)", type: "Metro" },
+            { name: "International School & College", distance: "4 mins drive (1.2 km)", type: "School" },
+            { name: "Specialized Hospital & Emergency Clinic", distance: "5 mins drive (1.5 km)", type: "Hospital" },
+            { name: "Agora / Shwapno Super Shop", distance: "3 mins walk (200m)", type: "Market" },
+            { name: "Community Lake Park & Walking Track", distance: "2 mins walk (150m)", type: "Park" },
+        ],
+    };
+}
+
+export function getSimilarRentProperties(currentId: string, category: string, limit = 3): RentProperty[] {
+    const matching = RENT_PROPERTIES.filter(
+        (item) => item.id !== currentId && item.category === category
+    );
+    if (matching.length >= limit) {
+        return matching.slice(0, limit);
+    }
+    const remaining = RENT_PROPERTIES.filter(
+        (item) => item.id !== currentId && item.category !== category
+    );
+    return [...matching, ...remaining].slice(0, limit);
+}
+
+
