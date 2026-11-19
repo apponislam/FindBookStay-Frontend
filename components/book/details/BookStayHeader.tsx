@@ -114,7 +114,7 @@ export const BookStayHeader = ({ stay }: BookStayHeaderProps) => {
                     </div>
                     <div className="min-w-0 flex-1">
                         <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Check-In Time</div>
-                        <div className="text-sm font-bold text-foreground leading-snug break-words">{stay.checkInTime || "From 02:00 PM"}</div>
+                        <div className="text-sm font-bold text-foreground leading-snug wrap-break-word">{stay.checkInTime || "From 02:00 PM"}</div>
                     </div>
                 </div>
 
@@ -124,7 +124,7 @@ export const BookStayHeader = ({ stay }: BookStayHeaderProps) => {
                     </div>
                     <div className="min-w-0 flex-1">
                         <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Check-Out Time</div>
-                        <div className="text-sm font-bold text-foreground leading-snug break-words">{stay.checkOutTime || "By 11:30 AM"}</div>
+                        <div className="text-sm font-bold text-foreground leading-snug wrap-break-word">{stay.checkOutTime || "By 11:30 AM"}</div>
                     </div>
                 </div>
             </div>

@@ -68,7 +68,7 @@ export const SportsVenueHeader = ({ venue }: SportsVenueHeaderProps) => {
                     </div>
                     <div className="min-w-0 flex-1">
                         <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Sports Supported</div>
-                        <div className="text-sm font-bold text-foreground leading-snug break-words">{venue.sports.join(", ")}</div>
+                        <div className="text-sm font-bold text-foreground leading-snug wrap-break-word">{venue.sports.join(", ")}</div>
                     </div>
                 </div>
 
@@ -78,7 +78,7 @@ export const SportsVenueHeader = ({ venue }: SportsVenueHeaderProps) => {
                     </div>
                     <div className="min-w-0 flex-1">
                         <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Surface Quality</div>
-                        <div className="text-sm font-bold text-foreground leading-snug break-words">{venue.surfaceType}</div>
+                        <div className="text-sm font-bold text-foreground leading-snug wrap-break-word">{venue.surfaceType}</div>
                     </div>
                 </div>
 
@@ -88,7 +88,7 @@ export const SportsVenueHeader = ({ venue }: SportsVenueHeaderProps) => {
                     </div>
                     <div className="min-w-0 flex-1">
                         <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Team Capacity</div>
-                        <div className="text-sm font-bold text-foreground leading-snug break-words">{venue.capacity}</div>
+                        <div className="text-sm font-bold text-foreground leading-snug wrap-break-word">{venue.capacity}</div>
                     </div>
                 </div>
 
@@ -98,7 +98,7 @@ export const SportsVenueHeader = ({ venue }: SportsVenueHeaderProps) => {
                     </div>
                     <div className="min-w-0 flex-1">
                         <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Next Available</div>
-                        <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 leading-snug break-words">{venue.nextSlot}</div>
+                        <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 leading-snug wrap-break-word">{venue.nextSlot}</div>
                     </div>
                 </div>
 
@@ -108,7 +108,7 @@ export const SportsVenueHeader = ({ venue }: SportsVenueHeaderProps) => {
                     </div>
                     <div className="min-w-0 flex-1">
                         <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Operating Hours</div>
-                        <div className="text-sm font-bold text-foreground leading-snug break-words">{venue.operatingHours || "06:00 AM – 02:00 AM"}</div>
+                        <div className="text-sm font-bold text-foreground leading-snug wrap-break-word">{venue.operatingHours || "06:00 AM – 02:00 AM"}</div>
                     </div>
                 </div>
 
@@ -118,7 +118,7 @@ export const SportsVenueHeader = ({ venue }: SportsVenueHeaderProps) => {
                     </div>
                     <div className="min-w-0 flex-1">
                         <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Arena Dimensions</div>
-                        <div className="text-sm font-bold text-foreground leading-snug break-words">{venue.pitchDimensions || "Regulation Size"}</div>
+                        <div className="text-sm font-bold text-foreground leading-snug wrap-break-word">{venue.pitchDimensions || "Regulation Size"}</div>
                     </div>
                 </div>
             </div>

@@ -60,7 +60,7 @@ export const SportsVenueOverview = ({ venue }: SportsVenueOverviewProps) => {
                     {specs.map((item, idx) => (
                         <div key={idx} className="p-3.5 rounded-2xl bg-surface-secondary/70 border border-border flex items-center justify-between gap-3 text-xs min-w-0">
                             <span className="text-muted-foreground font-medium shrink-0">{item.label}</span>
-                            <span className="font-semibold text-foreground text-right break-words">{item.value}</span>
+                            <span className="font-semibold text-foreground text-right wrap-break-word">{item.value}</span>
                         </div>
                     ))}
                 </div>

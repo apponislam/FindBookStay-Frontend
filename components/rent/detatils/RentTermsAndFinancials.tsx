@@ -60,19 +60,19 @@ export const RentTermsAndFinancials = ({ property }: RentTermsAndFinancialsProps
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
                     <div className="p-3 rounded-xl bg-surface-secondary/50 border border-border flex items-center justify-between gap-3 min-w-0">
                         <span className="text-muted-foreground font-medium shrink-0">Electricity</span>
-                        <span className="font-semibold text-foreground text-right break-words">{utilityBills.electricity}</span>
+                        <span className="font-semibold text-foreground text-right wrap-break-word">{utilityBills.electricity}</span>
                     </div>
                     <div className="p-3 rounded-xl bg-surface-secondary/50 border border-border flex items-center justify-between gap-3 min-w-0">
                         <span className="text-muted-foreground font-medium shrink-0">Gas Connection</span>
-                        <span className="font-semibold text-foreground text-right break-words">{utilityBills.gas}</span>
+                        <span className="font-semibold text-foreground text-right wrap-break-word">{utilityBills.gas}</span>
                     </div>
                     <div className="p-3 rounded-xl bg-surface-secondary/50 border border-border flex items-center justify-between gap-3 min-w-0">
                         <span className="text-muted-foreground font-medium shrink-0">Water Supply</span>
-                        <span className="font-semibold text-foreground text-right break-words">{utilityBills.water}</span>
+                        <span className="font-semibold text-foreground text-right wrap-break-word">{utilityBills.water}</span>
                     </div>
                     <div className="p-3 rounded-xl bg-surface-secondary/50 border border-border flex items-center justify-between gap-3 min-w-0">
                         <span className="text-muted-foreground font-medium shrink-0">Waste Collection</span>
-                        <span className="font-semibold text-foreground text-right break-words">{utilityBills.waste}</span>
+                        <span className="font-semibold text-foreground text-right wrap-break-word">{utilityBills.waste}</span>
                     </div>
                 </div>
             </div>

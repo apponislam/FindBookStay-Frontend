@@ -26,7 +26,7 @@ export const RentPropertyHeader = ({ property }: RentPropertyHeaderProps) => {
                     {property.categoryLabel}
                 </Link>
                 <ChevronRight className="w-3.5 h-3.5 shrink-0 opacity-50" />
-                <span className="text-foreground font-medium line-clamp-1 max-w-[200px] sm:max-w-[320px]">{property.title}</span>
+                <span className="text-foreground font-medium line-clamp-1 max-w-50 sm:max-w-[320px]">{property.title}</span>
             </nav>
 
             {/* Main Header Info */}
@@ -67,9 +67,7 @@ export const RentPropertyHeader = ({ property }: RentPropertyHeaderProps) => {
                         <Bed className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
-                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">
-                            Bedrooms
-                        </div>
+                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Bedrooms</div>
                         <div className="text-sm font-bold text-foreground leading-snug">
                             {property.beds} {property.beds === 1 ? "Bed" : "Beds"}
                         </div>
@@ -81,9 +79,7 @@ export const RentPropertyHeader = ({ property }: RentPropertyHeaderProps) => {
                         <Bath className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
-                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">
-                            Bathrooms
-                        </div>
+                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Bathrooms</div>
                         <div className="text-sm font-bold text-foreground leading-snug">
                             {property.baths} {property.baths === 1 ? "Bath" : "Baths"}
                         </div>
@@ -95,12 +91,8 @@ export const RentPropertyHeader = ({ property }: RentPropertyHeaderProps) => {
                         <Maximize2 className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
-                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">
-                            Area Size
-                        </div>
-                        <div className="text-sm font-bold text-foreground leading-snug">
-                            {property.sqft.toLocaleString()} sqft
-                        </div>
+                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Area Size</div>
+                        <div className="text-sm font-bold text-foreground leading-snug">{property.sqft.toLocaleString()} sqft</div>
                     </div>
                 </div>
 
@@ -109,12 +101,8 @@ export const RentPropertyHeader = ({ property }: RentPropertyHeaderProps) => {
                         <Building2 className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
-                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">
-                            Furnishing
-                        </div>
-                        <div className="text-sm font-bold text-foreground leading-snug break-words">
-                            {property.furnishing}
-                        </div>
+                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Furnishing</div>
+                        <div className="text-sm font-bold text-foreground leading-snug wrap-break-word">{property.furnishing}</div>
                     </div>
                 </div>
 
@@ -123,12 +111,8 @@ export const RentPropertyHeader = ({ property }: RentPropertyHeaderProps) => {
                         <Building2 className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
-                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">
-                            Floor Level
-                        </div>
-                        <div className="text-sm font-bold text-foreground leading-snug break-words">
-                            {property.floor || "4th Floor"}
-                        </div>
+                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Floor Level</div>
+                        <div className="text-sm font-bold text-foreground leading-snug wrap-break-word">{property.floor || "4th Floor"}</div>
                     </div>
                 </div>
 
@@ -137,12 +121,8 @@ export const RentPropertyHeader = ({ property }: RentPropertyHeaderProps) => {
                         <Calendar className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
-                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">
-                            Available
-                        </div>
-                        <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 leading-snug break-words">
-                            {property.availableFrom}
-                        </div>
+                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Available</div>
+                        <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 leading-snug wrap-break-word">{property.availableFrom}</div>
                     </div>
                 </div>
             </div>

@@ -71,9 +71,9 @@ export const RentGallery = ({ property }: RentGalleryProps) => {
             {copied && <div className="absolute top-16 right-4 z-30 px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-medium shadow-lg animate-in fade-in">Link copied to clipboard!</div>}
 
             {/* Main Visual Display */}
-            <div className="relative aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden group">
+            <div className="relative aspect-16/10 sm:aspect-video md:aspect-21/9 w-full overflow-hidden group">
                 <Image src={images[activeIdx]} alt={`${property.title} - photo ${activeIdx + 1}`} fill priority sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px" className="object-cover transition-transform duration-700 group-hover:scale-105 cursor-pointer" onClick={() => setIsLightboxOpen(true)} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
 
                 {/* Arrows */}
                 {images.length > 1 && (
