@@ -60,69 +60,89 @@ export const RentPropertyHeader = ({ property }: RentPropertyHeaderProps) => {
                 </div>
             </div>
 
-            {/* Key Metric Feature Pills Strip */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 pt-2">
-                <div className="p-3 rounded-2xl bg-surface border border-border flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                        <Bed className="w-4 h-4" />
+            {/* Key Metric Feature Pills Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+                <div className="p-3.5 rounded-2xl bg-surface border border-border flex items-center gap-3 min-w-0 shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                        <Bed className="w-5 h-5" />
                     </div>
-                    <div>
-                        <div className="text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Bedrooms</div>
-                        <div className="text-sm font-bold text-foreground">
+                    <div className="min-w-0 flex-1">
+                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">
+                            Bedrooms
+                        </div>
+                        <div className="text-sm font-bold text-foreground leading-snug">
                             {property.beds} {property.beds === 1 ? "Bed" : "Beds"}
                         </div>
                     </div>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-surface border border-border flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                        <Bath className="w-4 h-4" />
+                <div className="p-3.5 rounded-2xl bg-surface border border-border flex items-center gap-3 min-w-0 shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                        <Bath className="w-5 h-5" />
                     </div>
-                    <div>
-                        <div className="text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Bathrooms</div>
-                        <div className="text-sm font-bold text-foreground">
+                    <div className="min-w-0 flex-1">
+                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">
+                            Bathrooms
+                        </div>
+                        <div className="text-sm font-bold text-foreground leading-snug">
                             {property.baths} {property.baths === 1 ? "Bath" : "Baths"}
                         </div>
                     </div>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-surface border border-border flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                        <Maximize2 className="w-4 h-4" />
+                <div className="p-3.5 rounded-2xl bg-surface border border-border flex items-center gap-3 min-w-0 shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                        <Maximize2 className="w-5 h-5" />
                     </div>
-                    <div>
-                        <div className="text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Area Size</div>
-                        <div className="text-sm font-bold text-foreground">{property.sqft.toLocaleString()} sqft</div>
-                    </div>
-                </div>
-
-                <div className="p-3 rounded-2xl bg-surface border border-border flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                        <Building2 className="w-4 h-4" />
-                    </div>
-                    <div>
-                        <div className="text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Furnishing</div>
-                        <div className="text-sm font-bold text-foreground truncate">{property.furnishing}</div>
+                    <div className="min-w-0 flex-1">
+                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">
+                            Area Size
+                        </div>
+                        <div className="text-sm font-bold text-foreground leading-snug">
+                            {property.sqft.toLocaleString()} sqft
+                        </div>
                     </div>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-surface border border-border flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                        <Building2 className="w-4 h-4" />
+                <div className="p-3.5 rounded-2xl bg-surface border border-border flex items-center gap-3 min-w-0 shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                        <Building2 className="w-5 h-5" />
                     </div>
-                    <div>
-                        <div className="text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Floor Level</div>
-                        <div className="text-sm font-bold text-foreground truncate">{property.floor || "4th Floor"}</div>
+                    <div className="min-w-0 flex-1">
+                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">
+                            Furnishing
+                        </div>
+                        <div className="text-sm font-bold text-foreground leading-snug break-words">
+                            {property.furnishing}
+                        </div>
                     </div>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-surface border border-border flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                        <Calendar className="w-4 h-4" />
+                <div className="p-3.5 rounded-2xl bg-surface border border-border flex items-center gap-3 min-w-0 shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                        <Building2 className="w-5 h-5" />
                     </div>
-                    <div>
-                        <div className="text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Available</div>
-                        <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 truncate">{property.availableFrom}</div>
+                    <div className="min-w-0 flex-1">
+                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">
+                            Floor Level
+                        </div>
+                        <div className="text-sm font-bold text-foreground leading-snug break-words">
+                            {property.floor || "4th Floor"}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-surface border border-border flex items-center gap-3 min-w-0 shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                        <Calendar className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                        <div className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">
+                            Available
+                        </div>
+                        <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 leading-snug break-words">
+                            {property.availableFrom}
+                        </div>
                     </div>
                 </div>
             </div>

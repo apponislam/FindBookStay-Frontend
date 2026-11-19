@@ -58,21 +58,21 @@ export const RentTermsAndFinancials = ({ property }: RentTermsAndFinancialsProps
                     Utility Bills Status
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
-                    <div className="p-3 rounded-xl bg-surface-secondary/50 border border-border flex items-center justify-between">
-                        <span className="text-muted-foreground font-medium">Electricity</span>
-                        <span className="font-semibold text-foreground">{utilityBills.electricity}</span>
+                    <div className="p-3 rounded-xl bg-surface-secondary/50 border border-border flex items-center justify-between gap-3 min-w-0">
+                        <span className="text-muted-foreground font-medium shrink-0">Electricity</span>
+                        <span className="font-semibold text-foreground text-right break-words">{utilityBills.electricity}</span>
                     </div>
-                    <div className="p-3 rounded-xl bg-surface-secondary/50 border border-border flex items-center justify-between">
-                        <span className="text-muted-foreground font-medium">Gas Connection</span>
-                        <span className="font-semibold text-foreground">{utilityBills.gas}</span>
+                    <div className="p-3 rounded-xl bg-surface-secondary/50 border border-border flex items-center justify-between gap-3 min-w-0">
+                        <span className="text-muted-foreground font-medium shrink-0">Gas Connection</span>
+                        <span className="font-semibold text-foreground text-right break-words">{utilityBills.gas}</span>
                     </div>
-                    <div className="p-3 rounded-xl bg-surface-secondary/50 border border-border flex items-center justify-between">
-                        <span className="text-muted-foreground font-medium">Water Supply</span>
-                        <span className="font-semibold text-foreground">{utilityBills.water}</span>
+                    <div className="p-3 rounded-xl bg-surface-secondary/50 border border-border flex items-center justify-between gap-3 min-w-0">
+                        <span className="text-muted-foreground font-medium shrink-0">Water Supply</span>
+                        <span className="font-semibold text-foreground text-right break-words">{utilityBills.water}</span>
                     </div>
-                    <div className="p-3 rounded-xl bg-surface-secondary/50 border border-border flex items-center justify-between">
-                        <span className="text-muted-foreground font-medium">Waste Collection</span>
-                        <span className="font-semibold text-foreground">{utilityBills.waste}</span>
+                    <div className="p-3 rounded-xl bg-surface-secondary/50 border border-border flex items-center justify-between gap-3 min-w-0">
+                        <span className="text-muted-foreground font-medium shrink-0">Waste Collection</span>
+                        <span className="font-semibold text-foreground text-right break-words">{utilityBills.waste}</span>
                     </div>
                 </div>
             </div>

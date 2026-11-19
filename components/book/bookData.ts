@@ -521,3 +521,81 @@ export const STAY_AMENITY_OPTIONS = [
     "Kitchenette",
 ];
 
+export function getBookStayBySlug(slug: string): BookStay | undefined {
+    const stay = BOOK_STAYS.find((item) => item.slug === slug);
+    if (!stay) return undefined;
+
+    return {
+        ...stay,
+        description:
+            stay.description ||
+            `Nestled in the prime surroundings of ${stay.location.area}, ${stay.location.city}, ${stay.title} provides an exceptional hospitality escape. Designed with thoughtful comfort and premium aesthetic touches, each space offers panoramic views, deluxe linens, and modern amenities tailored for relaxation and seamless leisure.\n\nWhether you are arriving for a scenic weekend retreat, remote work vacation, or family holiday, experience first-class hospitality, sparkling clean living quarters, and direct proximity to iconic local landmarks and natural wonders.`,
+        checkInTime: stay.checkInTime || "02:00 PM",
+        checkOutTime: stay.checkOutTime || "11:30 AM",
+        houseRules: stay.houseRules || [
+            "Valid Government ID (NID / Passport) required at check-in",
+            "Smoking strictly prohibited in indoor air-conditioned areas",
+            "Quiet hours observed from 11:00 PM to 07:00 AM",
+            "Pet policy subject to advance management approval",
+        ],
+        roomTypes: stay.roomTypes || [
+            {
+                name: "Deluxe King Suite with Balcony",
+                beds: "1 King Bed",
+                price: stay.price,
+                priceFormatted: stay.priceFormatted,
+                capacity: `${stay.maxGuests} Guests`,
+                features: ["Free Breakfast", "Balcony View", "Ensuite Bath", "AC & Smart TV"],
+            },
+            {
+                name: "Executive Twin Bedroom",
+                beds: "2 Queen Beds",
+                price: Math.round(stay.price * 1.2),
+                priceFormatted: `৳${Math.round(stay.price * 1.2).toLocaleString()}`,
+                capacity: `${stay.maxGuests + 1} Guests`,
+                features: ["Free Breakfast", "Mini Bar", "Work Desk", "Bathtub"],
+            },
+        ],
+        nearbyAttractions: stay.nearbyAttractions || [
+            { name: "Scenic Beach / Sunset Point", distance: "3 mins walk (250m)", type: "Nature" },
+            { name: "Local Heritage Market & Souvenirs", distance: "5 mins drive (1.5 km)", type: "Shopping" },
+            { name: "Fine Dining Seafood Promenade", distance: "4 mins walk (300m)", type: "Dining" },
+            { name: "Eco Park & Forest Trail", distance: "12 mins drive (4.2 km)", type: "Adventure" },
+        ],
+        reviews: stay.reviews || [
+            {
+                author: "Sadia Rahman",
+                rating: 5,
+                date: "2 weeks ago",
+                comment: "Absolutely breathtaking experience! The staff was incredibly welcoming, the room was spotless, and the breakfast buffet was top-notch.",
+            },
+            {
+                author: "Dr. Farhan Chowdhury",
+                rating: 4.9,
+                date: "1 month ago",
+                comment: "Prime location with stunning views. Fast WiFi allowed me to work remotely without any hiccups. Highly recommended for couples and families.",
+            },
+            {
+                author: "Nabila Karim",
+                rating: 4.8,
+                date: "Last month",
+                comment: "Seamless check-in, very comfortable bed, and the sunset from the balcony was unforgettable. We will definitely book again!",
+            },
+        ],
+    };
+}
+
+export function getSimilarBookStays(currentId: string, category: string, limit = 3): BookStay[] {
+    const matching = BOOK_STAYS.filter(
+        (item) => item.id !== currentId && item.category === category
+    );
+    if (matching.length >= limit) {
+        return matching.slice(0, limit);
+    }
+    const remaining = BOOK_STAYS.filter(
+        (item) => item.id !== currentId && item.category !== category
+    );
+    return [...matching, ...remaining].slice(0, limit);
+}
+
+

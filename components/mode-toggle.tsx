@@ -7,16 +7,26 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
+const emptySubscribe = () => () => {};
+
 export function ModeToggle() {
-    const { setTheme } = useTheme();
+    const { setTheme, resolvedTheme } = useTheme();
+    const mounted = React.useSyncExternalStore(
+        emptySubscribe,
+        () => true,
+        () => false
+    );
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger
                 render={
                     <Button variant="outline" size="icon">
-                        <Sun className="h-[1.2rem] w-[1.2rem] dark:hidden" />
-                        <Moon className="hidden h-[1.2rem] w-[1.2rem] dark:block" />
+                        {mounted && resolvedTheme === "dark" ? (
+                            <Moon className="h-[1.2rem] w-[1.2rem]" />
+                        ) : (
+                            <Sun className="h-[1.2rem] w-[1.2rem]" />
+                        )}
                         <span className="sr-only">Toggle theme</span>
                     </Button>
                 }

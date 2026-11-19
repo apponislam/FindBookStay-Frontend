@@ -55,9 +55,9 @@ export const RentPropertyOverview = ({ property }: RentPropertyOverviewProps) =>
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {specs.map((item, idx) => (
-                        <div key={idx} className="p-3.5 rounded-2xl bg-surface-secondary/70 border border-border flex items-center justify-between text-xs">
-                            <span className="text-muted-foreground font-medium">{item.label}</span>
-                            <span className="font-semibold text-foreground text-right">{item.value}</span>
+                        <div key={idx} className="p-3.5 rounded-2xl bg-surface-secondary/70 border border-border flex items-center justify-between gap-3 text-xs min-w-0">
+                            <span className="text-muted-foreground font-medium shrink-0">{item.label}</span>
+                            <span className="font-semibold text-foreground text-right break-words">{item.value}</span>
                         </div>
                     ))}
                 </div>

@@ -38,6 +38,29 @@ export interface BookStay {
         type: "Superhost" | "Verified Hotel" | "Resort Host";
         responseTime?: string;
     };
+    description?: string;
+    checkInTime?: string;
+    checkOutTime?: string;
+    houseRules?: string[];
+    roomTypes?: {
+        name: string;
+        beds: string;
+        price: number;
+        priceFormatted: string;
+        capacity: string;
+        features: string[];
+    }[];
+    nearbyAttractions?: {
+        name: string;
+        distance: string;
+        type: string;
+    }[];
+    reviews?: {
+        author: string;
+        rating: number;
+        date: string;
+        comment: string;
+    }[];
 }
 
 export type BookSortOption =
