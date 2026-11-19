@@ -26,7 +26,7 @@ const SPORTS_VENUES: VenueItem[] = [
         location: "Bashundhara Sports Zone, Dhaka",
         price: "৳2,500",
         priceUnit: "/ hour",
-        image: "https://images.unsplash.com/photo-1529900241457-3f3659c25bb0?auto=format&fit=crop&w=800&q=80",
+        image: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&w=800&q=80",
         features: ["Floodlights", "FIFA Grass", "Changing Rooms"],
         availability: "Slots Open Today",
         href: "/sports/turf-booking",
@@ -50,7 +50,7 @@ const SPORTS_VENUES: VenueItem[] = [
         location: "Dhanmondi, Dhaka",
         price: "৳4,000",
         priceUnit: "/ hour",
-        image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
+        image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=800&q=80",
         features: ["Natural Turf", "Referee Support", "Full 11v11"],
         availability: "Weekend Leagues Ready",
         href: "/sports/football-grounds",
@@ -81,7 +81,7 @@ export const SportsVenues = () => {
                 {/* Venues Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {SPORTS_VENUES.map((venue) => (
-                        <div key={venue.id} className="group bg-white rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col justify-between">
+                        <div key={venue.id} className="group bg-white dark:bg-card rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col justify-between">
                             {/* Image Header */}
                             <div className="relative w-full h-52 overflow-hidden bg-surface-secondary">
                                 <Image src={venue.image} alt={venue.name} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />

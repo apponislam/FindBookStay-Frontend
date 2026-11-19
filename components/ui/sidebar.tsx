@@ -232,28 +232,27 @@ function SidebarTrigger({ className, onClick, children, ...props }: React.Compon
             {...props}
         >
             {children ?? (
-                <div className="relative flex h-5 w-5 items-center justify-center" aria-hidden="true">
+                <div className="relative flex size-4 flex-col justify-center items-center gap-1" aria-hidden="true">
                     {/* Top line */}
                     <span
-                        className="absolute h-[2px] w-[18px] rounded-full bg-current transition-all duration-300 ease-in-out"
-                        style={{
-                            transform: isOpen ? "translateY(0) rotate(45deg)" : "translateY(-5px) rotate(0deg)",
-                        }}
+                        className={cn(
+                            "h-[2px] w-4 rounded-full bg-current transition-all duration-300 ease-in-out origin-center",
+                            isOpen ? "translate-y-[6px] rotate-45" : "translate-y-0 rotate-0"
+                        )}
                     />
                     {/* Middle line */}
                     <span
-                        className="absolute h-[2px] w-[18px] rounded-full bg-current transition-all duration-300 ease-in-out"
-                        style={{
-                            transform: isOpen ? "scaleX(0)" : "scaleX(1)",
-                            opacity: isOpen ? 0 : 1,
-                        }}
+                        className={cn(
+                            "h-[2px] w-4 rounded-full bg-current transition-all duration-200 ease-in-out",
+                            isOpen ? "opacity-0 scale-x-0" : "opacity-100 scale-x-100"
+                        )}
                     />
                     {/* Bottom line */}
                     <span
-                        className="absolute h-[2px] w-[18px] rounded-full bg-current transition-all duration-300 ease-in-out"
-                        style={{
-                            transform: isOpen ? "translateY(0) rotate(-45deg)" : "translateY(5px) rotate(0deg)",
-                        }}
+                        className={cn(
+                            "h-[2px] w-4 rounded-full bg-current transition-all duration-300 ease-in-out origin-center",
+                            isOpen ? "-translate-y-[6px] -rotate-45" : "translate-y-0 rotate-0"
+                        )}
                     />
                 </div>
             )}

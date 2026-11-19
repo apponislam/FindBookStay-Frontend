@@ -45,7 +45,7 @@ export const WhyChooseUs = () => {
     ];
 
     return (
-        <section className="py-20 bg-surface/60 border-t border-border">
+        <section className="py-20 bg-surface/60 dark:bg-surface/20 border-t border-border">
             <div className="container mx-auto px-4">
                 {/* Header */}
                 <div className="text-center max-w-2xl mx-auto space-y-3 mb-14">
@@ -67,7 +67,7 @@ export const WhyChooseUs = () => {
                         return (
                             <div
                                 key={idx}
-                                className="p-6 sm:p-8 rounded-3xl bg-white border border-border hover:border-accent hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-5"
+                                className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-card border border-border hover:border-accent hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-5"
                             >
                                 <div className="space-y-4">
                                     <div className="size-14 rounded-2xl bg-surface-secondary text-primary flex items-center justify-center">
@@ -91,7 +91,7 @@ export const WhyChooseUs = () => {
                 </div>
 
                 {/* Stats Bar */}
-                <div className="p-6 sm:p-8 rounded-3xl bg-primary text-primary-foreground shadow-xl">
+                <div className="p-6 sm:p-8 rounded-3xl bg-linear-to-r from-emerald-950 via-emerald-900 to-[#062F2B] dark:from-[#0B1A17] dark:via-[#112822] dark:to-[#0B1A17] text-white shadow-xl border border-emerald-800/40">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center divide-y lg:divide-y-0 lg:divide-x divide-white/15">
                         {stats.map((stat, i) => (
                             <div key={i} className="pt-4 lg:pt-0 first:pt-0 space-y-1">

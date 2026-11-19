@@ -90,7 +90,7 @@ const FEATURED_CATEGORIES: CategoryCard[] = [
 
 export const CategoryGrid = () => {
     return (
-        <section className="py-14 bg-surface/50 border-y border-border">
+        <section className="py-14 bg-surface/60 dark:bg-surface/20 border-y border-border">
             <div className="container mx-auto px-4">
                 {/* Section Header */}
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
@@ -126,7 +126,7 @@ export const CategoryGrid = () => {
                             <Link
                                 key={idx}
                                 href={cat.href}
-                                className="group relative p-5 rounded-2xl bg-white border border-border hover:border-accent hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between"
+                                className="group relative p-5 rounded-2xl bg-white dark:bg-card border border-border hover:border-accent hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between"
                             >
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between">

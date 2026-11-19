@@ -130,13 +130,13 @@ const Header = () => {
 
     return (
         <>
-            <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled ? "bg-white/95 backdrop-blur-md shadow-xs py-2.5 border-b border-[#E2EAE6]" : "bg-white py-3.5 border-b border-[#E2EAE6]"}`}>
+            <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled ? "bg-white/95 dark:bg-background/95 backdrop-blur-md shadow-xs py-2.5 border-b border-border" : "bg-white dark:bg-background py-3.5 border-b border-border"}`}>
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between gap-4">
                         {/* 1. Brand Logo */}
                         <div className="shrink-0">
                             <Link href="/" className="cursor-pointer flex items-center gap-2 group">
-                                <Image src="/findbookstay-logo.png" alt="FindBookStay - Real Estate, Stays & Turfs" width={180} height={50} className="h-9 sm:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-102" priority />
+                                <Image src="/findbookstay-logo.png" alt="FindBookStay - Real Estate, Stays & Turfs" width={180} height={50} className="h-9 sm:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-102 dark:brightness-0 dark:invert" priority />
                             </Link>
                         </div>
 
@@ -155,16 +155,16 @@ const Header = () => {
                             <ModeToggle />
 
                             {/* Wishlist Link */}
-                            <Link href="/saved" className="cursor-pointer relative hidden sm:flex items-center justify-center size-9 rounded-full text-[#172B2A] hover:text-[#10B981] hover:bg-[#F8FAF9] transition-colors" aria-label="View Saved Favorites">
+                            <Link href="/saved" className="cursor-pointer relative hidden sm:flex items-center justify-center size-9 rounded-full text-foreground hover:text-accent hover:bg-surface-secondary transition-colors" aria-label="View Saved Favorites">
                                 <Heart className="size-4.5" />
-                                {favoritesCount > 0 && <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-[#10B981] ring-2 ring-white" />}
+                                {favoritesCount > 0 && <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-accent ring-2 ring-background" />}
                             </Link>
 
                             {/* Notifications Link (Authenticated) */}
                             {isAuthenticated && (
-                                <Link href="/notifications" className="cursor-pointer relative hidden sm:flex items-center justify-center size-9 rounded-full text-[#172B2A] hover:text-[#10B981] hover:bg-[#F8FAF9] transition-colors" aria-label="Notifications">
+                                <Link href="/notifications" className="cursor-pointer relative hidden sm:flex items-center justify-center size-9 rounded-full text-foreground hover:text-accent hover:bg-surface-secondary transition-colors" aria-label="Notifications">
                                     <Bell className="size-4.5" />
-                                    {notificationsCount > 0 && <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-[#10B981] ring-2 ring-white" />}
+                                    {notificationsCount > 0 && <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-accent ring-2 ring-background" />}
                                 </Link>
                             )}
 
@@ -174,7 +174,7 @@ const Header = () => {
                             </div>
 
                             {/* Mobile Drawer Hamburger Trigger */}
-                            <button type="button" onClick={() => setMobileDrawerOpen(true)} className="cursor-pointer lg:hidden p-2 rounded-xl text-[#172B2A] hover:bg-[#F8FAF9] transition-colors focus:outline-none" aria-label="Open mobile navigation menu">
+                            <button type="button" onClick={() => setMobileDrawerOpen(true)} className="cursor-pointer lg:hidden p-2 rounded-xl text-foreground hover:bg-surface-secondary transition-colors focus:outline-none" aria-label="Open mobile navigation menu">
                                 <Menu className="size-6" />
                             </button>
                         </div>

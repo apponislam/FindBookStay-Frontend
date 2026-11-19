@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 const HomePage = () => {
     return (
-        <main className="flex-1 w-full flex flex-col">
+        <main className="flex-1 w-full flex flex-col bg-background text-foreground">
             {/* 1. Hero Banners Carousel */}
             <HomeBanners />
 

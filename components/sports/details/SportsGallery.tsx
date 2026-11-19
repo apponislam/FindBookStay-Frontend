@@ -10,7 +10,7 @@ interface SportsGalleryProps {
 }
 
 export const SportsGallery = ({ venue }: SportsGalleryProps) => {
-    const images = venue.images && venue.images.length > 0 ? venue.images : ["https://images.unsplash.com/photo-1529900241457-3f3659c25bb0?auto=format&fit=crop&w=1200&q=80"];
+    const images = venue.images && venue.images.length > 0 ? venue.images : ["https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80"];
 
     const [activeIdx, setActiveIdx] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);

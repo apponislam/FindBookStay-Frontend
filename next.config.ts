@@ -3,10 +3,33 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
     /* config options here */
     images: {
+        dangerouslyAllowLocalIP: true,
         remotePatterns: [
             {
                 protocol: "https",
                 hostname: "images.unsplash.com",
+            },
+            {
+                protocol: "http",
+                hostname: "localhost",
+                port: "5075",
+            },
+            {
+                protocol: "http",
+                hostname: "localhost",
+            },
+            {
+                protocol: "http",
+                hostname: "127.0.0.1",
+                port: "5075",
+            },
+            {
+                protocol: "http",
+                hostname: "127.0.0.1",
+            },
+            {
+                protocol: "https",
+                hostname: "**",
             },
         ],
     },

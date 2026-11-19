@@ -205,7 +205,7 @@ export const HomeSearchBar = () => {
     return (
         <section aria-label="FindBookStay Multi-Purpose Search" className="w-full relative z-30 -mt-10 sm:-mt-14 mb-12 select-none">
             <div className="container mx-auto px-4" ref={containerRef}>
-                <div className="bg-white rounded-3xl shadow-2xl border border-border/80 overflow-visible transition-shadow hover:shadow-emerald-950/15">
+                <div className="bg-white dark:bg-card rounded-3xl shadow-2xl border border-border/80 overflow-visible transition-shadow hover:shadow-emerald-950/15">
                     {/* 1. Purpose Selector Header Tabs */}
                     <div className="flex items-center justify-between p-2.5 sm:p-3 bg-surface-secondary/70 border-b border-border/80 rounded-t-3xl overflow-x-auto scrollbar-none">
                         <div className="flex items-center gap-1.5 sm:gap-2">
@@ -215,7 +215,7 @@ export const HomeSearchBar = () => {
                                 className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${
                                     activeTab === "rent"
                                         ? "bg-primary text-primary-foreground shadow-sm scale-102"
-                                        : "text-text-secondary hover:text-foreground hover:bg-white"
+                                        : "text-text-secondary hover:text-foreground hover:bg-white dark:hover:bg-surface"
                                 }`}
                             >
                                 <Home className="size-4" />
@@ -228,7 +228,7 @@ export const HomeSearchBar = () => {
                                 className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${
                                     activeTab === "book"
                                         ? "bg-primary text-primary-foreground shadow-sm scale-102"
-                                        : "text-text-secondary hover:text-foreground hover:bg-white"
+                                        : "text-text-secondary hover:text-foreground hover:bg-white dark:hover:bg-surface"
                                 }`}
                             >
                                 <Hotel className="size-4" />
@@ -241,7 +241,7 @@ export const HomeSearchBar = () => {
                                 className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${
                                     activeTab === "sports"
                                         ? "bg-primary text-primary-foreground shadow-sm scale-102"
-                                        : "text-text-secondary hover:text-foreground hover:bg-white"
+                                        : "text-text-secondary hover:text-foreground hover:bg-white dark:hover:bg-surface"
                                 }`}
                             >
                                 <Trophy className="size-4" />
@@ -254,7 +254,7 @@ export const HomeSearchBar = () => {
                                 className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${
                                     activeTab === "buy"
                                         ? "bg-primary text-primary-foreground shadow-sm scale-102"
-                                        : "text-text-secondary hover:text-foreground hover:bg-white"
+                                        : "text-text-secondary hover:text-foreground hover:bg-white dark:hover:bg-surface"
                                 }`}
                             >
                                 <Building2 className="size-4" />
@@ -284,8 +284,8 @@ export const HomeSearchBar = () => {
                                     onClick={() => setOpenPopover(openPopover === "location" ? null : "location")}
                                     className={`h-full p-3 sm:p-3.5 rounded-xl transition-all cursor-pointer flex items-center gap-3 border ${
                                         openPopover === "location"
-                                            ? "bg-white border-primary/40 shadow-sm ring-2 ring-primary/10"
-                                            : "bg-white hover:bg-white/90 border-transparent"
+                                            ? "bg-white dark:bg-card border-primary/40 shadow-sm ring-2 ring-primary/10"
+                                            : "bg-white dark:bg-card hover:bg-white/90 dark:hover:bg-card/80 border-transparent"
                                     }`}
                                 >
                                     <div className="size-10 rounded-xl bg-surface-secondary text-primary flex items-center justify-center shrink-0">
@@ -323,7 +323,7 @@ export const HomeSearchBar = () => {
 
                                 {/* Popover 1: Location Suggestions */}
                                 {openPopover === "location" && (
-                                    <div className="absolute left-0 top-full mt-2 w-full sm:w-84 p-3 bg-white rounded-2xl shadow-2xl border border-border z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                                    <div className="absolute left-0 top-full mt-2 w-full sm:w-84 p-3 bg-white dark:bg-popover rounded-2xl shadow-2xl border border-border z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                                         <div className="flex items-center justify-between pb-2 border-b border-border/60 mb-2">
                                             <span className="text-xs font-bold text-foreground">
                                                 Top Hubs & Destinations
@@ -370,8 +370,8 @@ export const HomeSearchBar = () => {
                                     onClick={() => setOpenPopover(openPopover === "type" ? null : "type")}
                                     className={`h-full p-3 sm:p-3.5 rounded-xl transition-all cursor-pointer flex items-center gap-3 border ${
                                         openPopover === "type"
-                                            ? "bg-white border-primary/40 shadow-sm ring-2 ring-primary/10"
-                                            : "bg-white hover:bg-white/90 border-transparent"
+                                            ? "bg-white dark:bg-card border-primary/40 shadow-sm ring-2 ring-primary/10"
+                                            : "bg-white dark:bg-card hover:bg-white/90 dark:hover:bg-card/80 border-transparent"
                                     }`}
                                 >
                                     <div className="size-10 rounded-xl bg-surface-secondary text-primary flex items-center justify-center shrink-0">
@@ -398,7 +398,7 @@ export const HomeSearchBar = () => {
 
                                 {/* Popover 2: Category Selector */}
                                 {openPopover === "type" && (
-                                    <div className="absolute left-0 top-full mt-2 w-full sm:w-80 p-3 bg-white rounded-2xl shadow-2xl border border-border z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                                    <div className="absolute left-0 top-full mt-2 w-full sm:w-80 p-3 bg-white dark:bg-popover rounded-2xl shadow-2xl border border-border z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                                         <div className="flex items-center justify-between pb-2 border-b border-border/60 mb-2">
                                             <span className="text-xs font-bold text-foreground">
                                                 Select {activeTab.toUpperCase()} Category
@@ -474,8 +474,8 @@ export const HomeSearchBar = () => {
                                     onClick={() => setOpenPopover(openPopover === "seg3" ? null : "seg3")}
                                     className={`h-full p-3 sm:p-3.5 rounded-xl transition-all cursor-pointer flex items-center gap-3 border ${
                                         openPopover === "seg3"
-                                            ? "bg-white border-primary/40 shadow-sm ring-2 ring-primary/10"
-                                            : "bg-white hover:bg-white/90 border-transparent"
+                                            ? "bg-white dark:bg-card border-primary/40 shadow-sm ring-2 ring-primary/10"
+                                            : "bg-white dark:bg-card hover:bg-white/90 dark:hover:bg-card/80 border-transparent"
                                     }`}
                                 >
                                     <div className="size-10 rounded-xl bg-surface-secondary text-primary flex items-center justify-center shrink-0">
@@ -510,7 +510,7 @@ export const HomeSearchBar = () => {
 
                                 {/* Popover 3: Segment 3 Dropdown */}
                                 {openPopover === "seg3" && (
-                                    <div className="absolute left-0 top-full mt-2 w-full sm:w-80 p-4 bg-white rounded-2xl shadow-2xl border border-border z-50 animate-in fade-in slide-in-from-top-2 duration-150 space-y-3">
+                                    <div className="absolute left-0 top-full mt-2 w-full sm:w-80 p-4 bg-white dark:bg-popover rounded-2xl shadow-2xl border border-border z-50 animate-in fade-in slide-in-from-top-2 duration-150 space-y-3">
                                         {activeTab === "book" ? (
                                             <>
                                                 <div className="flex items-center justify-between pb-2 border-b border-border">
@@ -537,7 +537,7 @@ export const HomeSearchBar = () => {
                                                             type="date"
                                                             value={checkInDate}
                                                             onChange={(e) => setCheckInDate(e.target.value)}
-                                                            className="w-full p-2.5 rounded-xl border border-border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
+                                                            className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
                                                         />
                                                     </div>
                                                     <div>
@@ -549,7 +549,7 @@ export const HomeSearchBar = () => {
                                                             value={checkOutDate}
                                                             min={checkInDate}
                                                             onChange={(e) => setCheckOutDate(e.target.value)}
-                                                            className="w-full p-2.5 rounded-xl border border-border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
+                                                            className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
                                                         />
                                                     </div>
                                                 </div>
@@ -626,8 +626,8 @@ export const HomeSearchBar = () => {
                                     onClick={() => setOpenPopover(openPopover === "seg4" ? null : "seg4")}
                                     className={`h-full p-3 sm:p-3.5 rounded-xl transition-all cursor-pointer flex items-center gap-3 border ${
                                         openPopover === "seg4"
-                                            ? "bg-white border-primary/40 shadow-sm ring-2 ring-primary/10"
-                                            : "bg-white hover:bg-white/90 border-transparent"
+                                            ? "bg-white dark:bg-card border-primary/40 shadow-sm ring-2 ring-primary/10"
+                                            : "bg-white dark:bg-card hover:bg-white/90 dark:hover:bg-card/80 border-transparent"
                                     }`}
                                 >
                                     <div className="size-10 rounded-xl bg-surface-secondary text-primary flex items-center justify-center shrink-0">
@@ -654,7 +654,7 @@ export const HomeSearchBar = () => {
 
                                 {/* Popover 4: Guests Counter OR Budget Pills */}
                                 {openPopover === "seg4" && (
-                                    <div className="absolute right-0 top-full mt-2 w-full sm:w-80 p-4 bg-white rounded-2xl shadow-2xl border border-border z-50 animate-in fade-in slide-in-from-top-2 duration-150 space-y-4">
+                                    <div className="absolute right-0 top-full mt-2 w-full sm:w-80 p-4 bg-white dark:bg-popover rounded-2xl shadow-2xl border border-border z-50 animate-in fade-in slide-in-from-top-2 duration-150 space-y-4">
                                         {activeTab === "book" ? (
                                             <>
                                                 <div className="text-xs font-bold text-foreground pb-2 border-b border-border">

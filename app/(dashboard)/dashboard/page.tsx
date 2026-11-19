@@ -12,7 +12,7 @@ export default function DashboardPage() {
                         <Shield className="w-3.5 h-3.5 text-accent" />
                         <span>FindBookStay Master Control Panel</span>
                     </div>
-                    <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Platform Administration & Operations</h1>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Platform Operations & Overview</h1>
                     <p className="text-xs sm:text-sm text-white/80 leading-relaxed">Monitor live transactions, verify new rental & land deed submissions, oversee resort bookings, and manage sports arena operations across Bangladesh.</p>
                 </div>
                 <div className="absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />

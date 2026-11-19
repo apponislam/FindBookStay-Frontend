@@ -54,21 +54,21 @@ const MobileDrawer = ({
             <div className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity duration-300 animate-in fade-in" onClick={onClose} />
 
             {/* Drawer container */}
-            <div className="fixed inset-y-0 right-0 w-full max-w-sm sm:max-w-md bg-white shadow-2xl z-50 flex flex-col justify-between overflow-y-auto animate-in slide-in-from-right duration-300">
+            <div className="fixed inset-y-0 right-0 w-full max-w-sm sm:max-w-md bg-white dark:bg-background shadow-2xl z-50 flex flex-col justify-between overflow-y-auto animate-in slide-in-from-right duration-300">
                 {/* Top Drawer Header */}
                 <div>
-                    <div className="flex items-center justify-between p-4 border-b border-[#E2EAE6]">
+                    <div className="flex items-center justify-between p-4 border-b border-border">
                         <Link href="/" onClick={onClose} className="cursor-pointer flex items-center gap-2">
-                            <Image src="/findbookstay-logo.png" alt="FindBookStay" width={150} height={44} className="h-8 w-auto object-contain" />
+                            <Image src="/findbookstay-logo.png" alt="FindBookStay" width={150} height={44} className="h-8 w-auto object-contain dark:brightness-0 dark:invert" />
                         </Link>
-                        <button type="button" onClick={onClose} className="cursor-pointer p-2 rounded-full text-[#64748B] hover:text-[#172B2A] hover:bg-[#F8FAF9] transition-colors" aria-label="Close navigation">
+                        <button type="button" onClick={onClose} className="cursor-pointer p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-surface-secondary transition-colors" aria-label="Close navigation">
                             <X className="size-5" />
                         </button>
                     </div>
 
                     {/* Mobile Primary Action Button */}
-                    <div className="p-4 border-b border-[#E2EAE6]/70">
-                        <Link href="/post-listing" onClick={onClose} className="cursor-pointer w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#073B35] hover:bg-[#052F2A] text-white text-xs font-semibold shadow-xs transition-colors">
+                    <div className="p-4 border-b border-border/70">
+                        <Link href="/post-listing" onClick={onClose} className="cursor-pointer w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground text-xs font-semibold shadow-xs transition-colors">
                             <Plus className="size-4" />
                             Post Your Listing For Free
                         </Link>
@@ -83,27 +83,27 @@ const MobileDrawer = ({
                                     <button
                                         type="button"
                                         onClick={() => onToggleCategory(cat.id)}
-                                        className={`cursor-pointer w-full flex items-center justify-between p-3 rounded-xl text-sm font-semibold transition-colors ${isExpanded ? "bg-[#F0F5F3] text-[#10B981]" : "text-[#172B2A] hover:bg-[#F8FAF9]"}`}
+                                        className={`cursor-pointer w-full flex items-center justify-between p-3 rounded-xl text-sm font-semibold transition-colors ${isExpanded ? "bg-surface-secondary text-accent" : "text-foreground hover:bg-surface-secondary"}`}
                                     >
                                         <span className="flex items-center gap-2">{cat.label}</span>
-                                        <ChevronDown className={`size-4 transition-transform duration-200 ${isExpanded ? "rotate-180 text-[#10B981]" : "text-[#64748B]"}`} />
+                                        <ChevronDown className={`size-4 transition-transform duration-200 ${isExpanded ? "rotate-180 text-accent" : "text-muted-foreground"}`} />
                                     </button>
 
                                     {isExpanded && (
-                                        <div className="pl-3 pr-2 py-2 space-y-1 bg-white animate-in slide-in-from-top-1 duration-150">
+                                        <div className="pl-3 pr-2 py-2 space-y-1 bg-white dark:bg-card rounded-xl animate-in slide-in-from-top-1 duration-150">
                                             {cat.items.map((item) => {
                                                 const ItemIcon = item.icon;
                                                 return (
-                                                    <Link key={item.name} href={item.href} onClick={onClose} className="cursor-pointer flex items-center gap-2.5 p-2 rounded-lg text-xs font-medium text-[#172B2A] hover:bg-[#F8FAF9] hover:text-[#10B981] transition-colors">
-                                                        <div className="size-6 rounded-md bg-[#F0F5F3] text-[#073B35] flex items-center justify-center shrink-0">
+                                                    <Link key={item.name} href={item.href} onClick={onClose} className="cursor-pointer flex items-center gap-2.5 p-2 rounded-lg text-xs font-medium text-foreground hover:bg-surface-secondary hover:text-accent transition-colors">
+                                                        <div className="size-6 rounded-md bg-surface-secondary text-primary flex items-center justify-center shrink-0">
                                                             <ItemIcon className="size-3.5" />
                                                         </div>
                                                         <span className="flex-1 truncate">{item.name}</span>
-                                                        {item.badge && <span className="px-1.5 py-0.5 text-[9px] font-semibold uppercase rounded-full bg-[#F0F5F3] text-[#10B981]">{item.badge}</span>}
+                                                        {item.badge && <span className="px-1.5 py-0.5 text-[9px] font-semibold uppercase rounded-full bg-surface-secondary text-accent">{item.badge}</span>}
                                                     </Link>
                                                 );
                                             })}
-                                            <Link href={cat.href} onClick={onClose} className="cursor-pointer block p-2 text-xs font-semibold text-[#10B981] hover:underline">
+                                            <Link href={cat.href} onClick={onClose} className="cursor-pointer block p-2 text-xs font-semibold text-accent hover:underline">
                                                 Explore All {cat.label} &rarr;
                                             </Link>
                                         </div>
@@ -114,45 +114,51 @@ const MobileDrawer = ({
                     </div>
 
                     {/* Quick links */}
-                    <div className="px-4 py-3 border-t border-[#E2EAE6]/70 space-y-2">
-                        <Link href="/saved" onClick={onClose} className="cursor-pointer flex items-center justify-between text-xs font-medium text-[#172B2A] p-2 rounded-lg hover:bg-[#F8FAF9]">
+                    <div className="px-4 py-3 border-t border-border/70 space-y-2">
+                        <Link href="/saved" onClick={onClose} className="cursor-pointer flex items-center justify-between text-xs font-medium text-foreground p-2 rounded-lg hover:bg-surface-secondary">
                             <span className="flex items-center gap-2">
-                                <Heart className="size-4 text-[#10B981]" /> Saved Favorites
+                                <Heart className="size-4 text-accent" /> Saved Favorites
                             </span>
-                            <span className="px-2 py-0.5 rounded-full bg-[#F0F5F3] text-[#10B981] text-[10px] font-bold">{favoritesCount}</span>
+                            <span className="px-2 py-0.5 rounded-full bg-surface-secondary text-accent text-[10px] font-bold">{favoritesCount}</span>
                         </Link>
-                        <Link href="/help" onClick={onClose} className="cursor-pointer flex items-center gap-2 text-xs font-medium text-[#172B2A] p-2 rounded-lg hover:bg-[#F8FAF9]">
-                            <PhoneCall className="size-4 text-[#10B981]" /> 24/7 Support Hotline
+                        <Link href="/help" onClick={onClose} className="cursor-pointer flex items-center gap-2 text-xs font-medium text-foreground p-2 rounded-lg hover:bg-surface-secondary">
+                            <PhoneCall className="size-4 text-accent" /> 24/7 Support Hotline
                         </Link>
                     </div>
                 </div>
 
                 {/* Bottom: Auth Actions in Drawer */}
-                <div className="p-4 border-t border-[#E2EAE6] bg-[#F8FAF9]">
+                <div className="p-4 border-t border-border bg-surface">
                     {isAuthenticated ? (
                         <div className="space-y-3">
                             <div className="flex items-center gap-3">
                                 <div className="relative size-9 shrink-0">
-                                    <div className="size-full rounded-full bg-linear-to-tr from-[#073B35] to-[#10B981] text-white flex items-center justify-center text-xs font-bold uppercase overflow-hidden shadow-2xs">
+                                    <div className="relative size-full rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center text-xs font-bold uppercase overflow-hidden shadow-2xs">
                                         {user?.profileImage ? (
-                                            <Image src={getImageUrl(user.profileImage)} alt={displayName} fill unoptimized className="object-cover" />
+                                            <Image
+                                                src={getImageUrl(user.profileImage)}
+                                                alt={displayName}
+                                                fill
+                                                sizes="36px"
+                                                className="rounded-full object-cover"
+                                            />
                                         ) : (
                                             initials
                                         )}
                                     </div>
                                     <span
-                                        className={`absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full ring-2 ring-white z-10 ${
-                                            user?.isEmailVerified ? "bg-[#10B981]" : "bg-amber-400"
+                                        className={`absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full ring-2 ring-background z-10 ${
+                                            user?.isEmailVerified ? "bg-accent" : "bg-amber-400"
                                         }`}
                                     />
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-xs font-bold text-[#172B2A] truncate">{displayName}</p>
-                                    <p className="text-[11px] text-[#64748B] truncate">{displayEmail}</p>
+                                    <p className="text-xs font-bold text-foreground truncate">{displayName}</p>
+                                    <p className="text-[11px] text-muted-foreground truncate">{displayEmail}</p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-2 pt-1">
-                                <Link href="/account/settings" onClick={onClose} className="cursor-pointer py-1.5 px-3 text-center rounded-lg border border-[#E2EAE6] bg-white text-xs font-semibold text-[#172B2A] hover:bg-slate-50">
+                                <Link href="/account/settings" onClick={onClose} className="cursor-pointer py-1.5 px-3 text-center rounded-lg border border-border bg-background text-xs font-semibold text-foreground hover:bg-surface-secondary">
                                     Settings
                                 </Link>
                                 <button
@@ -165,7 +171,7 @@ const MobileDrawer = ({
                                         }
                                         onClose();
                                     }}
-                                    className="cursor-pointer py-1.5 px-3 rounded-lg bg-rose-50 border border-rose-200 text-xs font-semibold text-rose-600 hover:bg-rose-100"
+                                    className="cursor-pointer py-1.5 px-3 rounded-lg bg-destructive/10 border border-destructive/20 text-xs font-semibold text-destructive hover:bg-destructive/20"
                                 >
                                     Sign Out
                                 </button>
@@ -176,7 +182,7 @@ const MobileDrawer = ({
                             <Link
                                 href="/auth/register"
                                 onClick={onClose}
-                                className="cursor-pointer w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-linear-to-r from-[#10B981] to-[#059669] text-white text-xs font-bold shadow-[0_4px_12px_rgba(16,185,129,0.25)] hover:shadow transition-all"
+                                className="cursor-pointer w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-linear-to-r from-accent to-accent-hover text-white text-xs font-bold shadow-[0_4px_12px_rgba(16,185,129,0.25)] hover:shadow transition-all"
                             >
                                 <span>Create Free Account</span>
                                 <ArrowRight className="size-3.5" />
@@ -184,9 +190,9 @@ const MobileDrawer = ({
                             <Link
                                 href="/auth/login"
                                 onClick={onClose}
-                                className="cursor-pointer w-full flex items-center justify-center gap-1.5 py-2 px-4 rounded-xl border border-[#E2EAE6] bg-white text-[#172B2A] text-xs font-semibold hover:bg-[#F0F5F3] hover:border-[#10B981]/40 transition-colors shadow-2xs"
+                                className="cursor-pointer w-full flex items-center justify-center gap-1.5 py-2 px-4 rounded-xl border border-border bg-background text-foreground text-xs font-semibold hover:bg-surface-secondary hover:border-accent/40 transition-colors shadow-2xs"
                             >
-                                <User className="size-3.5 text-[#64748B]" />
+                                <User className="size-3.5 text-muted-foreground" />
                                 <span>Log In</span>
                             </Link>
                         </div>

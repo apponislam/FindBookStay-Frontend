@@ -28,7 +28,7 @@ export const FeaturedBuyProperties = () => {
     };
 
     return (
-        <section className="py-16 bg-surface-secondary/40 border-y border-border">
+        <section className="py-16 bg-surface/60 dark:bg-surface/20 border-y border-border">
             <div className="container mx-auto px-4">
                 {/* Section Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
@@ -50,7 +50,7 @@ export const FeaturedBuyProperties = () => {
                 {/* Filter Pills */}
                 <div className="flex items-center gap-2 overflow-x-auto pb-4 scrollbar-thin mb-6">
                     {CATEGORIES.map((cat) => (
-                        <button key={cat.value} onClick={() => setSelectedCategory(cat.value)} className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${selectedCategory === cat.value ? "bg-primary text-white shadow-xs" : "bg-surface text-muted-foreground hover:text-foreground border border-border"}`}>
+                        <button key={cat.value} onClick={() => setSelectedCategory(cat.value)} className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${selectedCategory === cat.value ? "bg-primary text-primary-foreground shadow-xs" : "bg-white dark:bg-card text-muted-foreground hover:text-foreground border border-border hover:border-primary/40"}`}>
                             {cat.label}
                         </button>
                     ))}
@@ -63,7 +63,7 @@ export const FeaturedBuyProperties = () => {
                         const image = property.images && property.images.length > 0 ? property.images[0] : "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80";
 
                         return (
-                            <Link key={property.id} href={`/buy/${property.slug}`} className="group bg-surface rounded-3xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/40 transition-all duration-300 flex flex-col">
+                            <Link key={property.id} href={`/buy/${property.slug}`} className="group bg-white dark:bg-card rounded-3xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/40 transition-all duration-300 flex flex-col">
                                 {/* Property Image Display */}
                                 <div className="relative aspect-4/3 w-full overflow-hidden bg-slate-900">
                                     <Image src={image} alt={property.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -131,7 +131,7 @@ export const FeaturedBuyProperties = () => {
                 </div>
 
                 {/* Bottom Trust Assurance Pill Banner */}
-                <div className="mt-8 p-4 rounded-2xl bg-surface border border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+                <div className="mt-8 p-4 rounded-2xl bg-white dark:bg-card border border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
                             <CheckCircle2 className="w-4 h-4" />
@@ -141,7 +141,7 @@ export const FeaturedBuyProperties = () => {
                         </div>
                     </div>
 
-                    <Link href="/buy" className="px-4 py-2 rounded-xl bg-primary text-white font-bold hover:bg-primary-hover transition-colors whitespace-nowrap shrink-0 cursor-pointer shadow-xs">
+                    <Link href="/buy" className="px-4 py-2 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary-hover transition-colors whitespace-nowrap shrink-0 cursor-pointer shadow-xs">
                         Browse All {BUY_PROPERTIES.length}+ Listings
                     </Link>
                 </div>

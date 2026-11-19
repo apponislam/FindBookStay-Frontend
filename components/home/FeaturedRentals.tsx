@@ -126,7 +126,7 @@ export const FeaturedRentals = () => {
                     {FEATURED_RENTALS.map((rental) => (
                         <div
                             key={rental.id}
-                            className="group bg-white rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col justify-between"
+                            className="group bg-white dark:bg-card rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col justify-between"
                         >
                             {/* Image Header with Badges */}
                             <div className="relative w-full h-48 overflow-hidden bg-surface-secondary">
@@ -140,7 +140,7 @@ export const FeaturedRentals = () => {
                                 <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent opacity-60" />
 
                                 <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-white/90 backdrop-blur-md text-foreground shadow-xs">
+                                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-white/90 dark:bg-card/90 backdrop-blur-md text-foreground shadow-xs">
                                         {rental.badge}
                                     </span>
                                     {rental.verified && (

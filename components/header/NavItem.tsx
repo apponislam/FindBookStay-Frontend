@@ -21,15 +21,15 @@ const NavItem = ({ category, isOpen, onToggle, onMouseEnter, onMouseLeave, onClo
                 type="button"
                 onClick={onToggle}
                 className={`group relative cursor-pointer inline-flex items-center gap-1.5 px-4 py-2.5 text-[14px] font-semibold tracking-[-0.01em] rounded-xl transition-all duration-200 ${
-                    isOpen ? "text-[#073B35] bg-[#F0F5F3] shadow-2xs ring-1 ring-[#E2EAE6]" : "text-[#172B2A] hover:text-[#073B35] hover:bg-[#F0F5F3]/80"
+                    isOpen ? "text-primary bg-surface-secondary shadow-2xs ring-1 ring-border" : "text-foreground hover:text-primary hover:bg-surface-secondary/80"
                 }`}
                 aria-expanded={isOpen}
             >
                 <span className="relative z-10">{category.label}</span>
-                <ChevronDown className={`size-3.5 transition-all duration-300 ${isOpen ? "rotate-180 text-[#10B981]" : "text-[#64748B] group-hover:text-[#073B35] group-hover:translate-y-0.5"}`} />
+                <ChevronDown className={`size-3.5 transition-all duration-300 ${isOpen ? "rotate-180 text-accent" : "text-muted-foreground group-hover:text-primary group-hover:translate-y-0.5"}`} />
                 {/* Modern Animated Gradient Indicator Line */}
                 <span
-                    className={`absolute bottom-1 left-3.5 right-3.5 h-0.5 rounded-full bg-linear-to-r from-[#073B35] via-[#10B981] to-[#073B35] transition-all duration-300 ease-out origin-center ${
+                    className={`absolute bottom-1 left-3.5 right-3.5 h-0.5 rounded-full bg-linear-to-r from-primary via-accent to-primary transition-all duration-300 ease-out origin-center ${
                         isOpen ? "scale-x-100 opacity-100 shadow-[0_0_8px_rgba(16,185,129,0.4)]" : "scale-x-0 opacity-0 group-hover:scale-x-75 group-hover:opacity-75"
                     }`}
                 />

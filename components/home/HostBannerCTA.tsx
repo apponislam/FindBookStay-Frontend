@@ -8,7 +8,7 @@ export const HostBannerCTA = () => {
     return (
         <section className="py-16 bg-background">
             <div className="container mx-auto px-4">
-                <div className="relative rounded-3xl overflow-hidden bg-linear-to-br from-emerald-950 via-primary to-[#062F2B] text-white p-8 sm:p-12 lg:p-16 shadow-2xl border border-emerald-800/40">
+                <div className="relative rounded-3xl overflow-hidden bg-linear-to-br from-emerald-950 via-emerald-900 to-[#062F2B] dark:from-[#0B1A17] dark:via-[#132B25] dark:to-[#0B1A17] text-white p-8 sm:p-12 lg:p-16 shadow-2xl border border-emerald-800/40">
                     {/* Background glow effects */}
                     <div className="absolute top-0 right-0 size-96 bg-accent/20 rounded-full blur-3xl pointer-events-none" />
                     <div className="absolute bottom-0 left-0 size-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />

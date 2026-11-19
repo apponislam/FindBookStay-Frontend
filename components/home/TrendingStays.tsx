@@ -76,7 +76,7 @@ const TRENDING_STAYS: StayItem[] = [
 
 export const TrendingStays = () => {
     return (
-        <section className="py-16 bg-surface/50 border-y border-border">
+        <section className="py-16 bg-surface/60 dark:bg-surface/20 border-y border-border">
             <div className="container mx-auto px-4">
                 {/* Section Header */}
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
@@ -98,14 +98,14 @@ export const TrendingStays = () => {
                 {/* Stays Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {TRENDING_STAYS.map((stay) => (
-                        <div key={stay.id} className="group bg-white rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col justify-between">
+                        <div key={stay.id} className="group bg-white dark:bg-card rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col justify-between">
                             {/* Image Header */}
                             <div className="relative w-full h-48 overflow-hidden bg-surface-secondary">
                                 <Image src={stay.image} alt={stay.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
                                 <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent opacity-60" />
 
                                 <div className="absolute top-3 left-3">
-                                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-white/90 backdrop-blur-md text-foreground shadow-xs">{stay.badge}</span>
+                                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-white/90 dark:bg-card/90 backdrop-blur-md text-foreground shadow-xs">{stay.badge}</span>
                                 </div>
 
                                 <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-black/60 backdrop-blur-md text-amber-300 shadow-xs">
