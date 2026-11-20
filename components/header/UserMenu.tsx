@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronDown, ChevronRight, User, Heart, Settings, LogOut, CheckCircle2, HelpCircle, SlidersHorizontal, CalendarDays, Building, ArrowRight } from "@/components/Icons";
+import { ChevronDown, ChevronRight, User, Heart, Settings, LogOut, CheckCircle2, HelpCircle, SlidersHorizontal, CalendarDays, Building, ArrowRight, X } from "@/components/Icons";
 import { getImageUrl } from "@/lib/utils";
 import type { TUser } from "@/redux/features/auth/authSlice";
 
@@ -116,9 +116,9 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
             {isOpen && (
                 <>
                     {/* Mobile Backdrop to tap outside and dismiss cleanly */}
-                    <div className="fixed inset-0 bg-black/25 backdrop-blur-xs z-40 sm:hidden" onClick={onClose} aria-hidden="true" />
+                    <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 sm:hidden animate-in fade-in duration-200" onClick={onClose} aria-hidden="true" />
 
-                    <div className="absolute right-0 top-full mt-2 w-[calc(100vw-24px)] max-w-85 sm:w-80 sm:max-w-none rounded-2xl p-[1.5px] overflow-hidden shadow-2xl bg-border z-50 origin-top-right transition-all duration-300 ease-out animate-in fade-in zoom-in-95 slide-in-from-top-1">
+                    <div className="fixed inset-x-3 top-16 max-h-[85vh] z-50 sm:absolute sm:inset-auto sm:right-0 sm:top-full sm:mt-2 sm:w-80 sm:max-h-none rounded-2xl p-[1.5px] overflow-hidden shadow-2xl bg-border origin-top-right transition-all duration-300 ease-out animate-in fade-in zoom-in-95 slide-in-from-top-1">
                         {/* Inline keyframe definition to guarantee instant execution */}
                         <style>{`
                             @keyframes border-beam-spin {
@@ -162,10 +162,10 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
                         />
 
                         {/* 3. Card Inner Content */}
-                        <div className="relative z-10 bg-white dark:bg-card rounded-[15px] p-3 ring-1 ring-black/5 dark:ring-white/10">
+                        <div className="relative z-10 bg-white dark:bg-card rounded-[15px] p-3 ring-1 ring-black/5 dark:ring-white/10 max-h-[82vh] sm:max-h-none overflow-y-auto scrollbar-thin">
                             {/* Profile Header Card */}
-                            <div className="p-3 mb-2 rounded-xl bg-surface-secondary border border-border/70">
-                                <div className="flex items-center gap-3">
+                            <div className="p-3 mb-2 rounded-xl bg-surface-secondary border border-border/70 flex items-center justify-between gap-2">
+                                <div className="flex items-center gap-3 min-w-0">
                                     <div className="relative size-11 shrink-0">
                                         <div className="relative size-full rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center text-sm font-bold shadow-xs overflow-hidden">{user?.profileImage ? <Image src={getImageUrl(user.profileImage)} alt={displayName} fill sizes="44px" className="rounded-full object-cover" /> : initials}</div>
                                         {/* Verification round badge */}
@@ -181,6 +181,15 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
                                         <p className="text-[11.5px] text-muted-foreground truncate mt-0.5">{displayEmail}</p>
                                     </div>
                                 </div>
+                                {/* Mobile Close Button */}
+                                <button
+                                    type="button"
+                                    onClick={onClose}
+                                    className="p-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-background/80 sm:hidden cursor-pointer shrink-0"
+                                    aria-label="Close profile menu"
+                                >
+                                    <X className="size-4" />
+                                </button>
                             </div>
 
                             {/* Navigation Links Grid */}

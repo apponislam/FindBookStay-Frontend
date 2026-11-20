@@ -19,15 +19,19 @@ export const SavedDropdown = ({ isOpen, onClose, savedItems, onRemoveItem }: Sav
     return (
         <>
             {/* Mobile Backdrop */}
-            <div className="fixed inset-0 bg-black/25 backdrop-blur-xs z-40 sm:hidden" onClick={onClose} aria-hidden="true" />
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 sm:hidden animate-in fade-in duration-200" onClick={onClose} aria-hidden="true" />
 
-            <div className="absolute right-0 top-full mt-2 w-[calc(100vw-24px)] max-w-90 sm:w-95 sm:max-w-none rounded-3xl bg-white dark:bg-card border border-border shadow-2xl z-50 overflow-hidden origin-top-right animate-in fade-in zoom-in-95 duration-150" role="dialog" aria-label="Saved Listings Dropdown">
+            <div className="fixed inset-x-3 top-16 max-h-[82vh] z-50 sm:absolute sm:inset-auto sm:right-0 sm:top-full sm:mt-2.5 sm:w-95 sm:max-h-130 rounded-3xl bg-white dark:bg-card border border-border shadow-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-150" role="dialog" aria-label="Saved Listings Dropdown">
                 {/* Header */}
-                <div className="p-4 border-b border-border flex items-center justify-between bg-surface/50">
+                <div className="p-4 border-b border-border flex items-center justify-between bg-surface/50 shrink-0">
                     <div className="flex items-center gap-2">
                         <span className="text-sm font-extrabold text-foreground">Saved Listings</span>
                         <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-primary/15 text-primary">{savedItems.length} items</span>
                     </div>
+                    {/* Mobile Close Button */}
+                    <button type="button" onClick={onClose} className="p-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-surface-secondary sm:hidden cursor-pointer" aria-label="Close saved listings">
+                        <X className="size-4" />
+                    </button>
                 </div>
 
                 {/* Saved Items Feed */}

@@ -11,6 +11,7 @@ import {
     Building2,
     ArrowRight,
     Sparkles,
+    X,
 } from "@/components/Icons";
 import { NotificationItem } from "@/constants/notificationsData";
 
@@ -45,42 +46,53 @@ export const NotificationsDropdown = ({
         <>
             {/* Mobile Backdrop */}
             <div
-                className="fixed inset-0 bg-black/25 backdrop-blur-xs z-40 sm:hidden"
+                className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 sm:hidden animate-in fade-in duration-200"
                 onClick={onClose}
                 aria-hidden="true"
             />
 
             <div
-                className="absolute right-0 top-full mt-2 w-[calc(100vw-24px)] max-w-[360px] sm:w-[380px] sm:max-w-none rounded-3xl bg-white dark:bg-card border border-border shadow-2xl z-50 overflow-hidden origin-top-right animate-in fade-in zoom-in-95 duration-150"
+                className="fixed inset-x-3 top-16 max-h-[82vh] z-50 sm:absolute sm:inset-auto sm:right-0 sm:top-full sm:mt-2.5 sm:w-[380px] sm:max-h-[520px] rounded-3xl bg-white dark:bg-card border border-border shadow-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-150"
                 role="dialog"
                 aria-label="Notifications Dropdown"
             >
-            {/* Header */}
-            <div className="p-4 border-b border-border flex items-center justify-between bg-surface/50">
-                <div className="flex items-center gap-2">
-                    <span className="text-sm font-extrabold text-foreground">Notifications</span>
-                    {unreadCount > 0 ? (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-accent/15 text-accent">
-                            {unreadCount} new
-                        </span>
-                    ) : (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-surface-secondary text-muted-foreground">
-                            All read
-                        </span>
-                    )}
-                </div>
+                {/* Header */}
+                <div className="p-4 border-b border-border flex items-center justify-between bg-surface/50 shrink-0">
+                    <div className="flex items-center gap-2">
+                        <span className="text-sm font-extrabold text-foreground">Notifications</span>
+                        {unreadCount > 0 ? (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-accent/15 text-accent">
+                                {unreadCount} new
+                            </span>
+                        ) : (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-surface-secondary text-muted-foreground">
+                                All read
+                            </span>
+                        )}
+                    </div>
 
-                {unreadCount > 0 && (
-                    <button
-                        type="button"
-                        onClick={onMarkAllAsRead}
-                        className="inline-flex items-center gap-1 text-[11px] font-bold text-primary hover:text-primary-hover transition-colors cursor-pointer"
-                    >
-                        <Check className="size-3" />
-                        <span>Mark all read</span>
-                    </button>
-                )}
-            </div>
+                    <div className="flex items-center gap-2">
+                        {unreadCount > 0 && (
+                            <button
+                                type="button"
+                                onClick={onMarkAllAsRead}
+                                className="inline-flex items-center gap-1 text-[11px] font-bold text-primary hover:text-primary-hover transition-colors cursor-pointer"
+                            >
+                                <Check className="size-3" />
+                                <span>Mark all read</span>
+                            </button>
+                        )}
+                        {/* Mobile Close Button */}
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="p-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-surface-secondary sm:hidden cursor-pointer"
+                            aria-label="Close notifications"
+                        >
+                            <X className="size-4" />
+                        </button>
+                    </div>
+                </div>
 
             {/* Notifications Feed */}
             <div className="max-h-[380px] overflow-y-auto divide-y divide-border/60 scrollbar-thin">

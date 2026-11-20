@@ -257,11 +257,34 @@ const Header = () => {
 
                             {/* User Profile / Guest Menu */}
                             <div ref={userMenuRef} className="relative">
-                                <UserMenu isAuthenticated={isAuthenticated} user={user} onLogout={handleLogout} onToggleAuth={setDemoAuth} favoritesCount={favoritesCount} isOpen={userDropdownOpen} onToggle={() => setUserDropdownOpen(!userDropdownOpen)} onClose={() => setUserDropdownOpen(false)} />
+                                <UserMenu
+                                    isAuthenticated={isAuthenticated}
+                                    user={user}
+                                    onLogout={handleLogout}
+                                    onToggleAuth={setDemoAuth}
+                                    favoritesCount={favoritesCount}
+                                    isOpen={userDropdownOpen}
+                                    onToggle={() => {
+                                        setUserDropdownOpen((prev) => !prev);
+                                        setSavedDropdownOpen(false);
+                                        setNotificationsDropdownOpen(false);
+                                    }}
+                                    onClose={() => setUserDropdownOpen(false)}
+                                />
                             </div>
 
                             {/* Mobile Drawer Hamburger Trigger */}
-                            <button type="button" onClick={() => setMobileDrawerOpen(true)} className="cursor-pointer lg:hidden p-1.5 sm:p-2 rounded-xl text-foreground hover:bg-surface-secondary transition-colors focus:outline-none" aria-label="Open mobile navigation menu">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setUserDropdownOpen(false);
+                                    setSavedDropdownOpen(false);
+                                    setNotificationsDropdownOpen(false);
+                                    setMobileDrawerOpen(true);
+                                }}
+                                className="cursor-pointer lg:hidden p-1.5 sm:p-2 rounded-xl text-foreground hover:bg-surface-secondary transition-colors focus:outline-none"
+                                aria-label="Open mobile navigation menu"
+                            >
                                 <Menu className="size-5 sm:size-6" />
                             </button>
                         </div>
