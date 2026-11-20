@@ -184,3 +184,65 @@
 .animate-border-beam-spin {
   animation: border-beam-spin 3.5s linear infinite;
 }
+
+/* ============================================================== */
+/* CUSTOM MODERN SCROLLBAR                                         */
+/* ============================================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #073B35;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #263B34;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #34D399;
+}
+
+/* Standard Firefox Scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 transparent;
+}
+
+html.dark,
+.dark {
+  scrollbar-color: #263B34 transparent;
+}
+
+/* Scrollbar Utility Classes */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+}

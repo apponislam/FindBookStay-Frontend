@@ -76,7 +76,7 @@ export const BookFilterSidebar = ({
 
     return (
         <aside
-            className={`bg-white rounded-2xl border border-border p-5 space-y-6 ${
+            className={`bg-white dark:bg-card rounded-2xl border border-border p-5 space-y-6 ${
                 isMobileDrawer ? "shadow-none border-none p-4" : "shadow-xs"
             }`}
         >
@@ -114,10 +114,10 @@ export const BookFilterSidebar = ({
             {/* Verified Only Toggle */}
             <div className="p-3 rounded-xl bg-surface-secondary/70 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <ShieldCheck className="size-4 text-emerald-600 shrink-0" />
+                    <ShieldCheck className="size-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                     <div>
                         <div className="text-xs font-bold text-foreground">Verified Stays Only</div>
-                        <div className="text-[10px] text-text-secondary">Physical inspection done</div>
+                        <div className="text-[10px] text-muted-foreground">Physical inspection done</div>
                     </div>
                 </div>
                 <button
@@ -126,7 +126,7 @@ export const BookFilterSidebar = ({
                     aria-checked={filters.verifiedOnly}
                     onClick={() => onChange({ verifiedOnly: !filters.verifiedOnly })}
                     className={`relative w-10 h-6 rounded-full transition-colors cursor-pointer focus:outline-none ${
-                        filters.verifiedOnly ? "bg-primary" : "bg-zinc-300"
+                        filters.verifiedOnly ? "bg-primary" : "bg-zinc-300 dark:bg-zinc-700"
                     }`}
                 >
                     <span
@@ -144,22 +144,22 @@ export const BookFilterSidebar = ({
                 </label>
                 <div className="space-y-2">
                     <div>
-                        <span className="block text-[10px] text-text-secondary mb-1">Check-in</span>
+                        <span className="block text-[10px] text-muted-foreground mb-1">Check-in</span>
                         <input
                             type="date"
                             value={filters.checkIn}
                             onChange={(e) => onChange({ checkIn: e.target.value })}
-                            className="w-full px-2.5 py-1.5 rounded-xl border border-border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
+                            className="w-full px-2.5 py-1.5 rounded-xl border border-border bg-white dark:bg-card text-foreground text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
                         />
                     </div>
                     <div>
-                        <span className="block text-[10px] text-text-secondary mb-1">Check-out</span>
+                        <span className="block text-[10px] text-muted-foreground mb-1">Check-out</span>
                         <input
                             type="date"
                             min={filters.checkIn}
                             value={filters.checkOut}
                             onChange={(e) => onChange({ checkOut: e.target.value })}
-                            className="w-full px-2.5 py-1.5 rounded-xl border border-border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
+                            className="w-full px-2.5 py-1.5 rounded-xl border border-border bg-white dark:bg-card text-foreground text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
                         />
                     </div>
                 </div>
@@ -181,7 +181,7 @@ export const BookFilterSidebar = ({
                                 onClick={() => onChange({ category: cat.id })}
                                 className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition-colors cursor-pointer ${
                                     isSelected
-                                        ? "bg-primary text-white font-bold shadow-xs"
+                                        ? "bg-primary text-primary-foreground font-bold shadow-xs"
                                         : "text-foreground hover:bg-surface-secondary"
                                 }`}
                             >
@@ -189,8 +189,8 @@ export const BookFilterSidebar = ({
                                 <span
                                     className={`text-[11px] px-2 py-0.5 rounded-full ${
                                         isSelected
-                                            ? "bg-white/20 text-white"
-                                            : "bg-surface-secondary text-text-secondary"
+                                            ? "bg-primary-foreground/20 text-primary-foreground"
+                                            : "bg-surface-secondary text-muted-foreground"
                                     }`}
                                 >
                                     {count}
@@ -234,7 +234,7 @@ export const BookFilterSidebar = ({
                 {/* Min / Max Inputs */}
                 <div className="flex items-center gap-2">
                     <div className="flex-1">
-                        <span className="block text-[10px] text-text-secondary mb-1">Min (৳)</span>
+                        <span className="block text-[10px] text-muted-foreground mb-1">Min (৳)</span>
                         <input
                             type="number"
                             placeholder="Min"
@@ -244,12 +244,12 @@ export const BookFilterSidebar = ({
                                     minPrice: e.target.value ? Number(e.target.value) : null,
                                 })
                             }
-                            className="w-full px-2.5 py-1.5 rounded-xl border border-border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20"
+                            className="w-full px-2.5 py-1.5 rounded-xl border border-border bg-white dark:bg-card text-foreground text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20"
                         />
                     </div>
-                    <span className="text-text-secondary text-xs mt-4">-</span>
+                    <span className="text-muted-foreground text-xs mt-4">-</span>
                     <div className="flex-1">
-                        <span className="block text-[10px] text-text-secondary mb-1">Max (৳)</span>
+                        <span className="block text-[10px] text-muted-foreground mb-1">Max (৳)</span>
                         <input
                             type="number"
                             placeholder="Max"
@@ -259,7 +259,7 @@ export const BookFilterSidebar = ({
                                     maxPrice: e.target.value ? Number(e.target.value) : null,
                                 })
                             }
-                            className="w-full px-2.5 py-1.5 rounded-xl border border-border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20"
+                            className="w-full px-2.5 py-1.5 rounded-xl border border-border bg-white dark:bg-card text-foreground text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20"
                         />
                     </div>
                 </div>
@@ -315,7 +315,7 @@ export const BookFilterSidebar = ({
                                 onClick={() => onChange({ guests: g.val as number | "any" })}
                                 className={`py-1.5 rounded-xl text-xs font-bold border text-center transition-colors cursor-pointer ${
                                     isSelected
-                                        ? "border-primary bg-primary text-white"
+                                        ? "border-primary bg-primary text-primary-foreground"
                                         : "border-border text-foreground hover:bg-surface-secondary"
                                 }`}
                             >
@@ -343,8 +343,8 @@ export const BookFilterSidebar = ({
                                 <div
                                     className={`size-4 rounded-md border flex items-center justify-center transition-colors ${
                                         isChecked
-                                            ? "border-primary bg-primary text-white"
-                                            : "border-border group-hover:border-primary/60 bg-white"
+                                            ? "border-primary bg-primary text-primary-foreground"
+                                            : "border-border group-hover:border-primary/60 bg-white dark:bg-card"
                                     }`}
                                 >
                                     {isChecked && <Check className="size-3" />}
@@ -364,7 +364,7 @@ export const BookFilterSidebar = ({
                     <button
                         type="button"
                         onClick={onCloseMobileDrawer}
-                        className="w-full py-3 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-colors cursor-pointer shadow-md"
+                        className="w-full py-3 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-colors cursor-pointer shadow-md"
                     >
                         Show Stays
                     </button>

@@ -11,12 +11,8 @@ import {
     Building2,
     Calendar,
     Users,
-    DollarSign,
     Check,
-    Plus,
     X,
-    Clock,
-    Sparkles,
     ChevronDown,
 } from "@/components/Icons";
 
@@ -67,7 +63,6 @@ const BUY_TYPES = [
     { id: "houses", label: "Houses & Villas", desc: "Standalone homes & duplexes", icon: Home },
     { id: "land", label: "Land & Plots", desc: "Verified freehold plots", icon: MapPin },
     { id: "commercial", label: "Commercial Plazas", desc: "Retail spaces & office floors", icon: Building2 },
-    { id: "new-developments", label: "New Developments", desc: "Pre-launch gated projects", icon: Sparkles },
 ];
 
 export const HomeSearchBar = () => {
@@ -178,8 +173,7 @@ export const HomeSearchBar = () => {
         rooms !== 1
     );
 
-    const handleClearFilters = (e: React.MouseEvent) => {
-        e.stopPropagation();
+    const handleClearFilters = () => {
         setLocation("");
         setSelectedType("all");
         setSelectedTypeLabel("All Categories");
@@ -202,109 +196,190 @@ export const HomeSearchBar = () => {
             ? SPORT_TYPES
             : BUY_TYPES;
 
+    // Segment 3 Label & Value Helper
+    const getSeg3Info = () => {
+        if (activeTab === "book") {
+            const dateStr = checkInDate ? checkInDate.slice(5) : "Add Dates";
+            const guestStr = `${adults + childrenCount} Guests`;
+            return {
+                label: "WHEN & WHO",
+                value: checkInDate ? `${dateStr} · ${guestStr}` : "Dates & Guests",
+            };
+        }
+        if (activeTab === "sports") {
+            return {
+                label: "TIME SLOT",
+                value:
+                    sportSlot === "evening"
+                        ? "Evening (6PM-10PM)"
+                        : sportSlot === "night"
+                        ? "Night (10PM-1AM)"
+                        : sportSlot === "morning"
+                        ? "Morning (6AM-10AM)"
+                        : "Any Time Slot",
+            };
+        }
+        return {
+            label: "BEDROOMS",
+            value:
+                bedroomCount === "1"
+                    ? "1 Bed"
+                    : bedroomCount === "2"
+                    ? "2 Beds"
+                    : bedroomCount === "3"
+                    ? "3 Beds"
+                    : bedroomCount === "4+"
+                    ? "4+ Beds"
+                    : "Any Beds",
+        };
+    };
+
+    // Segment 4 Budget Label & Value Helper
+    const getSeg4Info = () => {
+        if (activeTab === "buy") {
+            return {
+                label: "PRICE RANGE",
+                value:
+                    budgetRange === "under-50l"
+                        ? "Under ৳50L"
+                        : budgetRange === "50l-1cr"
+                        ? "৳50L - ৳1Cr"
+                        : budgetRange === "1cr+"
+                        ? "৳1 Crore+"
+                        : "Any Budget",
+            };
+        }
+        if (activeTab === "sports") {
+            return {
+                label: "HOURLY RATE",
+                value:
+                    budgetRange === "under-2k"
+                        ? "Under ৳2k/hr"
+                        : budgetRange === "2k-4k"
+                        ? "৳2k - ৳4k/hr"
+                        : budgetRange === "4k+"
+                        ? "৳4k+/hr"
+                        : "Any Rate",
+            };
+        }
+        return {
+            label: "MONTHLY BUDGET",
+            value:
+                budgetRange === "under-15k"
+                    ? "Under ৳15k"
+                    : budgetRange === "15k-35k"
+                    ? "৳15k - ৳35k"
+                    : budgetRange === "35k+"
+                    ? "৳35k / mo+"
+                    : "Any Budget",
+        };
+    };
+
+    const seg3 = getSeg3Info();
+    const seg4 = getSeg4Info();
+
     return (
-        <section aria-label="FindBookStay Multi-Purpose Search" className="w-full relative z-30 -mt-10 sm:-mt-14 mb-12 select-none">
+        <section
+            aria-label="FindBookStay Multi-Purpose Search"
+            className="w-full relative z-30 mt-4 sm:-mt-12 md:-mt-16 mb-10 sm:mb-14 select-none"
+        >
             <div className="container mx-auto px-4" ref={containerRef}>
-                <div className="bg-white dark:bg-card rounded-3xl shadow-2xl border border-border/80 overflow-visible transition-shadow hover:shadow-emerald-950/15">
-                    {/* 1. Purpose Selector Header Tabs */}
-                    <div className="flex items-center justify-between p-2.5 sm:p-3 bg-surface-secondary/70 border-b border-border/80 rounded-t-3xl overflow-x-auto scrollbar-none">
-                        <div className="flex items-center gap-1.5 sm:gap-2">
-                            <button
-                                type="button"
-                                onClick={() => handleTabSwitch("rent")}
-                                className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${
-                                    activeTab === "rent"
-                                        ? "bg-primary text-primary-foreground shadow-sm scale-102"
-                                        : "text-text-secondary hover:text-foreground hover:bg-white dark:hover:bg-surface"
-                                }`}
-                            >
-                                <Home className="size-4" />
-                                <span>Rent</span>
-                            </button>
+                <div className="max-w-5xl mx-auto flex flex-col items-center">
+                    {/* 1. FLOATING MODERN CAPSULE TABS */}
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-full bg-white/95 dark:bg-card/95 backdrop-blur-xl border border-border shadow-lg mb-3 sm:mb-4 overflow-x-auto scrollbar-none max-w-full">
+                        <button
+                            type="button"
+                            onClick={() => handleTabSwitch("rent")}
+                            className={`flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap ${
+                                activeTab === "rent"
+                                    ? "bg-primary text-primary-foreground shadow-sm scale-102"
+                                    : "text-muted-foreground hover:text-foreground hover:bg-surface-secondary/80"
+                            }`}
+                        >
+                            <Home className="size-4" />
+                            <span>Rent</span>
+                        </button>
 
-                            <button
-                                type="button"
-                                onClick={() => handleTabSwitch("book")}
-                                className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${
-                                    activeTab === "book"
-                                        ? "bg-primary text-primary-foreground shadow-sm scale-102"
-                                        : "text-text-secondary hover:text-foreground hover:bg-white dark:hover:bg-surface"
-                                }`}
-                            >
-                                <Hotel className="size-4" />
-                                <span>Book Stays</span>
-                            </button>
+                        <button
+                            type="button"
+                            onClick={() => handleTabSwitch("book")}
+                            className={`flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap ${
+                                activeTab === "book"
+                                    ? "bg-primary text-primary-foreground shadow-sm scale-102"
+                                    : "text-muted-foreground hover:text-foreground hover:bg-surface-secondary/80"
+                            }`}
+                        >
+                            <Hotel className="size-4" />
+                            <span>Book Stays</span>
+                        </button>
 
-                            <button
-                                type="button"
-                                onClick={() => handleTabSwitch("sports")}
-                                className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${
-                                    activeTab === "sports"
-                                        ? "bg-primary text-primary-foreground shadow-sm scale-102"
-                                        : "text-text-secondary hover:text-foreground hover:bg-white dark:hover:bg-surface"
-                                }`}
-                            >
-                                <Trophy className="size-4" />
-                                <span>Sports</span>
-                            </button>
+                        <button
+                            type="button"
+                            onClick={() => handleTabSwitch("sports")}
+                            className={`flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap ${
+                                activeTab === "sports"
+                                    ? "bg-primary text-primary-foreground shadow-sm scale-102"
+                                    : "text-muted-foreground hover:text-foreground hover:bg-surface-secondary/80"
+                            }`}
+                        >
+                            <Trophy className="size-4" />
+                            <span>Sports</span>
+                        </button>
 
-                            <button
-                                type="button"
-                                onClick={() => handleTabSwitch("buy")}
-                                className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${
-                                    activeTab === "buy"
-                                        ? "bg-primary text-primary-foreground shadow-sm scale-102"
-                                        : "text-text-secondary hover:text-foreground hover:bg-white dark:hover:bg-surface"
-                                }`}
-                            >
-                                <Building2 className="size-4" />
-                                <span>Buy Property</span>
-                            </button>
-                        </div>
+                        <button
+                            type="button"
+                            onClick={() => handleTabSwitch("buy")}
+                            className={`flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap ${
+                                activeTab === "buy"
+                                    ? "bg-primary text-primary-foreground shadow-sm scale-102"
+                                    : "text-muted-foreground hover:text-foreground hover:bg-surface-secondary/80"
+                            }`}
+                        >
+                            <Building2 className="size-4" />
+                            <span>Buy Property</span>
+                        </button>
 
-                        {/* Reset / Clear Button */}
                         {hasActiveFilters && (
                             <button
                                 type="button"
                                 onClick={handleClearFilters}
-                                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-text-secondary hover:text-destructive hover:bg-destructive/10 transition-colors cursor-pointer"
+                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors ml-1 cursor-pointer whitespace-nowrap"
+                                title="Reset all search parameters"
                             >
                                 <X className="size-3.5" />
-                                <span>Clear Filters</span>
+                                <span className="hidden sm:inline">Reset</span>
                             </button>
                         )}
                     </div>
 
-                    {/* 2. Unified Multi-Segment Search Bar (12-Column Responsive Layout) */}
-                    <form onSubmit={handleSearchSubmit} className="p-3 sm:p-4" autoComplete="off">
-                        <div className="grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-2.5 items-stretch bg-surface p-2 rounded-2xl border border-border/80">
-                            {/* Segment 1: Location (Cols 3) */}
-                            <div className="md:col-span-3 relative">
+                    {/* 2. UNIFIED SEARCH BAR CAPSULE */}
+                    <form
+                        onSubmit={handleSearchSubmit}
+                        className="w-full relative"
+                        autoComplete="off"
+                    >
+                        {/* ======================================================= */}
+                        {/* A. DESKTOP CAPSULE ROW (md:flex)                        */}
+                        {/* ======================================================= */}
+                        <div className="hidden md:flex items-center bg-white/95 dark:bg-card/95 backdrop-blur-2xl rounded-full border border-border shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] p-2 divide-x divide-border/60 hover:shadow-[0_24px_60px_rgba(0,0,0,0.18)] transition-all duration-300">
+                            {/* Segment 1: Location */}
+                            <div className="relative flex-1 min-w-[210px]">
                                 <div
                                     onClick={() => setOpenPopover(openPopover === "location" ? null : "location")}
-                                    className={`h-full p-3 sm:p-3.5 rounded-xl transition-all cursor-pointer flex items-center gap-3 border ${
+                                    className={`px-5 py-2.5 rounded-full transition-colors cursor-pointer flex flex-col justify-center ${
                                         openPopover === "location"
-                                            ? "bg-white dark:bg-card border-primary/40 shadow-sm ring-2 ring-primary/10"
-                                            : "bg-white dark:bg-card hover:bg-white/90 dark:hover:bg-card/80 border-transparent"
+                                            ? "bg-surface-secondary ring-2 ring-primary/20"
+                                            : "hover:bg-surface-secondary/70"
                                     }`}
                                 >
-                                    <div className="size-10 rounded-xl bg-surface-secondary text-primary flex items-center justify-center shrink-0">
-                                        <MapPin className="size-5 text-accent" />
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <span className="block text-[10px] font-bold tracking-wider text-text-secondary uppercase">
-                                            Location / Area
-                                        </span>
+                                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-muted-foreground">
+                                        Where
+                                    </span>
+                                    <div className="flex items-center gap-2 mt-0.5">
+                                        <MapPin className="size-4 text-primary shrink-0" />
                                         <input
-                                            id="fbs_search_location"
                                             name="fbs_search_location"
-                                            type="search"
-                                            autoComplete="off"
-                                            autoCorrect="off"
-                                            autoCapitalize="off"
-                                            spellCheck={false}
-                                            data-lpignore="true"
-                                            data-form-type="other"
+                                            type="text"
                                             value={location}
                                             onChange={(e) => setLocation(e.target.value)}
                                             onClick={(e) => {
@@ -316,19 +391,19 @@ export const HomeSearchBar = () => {
                                                     ? "City or Turf Area..."
                                                     : "City or Area..."
                                             }
-                                            className="w-full bg-transparent text-sm font-bold placeholder:text-text-secondary/60 focus:outline-none truncate [&::-webkit-search-cancel-button]:hidden"
+                                            className="w-full bg-transparent text-sm font-bold text-foreground placeholder:text-muted-foreground/60 focus:outline-none truncate"
                                         />
                                     </div>
                                 </div>
 
-                                {/* Popover 1: Location Suggestions */}
+                                {/* Popover 1: Popular Locations */}
                                 {openPopover === "location" && (
-                                    <div className="absolute left-0 top-full mt-2 w-full sm:w-84 p-3 bg-white dark:bg-popover rounded-2xl shadow-2xl border border-border z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                                        <div className="flex items-center justify-between pb-2 border-b border-border/60 mb-2">
+                                    <div className="absolute left-0 top-full mt-3 w-80 p-3 bg-white dark:bg-card rounded-3xl shadow-2xl border border-border z-50 animate-in fade-in zoom-in-95 duration-150">
+                                        <div className="flex items-center justify-between pb-2 border-b border-border/70 mb-2">
                                             <span className="text-xs font-bold text-foreground">
                                                 Top Hubs & Destinations
                                             </span>
-                                            <span className="text-[10px] text-text-secondary font-mono uppercase">
+                                            <span className="text-[10px] text-muted-foreground font-mono uppercase">
                                                 Quick Pick
                                             </span>
                                         </div>
@@ -344,12 +419,12 @@ export const HomeSearchBar = () => {
                                                     className="w-full text-left p-2 rounded-xl hover:bg-surface-secondary transition-colors flex items-center justify-between group cursor-pointer"
                                                 >
                                                     <div className="flex items-center gap-2 min-w-0">
-                                                        <MapPin className="size-4 text-text-secondary group-hover:text-primary shrink-0 transition-colors" />
+                                                        <MapPin className="size-4 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />
                                                         <div className="truncate">
                                                             <div className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
                                                                 {loc.area}
                                                             </div>
-                                                            <div className="text-[11px] text-text-secondary">
+                                                            <div className="text-[11px] text-muted-foreground">
                                                                 {loc.city} &middot; {loc.tag}
                                                             </div>
                                                         </div>
@@ -364,59 +439,36 @@ export const HomeSearchBar = () => {
                                 )}
                             </div>
 
-                            {/* Segment 2: Category / Type (Cols 3) */}
-                            <div className="md:col-span-3 relative">
+                            {/* Segment 2: Category / Type */}
+                            <div className="relative w-[190px]">
                                 <div
                                     onClick={() => setOpenPopover(openPopover === "type" ? null : "type")}
-                                    className={`h-full p-3 sm:p-3.5 rounded-xl transition-all cursor-pointer flex items-center gap-3 border ${
+                                    className={`px-5 py-2.5 rounded-full transition-colors cursor-pointer flex flex-col justify-center ${
                                         openPopover === "type"
-                                            ? "bg-white dark:bg-card border-primary/40 shadow-sm ring-2 ring-primary/10"
-                                            : "bg-white dark:bg-card hover:bg-white/90 dark:hover:bg-card/80 border-transparent"
+                                            ? "bg-surface-secondary ring-2 ring-primary/20"
+                                            : "hover:bg-surface-secondary/70"
                                     }`}
                                 >
-                                    <div className="size-10 rounded-xl bg-surface-secondary text-primary flex items-center justify-center shrink-0">
-                                        {activeTab === "rent" ? (
-                                            <Home className="size-5 text-accent" />
-                                        ) : activeTab === "book" ? (
-                                            <Hotel className="size-5 text-accent" />
-                                        ) : activeTab === "sports" ? (
-                                            <Trophy className="size-5 text-accent" />
-                                        ) : (
-                                            <Building2 className="size-5 text-accent" />
-                                        )}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <span className="block text-[10px] font-bold tracking-wider text-text-secondary uppercase">
-                                            {activeTab === "sports" ? "Arena Type" : "Category / Type"}
-                                        </span>
-                                        <span className="block text-sm font-bold text-foreground truncate">
+                                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-muted-foreground">
+                                        Type
+                                    </span>
+                                    <div className="flex items-center justify-between gap-1.5 mt-0.5">
+                                        <span className="text-sm font-bold text-foreground truncate">
                                             {selectedTypeLabel}
                                         </span>
+                                        <ChevronDown className="size-3.5 text-muted-foreground shrink-0" />
                                     </div>
-                                    <ChevronDown className="size-4 text-text-secondary shrink-0" />
                                 </div>
 
                                 {/* Popover 2: Category Selector */}
                                 {openPopover === "type" && (
-                                    <div className="absolute left-0 top-full mt-2 w-full sm:w-80 p-3 bg-white dark:bg-popover rounded-2xl shadow-2xl border border-border z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                                        <div className="flex items-center justify-between pb-2 border-b border-border/60 mb-2">
+                                    <div className="absolute left-0 top-full mt-3 w-80 p-3 bg-white dark:bg-card rounded-3xl shadow-2xl border border-border z-50 animate-in fade-in zoom-in-95 duration-150">
+                                        <div className="flex items-center justify-between pb-2 border-b border-border/70 mb-2">
                                             <span className="text-xs font-bold text-foreground">
-                                                Select {activeTab.toUpperCase()} Category
+                                                Select Category
                                             </span>
-                                            {selectedType !== "all" && (
-                                                <button
-                                                    type="button"
-                                                    onClick={() => {
-                                                        setSelectedType("all");
-                                                        setSelectedTypeLabel("All Categories");
-                                                    }}
-                                                    className="text-[11px] text-accent font-semibold hover:underline"
-                                                >
-                                                    Reset
-                                                </button>
-                                            )}
                                         </div>
-                                        <div className="space-y-1">
+                                        <div className="max-h-60 overflow-y-auto space-y-1 scrollbar-thin">
                                             <button
                                                 type="button"
                                                 onClick={() => {
@@ -424,42 +476,42 @@ export const HomeSearchBar = () => {
                                                     setSelectedTypeLabel("All Categories");
                                                     setOpenPopover(null);
                                                 }}
-                                                className={`w-full text-left p-2.5 rounded-xl transition-colors flex items-center justify-between cursor-pointer ${
-                                                    selectedType === "all" ? "bg-primary/5 text-primary" : "hover:bg-surface-secondary"
+                                                className={`w-full text-left p-2 rounded-xl transition-colors flex items-center justify-between cursor-pointer ${
+                                                    selectedType === "all"
+                                                        ? "bg-primary/10 text-primary font-bold"
+                                                        : "hover:bg-surface-secondary text-foreground"
                                                 }`}
                                             >
-                                                <span className="text-xs font-bold">All Categories (Any)</span>
+                                                <span className="text-xs font-bold">All Categories</span>
                                                 {selectedType === "all" && <Check className="size-4 text-accent" />}
                                             </button>
-
-                                            {currentTypes.map((item) => {
-                                                const ItemIcon = item.icon;
-                                                const isSelected = selectedType === item.id;
+                                            {currentTypes.map((t) => {
+                                                const IconComp = t.icon;
                                                 return (
                                                     <button
-                                                        key={item.id}
+                                                        key={t.id}
                                                         type="button"
                                                         onClick={() => {
-                                                            setSelectedType(item.id);
-                                                            setSelectedTypeLabel(item.label);
+                                                            setSelectedType(t.id);
+                                                            setSelectedTypeLabel(t.label);
                                                             setOpenPopover(null);
                                                         }}
-                                                        className={`w-full text-left p-2.5 rounded-xl transition-colors flex items-center justify-between cursor-pointer group ${
-                                                            isSelected ? "bg-primary/5 text-primary" : "hover:bg-surface-secondary"
+                                                        className={`w-full text-left p-2 rounded-xl transition-colors flex items-center justify-between group cursor-pointer ${
+                                                            selectedType === t.id
+                                                                ? "bg-primary/10 text-primary font-bold"
+                                                                : "hover:bg-surface-secondary text-foreground"
                                                         }`}
                                                     >
                                                         <div className="flex items-center gap-2.5 min-w-0">
-                                                            <ItemIcon className="size-4 text-text-secondary group-hover:text-primary transition-colors shrink-0" />
+                                                            <IconComp className="size-4 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />
                                                             <div className="truncate">
-                                                                <div className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
-                                                                    {item.label}
-                                                                </div>
-                                                                <div className="text-[10px] text-text-secondary">
-                                                                    {item.desc}
-                                                                </div>
+                                                                <div className="text-xs font-bold">{t.label}</div>
+                                                                <div className="text-[11px] text-muted-foreground">{t.desc}</div>
                                                             </div>
                                                         </div>
-                                                        {isSelected && <Check className="size-4 text-accent shrink-0" />}
+                                                        {selectedType === t.id && (
+                                                            <Check className="size-4 text-accent shrink-0" />
+                                                        )}
                                                     </button>
                                                 );
                                             })}
@@ -468,345 +520,418 @@ export const HomeSearchBar = () => {
                                 )}
                             </div>
 
-                            {/* Segment 3: Dates (Book) / Bedrooms (Rent & Buy) / Playing Slot (Sports) (Cols 2) */}
-                            <div className="md:col-span-2 relative">
+                            {/* Segment 3: Details (Bedrooms / Dates / Time Slot) */}
+                            <div className="relative w-[200px]">
                                 <div
                                     onClick={() => setOpenPopover(openPopover === "seg3" ? null : "seg3")}
-                                    className={`h-full p-3 sm:p-3.5 rounded-xl transition-all cursor-pointer flex items-center gap-3 border ${
+                                    className={`px-5 py-2.5 rounded-full transition-colors cursor-pointer flex flex-col justify-center ${
                                         openPopover === "seg3"
-                                            ? "bg-white dark:bg-card border-primary/40 shadow-sm ring-2 ring-primary/10"
-                                            : "bg-white dark:bg-card hover:bg-white/90 dark:hover:bg-card/80 border-transparent"
+                                            ? "bg-surface-secondary ring-2 ring-primary/20"
+                                            : "hover:bg-surface-secondary/70"
                                     }`}
                                 >
-                                    <div className="size-10 rounded-xl bg-surface-secondary text-primary flex items-center justify-center shrink-0">
-                                        {activeTab === "book" ? (
-                                            <Calendar className="size-5 text-accent" />
-                                        ) : activeTab === "sports" ? (
-                                            <Clock className="size-5 text-accent" />
-                                        ) : (
-                                            <Home className="size-5 text-accent" />
-                                        )}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <span className="block text-[10px] font-bold tracking-wider text-text-secondary uppercase">
-                                            {activeTab === "book" ? "Dates" : activeTab === "sports" ? "Slot" : "Bedrooms"}
+                                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-muted-foreground">
+                                        {seg3.label}
+                                    </span>
+                                    <div className="flex items-center justify-between gap-1.5 mt-0.5">
+                                        <span className="text-sm font-bold text-foreground truncate">
+                                            {seg3.value}
                                         </span>
-                                        <span className="block text-sm font-bold text-foreground truncate">
-                                            {activeTab === "book"
-                                                ? checkInDate
-                                                    ? `${checkInDate.slice(5)}`
-                                                    : "Dates"
-                                                : activeTab === "sports"
-                                                ? sportSlot === "any"
-                                                    ? "Any Slot"
-                                                    : sportSlot
-                                                : bedroomCount === "any"
-                                                ? "Any Beds"
-                                                : `${bedroomCount} Beds`}
-                                        </span>
+                                        <ChevronDown className="size-3.5 text-muted-foreground shrink-0" />
                                     </div>
-                                    <ChevronDown className="size-4 text-text-secondary shrink-0" />
                                 </div>
 
-                                {/* Popover 3: Segment 3 Dropdown */}
+                                {/* Popover 3: Segment 3 Selector */}
                                 {openPopover === "seg3" && (
-                                    <div className="absolute left-0 top-full mt-2 w-full sm:w-80 p-4 bg-white dark:bg-popover rounded-2xl shadow-2xl border border-border z-50 animate-in fade-in slide-in-from-top-2 duration-150 space-y-3">
+                                    <div className="absolute left-0 top-full mt-3 w-84 p-4 bg-white dark:bg-card rounded-3xl shadow-2xl border border-border z-50 animate-in fade-in zoom-in-95 duration-150">
                                         {activeTab === "book" ? (
-                                            <>
-                                                <div className="flex items-center justify-between pb-2 border-b border-border">
-                                                    <span className="text-xs font-bold text-foreground">Select Stay Dates</span>
-                                                    {(checkInDate || checkOutDate) && (
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <span className="text-xs font-bold text-foreground block mb-2">Check-in & Check-out</span>
+                                                    <div className="grid grid-cols-2 gap-2">
+                                                        <div>
+                                                            <label className="text-[10px] text-muted-foreground block mb-1">Check-in</label>
+                                                            <input
+                                                                type="date"
+                                                                value={checkInDate}
+                                                                onChange={(e) => setCheckInDate(e.target.value)}
+                                                                className="w-full p-2 rounded-xl border border-border bg-surface-secondary text-xs font-bold text-foreground focus:outline-none"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="text-[10px] text-muted-foreground block mb-1">Check-out</label>
+                                                            <input
+                                                                type="date"
+                                                                value={checkOutDate}
+                                                                onChange={(e) => setCheckOutDate(e.target.value)}
+                                                                className="w-full p-2 rounded-xl border border-border bg-surface-secondary text-xs font-bold text-foreground focus:outline-none"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="pt-2 border-t border-border flex items-center justify-between">
+                                                    <span className="text-xs font-bold text-foreground">Guests</span>
+                                                    <div className="flex items-center gap-2">
                                                         <button
                                                             type="button"
-                                                            onClick={() => {
-                                                                setCheckInDate("");
-                                                                setCheckOutDate("");
-                                                            }}
-                                                            className="text-[11px] text-accent font-semibold hover:underline"
+                                                            onClick={() => setAdults(Math.max(1, adults - 1))}
+                                                            className="size-7 rounded-lg bg-surface-secondary text-foreground font-bold flex items-center justify-center hover:bg-border"
                                                         >
-                                                            Clear
+                                                            -
                                                         </button>
-                                                    )}
-                                                </div>
-                                                <div className="space-y-2">
-                                                    <div>
-                                                        <label className="block text-[10px] font-bold text-text-secondary uppercase mb-1">
-                                                            Check-in
-                                                        </label>
-                                                        <input
-                                                            type="date"
-                                                            value={checkInDate}
-                                                            onChange={(e) => setCheckInDate(e.target.value)}
-                                                            className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <label className="block text-[10px] font-bold text-text-secondary uppercase mb-1">
-                                                            Check-out
-                                                        </label>
-                                                        <input
-                                                            type="date"
-                                                            value={checkOutDate}
-                                                            min={checkInDate}
-                                                            onChange={(e) => setCheckOutDate(e.target.value)}
-                                                            className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
-                                                        />
+                                                        <span className="text-xs font-bold w-5 text-center">{adults}</span>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setAdults(adults + 1)}
+                                                            className="size-7 rounded-lg bg-surface-secondary text-foreground font-bold flex items-center justify-center hover:bg-border"
+                                                        >
+                                                            +
+                                                        </button>
                                                     </div>
                                                 </div>
-                                                <div className="pt-2 border-t border-border flex justify-end">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setOpenPopover(null)}
-                                                        className="px-4 py-1.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover cursor-pointer"
-                                                    >
-                                                        Done
-                                                    </button>
-                                                </div>
-                                            </>
+                                            </div>
                                         ) : activeTab === "sports" ? (
-                                            <>
-                                                <div className="text-xs font-bold text-foreground mb-2">Select Preferred Playing Time</div>
-                                                <div className="grid grid-cols-2 gap-2">
-                                                    {[
-                                                        { id: "any", label: "Any Slot", time: "All Day" },
-                                                        { id: "morning", label: "Morning", time: "6 AM - 12 PM" },
-                                                        { id: "afternoon", label: "Afternoon", time: "12 PM - 5 PM" },
-                                                        { id: "evening", label: "Floodlight", time: "5 PM - 11 PM" },
-                                                    ].map((slot) => (
-                                                        <button
-                                                            key={slot.id}
-                                                            type="button"
-                                                            onClick={() => {
-                                                                setSportSlot(slot.id);
-                                                                setOpenPopover(null);
-                                                            }}
-                                                            className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all ${
-                                                                sportSlot === slot.id
-                                                                    ? "border-primary bg-primary/5 text-primary"
-                                                                    : "border-border hover:bg-surface-secondary"
-                                                            }`}
-                                                        >
-                                                            <div className="text-xs font-bold">{slot.label}</div>
-                                                            <div className="text-[10px] text-text-secondary">{slot.time}</div>
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </>
+                                            <div className="space-y-1">
+                                                <div className="text-xs font-bold text-foreground mb-2">Select Match Slot</div>
+                                                {[
+                                                    { id: "any", label: "Any Time Slot" },
+                                                    { id: "morning", label: "Morning (6:00 AM - 10:00 AM)" },
+                                                    { id: "evening", label: "Evening (6:00 PM - 10:00 PM)" },
+                                                    { id: "night", label: "Night Floodlit (10:00 PM - 1:00 AM)" },
+                                                ].map((s) => (
+                                                    <button
+                                                        key={s.id}
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setSportSlot(s.id);
+                                                            setOpenPopover(null);
+                                                        }}
+                                                        className={`w-full text-left p-2 rounded-xl text-xs font-bold transition-colors flex items-center justify-between cursor-pointer ${
+                                                            sportSlot === s.id
+                                                                ? "bg-primary/10 text-primary"
+                                                                : "hover:bg-surface-secondary text-foreground"
+                                                        }`}
+                                                    >
+                                                        <span>{s.label}</span>
+                                                        {sportSlot === s.id && <Check className="size-4 text-accent" />}
+                                                    </button>
+                                                ))}
+                                            </div>
                                         ) : (
-                                            <>
-                                                <div className="text-xs font-bold text-foreground mb-2">Number of Bedrooms</div>
-                                                <div className="grid grid-cols-5 gap-1.5">
-                                                    {["any", "1", "2", "3", "4+"].map((bed) => (
-                                                        <button
-                                                            key={bed}
-                                                            type="button"
-                                                            onClick={() => {
-                                                                setBedroomCount(bed);
-                                                                setOpenPopover(null);
-                                                            }}
-                                                            className={`py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                                                                bedroomCount === bed
-                                                                    ? "bg-primary text-white shadow-xs"
-                                                                    : "bg-surface-secondary text-text-secondary hover:text-foreground"
-                                                            }`}
-                                                        >
-                                                            {bed === "any" ? "Any" : `${bed} BHK`}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </>
+                                            <div className="space-y-1">
+                                                <div className="text-xs font-bold text-foreground mb-2">Select Bedroom Count</div>
+                                                {[
+                                                    { id: "any", label: "Any Bedroom Count" },
+                                                    { id: "1", label: "1 Bedroom / Bachelor Seat" },
+                                                    { id: "2", label: "2 Bedrooms Flat" },
+                                                    { id: "3", label: "3 Bedrooms Flat" },
+                                                    { id: "4+", label: "4+ Bedrooms / Duplex" },
+                                                ].map((b) => (
+                                                    <button
+                                                        key={b.id}
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setBedroomCount(b.id);
+                                                            setOpenPopover(null);
+                                                        }}
+                                                        className={`w-full text-left p-2 rounded-xl text-xs font-bold transition-colors flex items-center justify-between cursor-pointer ${
+                                                            bedroomCount === b.id
+                                                                ? "bg-primary/10 text-primary"
+                                                                : "hover:bg-surface-secondary text-foreground"
+                                                        }`}
+                                                    >
+                                                        <span>{b.label}</span>
+                                                        {bedroomCount === b.id && <Check className="size-4 text-accent" />}
+                                                    </button>
+                                                ))}
+                                            </div>
                                         )}
                                     </div>
                                 )}
                             </div>
 
-                            {/* Segment 4: Guests (Book) OR Budget (Rent / Sports / Buy) (Cols 2) */}
-                            <div className="md:col-span-2 relative">
+                            {/* Segment 4: Budget Range */}
+                            <div className="relative w-[180px]">
                                 <div
                                     onClick={() => setOpenPopover(openPopover === "seg4" ? null : "seg4")}
-                                    className={`h-full p-3 sm:p-3.5 rounded-xl transition-all cursor-pointer flex items-center gap-3 border ${
+                                    className={`px-5 py-2.5 rounded-full transition-colors cursor-pointer flex flex-col justify-center ${
                                         openPopover === "seg4"
-                                            ? "bg-white dark:bg-card border-primary/40 shadow-sm ring-2 ring-primary/10"
-                                            : "bg-white dark:bg-card hover:bg-white/90 dark:hover:bg-card/80 border-transparent"
+                                            ? "bg-surface-secondary ring-2 ring-primary/20"
+                                            : "hover:bg-surface-secondary/70"
                                     }`}
                                 >
-                                    <div className="size-10 rounded-xl bg-surface-secondary text-primary flex items-center justify-center shrink-0">
-                                        {activeTab === "book" ? (
-                                            <Users className="size-5 text-accent" />
-                                        ) : (
-                                            <DollarSign className="size-5 text-accent" />
-                                        )}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <span className="block text-[10px] font-bold tracking-wider text-text-secondary uppercase">
-                                            {activeTab === "book" ? "Guests" : "Budget"}
+                                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-muted-foreground">
+                                        {seg4.label}
+                                    </span>
+                                    <div className="flex items-center justify-between gap-1.5 mt-0.5">
+                                        <span className="text-sm font-bold text-foreground truncate">
+                                            {seg4.value}
                                         </span>
-                                        <span className="block text-sm font-bold text-foreground truncate">
-                                            {activeTab === "book"
-                                                ? `${adults + childrenCount} Guests`
-                                                : budgetRange === "any"
-                                                ? "Any Budget"
-                                                : budgetRange}
-                                        </span>
+                                        <ChevronDown className="size-3.5 text-muted-foreground shrink-0" />
                                     </div>
-                                    <ChevronDown className="size-4 text-text-secondary shrink-0" />
                                 </div>
 
-                                {/* Popover 4: Guests Counter OR Budget Pills */}
+                                {/* Popover 4: Budget Selector */}
                                 {openPopover === "seg4" && (
-                                    <div className="absolute right-0 top-full mt-2 w-full sm:w-80 p-4 bg-white dark:bg-popover rounded-2xl shadow-2xl border border-border z-50 animate-in fade-in slide-in-from-top-2 duration-150 space-y-4">
-                                        {activeTab === "book" ? (
-                                            <>
-                                                <div className="text-xs font-bold text-foreground pb-2 border-b border-border">
-                                                    Select Guests & Rooms
-                                                </div>
-
-                                                {/* Adults Stepper */}
-                                                <div className="flex items-center justify-between">
-                                                    <div>
-                                                        <div className="text-xs font-bold text-foreground">Adults</div>
-                                                        <div className="text-[10px] text-text-secondary">Ages 13 or above</div>
-                                                    </div>
-                                                    <div className="flex items-center gap-3">
-                                                        <button
-                                                            type="button"
-                                                            disabled={adults <= 1}
-                                                            onClick={() => setAdults((prev) => Math.max(1, prev - 1))}
-                                                            className="size-8 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-surface-secondary disabled:opacity-30 disabled:pointer-events-none cursor-pointer font-bold"
-                                                        >
-                                                            -
-                                                        </button>
-                                                        <span className="text-xs font-bold w-4 text-center">{adults}</span>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => setAdults((prev) => prev + 1)}
-                                                            className="size-8 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-surface-secondary cursor-pointer font-bold"
-                                                        >
-                                                            <Plus className="size-3.5" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                {/* Children Stepper */}
-                                                <div className="flex items-center justify-between">
-                                                    <div>
-                                                        <div className="text-xs font-bold text-foreground">Children</div>
-                                                        <div className="text-[10px] text-text-secondary">Ages 2-12</div>
-                                                    </div>
-                                                    <div className="flex items-center gap-3">
-                                                        <button
-                                                            type="button"
-                                                            disabled={childrenCount <= 0}
-                                                            onClick={() => setChildrenCount((prev) => Math.max(0, prev - 1))}
-                                                            className="size-8 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-surface-secondary disabled:opacity-30 disabled:pointer-events-none cursor-pointer font-bold"
-                                                        >
-                                                            -
-                                                        </button>
-                                                        <span className="text-xs font-bold w-4 text-center">{childrenCount}</span>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => setChildrenCount((prev) => prev + 1)}
-                                                            className="size-8 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-surface-secondary cursor-pointer font-bold"
-                                                        >
-                                                            <Plus className="size-3.5" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                {/* Rooms Stepper */}
-                                                <div className="flex items-center justify-between">
-                                                    <div>
-                                                        <div className="text-xs font-bold text-foreground">Rooms</div>
-                                                        <div className="text-[10px] text-text-secondary">Number of suites</div>
-                                                    </div>
-                                                    <div className="flex items-center gap-3">
-                                                        <button
-                                                            type="button"
-                                                            disabled={rooms <= 1}
-                                                            onClick={() => setRooms((prev) => Math.max(1, prev - 1))}
-                                                            className="size-8 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-surface-secondary disabled:opacity-30 disabled:pointer-events-none cursor-pointer font-bold"
-                                                        >
-                                                            -
-                                                        </button>
-                                                        <span className="text-xs font-bold w-4 text-center">{rooms}</span>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => setRooms((prev) => prev + 1)}
-                                                            className="size-8 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-surface-secondary cursor-pointer font-bold"
-                                                        >
-                                                            <Plus className="size-3.5" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <div className="pt-2 border-t border-border flex justify-end">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setOpenPopover(null)}
-                                                        className="px-4 py-1.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover cursor-pointer"
-                                                    >
-                                                        Done
-                                                    </button>
-                                                </div>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <div className="text-xs font-bold text-foreground mb-2">Budget Target</div>
-                                                <div className="grid grid-cols-2 gap-2">
-                                                    {(activeTab === "buy"
-                                                        ? [
-                                                              { id: "any", label: "Any Price" },
-                                                              { id: "under-50l", label: "Under ৳50L" },
-                                                              { id: "50l-1cr", label: "৳50L - ৳1Cr" },
-                                                              { id: "1cr+", label: "৳1 Crore+" },
-                                                          ]
-                                                        : activeTab === "sports"
-                                                        ? [
-                                                              { id: "any", label: "Any Rate" },
-                                                              { id: "under-2k", label: "Under ৳2k/hr" },
-                                                              { id: "2k-4k", label: "৳2k - ৳4k/hr" },
-                                                              { id: "4k+", label: "৳4k+/hr" },
-                                                          ]
-                                                        : [
-                                                              { id: "any", label: "Any Rent" },
-                                                              { id: "under-15k", label: "Under ৳15k" },
-                                                              { id: "15k-35k", label: "৳15k - ৳35k" },
-                                                              { id: "35k+", label: "৳35k / mo+" },
-                                                          ]
-                                                    ).map((b) => (
-                                                        <button
-                                                            key={b.id}
-                                                            type="button"
-                                                            onClick={() => {
-                                                                setBudgetRange(b.id);
-                                                                setOpenPopover(null);
-                                                            }}
-                                                            className={`p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                                                                budgetRange === b.id
-                                                                    ? "border-primary bg-primary/5 text-primary"
-                                                                    : "border-border hover:bg-surface-secondary text-foreground"
-                                                            }`}
-                                                        >
-                                                            {b.label}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </>
-                                        )}
+                                    <div className="absolute right-0 top-full mt-3 w-76 p-4 bg-white dark:bg-card rounded-3xl shadow-2xl border border-border z-50 animate-in fade-in zoom-in-95 duration-150">
+                                        <div className="text-xs font-bold text-foreground mb-2">Budget Target</div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {(activeTab === "buy"
+                                                ? [
+                                                      { id: "any", label: "Any Price" },
+                                                      { id: "under-50l", label: "Under ৳50L" },
+                                                      { id: "50l-1cr", label: "৳50L - ৳1Cr" },
+                                                      { id: "1cr+", label: "৳1 Crore+" },
+                                                  ]
+                                                : activeTab === "sports"
+                                                ? [
+                                                      { id: "any", label: "Any Rate" },
+                                                      { id: "under-2k", label: "Under ৳2k/hr" },
+                                                      { id: "2k-4k", label: "৳2k - ৳4k/hr" },
+                                                      { id: "4k+", label: "৳4k+/hr" },
+                                                  ]
+                                                : [
+                                                      { id: "any", label: "Any Rent" },
+                                                      { id: "under-15k", label: "Under ৳15k" },
+                                                      { id: "15k-35k", label: "৳15k - ৳35k" },
+                                                      { id: "35k+", label: "৳35k / mo+" },
+                                                  ]
+                                            ).map((b) => (
+                                                <button
+                                                    key={b.id}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setBudgetRange(b.id);
+                                                        setOpenPopover(null);
+                                                    }}
+                                                    className={`p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                                                        budgetRange === b.id
+                                                            ? "border-primary bg-primary/10 text-primary"
+                                                            : "border-border hover:bg-surface-secondary text-foreground"
+                                                    }`}
+                                                >
+                                                    {b.label}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
                                 )}
                             </div>
 
-                            {/* Segment 5: Search Button (Cols 2) */}
-                            <div className="md:col-span-2 flex items-center">
+                            {/* Segment 5: Search Button */}
+                            <div className="p-1 shrink-0">
                                 <button
                                     type="submit"
-                                    className="w-full h-full min-h-13.5 inline-flex items-center justify-center gap-2.5 px-6 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground font-bold text-sm shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                                    className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-primary hover:bg-primary-hover active:scale-95 text-primary-foreground font-extrabold text-sm shadow-md transition-all cursor-pointer"
                                 >
-                                    <Search className="size-4.5" />
+                                    <Search className="size-4" />
                                     <span>Search</span>
                                 </button>
                             </div>
+                        </div>
+
+                        {/* ======================================================= */}
+                        {/* B. RESPONSIVE MOBILE FORM (md:hidden)                   */}
+                        {/* ======================================================= */}
+                        <div className="md:hidden bg-white dark:bg-card rounded-3xl border border-border shadow-xl p-4 space-y-3">
+                            {/* Row 1: Location Input */}
+                            <div className="p-3 rounded-2xl bg-surface-secondary/70 border border-border/70 flex items-center gap-2.5">
+                                <MapPin className="size-4.5 text-primary shrink-0" />
+                                <div className="flex-1 min-w-0">
+                                    <label className="text-[10px] font-extrabold uppercase text-muted-foreground block">
+                                        Where
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={location}
+                                        onChange={(e) => setLocation(e.target.value)}
+                                        placeholder={
+                                            activeTab === "sports"
+                                                ? "City or Turf Area..."
+                                                : "City or Area..."
+                                        }
+                                        className="w-full bg-transparent text-xs font-bold text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Row 2: Category Selector */}
+                            <div className="grid grid-cols-2 gap-2">
+                                <div
+                                    onClick={() => setOpenPopover(openPopover === "type" ? null : "type")}
+                                    className="p-3 rounded-2xl bg-surface-secondary/70 border border-border/70 cursor-pointer"
+                                >
+                                    <span className="text-[10px] font-extrabold uppercase text-muted-foreground block">
+                                        Type
+                                    </span>
+                                    <span className="text-xs font-bold text-foreground truncate block mt-0.5">
+                                        {selectedTypeLabel}
+                                    </span>
+                                </div>
+
+                                <div
+                                    onClick={() => setOpenPopover(openPopover === "seg3" ? null : "seg3")}
+                                    className="p-3 rounded-2xl bg-surface-secondary/70 border border-border/70 cursor-pointer"
+                                >
+                                    <span className="text-[10px] font-extrabold uppercase text-muted-foreground block">
+                                        {seg3.label}
+                                    </span>
+                                    <span className="text-xs font-bold text-foreground truncate block mt-0.5">
+                                        {seg3.value}
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Mobile Popovers */}
+                            {openPopover === "type" && (
+                                <div className="p-3 rounded-2xl bg-white dark:bg-card border border-border shadow-lg space-y-1">
+                                    <div className="text-xs font-bold text-foreground mb-1">Select Category:</div>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setSelectedType("all");
+                                            setSelectedTypeLabel("All Categories");
+                                            setOpenPopover(null);
+                                        }}
+                                        className="w-full text-left p-2 rounded-xl text-xs font-bold hover:bg-surface-secondary flex items-center justify-between"
+                                    >
+                                        <span>All Categories</span>
+                                        {selectedType === "all" && <Check className="size-4 text-accent" />}
+                                    </button>
+                                    {currentTypes.map((t) => (
+                                        <button
+                                            key={t.id}
+                                            type="button"
+                                            onClick={() => {
+                                                setSelectedType(t.id);
+                                                setSelectedTypeLabel(t.label);
+                                                setOpenPopover(null);
+                                            }}
+                                            className="w-full text-left p-2 rounded-xl text-xs font-bold hover:bg-surface-secondary flex items-center justify-between"
+                                        >
+                                            <span>{t.label}</span>
+                                            {selectedType === t.id && <Check className="size-4 text-accent" />}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {openPopover === "seg3" && (
+                                <div className="p-3 rounded-2xl bg-white dark:bg-card border border-border shadow-lg space-y-1">
+                                    <div className="text-xs font-bold text-foreground mb-1">Select Option:</div>
+                                    {activeTab === "sports" ? (
+                                        [
+                                            { id: "any", label: "Any Time Slot" },
+                                            { id: "morning", label: "Morning (6AM - 10AM)" },
+                                            { id: "evening", label: "Evening (6PM - 10PM)" },
+                                            { id: "night", label: "Night (10PM - 1AM)" },
+                                        ].map((s) => (
+                                            <button
+                                                key={s.id}
+                                                type="button"
+                                                onClick={() => {
+                                                    setSportSlot(s.id);
+                                                    setOpenPopover(null);
+                                                }}
+                                                className="w-full text-left p-2 rounded-xl text-xs font-bold hover:bg-surface-secondary flex items-center justify-between"
+                                            >
+                                                <span>{s.label}</span>
+                                                {sportSlot === s.id && <Check className="size-4 text-accent" />}
+                                            </button>
+                                        ))
+                                    ) : (
+                                        [
+                                            { id: "any", label: "Any Bedroom Count" },
+                                            { id: "1", label: "1 Bed" },
+                                            { id: "2", label: "2 Beds" },
+                                            { id: "3", label: "3 Beds" },
+                                            { id: "4+", label: "4+ Beds" },
+                                        ].map((b) => (
+                                            <button
+                                                key={b.id}
+                                                type="button"
+                                                onClick={() => {
+                                                    setBedroomCount(b.id);
+                                                    setOpenPopover(null);
+                                                }}
+                                                className="w-full text-left p-2 rounded-xl text-xs font-bold hover:bg-surface-secondary flex items-center justify-between"
+                                            >
+                                                <span>{b.label}</span>
+                                                {bedroomCount === b.id && <Check className="size-4 text-accent" />}
+                                            </button>
+                                        ))
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Row 3: Budget Selector */}
+                            <div
+                                onClick={() => setOpenPopover(openPopover === "seg4" ? null : "seg4")}
+                                className="p-3 rounded-2xl bg-surface-secondary/70 border border-border/70 cursor-pointer flex items-center justify-between"
+                            >
+                                <div>
+                                    <span className="text-[10px] font-extrabold uppercase text-muted-foreground block">
+                                        {seg4.label}
+                                    </span>
+                                    <span className="text-xs font-bold text-foreground mt-0.5 block">
+                                        {seg4.value}
+                                    </span>
+                                </div>
+                                <ChevronDown className="size-4 text-muted-foreground" />
+                            </div>
+
+                            {openPopover === "seg4" && (
+                                <div className="p-3 rounded-2xl bg-white dark:bg-card border border-border shadow-lg">
+                                    <div className="grid grid-cols-2 gap-1.5">
+                                        {(activeTab === "buy"
+                                            ? [
+                                                  { id: "any", label: "Any Price" },
+                                                  { id: "under-50l", label: "Under ৳50L" },
+                                                  { id: "50l-1cr", label: "৳50L - ৳1Cr" },
+                                                  { id: "1cr+", label: "৳1 Crore+" },
+                                              ]
+                                            : activeTab === "sports"
+                                            ? [
+                                                  { id: "any", label: "Any Rate" },
+                                                  { id: "under-2k", label: "Under ৳2k/hr" },
+                                                  { id: "2k-4k", label: "৳2k - ৳4k/hr" },
+                                                  { id: "4k+", label: "৳4k+/hr" },
+                                              ]
+                                            : [
+                                                  { id: "any", label: "Any Rent" },
+                                                  { id: "under-15k", label: "Under ৳15k" },
+                                                  { id: "15k-35k", label: "৳15k - ৳35k" },
+                                                  { id: "35k+", label: "৳35k / mo+" },
+                                              ]
+                                        ).map((b) => (
+                                            <button
+                                                key={b.id}
+                                                type="button"
+                                                onClick={() => {
+                                                    setBudgetRange(b.id);
+                                                    setOpenPopover(null);
+                                                }}
+                                                className={`p-2 rounded-xl text-xs font-bold border ${
+                                                    budgetRange === b.id
+                                                        ? "border-primary bg-primary/10 text-primary"
+                                                        : "border-border text-foreground hover:bg-surface-secondary"
+                                                }`}
+                                            >
+                                                {b.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Row 4: Submit Button */}
+                            <button
+                                type="submit"
+                                className="w-full py-3.5 rounded-2xl bg-primary hover:bg-primary-hover active:scale-[0.98] text-primary-foreground font-extrabold text-sm shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer"
+                            >
+                                <Search className="size-4" />
+                                <span>Search Listings</span>
+                            </button>
                         </div>
                     </form>
                 </div>

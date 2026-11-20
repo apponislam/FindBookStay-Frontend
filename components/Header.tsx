@@ -8,6 +8,10 @@ import { CATEGORIES } from "@/constants/routes";
 import NavItem from "@/components/header/NavItem";
 import UserMenu from "@/components/header/UserMenu";
 import MobileDrawer from "@/components/header/MobileDrawer";
+import NotificationsDropdown from "@/components/header/NotificationsDropdown";
+import SavedDropdown from "@/components/header/SavedDropdown";
+import { INITIAL_NOTIFICATIONS, NotificationItem } from "@/constants/notificationsData";
+import { INITIAL_SAVED_LISTINGS, SavedListingItem } from "@/constants/savedData";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { currentUser, currentToken, logOut, updateUserState } from "@/redux/features/auth/authSlice";
 import { useGetMeQuery, useLogoutMutation, authApi } from "@/redux/features/auth/authApi";
@@ -33,16 +37,40 @@ const Header = () => {
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
     const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
     const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+    const [savedDropdownOpen, setSavedDropdownOpen] = useState(false);
+    const [notificationsDropdownOpen, setNotificationsDropdownOpen] = useState(false);
     const [demoAuth, setDemoAuth] = useState(false);
+
+    // Live state for saved listings and notifications
+    const [savedItems, setSavedItems] = useState<SavedListingItem[]>(INITIAL_SAVED_LISTINGS);
+    const [notifications, setNotifications] = useState<NotificationItem[]>(INITIAL_NOTIFICATIONS);
 
     const isAuthenticated = Boolean(user && token) || demoAuth;
 
-    const [favoritesCount] = useState(3);
-    const [notificationsCount] = useState(2);
+    const favoritesCount = savedItems.length;
+    const unreadNotificationsCount = notifications.filter((n) => n.unread).length;
 
     const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
     const navContainerRef = useRef<HTMLDivElement>(null);
     const userMenuRef = useRef<HTMLDivElement>(null);
+    const savedMenuRef = useRef<HTMLDivElement>(null);
+    const notificationsMenuRef = useRef<HTMLDivElement>(null);
+
+    const handleRemoveSavedItem = (id: string, e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setSavedItems((prev) => prev.filter((item) => item.id !== id));
+    };
+
+    const handleMarkAllNotificationsRead = () => {
+        setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
+    };
+
+    const handleNotificationClick = (id: string) => {
+        setNotifications((prev) =>
+            prev.map((n) => (n.id === id ? { ...n, unread: false } : n))
+        );
+    };
 
     const handleLogout = async () => {
         try {
@@ -54,6 +82,8 @@ const Header = () => {
             dispatch(authApi.util.resetApiState());
             setDemoAuth(false);
             setUserDropdownOpen(false);
+            setSavedDropdownOpen(false);
+            setNotificationsDropdownOpen(false);
         }
     };
 
@@ -89,6 +119,8 @@ const Header = () => {
             if (e.key === "Escape") {
                 setActiveMenu(null);
                 setUserDropdownOpen(false);
+                setSavedDropdownOpen(false);
+                setNotificationsDropdownOpen(false);
                 setMobileDrawerOpen(false);
             }
         };
@@ -105,6 +137,12 @@ const Header = () => {
             }
             if (userMenuRef.current && !userMenuRef.current.contains(target)) {
                 setUserDropdownOpen(false);
+            }
+            if (savedMenuRef.current && !savedMenuRef.current.contains(target)) {
+                setSavedDropdownOpen(false);
+            }
+            if (notificationsMenuRef.current && !notificationsMenuRef.current.contains(target)) {
+                setNotificationsDropdownOpen(false);
             }
         };
         document.addEventListener("mousedown", handleClickOutside);
@@ -130,13 +168,13 @@ const Header = () => {
 
     return (
         <>
-            <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled ? "bg-white/95 dark:bg-background/95 backdrop-blur-md shadow-xs py-2.5 border-b border-border" : "bg-white dark:bg-background py-3.5 border-b border-border"}`}>
+            <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled ? "bg-white/95 dark:bg-background/95 backdrop-blur-md shadow-xs py-2 sm:py-2.5 border-b border-border" : "bg-white dark:bg-background py-2.5 sm:py-3.5 border-b border-border"}`}>
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center justify-between gap-2 sm:gap-4">
                         {/* 1. Brand Logo */}
                         <div className="shrink-0">
                             <Link href="/" className="cursor-pointer flex items-center gap-2 group">
-                                <Image src="/findbookstay-logo.png" alt="FindBookStay - Real Estate, Stays & Turfs" width={180} height={50} className="h-9 sm:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-102 dark:brightness-0 dark:invert" priority />
+                                <Image src="/findbookstay-logo.png" alt="FindBookStay - Real Estate, Stays & Turfs" width={180} height={50} className="h-8 sm:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-102 dark:brightness-0 dark:invert" priority />
                             </Link>
                         </div>
 
@@ -150,22 +188,71 @@ const Header = () => {
                         </div>
 
                         {/* 3. Action Buttons & Profile Menu */}
-                        <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="flex items-center gap-1.5 sm:gap-2.5">
                             {/* Mode Toggle */}
-                            <ModeToggle />
+                            <ModeToggle className="size-8 sm:size-9" />
 
-                            {/* Wishlist Link */}
-                            <Link href="/saved" className="cursor-pointer relative hidden sm:flex items-center justify-center size-9 rounded-full text-foreground hover:text-accent hover:bg-surface-secondary transition-colors" aria-label="View Saved Favorites">
-                                <Heart className="size-4.5" />
-                                {favoritesCount > 0 && <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-accent ring-2 ring-background" />}
-                            </Link>
+                            {/* Saved / Favorites Dropdown Trigger */}
+                            <div ref={savedMenuRef} className="relative">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setSavedDropdownOpen((prev) => !prev);
+                                        setNotificationsDropdownOpen(false);
+                                        setUserDropdownOpen(false);
+                                    }}
+                                    className={`cursor-pointer relative flex items-center justify-center size-8 sm:size-9 rounded-full transition-colors ${
+                                        savedDropdownOpen
+                                            ? "bg-primary/10 text-primary"
+                                            : "text-foreground hover:text-accent hover:bg-surface-secondary"
+                                    }`}
+                                    aria-label="View Saved Favorites"
+                                    aria-expanded={savedDropdownOpen}
+                                >
+                                    <Heart className="size-4 sm:size-4.5" />
+                                    {favoritesCount > 0 && (
+                                        <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 size-2 rounded-full bg-accent ring-2 ring-background" />
+                                    )}
+                                </button>
+                                <SavedDropdown
+                                    isOpen={savedDropdownOpen}
+                                    onClose={() => setSavedDropdownOpen(false)}
+                                    savedItems={savedItems}
+                                    onRemoveItem={handleRemoveSavedItem}
+                                />
+                            </div>
 
-                            {/* Notifications Link (Authenticated) */}
+                            {/* Notifications Dropdown Trigger (Authenticated & Demo) */}
                             {isAuthenticated && (
-                                <Link href="/notifications" className="cursor-pointer relative hidden sm:flex items-center justify-center size-9 rounded-full text-foreground hover:text-accent hover:bg-surface-secondary transition-colors" aria-label="Notifications">
-                                    <Bell className="size-4.5" />
-                                    {notificationsCount > 0 && <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-accent ring-2 ring-background" />}
-                                </Link>
+                                <div ref={notificationsMenuRef} className="relative">
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setNotificationsDropdownOpen((prev) => !prev);
+                                            setSavedDropdownOpen(false);
+                                            setUserDropdownOpen(false);
+                                        }}
+                                        className={`cursor-pointer relative flex items-center justify-center size-8 sm:size-9 rounded-full transition-colors ${
+                                            notificationsDropdownOpen
+                                                ? "bg-primary/10 text-primary"
+                                                : "text-foreground hover:text-accent hover:bg-surface-secondary"
+                                        }`}
+                                        aria-label="Notifications"
+                                        aria-expanded={notificationsDropdownOpen}
+                                    >
+                                        <Bell className="size-4 sm:size-4.5" />
+                                        {unreadNotificationsCount > 0 && (
+                                            <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 size-2 rounded-full bg-accent ring-2 ring-background animate-pulse" />
+                                        )}
+                                    </button>
+                                    <NotificationsDropdown
+                                        isOpen={notificationsDropdownOpen}
+                                        onClose={() => setNotificationsDropdownOpen(false)}
+                                        notifications={notifications}
+                                        onMarkAllAsRead={handleMarkAllNotificationsRead}
+                                        onNotificationClick={handleNotificationClick}
+                                    />
+                                </div>
                             )}
 
                             {/* User Profile / Guest Menu */}
@@ -174,8 +261,8 @@ const Header = () => {
                             </div>
 
                             {/* Mobile Drawer Hamburger Trigger */}
-                            <button type="button" onClick={() => setMobileDrawerOpen(true)} className="cursor-pointer lg:hidden p-2 rounded-xl text-foreground hover:bg-surface-secondary transition-colors focus:outline-none" aria-label="Open mobile navigation menu">
-                                <Menu className="size-6" />
+                            <button type="button" onClick={() => setMobileDrawerOpen(true)} className="cursor-pointer lg:hidden p-1.5 sm:p-2 rounded-xl text-foreground hover:bg-surface-secondary transition-colors focus:outline-none" aria-label="Open mobile navigation menu">
+                                <Menu className="size-5 sm:size-6" />
                             </button>
                         </div>
                     </div>

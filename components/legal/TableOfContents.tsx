@@ -75,17 +75,17 @@ const TableOfContents = ({
             {/* ============================================================== */}
             {/* 1. MOBILE COLLAPSIBLE CONTENTS ACCORDION (< lg)                */}
             {/* ============================================================== */}
-            <div className="lg:hidden mb-8 border border-[#E2EAE6] rounded-2xl bg-[#F8FAF9] p-3 shadow-2xs">
+            <div className="lg:hidden mb-8 border border-border rounded-2xl bg-white dark:bg-card p-3 shadow-2xs">
                 <button onClick={() => setIsMobileOpen((prev) => !prev)} className="cursor-pointer w-full flex items-center justify-between text-left">
                     <div className="flex items-center gap-2">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#073B35]">Contents:</span>
-                        <span className="text-xs font-semibold text-[#10B981] truncate">{activeSection ? `${activeSection.number}. ${activeSection.title}` : "Select section"}</span>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-foreground">Contents:</span>
+                        <span className="text-xs font-semibold text-accent truncate">{activeSection ? `${activeSection.number}. ${activeSection.title}` : "Select section"}</span>
                     </div>
-                    <ChevronDown className={`size-4 text-[#64748B] transition-transform duration-200 ${isMobileOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`size-4 text-muted-foreground transition-transform duration-200 ${isMobileOpen ? "rotate-180" : ""}`} />
                 </button>
 
                 {isMobileOpen && (
-                    <div className="mt-3 pt-3 border-t border-[#E2EAE6] space-y-1 text-xs max-h-64 overflow-y-auto">
+                    <div className="mt-3 pt-3 border-t border-border space-y-1 text-xs max-h-64 overflow-y-auto">
                         {sections.map((sec) => {
                             const isActive = activeId === sec.id;
                             return (
@@ -95,9 +95,9 @@ const TableOfContents = ({
                                         scrollToSection(sec.id);
                                         setIsMobileOpen(false);
                                     }}
-                                    className={`cursor-pointer w-full text-left py-1.5 px-2.5 rounded-lg flex items-center gap-2 transition-colors ${isActive ? "bg-[#10B981]/15 text-[#073B35] font-bold" : "text-[#64748B] hover:text-[#073B35] hover:bg-white"}`}
+                                    className={`cursor-pointer w-full text-left py-1.5 px-2.5 rounded-lg flex items-center gap-2 transition-colors ${isActive ? "bg-accent/15 text-accent font-bold" : "text-muted-foreground hover:text-foreground hover:bg-surface-secondary"}`}
                                 >
-                                    <span className="font-mono text-[10.5px] text-[#10B981]">{sec.number}</span>
+                                    <span className="font-mono text-[10.5px] text-accent">{sec.number}</span>
                                     <span>{sec.title}</span>
                                 </button>
                             );
@@ -110,14 +110,14 @@ const TableOfContents = ({
             {/* 2. DESKTOP STICKY TABLE OF CONTENTS (lg+)                      */}
             {/* ============================================================== */}
             <div className="hidden lg:block lg:sticky lg:top-28 space-y-5">
-                <div className="flex items-center justify-between pb-1 border-b border-[#E2EAE6]/60">
-                    <p className="text-xs font-bold uppercase tracking-wider text-[#073B35]">Contents</p>
-                    <span className="text-[11px] font-mono font-medium text-[#10B981]">
+                <div className="flex items-center justify-between pb-1 border-b border-border/60">
+                    <p className="text-xs font-bold uppercase tracking-wider text-foreground">Contents</p>
+                    <span className="text-[11px] font-mono font-medium text-accent">
                         {activeSection?.number || "01"} / {String(sections.length).padStart(2, "0")}
                     </span>
                 </div>
 
-                <nav className="relative border-l border-[#E2EAE6] text-xs space-y-0.5">
+                <nav className="relative border-l border-border text-xs space-y-0.5">
                     {sections.map((sec) => {
                         const isActive = activeId === sec.id;
                         return (
@@ -129,14 +129,14 @@ const TableOfContents = ({
                                     scrollToSection(sec.id);
                                 }}
                                 className={`cursor-pointer group flex items-center py-1.5 pl-3 -ml-px transition-all duration-200 border-l-2 ${
-                                    isActive ? "border-[#10B981] text-[#073B35] font-bold bg-[#10B981]/10 rounded-r-md" : "border-transparent text-[#64748B] hover:text-[#073B35] hover:border-[#A3B5AE]"
+                                    isActive ? "border-accent text-accent font-bold bg-accent/10 rounded-r-md" : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
                                 }`}
                             >
                                 <span
                                     className={`font-mono text-xs sm:text-[13px] font-bold mr-2 transition-colors ${
                                         isActive
-                                            ? "text-[#10B981]"
-                                            : "text-[#64748B] group-hover:text-[#10B981]"
+                                            ? "text-accent"
+                                            : "text-muted-foreground group-hover:text-accent"
                                     }`}
                                 >
                                     {sec.number}
@@ -147,9 +147,9 @@ const TableOfContents = ({
                     })}
                 </nav>
 
-                <div className="pt-4 border-t border-[#E2EAE6] text-xs text-[#64748B] space-y-1.5">
-                    <p className="font-medium text-[#172B2A]">{contactLabel}</p>
-                    <a href={`mailto:${contactEmail}`} className="cursor-pointer text-[#10B981] hover:underline block truncate">
+                <div className="pt-4 border-t border-border text-xs text-muted-foreground space-y-1.5">
+                    <p className="font-medium text-foreground">{contactLabel}</p>
+                    <a href={`mailto:${contactEmail}`} className="cursor-pointer text-accent hover:underline block truncate">
                         {contactEmail}
                     </a>
                 </div>

@@ -251,21 +251,21 @@ const Footer = () => {
                             </div>
 
                             <div className="flex flex-col gap-2">
-                                {/* App Store */}
-                                <div className="group relative rounded-xl bg-white/5 border border-white/10 hover:border-emerald-500/50 hover:bg-white/10 px-3 py-2 flex items-center gap-2.5 transition-all duration-200 cursor-pointer">
-                                    <Apple className="size-4.5 fill-white shrink-0 group-hover:scale-110 transition-transform" />
-                                    <div className="text-left leading-tight">
-                                        <p className="text-[8px] uppercase tracking-wider text-white/50">Download on</p>
-                                        <p className="text-[11px] font-bold text-white">App Store</p>
-                                    </div>
-                                </div>
-
                                 {/* Google Play */}
                                 <div className="group relative rounded-xl bg-white/5 border border-white/10 hover:border-emerald-500/50 hover:bg-white/10 px-3 py-2 flex items-center gap-2.5 transition-all duration-200 cursor-pointer">
                                     <GooglePlay className="size-4.5 fill-white shrink-0 group-hover:scale-110 transition-transform" />
                                     <div className="text-left leading-tight">
                                         <p className="text-[8px] uppercase tracking-wider text-white/50">GET IT ON</p>
                                         <p className="text-[11px] font-bold text-white">Google Play</p>
+                                    </div>
+                                </div>
+
+                                {/* App Store */}
+                                <div className="group relative rounded-xl bg-white/5 border border-white/10 hover:border-emerald-500/50 hover:bg-white/10 px-3 py-2 flex items-center gap-2.5 transition-all duration-200 cursor-pointer">
+                                    <Apple className="size-4.5 fill-white shrink-0 group-hover:scale-110 transition-transform" />
+                                    <div className="text-left leading-tight">
+                                        <p className="text-[8px] uppercase tracking-wider text-white/50">Download on</p>
+                                        <p className="text-[11px] font-bold text-white">App Store</p>
                                     </div>
                                 </div>
                             </div>

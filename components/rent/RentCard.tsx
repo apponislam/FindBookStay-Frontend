@@ -57,7 +57,7 @@ export const RentCard = ({ property, viewMode = "grid" }: RentCardProps) => {
 
     if (viewMode === "list") {
         return (
-            <div className="group bg-white rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row relative">
+            <div className="group bg-white dark:bg-card rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row relative">
                 {/* Image Section */}
                 <div className="relative w-full md:w-80 h-56 md:h-auto shrink-0 overflow-hidden bg-surface-secondary">
                     <Image src={images[currentImageIndex]} alt={property.title} fill sizes="(max-width: 768px) 100vw, 320px" className="object-cover object-center group-hover:scale-105 transition-transform duration-500" />
@@ -65,10 +65,10 @@ export const RentCard = ({ property, viewMode = "grid" }: RentCardProps) => {
 
                     {/* Category & Badge */}
                     <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10 pointer-events-none">
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-white shadow-sm">{property.badge || property.categoryLabel}</span>
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-primary-foreground shadow-sm">{property.badge || property.categoryLabel}</span>
                         {property.verified && (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-white text-primary shadow-sm">
-                                <ShieldCheck className="size-3 text-emerald-600" />
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 dark:bg-card/90 backdrop-blur-md text-white shadow-sm border border-white/10">
+                                <ShieldCheck className="size-3 text-accent" />
                                 Verified
                             </span>
                         )}
@@ -76,11 +76,11 @@ export const RentCard = ({ property, viewMode = "grid" }: RentCardProps) => {
 
                     {/* Heart & Share Buttons */}
                     <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
-                        <button type="button" onClick={handleShare} aria-label="Share property" className="size-8 rounded-full bg-white/90 hover:bg-white text-foreground flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs">
+                        <button type="button" onClick={handleShare} aria-label="Share property" className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10">
                             <Share2 className="size-3.5" />
                         </button>
-                        <button type="button" onClick={toggleSave} aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"} className="size-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs">
-                            <Heart className={`size-4 transition-colors ${isSaved ? "fill-rose-500 text-rose-500" : "text-foreground group-hover:text-rose-500"}`} />
+                        <button type="button" onClick={toggleSave} aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"} className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10">
+                            <Heart className={`size-4 transition-colors ${isSaved ? "fill-rose-500 text-rose-500" : "text-white group-hover:text-rose-400"}`} />
                         </button>
                     </div>
 
@@ -112,13 +112,13 @@ export const RentCard = ({ property, viewMode = "grid" }: RentCardProps) => {
                         {/* Rating & Availability */}
                         <div className="flex items-center justify-between gap-2 mb-2">
                             <div className="flex items-center gap-1.5 text-xs">
-                                <span className="inline-flex items-center gap-1 font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">
+                                <span className="inline-flex items-center gap-1 font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">
                                     <Star className="size-3 fill-amber-500 text-amber-500" />
                                     {property.rating.toFixed(1)}
                                 </span>
-                                <span className="text-text-secondary text-[11px]">({property.reviewsCount} reviews)</span>
+                                <span className="text-muted-foreground text-[11px]">({property.reviewsCount} reviews)</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full">Available: {property.availableFrom}</span>
+                            <span className="text-[11px] font-semibold text-accent bg-accent/10 border border-accent/20 px-2.5 py-0.5 rounded-full">Available: {property.availableFrom}</span>
                         </div>
 
                         {/* Title */}
@@ -127,7 +127,7 @@ export const RentCard = ({ property, viewMode = "grid" }: RentCardProps) => {
                         </Link>
 
                         {/* Location */}
-                        <div className="flex items-center gap-1.5 text-xs text-text-secondary mb-3">
+                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
                             <MapPin className="size-3.5 text-accent shrink-0" />
                             <span className="truncate">{property.location.address}</span>
                         </div>
@@ -156,19 +156,19 @@ export const RentCard = ({ property, viewMode = "grid" }: RentCardProps) => {
                                     <span>{property.sqft.toLocaleString()} sqft</span>
                                 </div>
                             )}
-                            <span className="text-text-secondary/40 hidden sm:inline">&middot;</span>
-                            <span className="text-text-secondary text-[11px] hidden sm:inline">{property.furnishing}</span>
+                            <span className="text-muted-foreground/40 hidden sm:inline">&middot;</span>
+                            <span className="text-muted-foreground text-[11px] hidden sm:inline">{property.furnishing}</span>
                         </div>
 
                         {/* Amenities Tags */}
                         {property.amenities && property.amenities.length > 0 && (
                             <div className="flex flex-wrap gap-1.5 mb-4">
                                 {property.amenities.slice(0, 4).map((amenity, idx) => (
-                                    <span key={idx} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-surface-secondary text-text-secondary">
+                                    <span key={idx} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-surface-secondary text-muted-foreground border border-border/50">
                                         {amenity}
                                     </span>
                                 ))}
-                                {property.amenities.length > 4 && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md text-text-secondary">+{property.amenities.length - 4} more</span>}
+                                {property.amenities.length > 4 && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md text-muted-foreground">+{property.amenities.length - 4} more</span>}
                             </div>
                         )}
                     </div>
@@ -176,10 +176,10 @@ export const RentCard = ({ property, viewMode = "grid" }: RentCardProps) => {
                     {/* Price and Action Footer */}
                     <div className="pt-3 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div>
-                            <div className="text-[10px] uppercase font-bold text-text-secondary tracking-wider">Rent / Month</div>
+                            <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Rent / Month</div>
                             <div className="flex items-baseline gap-1">
                                 <span className="text-xl md:text-2xl font-extrabold text-primary">{property.priceFormatted}</span>
-                                <span className="text-xs font-semibold text-text-secondary">{property.pricePeriod}</span>
+                                <span className="text-xs font-semibold text-muted-foreground">{property.pricePeriod}</span>
                             </div>
                         </div>
 
@@ -190,7 +190,7 @@ export const RentCard = ({ property, viewMode = "grid" }: RentCardProps) => {
                                     <span>{showContact ? property.host.phone : "Call Host"}</span>
                                 </button>
                             )}
-                            <Link href={`/rent/${property.slug}`} className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-all flex items-center gap-1.5 shadow-sm group/btn cursor-pointer">
+                            <Link href={`/rent/${property.slug}`} className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-all flex items-center gap-1.5 shadow-sm group/btn cursor-pointer">
                                 <span>Details</span>
                                 <ArrowRight className="size-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
                             </Link>
@@ -203,7 +203,7 @@ export const RentCard = ({ property, viewMode = "grid" }: RentCardProps) => {
 
     // Grid View Card (Default)
     return (
-        <div className="group bg-white rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
+        <div className="group bg-white dark:bg-card rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
             {/* Image Header with Carousel */}
             <div className="relative aspect-4/3 w-full overflow-hidden bg-surface-secondary">
                 <Image src={images[currentImageIndex]} alt={property.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover object-center group-hover:scale-105 transition-transform duration-500" />
@@ -211,10 +211,10 @@ export const RentCard = ({ property, viewMode = "grid" }: RentCardProps) => {
 
                 {/* Badges on Image */}
                 <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10 pointer-events-none">
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-white shadow-sm">{property.badge || property.categoryLabel}</span>
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-primary-foreground shadow-sm">{property.badge || property.categoryLabel}</span>
                     {property.verified && (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-white text-primary shadow-sm">
-                            <ShieldCheck className="size-3 text-emerald-600" />
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 dark:bg-card/90 backdrop-blur-md text-white shadow-sm border border-white/10">
+                            <ShieldCheck className="size-3 text-accent" />
                             Verified
                         </span>
                     )}
@@ -222,11 +222,11 @@ export const RentCard = ({ property, viewMode = "grid" }: RentCardProps) => {
 
                 {/* Heart & Share Buttons */}
                 <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
-                    <button type="button" onClick={handleShare} aria-label="Share property" className="size-8 rounded-full bg-white/90 hover:bg-white text-foreground flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs">
+                    <button type="button" onClick={handleShare} aria-label="Share property" className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10">
                         <Share2 className="size-3.5" />
                     </button>
-                    <button type="button" onClick={toggleSave} aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"} className="size-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs">
-                        <Heart className={`size-4 transition-colors ${isSaved ? "fill-rose-500 text-rose-500" : "text-foreground group-hover:text-rose-500"}`} />
+                    <button type="button" onClick={toggleSave} aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"} className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10">
+                        <Heart className={`size-4 transition-colors ${isSaved ? "fill-rose-500 text-rose-500" : "text-white group-hover:text-rose-400"}`} />
                     </button>
                 </div>
 
@@ -322,14 +322,14 @@ export const RentCard = ({ property, viewMode = "grid" }: RentCardProps) => {
                 {/* Price and Action Footer */}
                 <div className="pt-3 border-t border-border flex items-center justify-between gap-2 mt-auto">
                     <div>
-                        <div className="text-[10px] uppercase font-bold text-text-secondary">Rent</div>
+                        <div className="text-[10px] uppercase font-bold text-muted-foreground">Rent</div>
                         <div className="flex items-baseline gap-1">
                             <span className="text-lg font-extrabold text-primary">{property.priceFormatted}</span>
-                            <span className="text-[11px] font-semibold text-text-secondary">{property.pricePeriod}</span>
+                            <span className="text-[11px] font-semibold text-muted-foreground">{property.pricePeriod}</span>
                         </div>
                     </div>
 
-                    <Link href={`/rent/${property.slug}`} className="px-3.5 py-1.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-all flex items-center gap-1 shadow-sm group/btn cursor-pointer">
+                    <Link href={`/rent/${property.slug}`} className="px-3.5 py-1.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-all flex items-center gap-1 shadow-sm group/btn cursor-pointer">
                         <span>View</span>
                         <ArrowRight className="size-3 group-hover/btn:translate-x-0.5 transition-transform" />
                     </Link>

@@ -56,7 +56,7 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
 
     if (viewMode === "list") {
         return (
-            <div className="group bg-white rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row relative">
+            <div className="group bg-white dark:bg-card rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row relative">
                 {/* Image Section */}
                 <div className="relative w-full md:w-80 h-56 md:h-auto shrink-0 overflow-hidden bg-surface-secondary">
                     <Image src={images[currentImageIndex]} alt={property.title} fill sizes="(max-width: 768px) 100vw, 320px" className="object-cover object-center group-hover:scale-105 transition-transform duration-500" />
@@ -64,10 +64,10 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
 
                     {/* Badges on Image */}
                     <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10 pointer-events-none">
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-white shadow-sm">{property.badge || property.categoryLabel}</span>
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-primary-foreground shadow-sm">{property.badge || property.categoryLabel}</span>
                         {property.verified && (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-white text-primary shadow-sm">
-                                <ShieldCheck className="size-3 text-emerald-600" />
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 dark:bg-card/90 backdrop-blur-md text-white border border-white/10 shadow-sm">
+                                <ShieldCheck className="size-3 text-emerald-400" />
                                 Verified Title
                             </span>
                         )}
@@ -75,11 +75,11 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
 
                     {/* Heart & Share Buttons */}
                     <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
-                        <button type="button" onClick={handleShare} aria-label="Share property" className="size-8 rounded-full bg-white/90 hover:bg-white text-foreground flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs">
+                        <button type="button" onClick={handleShare} aria-label="Share property" className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10">
                             <Share2 className="size-3.5" />
                         </button>
-                        <button type="button" onClick={toggleSave} aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"} className="size-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs">
-                            <Heart className={`size-4 transition-colors ${isSaved ? "fill-rose-500 text-rose-500" : "text-foreground group-hover:text-rose-500"}`} />
+                        <button type="button" onClick={toggleSave} aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"} className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10">
+                            <Heart className={`size-4 transition-colors ${isSaved ? "fill-rose-500 text-rose-500" : "text-white group-hover:text-rose-400"}`} />
                         </button>
                     </div>
 
@@ -111,13 +111,13 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
                         {/* Rating & Status */}
                         <div className="flex items-center justify-between gap-2 mb-2">
                             <div className="flex items-center gap-1.5 text-xs">
-                                <span className="inline-flex items-center gap-1 font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md text-xs">
+                                <span className="inline-flex items-center gap-1 font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200/50 dark:border-amber-800/40 px-2 py-0.5 rounded-md text-xs">
                                     <Star className="size-3.5 fill-amber-500 text-amber-500" />
                                     {property.rating.toFixed(1)}
                                 </span>
-                                <span className="text-text-secondary text-[11px]">({property.reviewsCount} reviews)</span>
+                                <span className="text-muted-foreground text-[11px]">({property.reviewsCount} reviews)</span>
                             </div>
-                            <span className="text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/60">{property.completionStatus}</span>
+                            <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-full border border-emerald-200/50 dark:border-emerald-800/40">{property.completionStatus}</span>
                         </div>
 
                         {/* Title */}
@@ -126,7 +126,7 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
                         </Link>
 
                         {/* Location */}
-                        <div className="flex items-center gap-1.5 text-xs text-text-secondary mb-3">
+                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
                             <MapPin className="size-3.5 text-accent shrink-0" />
                             <span className="truncate">{property.location.address}</span>
                         </div>
@@ -157,8 +157,8 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
                             )}
                             {property.pricePerSqft && (
                                 <>
-                                    <span className="text-text-secondary/40 hidden sm:inline">&middot;</span>
-                                    <span className="text-text-secondary text-[11px] hidden sm:inline">{property.pricePerSqft}</span>
+                                    <span className="text-muted-foreground/40 hidden sm:inline">&middot;</span>
+                                    <span className="text-muted-foreground text-[11px] hidden sm:inline">{property.pricePerSqft}</span>
                                 </>
                             )}
                         </div>
@@ -167,15 +167,15 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
                         {property.amenities && property.amenities.length > 0 && (
                             <div className="flex flex-wrap gap-1.5 mb-3">
                                 {property.amenities.slice(0, 4).map((amenity, idx) => (
-                                    <span key={idx} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-surface-secondary text-text-secondary">
+                                    <span key={idx} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-surface-secondary text-muted-foreground">
                                         {amenity}
                                     </span>
                                 ))}
-                                {property.amenities.length > 4 && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md text-text-secondary">+{property.amenities.length - 4} more</span>}
+                                {property.amenities.length > 4 && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md text-muted-foreground">+{property.amenities.length - 4} more</span>}
                             </div>
                         )}
 
-                        <div className="text-[11px] text-text-secondary">
+                        <div className="text-[11px] text-muted-foreground">
                             Developer / Seller: <span className="font-bold text-foreground">{property.developer.name}</span>
                         </div>
                     </div>
@@ -183,14 +183,14 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
                     {/* Price and Action Footer */}
                     <div className="pt-3 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-3">
                         <div>
-                            <div className="text-[10px] uppercase font-bold text-text-secondary tracking-wider">Asking Price</div>
+                            <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Asking Price</div>
                             <div className="flex items-baseline gap-1.5">
                                 <span className="text-xl md:text-2xl font-extrabold text-primary">{property.priceFormatted}</span>
-                                {property.pricePerSqft && <span className="text-[11px] font-medium text-text-secondary">({property.pricePerSqft})</span>}
+                                {property.pricePerSqft && <span className="text-[11px] font-medium text-muted-foreground">({property.pricePerSqft})</span>}
                             </div>
                         </div>
 
-                        <Link href={`/buy/${property.slug}`} className="px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-all flex items-center justify-center gap-1.5 shadow-sm group/btn cursor-pointer">
+                        <Link href={`/buy/${property.slug}`} className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-all flex items-center justify-center gap-1.5 shadow-sm group/btn cursor-pointer">
                             <Building className="size-3.5" />
                             <span>Inquire Now</span>
                             <ArrowRight className="size-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
@@ -203,7 +203,7 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
 
     // Grid View Card (Default)
     return (
-        <div className="group bg-white rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
+        <div className="group bg-white dark:bg-card rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
             {/* Image Header with Carousel */}
             <div className="relative aspect-4/3 w-full overflow-hidden bg-surface-secondary">
                 <Image src={images[currentImageIndex]} alt={property.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover object-center group-hover:scale-105 transition-transform duration-500" />
@@ -211,10 +211,10 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
 
                 {/* Badges on Image */}
                 <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10 pointer-events-none">
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-white shadow-sm">{property.badge || property.categoryLabel}</span>
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-primary-foreground shadow-sm">{property.badge || property.categoryLabel}</span>
                     {property.verified && (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-white text-primary shadow-sm">
-                            <ShieldCheck className="size-3 text-emerald-600" />
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 dark:bg-card/90 backdrop-blur-md text-white border border-white/10 shadow-sm">
+                            <ShieldCheck className="size-3 text-emerald-400" />
                             Verified
                         </span>
                     )}
@@ -222,11 +222,11 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
 
                 {/* Heart & Share Buttons */}
                 <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
-                    <button type="button" onClick={handleShare} aria-label="Share property" className="size-8 rounded-full bg-white/90 hover:bg-white text-foreground flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs">
+                    <button type="button" onClick={handleShare} aria-label="Share property" className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10">
                         <Share2 className="size-3.5" />
                     </button>
-                    <button type="button" onClick={toggleSave} aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"} className="size-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs">
-                        <Heart className={`size-4 transition-colors ${isSaved ? "fill-rose-500 text-rose-500" : "text-foreground group-hover:text-rose-500"}`} />
+                    <button type="button" onClick={toggleSave} aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"} className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10">
+                        <Heart className={`size-4 transition-colors ${isSaved ? "fill-rose-500 text-rose-500" : "text-white group-hover:text-rose-400"}`} />
                     </button>
                 </div>
 
@@ -258,13 +258,13 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
                     {/* Rating & Completion Status */}
                     <div className="flex items-center justify-between gap-2 mb-2">
                         <div className="flex items-center gap-1 text-xs">
-                            <span className="inline-flex items-center gap-1 font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md text-[11px]">
+                            <span className="inline-flex items-center gap-1 font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200/50 dark:border-amber-800/40 px-2 py-0.5 rounded-md text-[11px]">
                                 <Star className="size-3 fill-amber-500 text-amber-500" />
                                 {property.rating.toFixed(1)}
                             </span>
-                            <span className="text-text-secondary text-[11px]">({property.reviewsCount})</span>
+                            <span className="text-muted-foreground text-[11px]">({property.reviewsCount})</span>
                         </div>
-                        <span className="text-[10px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">{property.completionStatus}</span>
+                        <span className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200/50 dark:border-emerald-800/40">{property.completionStatus}</span>
                     </div>
 
                     {/* Title */}
@@ -273,7 +273,7 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
                     </Link>
 
                     {/* Location */}
-                    <div className="flex items-center gap-1.5 text-xs text-text-secondary mb-3">
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
                         <MapPin className="size-3.5 text-accent shrink-0" />
                         <span className="truncate">
                             {property.location.area}, {property.location.city}
@@ -308,11 +308,11 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
                     {property.amenities && property.amenities.length > 0 && (
                         <div className="flex flex-wrap gap-1 mb-3">
                             {property.amenities.slice(0, 3).map((amenity, idx) => (
-                                <span key={idx} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-surface-secondary text-text-secondary">
+                                <span key={idx} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-surface-secondary text-muted-foreground">
                                     {amenity}
                                 </span>
                             ))}
-                            {property.amenities.length > 3 && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md text-text-secondary">+{property.amenities.length - 3}</span>}
+                            {property.amenities.length > 3 && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md text-muted-foreground">+{property.amenities.length - 3}</span>}
                         </div>
                     )}
                 </div>
@@ -320,13 +320,13 @@ export const BuyCard = ({ property, viewMode = "grid" }: BuyCardProps) => {
                 {/* Price and Action Footer */}
                 <div className="pt-3 border-t border-border flex items-center justify-between gap-2 mt-auto">
                     <div>
-                        <div className="text-[10px] uppercase font-bold text-text-secondary">Price</div>
+                        <div className="text-[10px] uppercase font-bold text-muted-foreground">Price</div>
                         <div className="flex items-baseline gap-1">
                             <span className="text-lg font-extrabold text-primary">{property.priceFormatted}</span>
                         </div>
                     </div>
 
-                    <Link href={`/buy/${property.slug}`} className="px-3.5 py-1.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-all flex items-center gap-1 shadow-sm group/btn cursor-pointer">
+                    <Link href={`/buy/${property.slug}`} className="px-3.5 py-1.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-all flex items-center gap-1 shadow-sm group/btn cursor-pointer">
                         <span>Details</span>
                         <ArrowRight className="size-3 group-hover/btn:translate-x-0.5 transition-transform" />
                     </Link>

@@ -42,7 +42,7 @@ export const RentFilterSidebar = ({ filters, onChange, onReset, categoryCounts, 
     const hasActiveFilters = filters.category !== "all" || filters.minPrice !== null || filters.maxPrice !== null || filters.bedrooms !== "all" || filters.furnishing !== "all" || filters.amenities.length > 0 || filters.verifiedOnly || filters.search.trim().length > 0;
 
     return (
-        <aside className={`bg-white rounded-2xl border border-border p-5 space-y-6 ${isMobileDrawer ? "shadow-none border-none p-4" : "shadow-xs"}`}>
+        <aside className={`bg-white dark:bg-card rounded-2xl border border-border p-5 space-y-6 ${isMobileDrawer ? "shadow-none border-none p-4" : "shadow-xs"}`}>
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b border-border">
                 <div className="flex items-center gap-2">
@@ -67,13 +67,13 @@ export const RentFilterSidebar = ({ filters, onChange, onReset, categoryCounts, 
             {/* Verified Only Toggle */}
             <div className="p-3 rounded-xl bg-surface-secondary/70 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <ShieldCheck className="size-4 text-emerald-600 shrink-0" />
+                    <ShieldCheck className="size-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                     <div>
                         <div className="text-xs font-bold text-foreground">Verified Only</div>
-                        <div className="text-[10px] text-text-secondary">Physical inspection done</div>
+                        <div className="text-[10px] text-muted-foreground">Physical inspection done</div>
                     </div>
                 </div>
-                <button type="button" role="switch" aria-checked={filters.verifiedOnly} onClick={() => onChange({ verifiedOnly: !filters.verifiedOnly })} className={`relative w-10 h-6 rounded-full transition-colors cursor-pointer focus:outline-none ${filters.verifiedOnly ? "bg-primary" : "bg-zinc-300"}`}>
+                <button type="button" role="switch" aria-checked={filters.verifiedOnly} onClick={() => onChange({ verifiedOnly: !filters.verifiedOnly })} className={`relative w-10 h-6 rounded-full transition-colors cursor-pointer focus:outline-none ${filters.verifiedOnly ? "bg-primary" : "bg-zinc-300 dark:bg-zinc-700"}`}>
                     <span className={`absolute top-1 left-1 size-4 rounded-full bg-white transition-transform ${filters.verifiedOnly ? "translate-x-4" : "translate-x-0"}`} />
                 </button>
             </div>
@@ -86,9 +86,9 @@ export const RentFilterSidebar = ({ filters, onChange, onReset, categoryCounts, 
                         const isSelected = filters.category === cat.id;
                         const count = cat.id === "all" ? totalProperties : categoryCounts[cat.id] || 0;
                         return (
-                            <button key={cat.id} type="button" onClick={() => onChange({ category: cat.id })} className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition-colors cursor-pointer ${isSelected ? "bg-primary text-white font-bold shadow-xs" : "text-foreground hover:bg-surface-secondary"}`}>
+                            <button key={cat.id} type="button" onClick={() => onChange({ category: cat.id })} className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition-colors cursor-pointer ${isSelected ? "bg-primary text-primary-foreground font-bold shadow-xs" : "text-foreground hover:bg-surface-secondary"}`}>
                                 <span className="truncate">{cat.label}</span>
-                                <span className={`text-[11px] px-2 py-0.5 rounded-full ${isSelected ? "bg-white/20 text-white" : "bg-surface-secondary text-text-secondary"}`}>{count}</span>
+                                <span className={`text-[11px] px-2 py-0.5 rounded-full ${isSelected ? "bg-primary-foreground/20 text-primary-foreground" : "bg-surface-secondary text-muted-foreground"}`}>{count}</span>
                             </button>
                         );
                     })}
@@ -114,7 +114,7 @@ export const RentFilterSidebar = ({ filters, onChange, onReset, categoryCounts, 
                 {/* Min / Max Inputs */}
                 <div className="flex items-center gap-2">
                     <div className="flex-1">
-                        <span className="block text-[10px] text-text-secondary mb-1">Min (৳)</span>
+                        <span className="block text-[10px] text-muted-foreground mb-1">Min (৳)</span>
                         <input
                             type="number"
                             placeholder="Min"
@@ -124,12 +124,12 @@ export const RentFilterSidebar = ({ filters, onChange, onReset, categoryCounts, 
                                     minPrice: e.target.value ? Number(e.target.value) : null,
                                 })
                             }
-                            className="w-full px-2.5 py-1.5 rounded-xl border border-border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20"
+                            className="w-full px-2.5 py-1.5 rounded-xl border border-border bg-white dark:bg-card text-foreground text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20"
                         />
                     </div>
-                    <span className="text-text-secondary text-xs mt-4">-</span>
+                    <span className="text-muted-foreground text-xs mt-4">-</span>
                     <div className="flex-1">
-                        <span className="block text-[10px] text-text-secondary mb-1">Max (৳)</span>
+                        <span className="block text-[10px] text-muted-foreground mb-1">Max (৳)</span>
                         <input
                             type="number"
                             placeholder="Max"
@@ -139,7 +139,7 @@ export const RentFilterSidebar = ({ filters, onChange, onReset, categoryCounts, 
                                     maxPrice: e.target.value ? Number(e.target.value) : null,
                                 })
                             }
-                            className="w-full px-2.5 py-1.5 rounded-xl border border-border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20"
+                            className="w-full px-2.5 py-1.5 rounded-xl border border-border bg-white dark:bg-card text-foreground text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20"
                         />
                     </div>
                 </div>
@@ -152,7 +152,7 @@ export const RentFilterSidebar = ({ filters, onChange, onReset, categoryCounts, 
                     {["all", "1", "2", "3", "4+"].map((bed) => {
                         const isSelected = filters.bedrooms === bed;
                         return (
-                            <button key={bed} type="button" onClick={() => onChange({ bedrooms: bed })} className={`py-1.5 rounded-xl text-xs font-bold border text-center transition-colors cursor-pointer ${isSelected ? "border-primary bg-primary text-white" : "border-border text-foreground hover:bg-surface-secondary"}`}>
+                            <button key={bed} type="button" onClick={() => onChange({ bedrooms: bed })} className={`py-1.5 rounded-xl text-xs font-bold border text-center transition-colors cursor-pointer ${isSelected ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground hover:bg-surface-secondary"}`}>
                                 {bed === "all" ? "All" : bed}
                             </button>
                         );
@@ -167,7 +167,7 @@ export const RentFilterSidebar = ({ filters, onChange, onReset, categoryCounts, 
                     {["all", "Furnished", "Semi-Furnished", "Unfurnished"].map((item) => {
                         const isSelected = filters.furnishing === item;
                         return (
-                            <button key={item} type="button" onClick={() => onChange({ furnishing: item })} className={`px-2 py-1.5 rounded-xl text-[11px] font-semibold border text-center transition-colors cursor-pointer truncate ${isSelected ? "border-primary bg-primary text-white font-bold" : "border-border text-foreground hover:bg-surface-secondary"}`}>
+                            <button key={item} type="button" onClick={() => onChange({ furnishing: item })} className={`px-2 py-1.5 rounded-xl text-[11px] font-semibold border text-center transition-colors cursor-pointer truncate ${isSelected ? "border-primary bg-primary text-primary-foreground font-bold" : "border-border text-foreground hover:bg-surface-secondary"}`}>
                                 {item === "all" ? "Any Status" : item}
                             </button>
                         );
@@ -183,7 +183,7 @@ export const RentFilterSidebar = ({ filters, onChange, onReset, categoryCounts, 
                         const isChecked = filters.amenities.includes(amenity);
                         return (
                             <label key={amenity} onClick={() => handleAmenityToggle(amenity)} className="flex items-center gap-2.5 text-xs text-foreground cursor-pointer select-none group">
-                                <div className={`size-4 rounded-md border flex items-center justify-center transition-colors ${isChecked ? "border-primary bg-primary text-white" : "border-border group-hover:border-primary/60 bg-white"}`}>{isChecked && <Check className="size-3" />}</div>
+                                <div className={`size-4 rounded-md border flex items-center justify-center transition-colors ${isChecked ? "border-primary bg-primary text-primary-foreground" : "border-border group-hover:border-primary/60 bg-white dark:bg-card"}`}>{isChecked && <Check className="size-3" />}</div>
                                 <span className={isChecked ? "font-bold text-primary" : "font-medium"}>{amenity}</span>
                             </label>
                         );
@@ -194,7 +194,7 @@ export const RentFilterSidebar = ({ filters, onChange, onReset, categoryCounts, 
             {/* Close Button on Mobile */}
             {isMobileDrawer && onCloseMobileDrawer && (
                 <div className="pt-4 border-t border-border">
-                    <button type="button" onClick={onCloseMobileDrawer} className="w-full py-3 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-colors cursor-pointer shadow-md">
+                    <button type="button" onClick={onCloseMobileDrawer} className="w-full py-3 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-colors cursor-pointer shadow-md">
                         Show Results
                     </button>
                 </div>

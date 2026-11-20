@@ -69,6 +69,7 @@ const FEATURED_CATEGORIES: CategoryCard[] = [
         subtitle: "Badminton, basketball & futsal arenas",
         href: "/sports/indoor-sports",
         icon: Dumbbell,
+        badge: "All Season",
         count: "140+ arenas",
     },
     {
@@ -84,13 +85,14 @@ const FEATURED_CATEGORIES: CategoryCard[] = [
         subtitle: "100% vetted residential & farmland",
         href: "/buy/land",
         icon: Warehouse,
+        badge: "100% Vetted",
         count: "410+ plots",
     },
 ];
 
 export const CategoryGrid = () => {
     return (
-        <section className="py-14 bg-surface/60 dark:bg-surface/20 border-y border-border">
+        <section className="py-14 bg-background border-b border-border">
             <div className="container mx-auto px-4">
                 {/* Section Header */}
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">

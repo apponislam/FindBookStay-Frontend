@@ -78,7 +78,7 @@ export const BookCard = ({ stay, viewMode = "grid" }: BookCardProps) => {
 
     if (viewMode === "list") {
         return (
-            <div className="group bg-white rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row relative">
+            <div className="group bg-white dark:bg-card rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row relative">
                 {/* Image Section */}
                 <div className="relative w-full md:w-80 h-56 md:h-auto shrink-0 overflow-hidden bg-surface-secondary">
                     <Image
@@ -92,12 +92,12 @@ export const BookCard = ({ stay, viewMode = "grid" }: BookCardProps) => {
 
                     {/* Badges on Image */}
                     <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10 pointer-events-none">
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-white shadow-sm">
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-primary-foreground shadow-sm">
                             {stay.badge || stay.categoryLabel}
                         </span>
                         {stay.verified && (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-white text-primary shadow-sm">
-                                <ShieldCheck className="size-3 text-emerald-600" />
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 dark:bg-card/90 backdrop-blur-md text-white shadow-sm border border-white/10">
+                                <ShieldCheck className="size-3 text-accent" />
                                 Verified Stay
                             </span>
                         )}
@@ -109,7 +109,7 @@ export const BookCard = ({ stay, viewMode = "grid" }: BookCardProps) => {
                             type="button"
                             onClick={handleShare}
                             aria-label="Share stay"
-                            className="size-8 rounded-full bg-white/90 hover:bg-white text-foreground flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs"
+                            className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10"
                         >
                             <Share2 className="size-3.5" />
                         </button>
@@ -117,13 +117,13 @@ export const BookCard = ({ stay, viewMode = "grid" }: BookCardProps) => {
                             type="button"
                             onClick={toggleSave}
                             aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"}
-                            className="size-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs"
+                            className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10"
                         >
                             <Heart
                                 className={`size-4 transition-colors ${
                                     isSaved
                                         ? "fill-rose-500 text-rose-500"
-                                        : "text-foreground group-hover:text-rose-500"
+                                        : "text-white group-hover:text-rose-400"
                                 }`}
                             />
                         </button>
@@ -264,7 +264,7 @@ export const BookCard = ({ stay, viewMode = "grid" }: BookCardProps) => {
 
                         <Link
                             href={`/book/${stay.slug}`}
-                            className="px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-all flex items-center justify-center gap-1.5 shadow-sm group/btn cursor-pointer"
+                            className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-all flex items-center justify-center gap-1.5 shadow-sm group/btn cursor-pointer"
                         >
                             <span>Reserve Stay</span>
                             <ArrowRight className="size-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
@@ -277,7 +277,7 @@ export const BookCard = ({ stay, viewMode = "grid" }: BookCardProps) => {
 
     // Grid View Card (Default)
     return (
-        <div className="group bg-white rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
+        <div className="group bg-white dark:bg-card rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
             {/* Image Header with Carousel */}
             <div className="relative aspect-4/3 w-full overflow-hidden bg-surface-secondary">
                 <Image
@@ -291,12 +291,12 @@ export const BookCard = ({ stay, viewMode = "grid" }: BookCardProps) => {
 
                 {/* Badges on Image */}
                 <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10 pointer-events-none">
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-white shadow-sm">
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-primary-foreground shadow-sm">
                         {stay.badge || stay.categoryLabel}
                     </span>
                     {stay.verified && (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-white text-primary shadow-sm">
-                            <ShieldCheck className="size-3 text-emerald-600" />
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 dark:bg-card/90 backdrop-blur-md text-white shadow-sm border border-white/10">
+                            <ShieldCheck className="size-3 text-accent" />
                             Verified
                         </span>
                     )}
@@ -308,7 +308,7 @@ export const BookCard = ({ stay, viewMode = "grid" }: BookCardProps) => {
                         type="button"
                         onClick={handleShare}
                         aria-label="Share stay"
-                        className="size-8 rounded-full bg-white/90 hover:bg-white text-foreground flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs"
+                        className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10"
                     >
                         <Share2 className="size-3.5" />
                     </button>
@@ -316,13 +316,13 @@ export const BookCard = ({ stay, viewMode = "grid" }: BookCardProps) => {
                         type="button"
                         onClick={toggleSave}
                         aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"}
-                        className="size-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs"
+                        className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10"
                     >
                         <Heart
                             className={`size-4 transition-colors ${
                                 isSaved
                                     ? "fill-rose-500 text-rose-500"
-                                    : "text-foreground group-hover:text-rose-500"
+                                    : "text-white group-hover:text-rose-400"
                             }`}
                         />
                     </button>

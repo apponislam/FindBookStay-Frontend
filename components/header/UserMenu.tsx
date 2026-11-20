@@ -7,23 +7,7 @@ import { ChevronDown, ChevronRight, User, Heart, Settings, LogOut, CheckCircle2,
 import { getImageUrl } from "@/lib/utils";
 import type { TUser } from "@/redux/features/auth/authSlice";
 
-const TITLE_PREFIXES = new Set([
-    "md",
-    "mohammad",
-    "mohammed",
-    "muhammad",
-    "muhammed",
-    "mst",
-    "most",
-    "dr",
-    "mr",
-    "mrs",
-    "ms",
-    "prof",
-    "adv",
-    "sheikh",
-    "syed",
-]);
+const TITLE_PREFIXES = new Set(["md", "mohammad", "mohammed", "muhammad", "muhammed", "mst", "most", "dr", "mr", "mrs", "ms", "prof", "adv", "sheikh", "syed"]);
 
 /**
  * Extracts a friendly short display name for the header.
@@ -78,17 +62,17 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
     // -------------------------------------------------------------
     if (!isAuthenticated) {
         return (
-            <div className="flex items-center gap-2 sm:gap-2.5">
+            <div className="flex items-center gap-1.5 sm:gap-2.5">
                 {/* Modern Tactile Log In Button */}
-                <Link href="/auth/login" className="group cursor-pointer inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-foreground hover:text-primary bg-background hover:bg-surface-secondary border border-border hover:border-accent/50 shadow-2xs hover:shadow-xs transition-all duration-200">
+                <Link href="/auth/login" className="group cursor-pointer inline-flex items-center gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-foreground hover:text-primary bg-background hover:bg-surface-secondary border border-border hover:border-accent/50 shadow-2xs hover:shadow-xs transition-all duration-200">
                     <User className="size-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
                     <span>Log In</span>
                 </Link>
 
-                {/* High-Impact Emerald Gradient Sign Up Button */}
+                {/* High-Impact Emerald Gradient Sign Up Button (hidden on mobile, shown on sm+) */}
                 <Link
                     href="/auth/register"
-                    className="group cursor-pointer relative inline-flex items-center gap-1.5 px-4 sm:px-4.5 py-2 rounded-xl text-xs sm:text-[13px] font-bold text-white bg-linear-to-r from-accent to-accent-hover shadow-[0_4px_12px_rgba(16,185,129,0.28)] hover:shadow-[0_6px_18px_rgba(16,185,129,0.38)] transition-all duration-250 hover:scale-[1.02] active:scale-[0.98]"
+                    className="hidden sm:inline-flex group cursor-pointer relative items-center gap-1.5 px-4 sm:px-4.5 py-2 rounded-xl text-xs sm:text-[13px] font-bold text-white bg-linear-to-r from-accent to-accent-hover shadow-[0_4px_12px_rgba(16,185,129,0.28)] hover:shadow-[0_6px_18px_rgba(16,185,129,0.38)] transition-all duration-250 hover:scale-[1.02] active:scale-[0.98]"
                 >
                     <span>Sign Up</span>
                     <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -99,7 +83,7 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
                     type="button"
                     onClick={() => onToggleAuth(true)}
                     title="Preview Logged-in Profile Menu (Demo)"
-                    className="cursor-pointer group relative flex items-center justify-center size-8.5 sm:size-9 rounded-xl border border-border bg-background hover:bg-surface-secondary hover:border-accent/40 text-muted-foreground hover:text-primary shadow-2xs transition-all duration-200"
+                    className="cursor-pointer group relative flex items-center justify-center size-8 sm:size-9 rounded-xl border border-border bg-background hover:bg-surface-secondary hover:border-accent/40 text-muted-foreground hover:text-primary shadow-2xs transition-all duration-200"
                     aria-label="Switch to Authenticated View (Demo)"
                 >
                     <SlidersHorizontal className="size-3.5 transition-transform duration-300 group-hover:rotate-180" />
@@ -118,198 +102,179 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
     return (
         <div className="relative">
             {/* User Pill Trigger Button */}
-            <button type="button" onClick={onToggle} className={`cursor-pointer flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-full border transition-all duration-200 ${isOpen ? "border-accent bg-surface-secondary shadow-xs" : "border-border hover:border-accent/40 hover:bg-surface"}`} aria-expanded={isOpen} aria-label="User profile menu">
-                <div className="relative size-7 shrink-0">
-                    <div className="relative size-full rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center text-xs font-bold uppercase shadow-2xs overflow-hidden">
-                        {user?.profileImage ? (
-                            <Image
-                                src={getImageUrl(user.profileImage)}
-                                alt={displayName}
-                                fill
-                                sizes="28px"
-                                className="rounded-full object-cover"
-                            />
-                        ) : (
-                            initials
-                        )}
-                    </div>
+            <button type="button" onClick={onToggle} className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 p-0.5 sm:p-1 pl-1 sm:pl-1.5 pr-1.5 sm:pr-2.5 rounded-full border transition-all duration-200 ${isOpen ? "border-accent bg-surface-secondary shadow-xs" : "border-border hover:border-accent/40 hover:bg-surface"}`} aria-expanded={isOpen} aria-label="User profile menu">
+                <div className="relative size-6.5 sm:size-7 shrink-0">
+                    <div className="relative size-full rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center text-[10.5px] sm:text-xs font-bold uppercase shadow-2xs overflow-hidden">{user?.profileImage ? <Image src={getImageUrl(user.profileImage)} alt={displayName} fill sizes="28px" className="rounded-full object-cover" /> : initials}</div>
                     {/* Verification / status indicator dot */}
-                    <span className={`absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full ring-2 ring-background z-10 ${isVerified ? "bg-accent" : "bg-amber-400"}`} title={isVerified ? "Verified Account" : "Unverified Account"} />
+                    <span className={`absolute -bottom-0.5 -right-0.5 size-2 sm:size-2.5 rounded-full ring-2 ring-background z-10 ${isVerified ? "bg-accent" : "bg-amber-400"}`} title={isVerified ? "Verified Account" : "Unverified Account"} />
                 </div>
                 <span className="hidden xl:inline-block text-[13px] font-semibold text-foreground max-w-36 truncate">{shortName}</span>
-                <ChevronDown className={`size-3.5 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180 text-primary" : ""}`} />
+                <ChevronDown className={`size-3 sm:size-3.5 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180 text-primary" : ""}`} />
             </button>
 
             {/* Profile Dropdown with rotating glowing border beam */}
             {isOpen && (
-                <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 rounded-2xl p-[1.5px] overflow-hidden shadow-2xl bg-border z-50 origin-top-right transition-all duration-300 ease-out animate-in fade-in zoom-in-95 slide-in-from-top-1">
-                    {/* Inline keyframe definition to guarantee instant execution */}
-                    <style>{`
-                        @keyframes border-beam-spin {
-                            0% {
-                                transform: rotate(0deg);
+                <>
+                    {/* Mobile Backdrop to tap outside and dismiss cleanly */}
+                    <div className="fixed inset-0 bg-black/25 backdrop-blur-xs z-40 sm:hidden" onClick={onClose} aria-hidden="true" />
+
+                    <div className="absolute right-0 top-full mt-2 w-[calc(100vw-24px)] max-w-85 sm:w-80 sm:max-w-none rounded-2xl p-[1.5px] overflow-hidden shadow-2xl bg-border z-50 origin-top-right transition-all duration-300 ease-out animate-in fade-in zoom-in-95 slide-in-from-top-1">
+                        {/* Inline keyframe definition to guarantee instant execution */}
+                        <style>{`
+                            @keyframes border-beam-spin {
+                                0% {
+                                    transform: rotate(0deg);
+                                }
+                                100% {
+                                    transform: rotate(360deg);
+                                }
                             }
-                            100% {
-                                transform: rotate(360deg);
-                            }
-                        }
-                    `}</style>
+                        `}</style>
 
-                    {/* 1. Neon Bloom Layer */}
-                    <div
-                        className="pointer-events-none absolute left-1/2 top-1/2 blur-xs opacity-90"
-                        style={{
-                            width: 600,
-                            height: 600,
-                            marginLeft: -300,
-                            marginTop: -300,
-                            background: "conic-gradient(from 0deg, transparent 0deg, transparent 240deg, #073B35 280deg, #10B981 320deg, #34D399 350deg, transparent 360deg)",
-                            animation: "border-beam-spin 3.5s linear infinite",
-                            transformOrigin: "center center",
-                            willChange: "transform",
-                        }}
-                    />
+                        {/* 1. Neon Bloom Layer */}
+                        <div
+                            className="pointer-events-none absolute left-1/2 top-1/2 blur-xs opacity-90"
+                            style={{
+                                width: 600,
+                                height: 600,
+                                marginLeft: -300,
+                                marginTop: -300,
+                                background: "conic-gradient(from 0deg, transparent 0deg, transparent 240deg, #073B35 280deg, #10B981 320deg, #34D399 350deg, transparent 360deg)",
+                                animation: "border-beam-spin 3.5s linear infinite",
+                                transformOrigin: "center center",
+                                willChange: "transform",
+                            }}
+                        />
 
-                    {/* 2. Sharp Light Beam Layer */}
-                    <div
-                        className="pointer-events-none absolute left-1/2 top-1/2"
-                        style={{
-                            width: 600,
-                            height: 600,
-                            marginLeft: -300,
-                            marginTop: -300,
-                            background: "conic-gradient(from 0deg, transparent 0deg, transparent 240deg, #073B35 280deg, #10B981 320deg, #34D399 350deg, transparent 360deg)",
-                            animation: "border-beam-spin 3.5s linear infinite",
-                            transformOrigin: "center center",
-                            willChange: "transform",
-                        }}
-                    />
+                        {/* 2. Sharp Light Beam Layer */}
+                        <div
+                            className="pointer-events-none absolute left-1/2 top-1/2"
+                            style={{
+                                width: 600,
+                                height: 600,
+                                marginLeft: -300,
+                                marginTop: -300,
+                                background: "conic-gradient(from 0deg, transparent 0deg, transparent 240deg, #073B35 280deg, #10B981 320deg, #34D399 350deg, transparent 360deg)",
+                                animation: "border-beam-spin 3.5s linear infinite",
+                                transformOrigin: "center center",
+                                willChange: "transform",
+                            }}
+                        />
 
-                    {/* 3. Card Inner Content */}
-                    <div className="relative z-10 bg-white dark:bg-card rounded-[15px] p-3 ring-1 ring-black/5 dark:ring-white/10">
-                        {/* Profile Header Card */}
-                        <div className="p-3 mb-2 rounded-xl bg-surface-secondary border border-border/70">
-                            <div className="flex items-center gap-3">
-                                <div className="relative size-11 shrink-0">
-                                    <div className="relative size-full rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center text-sm font-bold shadow-xs overflow-hidden">
-                                        {user?.profileImage ? (
-                                            <Image
-                                                src={getImageUrl(user.profileImage)}
-                                                alt={displayName}
-                                                fill
-                                                sizes="44px"
-                                                className="rounded-full object-cover"
-                                            />
-                                        ) : (
-                                            initials
-                                        )}
+                        {/* 3. Card Inner Content */}
+                        <div className="relative z-10 bg-white dark:bg-card rounded-[15px] p-3 ring-1 ring-black/5 dark:ring-white/10">
+                            {/* Profile Header Card */}
+                            <div className="p-3 mb-2 rounded-xl bg-surface-secondary border border-border/70">
+                                <div className="flex items-center gap-3">
+                                    <div className="relative size-11 shrink-0">
+                                        <div className="relative size-full rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center text-sm font-bold shadow-xs overflow-hidden">{user?.profileImage ? <Image src={getImageUrl(user.profileImage)} alt={displayName} fill sizes="44px" className="rounded-full object-cover" /> : initials}</div>
+                                        {/* Verification round badge */}
+                                        <div className={`absolute -bottom-0.5 -right-0.5 size-4 rounded-full text-white flex items-center justify-center ring-2 ring-background shadow-xs z-10 ${isVerified ? "bg-accent" : "bg-amber-500"}`} title={isVerified ? "Verified Account" : "Unverified Account"}>
+                                            <CheckCircle2 className="size-3 text-white" />
+                                        </div>
                                     </div>
-                                    {/* Verification round badge */}
-                                    <div className={`absolute -bottom-0.5 -right-0.5 size-4 rounded-full text-white flex items-center justify-center ring-2 ring-background shadow-xs z-10 ${isVerified ? "bg-accent" : "bg-amber-500"}`} title={isVerified ? "Verified Account" : "Unverified Account"}>
-                                        <CheckCircle2 className="size-3 text-white" />
+                                    <div className="min-w-0 flex-1">
+                                        <div className="flex items-center gap-1.5">
+                                            <h4 className="text-[13.5px] font-bold text-foreground truncate">{displayName}</h4>
+                                            <span className={`shrink-0 px-1.5 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider border ${isVerified ? "bg-accent/15 text-accent border-accent/20" : "bg-amber-500/15 text-amber-500 border-amber-500/30"}`}>{isVerified ? "Verified" : "Unverified"}</span>
+                                        </div>
+                                        <p className="text-[11.5px] text-muted-foreground truncate mt-0.5">{displayEmail}</p>
                                     </div>
-                                </div>
-                                <div className="min-w-0 flex-1">
-                                    <div className="flex items-center gap-1.5">
-                                        <h4 className="text-[13.5px] font-bold text-foreground truncate">{displayName}</h4>
-                                        <span className={`shrink-0 px-1.5 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider border ${isVerified ? "bg-accent/15 text-accent border-accent/20" : "bg-amber-500/15 text-amber-500 border-amber-500/30"}`}>{isVerified ? "Verified" : "Unverified"}</span>
-                                    </div>
-                                    <p className="text-[11.5px] text-muted-foreground truncate mt-0.5">{displayEmail}</p>
                                 </div>
                             </div>
-                        </div>
 
-                        {/* Navigation Links Grid */}
-                        <div className="space-y-0.5 py-1">
-                            <Link href="/my-bookings" onClick={onClose} className="cursor-pointer group flex items-center justify-between p-2 rounded-xl text-xs font-semibold text-foreground hover:bg-surface-secondary hover:text-primary transition-all duration-150">
-                                <span className="flex items-center gap-2.5">
-                                    <div className="size-8 rounded-lg bg-surface-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center transition-all duration-200 shadow-2xs">
-                                        <CalendarDays className="size-4" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">My Bookings & Stays</p>
-                                        <p className="text-[10.5px] text-muted-foreground font-normal">Manage trips & reservations</p>
-                                    </div>
-                                </span>
-                                <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </Link>
+                            {/* Navigation Links Grid */}
+                            <div className="space-y-0.5 py-1">
+                                <Link href="/my-bookings" onClick={onClose} className="cursor-pointer group flex items-center justify-between p-2 rounded-xl text-xs font-semibold text-foreground hover:bg-surface-secondary hover:text-primary transition-all duration-150">
+                                    <span className="flex items-center gap-2.5">
+                                        <div className="size-8 rounded-lg bg-surface-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center transition-all duration-200 shadow-2xs">
+                                            <CalendarDays className="size-4" />
+                                        </div>
+                                        <div>
+                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">My Bookings & Stays</p>
+                                            <p className="text-[10.5px] text-muted-foreground font-normal">Manage trips & reservations</p>
+                                        </div>
+                                    </span>
+                                    <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                                </Link>
 
-                            <Link href="/my-listings" onClick={onClose} className="cursor-pointer group flex items-center justify-between p-2 rounded-xl text-xs font-semibold text-foreground hover:bg-surface-secondary hover:text-primary transition-all duration-150">
-                                <span className="flex items-center gap-2.5">
-                                    <div className="size-8 rounded-lg bg-surface-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center transition-all duration-200 shadow-2xs">
-                                        <Building className="size-4" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">My Posted Listings</p>
-                                        <p className="text-[10.5px] text-muted-foreground font-normal">Properties, spaces & stats</p>
-                                    </div>
-                                </span>
-                                <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </Link>
+                                <Link href="/my-listings" onClick={onClose} className="cursor-pointer group flex items-center justify-between p-2 rounded-xl text-xs font-semibold text-foreground hover:bg-surface-secondary hover:text-primary transition-all duration-150">
+                                    <span className="flex items-center gap-2.5">
+                                        <div className="size-8 rounded-lg bg-surface-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center transition-all duration-200 shadow-2xs">
+                                            <Building className="size-4" />
+                                        </div>
+                                        <div>
+                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">My Posted Listings</p>
+                                            <p className="text-[10.5px] text-muted-foreground font-normal">Properties, spaces & stats</p>
+                                        </div>
+                                    </span>
+                                    <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                                </Link>
 
-                            <Link href="/saved" onClick={onClose} className="cursor-pointer group flex items-center justify-between p-2 rounded-xl text-xs font-semibold text-foreground hover:bg-surface-secondary hover:text-primary transition-all duration-150">
-                                <span className="flex items-center gap-2.5">
-                                    <div className="size-8 rounded-lg bg-surface-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center transition-all duration-200 shadow-2xs">
-                                        <Heart className="size-4" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">Saved Favorites</p>
-                                        <p className="text-[10.5px] text-muted-foreground font-normal">Your wishlist collection</p>
-                                    </div>
-                                </span>
-                                <span className="px-2 py-0.5 rounded-full bg-accent/15 text-accent text-[10px] font-bold border border-accent/20">{favoritesCount}</span>
-                            </Link>
+                                <Link href="/saved" onClick={onClose} className="cursor-pointer group flex items-center justify-between p-2 rounded-xl text-xs font-semibold text-foreground hover:bg-surface-secondary hover:text-primary transition-all duration-150">
+                                    <span className="flex items-center gap-2.5">
+                                        <div className="size-8 rounded-lg bg-surface-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center transition-all duration-200 shadow-2xs">
+                                            <Heart className="size-4" />
+                                        </div>
+                                        <div>
+                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">Saved Favorites</p>
+                                            <p className="text-[10.5px] text-muted-foreground font-normal">Your wishlist collection</p>
+                                        </div>
+                                    </span>
+                                    <span className="px-2 py-0.5 rounded-full bg-accent/15 text-accent text-[10px] font-bold border border-accent/20">{favoritesCount}</span>
+                                </Link>
 
-                            <Link href="/account/settings" onClick={onClose} className="cursor-pointer group flex items-center justify-between p-2 rounded-xl text-xs font-semibold text-foreground hover:bg-surface-secondary hover:text-primary transition-all duration-150">
-                                <span className="flex items-center gap-2.5">
-                                    <div className="size-8 rounded-lg bg-surface-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center transition-all duration-200 shadow-2xs">
-                                        <Settings className="size-4" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">Account Settings</p>
-                                        <p className="text-[10.5px] text-muted-foreground font-normal">Security & preferences</p>
-                                    </div>
-                                </span>
-                                <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </Link>
+                                <Link href="/account/settings" onClick={onClose} className="cursor-pointer group flex items-center justify-between p-2 rounded-xl text-xs font-semibold text-foreground hover:bg-surface-secondary hover:text-primary transition-all duration-150">
+                                    <span className="flex items-center gap-2.5">
+                                        <div className="size-8 rounded-lg bg-surface-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center transition-all duration-200 shadow-2xs">
+                                            <Settings className="size-4" />
+                                        </div>
+                                        <div>
+                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">Account Settings</p>
+                                            <p className="text-[10.5px] text-muted-foreground font-normal">Security & preferences</p>
+                                        </div>
+                                    </span>
+                                    <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                                </Link>
 
-                            <Link href="/help" onClick={onClose} className="cursor-pointer group flex items-center justify-between p-2 rounded-xl text-xs font-semibold text-foreground hover:bg-surface-secondary hover:text-primary transition-all duration-150">
-                                <span className="flex items-center gap-2.5">
-                                    <div className="size-8 rounded-lg bg-surface-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center transition-all duration-200 shadow-2xs">
-                                        <HelpCircle className="size-4" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">Help & Support</p>
-                                        <p className="text-[10.5px] text-muted-foreground font-normal">24/7 dedicated support</p>
-                                    </div>
-                                </span>
-                                <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </Link>
-                        </div>
+                                <Link href="/help" onClick={onClose} className="cursor-pointer group flex items-center justify-between p-2 rounded-xl text-xs font-semibold text-foreground hover:bg-surface-secondary hover:text-primary transition-all duration-150">
+                                    <span className="flex items-center gap-2.5">
+                                        <div className="size-8 rounded-lg bg-surface-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center transition-all duration-200 shadow-2xs">
+                                            <HelpCircle className="size-4" />
+                                        </div>
+                                        <div>
+                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">Help & Support</p>
+                                            <p className="text-[10.5px] text-muted-foreground font-normal">24/7 dedicated support</p>
+                                        </div>
+                                    </span>
+                                    <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                                </Link>
+                            </div>
 
-                        {/* Actions Divider */}
-                        <div className="pt-2 mt-1 border-t border-border/70 space-y-1">
-                            {/* Sign Out Button */}
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    if (onLogout) {
-                                        onLogout();
-                                    } else {
-                                        onToggleAuth(false);
-                                    }
-                                    onClose();
-                                }}
-                                className="cursor-pointer w-full flex items-center gap-2.5 p-2 rounded-xl text-xs font-semibold text-destructive hover:bg-destructive/10 transition-colors group"
-                            >
-                                <div className="size-7 rounded-lg bg-destructive/10 text-destructive group-hover:bg-destructive/20 flex items-center justify-center transition-colors">
-                                    <LogOut className="size-3.5" />
-                                </div>
-                                <span>Sign Out</span>
-                            </button>
+                            {/* Actions Divider */}
+                            <div className="pt-2 mt-1 border-t border-border/70 space-y-1">
+                                {/* Sign Out Button */}
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        if (onLogout) {
+                                            onLogout();
+                                        } else {
+                                            onToggleAuth(false);
+                                        }
+                                        onClose();
+                                    }}
+                                    className="cursor-pointer w-full flex items-center gap-2.5 p-2 rounded-xl text-xs font-semibold text-destructive hover:bg-destructive/10 transition-colors group"
+                                >
+                                    <div className="size-7 rounded-lg bg-destructive/10 text-destructive group-hover:bg-destructive/20 flex items-center justify-center transition-colors">
+                                        <LogOut className="size-3.5" />
+                                    </div>
+                                    <span>Sign Out</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </>
             )}
         </div>
     );

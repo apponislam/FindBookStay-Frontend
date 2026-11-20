@@ -69,7 +69,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
 
     if (viewMode === "list") {
         return (
-            <div className="group bg-white rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row relative">
+            <div className="group bg-white dark:bg-card rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row relative">
                 {/* Image Section */}
                 <div className="relative w-full md:w-80 h-56 md:h-auto shrink-0 overflow-hidden bg-surface-secondary">
                     <Image
@@ -83,12 +83,12 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
 
                     {/* Badges on Image */}
                     <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10 pointer-events-none">
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-white shadow-sm">
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-primary-foreground shadow-sm">
                             {venue.badge || venue.categoryLabel}
                         </span>
                         {venue.verified && (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-white text-primary shadow-sm">
-                                <ShieldCheck className="size-3 text-emerald-600" />
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 dark:bg-card/90 backdrop-blur-md text-white border border-white/10 shadow-sm">
+                                <ShieldCheck className="size-3 text-emerald-400" />
                                 Verified Arena
                             </span>
                         )}
@@ -100,7 +100,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                             type="button"
                             onClick={handleShare}
                             aria-label="Share venue"
-                            className="size-8 rounded-full bg-white/90 hover:bg-white text-foreground flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs"
+                            className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10"
                         >
                             <Share2 className="size-3.5" />
                         </button>
@@ -108,13 +108,13 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                             type="button"
                             onClick={toggleSave}
                             aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"}
-                            className="size-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs"
+                            className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10"
                         >
                             <Heart
                                 className={`size-4 transition-colors ${
                                     isSaved
                                         ? "fill-rose-500 text-rose-500"
-                                        : "text-foreground group-hover:text-rose-500"
+                                        : "text-white group-hover:text-rose-400"
                                 }`}
                             />
                         </button>
@@ -165,11 +165,11 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                         {/* Rating & Sports Tags */}
                         <div className="flex items-center justify-between gap-2 mb-2">
                             <div className="flex items-center gap-2">
-                                <span className="inline-flex items-center gap-1 font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md text-xs">
+                                <span className="inline-flex items-center gap-1 font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200/50 dark:border-amber-800/40 px-2 py-0.5 rounded-md text-xs">
                                     <Star className="size-3.5 fill-amber-500 text-amber-500" />
                                     {venue.rating.toFixed(1)}
                                 </span>
-                                <span className="text-text-secondary text-[11px]">
+                                <span className="text-muted-foreground text-[11px]">
                                     ({venue.reviewsCount} reviews)
                                 </span>
                             </div>
@@ -177,7 +177,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                                 {venue.sports.map((sport, idx) => (
                                     <span
                                         key={idx}
-                                        className="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full"
+                                        className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/50 dark:border-emerald-800/40 px-2 py-0.5 rounded-full"
                                     >
                                         {sport}
                                     </span>
@@ -194,7 +194,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                         </Link>
 
                         {/* Location */}
-                        <div className="flex items-center gap-1.5 text-xs text-text-secondary mb-3">
+                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
                             <MapPin className="size-3.5 text-accent shrink-0" />
                             <span className="truncate">{venue.location.address}</span>
                         </div>
@@ -202,13 +202,13 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                         {/* Specs & Surface Bar */}
                         <div className="flex items-center gap-3 py-2 px-3 rounded-xl bg-surface-secondary/70 text-xs font-semibold text-foreground mb-3 flex-wrap">
                             <span className="text-primary font-bold">{venue.surfaceType}</span>
-                            <span className="text-text-secondary/40">&middot;</span>
+                            <span className="text-muted-foreground/40">&middot;</span>
                             <span>{venue.capacity}</span>
                         </div>
 
                         {/* Next Available Slot */}
-                        <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl mb-3">
-                            <Clock className="size-3.5 text-emerald-600 shrink-0" />
+                        <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/50 dark:border-emerald-800/40 px-3 py-1.5 rounded-xl mb-3">
+                            <Clock className="size-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                             <span>Next Slot: {venue.nextSlot}</span>
                         </div>
 
@@ -218,13 +218,13 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                                 {venue.amenities.slice(0, 4).map((amenity, idx) => (
                                     <span
                                         key={idx}
-                                        className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-surface-secondary text-text-secondary"
+                                        className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-surface-secondary text-muted-foreground"
                                     >
                                         {amenity}
                                     </span>
                                 ))}
                                 {venue.amenities.length > 4 && (
-                                    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md text-text-secondary">
+                                    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md text-muted-foreground">
                                         +{venue.amenities.length - 4} more
                                     </span>
                                 )}
@@ -235,14 +235,14 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                     {/* Price and Action Footer */}
                     <div className="pt-3 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-3">
                         <div>
-                            <div className="text-[10px] uppercase font-bold text-text-secondary tracking-wider">
+                            <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">
                                 Hourly Slot Rate
                             </div>
                             <div className="flex items-baseline gap-1">
                                 <span className="text-xl md:text-2xl font-extrabold text-primary">
                                     {venue.priceFormatted}
                                 </span>
-                                <span className="text-xs font-semibold text-text-secondary">
+                                <span className="text-xs font-semibold text-muted-foreground">
                                     {venue.priceUnit}
                                 </span>
                             </div>
@@ -250,9 +250,9 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
 
                         <Link
                             href={`/sports/${venue.slug}`}
-                            className="px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-all flex items-center justify-center gap-1.5 shadow-sm group/btn cursor-pointer"
+                            className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-all flex items-center justify-center gap-1.5 shadow-sm group/btn cursor-pointer"
                         >
-                            <Zap className="size-3.5 text-accent" />
+                            <Zap className="size-3.5 text-primary-foreground" />
                             <span>Book Slot</span>
                             <ArrowRight className="size-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
                         </Link>
@@ -264,7 +264,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
 
     // Grid View Card (Default)
     return (
-        <div className="group bg-white rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
+        <div className="group bg-white dark:bg-card rounded-2xl border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
             {/* Image Header with Carousel */}
             <div className="relative aspect-4/3 w-full overflow-hidden bg-surface-secondary">
                 <Image
@@ -278,12 +278,12 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
 
                 {/* Badges on Image */}
                 <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10 pointer-events-none">
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-white shadow-sm">
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary text-primary-foreground shadow-sm">
                         {venue.badge || venue.categoryLabel}
                     </span>
                     {venue.verified && (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-white text-primary shadow-sm">
-                            <ShieldCheck className="size-3 text-emerald-600" />
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 dark:bg-card/90 backdrop-blur-md text-white border border-white/10 shadow-sm">
+                            <ShieldCheck className="size-3 text-emerald-400" />
                             Verified
                         </span>
                     )}
@@ -295,7 +295,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                         type="button"
                         onClick={handleShare}
                         aria-label="Share venue"
-                        className="size-8 rounded-full bg-white/90 hover:bg-white text-foreground flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs"
+                        className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10"
                     >
                         <Share2 className="size-3.5" />
                     </button>
@@ -303,13 +303,13 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                         type="button"
                         onClick={toggleSave}
                         aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"}
-                        className="size-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-xs"
+                        className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10"
                     >
                         <Heart
                             className={`size-4 transition-colors ${
                                 isSaved
                                     ? "fill-rose-500 text-rose-500"
-                                    : "text-foreground group-hover:text-rose-500"
+                                    : "text-white group-hover:text-rose-400"
                             }`}
                         />
                     </button>
@@ -360,11 +360,11 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                     {/* Rating & Sport Tag */}
                     <div className="flex items-center justify-between gap-2 mb-2">
                         <div className="flex items-center gap-1 text-xs">
-                            <span className="inline-flex items-center gap-1 font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md text-[11px]">
+                            <span className="inline-flex items-center gap-1 font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200/50 dark:border-amber-800/40 px-2 py-0.5 rounded-md text-[11px]">
                                 <Star className="size-3 fill-amber-500 text-amber-500" />
                                 {venue.rating.toFixed(1)}
                             </span>
-                            <span className="text-text-secondary text-[11px]">
+                            <span className="text-muted-foreground text-[11px]">
                                 ({venue.reviewsCount})
                             </span>
                         </div>
@@ -372,7 +372,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                             {venue.sports.slice(0, 2).map((sport, idx) => (
                                 <span
                                     key={idx}
-                                    className="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full"
+                                    className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/50 dark:border-emerald-800/40 px-2 py-0.5 rounded-full"
                                 >
                                     {sport}
                                 </span>
@@ -389,7 +389,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                     </Link>
 
                     {/* Location */}
-                    <div className="flex items-center gap-1.5 text-xs text-text-secondary mb-3">
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
                         <MapPin className="size-3.5 text-accent shrink-0" />
                         <span className="truncate">{venue.location.area}, {venue.location.city}</span>
                     </div>
@@ -397,12 +397,12 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                     {/* Surface & Capacity */}
                     <div className="flex items-center justify-between py-2 px-3 rounded-xl bg-surface-secondary/70 text-xs font-semibold text-foreground mb-3">
                         <span className="text-primary font-bold truncate">{venue.surfaceType}</span>
-                        <span className="text-text-secondary text-[11px] shrink-0">{venue.capacity}</span>
+                        <span className="text-muted-foreground text-[11px] shrink-0">{venue.capacity}</span>
                     </div>
 
                     {/* Next Available Slot */}
-                    <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-xl mb-3">
-                        <Clock className="size-3 text-emerald-600 shrink-0" />
+                    <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/50 dark:border-emerald-800/40 px-2.5 py-1.5 rounded-xl mb-3">
+                        <Clock className="size-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
                         <span className="truncate">{venue.nextSlot}</span>
                     </div>
                 </div>
@@ -410,14 +410,14 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                 {/* Price and Action Footer */}
                 <div className="pt-3 border-t border-border flex items-center justify-between gap-2 mt-auto">
                     <div>
-                        <div className="text-[10px] uppercase font-bold text-text-secondary">
+                        <div className="text-[10px] uppercase font-bold text-muted-foreground">
                             Per Hour
                         </div>
                         <div className="flex items-baseline gap-1">
                             <span className="text-lg font-extrabold text-primary">
                                 {venue.priceFormatted}
                             </span>
-                            <span className="text-[11px] font-semibold text-text-secondary">
+                            <span className="text-[11px] font-semibold text-muted-foreground">
                                 {venue.priceUnit}
                             </span>
                         </div>
@@ -425,9 +425,9 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
 
                     <Link
                         href={`/sports/${venue.slug}`}
-                        className="px-3.5 py-1.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-all flex items-center gap-1 shadow-sm group/btn cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-all flex items-center gap-1 shadow-sm group/btn cursor-pointer"
                     >
-                        <Zap className="size-3 text-accent" />
+                        <Zap className="size-3 text-primary-foreground" />
                         <span>Book</span>
                         <ArrowRight className="size-3 group-hover/btn:translate-x-0.5 transition-transform" />
                     </Link>

@@ -9,6 +9,7 @@ import SportsVenues from "@/components/home/SportsVenues";
 import FeaturedBuyProperties from "@/components/home/FeaturedBuyProperties";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import HostBannerCTA from "@/components/home/HostBannerCTA";
+import MobileAppCTA from "@/components/home/MobileAppCTA";
 
 export const metadata: Metadata = {
     title: "FindBookStay | Verified Home Rentals, Stays, Sports Turfs & Properties",
@@ -45,6 +46,9 @@ const HomePage = () => {
 
             {/* 9. Partner / Host Listing Call-to-Action */}
             <HostBannerCTA />
+
+            {/* 10. Mobile Apps Download Showcase (Coming Soon) */}
+            <MobileAppCTA />
         </main>
     );
 };

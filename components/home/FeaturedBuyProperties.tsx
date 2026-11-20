@@ -28,7 +28,7 @@ export const FeaturedBuyProperties = () => {
     };
 
     return (
-        <section className="py-16 bg-surface/60 dark:bg-surface/20 border-y border-border">
+        <section className="py-16 bg-background border-b border-border">
             <div className="container mx-auto px-4">
                 {/* Section Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
@@ -102,7 +102,7 @@ export const FeaturedBuyProperties = () => {
                                             </span>
                                         </div>
 
-                                        <h3 className="font-bold text-sm text-foreground group-hover:text-primary transition-colors line-clamp-1">{property.title}</h3>
+                                        <h3 className="font-bold text-sm text-foreground group-hover:text-primary transition-colors line-clamp-2 min-h-[2.5rem] leading-snug">{property.title}</h3>
                                     </div>
 
                                     {/* Features Strip */}

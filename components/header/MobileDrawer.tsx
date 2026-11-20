@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, X, Plus, Heart, PhoneCall, User, ArrowRight } from "@/components/Icons";
+import { ChevronDown, X, Plus, Heart, PhoneCall, User, ArrowRight, Bell, CalendarDays } from "@/components/Icons";
 import { getImageUrl } from "@/lib/utils";
 import type { CategoryMenu } from "@/constants/routes";
 import type { TUser } from "@/redux/features/auth/authSlice";
@@ -114,15 +114,26 @@ const MobileDrawer = ({
                     </div>
 
                     {/* Quick links */}
-                    <div className="px-4 py-3 border-t border-border/70 space-y-2">
-                        <Link href="/saved" onClick={onClose} className="cursor-pointer flex items-center justify-between text-xs font-medium text-foreground p-2 rounded-lg hover:bg-surface-secondary">
+                    <div className="px-4 py-3 border-t border-border/70 space-y-1.5">
+                        <Link href="/saved" onClick={onClose} className="cursor-pointer flex items-center justify-between text-xs font-medium text-foreground p-2 rounded-lg hover:bg-surface-secondary transition-colors">
                             <span className="flex items-center gap-2">
                                 <Heart className="size-4 text-accent" /> Saved Favorites
                             </span>
                             <span className="px-2 py-0.5 rounded-full bg-surface-secondary text-accent text-[10px] font-bold">{favoritesCount}</span>
                         </Link>
-                        <Link href="/help" onClick={onClose} className="cursor-pointer flex items-center gap-2 text-xs font-medium text-foreground p-2 rounded-lg hover:bg-surface-secondary">
-                            <PhoneCall className="size-4 text-accent" /> 24/7 Support Hotline
+                        <Link href="/notifications" onClick={onClose} className="cursor-pointer flex items-center justify-between text-xs font-medium text-foreground p-2 rounded-lg hover:bg-surface-secondary transition-colors">
+                            <span className="flex items-center gap-2">
+                                <Bell className="size-4 text-primary" /> Notifications
+                            </span>
+                            <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">Alerts</span>
+                        </Link>
+                        <Link href="/my-bookings" onClick={onClose} className="cursor-pointer flex items-center justify-between text-xs font-medium text-foreground p-2 rounded-lg hover:bg-surface-secondary transition-colors">
+                            <span className="flex items-center gap-2">
+                                <CalendarDays className="size-4 text-accent" /> My Bookings
+                            </span>
+                        </Link>
+                        <Link href="/help" onClick={onClose} className="cursor-pointer flex items-center gap-2 text-xs font-medium text-foreground p-2 rounded-lg hover:bg-surface-secondary transition-colors">
+                            <PhoneCall className="size-4 text-muted-foreground" /> 24/7 Support Hotline
                         </Link>
                     </div>
                 </div>

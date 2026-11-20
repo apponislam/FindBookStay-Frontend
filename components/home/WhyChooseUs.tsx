@@ -45,7 +45,7 @@ export const WhyChooseUs = () => {
     ];
 
     return (
-        <section className="py-20 bg-surface/60 dark:bg-surface/20 border-t border-border">
+        <section className="py-20 bg-background border-t border-border">
             <div className="container mx-auto px-4">
                 {/* Header */}
                 <div className="text-center max-w-2xl mx-auto space-y-3 mb-14">

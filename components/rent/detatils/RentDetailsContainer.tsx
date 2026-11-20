@@ -27,7 +27,7 @@ export const RentDetailsContainer = ({ property }: RentDetailsContainerProps) =>
                 </div>
                 <h1 className="text-2xl font-bold text-foreground mb-2">Property Not Found</h1>
                 <p className="text-sm text-muted-foreground max-w-md mx-auto mb-6">The rental property you are looking for may have been leased out or the link might be incorrect.</p>
-                <Link href="/rent" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-all shadow-sm">
+                <Link href="/rent" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-all shadow-sm">
                     <ArrowLeft className="w-4 h-4" />
                     <span>Browse All Available Rentals</span>
                 </Link>
