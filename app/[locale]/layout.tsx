@@ -3,6 +3,8 @@ import { Raleway } from "next/font/google";
 import { ReduxProviders } from "@/providers/ReduxProvider";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, getLocale } from "next-intl/server";
 
 const raleway = Raleway({
     variable: "--font-sans",
@@ -34,13 +36,17 @@ export const metadata: Metadata = {
     manifest: "/site.webmanifest",
 };
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+    const locale = await getLocale();
+    const messages = await getMessages();
     return (
-        <html lang="en" className={`${raleway.variable} font-sans h-full antialiased`} suppressHydrationWarning>
+        <html lang={locale} className={`${raleway.variable} font-sans h-full antialiased`} suppressHydrationWarning>
             <body className="min-h-full flex flex-col bg-background text-foreground" cz-shortcut-listen="true" data-new-gr-c-s-check-loaded="14.1349.0">
-                <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                    <ReduxProviders>{children}</ReduxProviders>
-                </ThemeProvider>
+                <NextIntlClientProvider locale={locale} messages={messages}>
+                    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                        <ReduxProviders>{children}</ReduxProviders>
+                    </ThemeProvider>
+                </NextIntlClientProvider>
             </body>
         </html>
     );
