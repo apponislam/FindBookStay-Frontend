@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import siteData from "@/constants/siteData";
 import {
     MapPin,
@@ -17,8 +18,11 @@ import {
     Apple,
     GooglePlay,
 } from "@/components/Icons";
+import { LanguageSwitch } from "@/components/header/LanguageSwitch";
 
 const Footer = () => {
+    const t = useTranslations("Footer");
+
     const scrollToTop = () => {
         if (typeof window !== "undefined") {
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -54,7 +58,7 @@ const Footer = () => {
                             />
                         </Link>
                         <p className="text-xs sm:text-[13px] text-white/70 leading-relaxed max-w-sm">
-                            {siteData.description}
+                            {t("brandDesc")}
                         </p>
 
                         {/* Direct Contacts List */}
@@ -117,17 +121,17 @@ const Footer = () => {
                     {/* Column 2: Rent & Buy (col-span-2) */}
                     <div className="lg:col-span-2 space-y-4">
                         <h4 className="text-xs uppercase font-extrabold tracking-wider text-emerald-400 flex items-center gap-2">
-                            <span>Rent & Buy</span>
+                            <span>{t("rentAndBuy")}</span>
                             <span className="w-4 h-0.5 bg-emerald-500/40 rounded-full" />
                         </h4>
                         <ul className="space-y-2.5 text-xs sm:text-[13px] text-white/70">
                             {[
-                                { href: "/rent/family-apartments", label: "Family Rental Flats" },
-                                { href: "/rent/bachelor-seats", label: "Bachelor Seats" },
-                                { href: "/rent/sublets", label: "Monthly Sublets" },
-                                { href: "/buy/residential", label: "Residential Homes" },
-                                { href: "/buy/apartments", label: "Luxury Apartments" },
-                                { href: "/buy/land", label: "Verified Land & Plots" },
+                                { href: "/rent/family-apartments", label: t("familyRentalFlats") },
+                                { href: "/rent/bachelor-seats", label: t("bachelorSeats") },
+                                { href: "/rent/sublets", label: t("monthlySublets") },
+                                { href: "/buy/residential", label: t("residentialHomes") },
+                                { href: "/buy/apartments", label: t("luxuryApartments") },
+                                { href: "/buy/land", label: t("landPlots") },
                             ].map((item, idx) => (
                                 <li key={idx}>
                                     <Link
@@ -146,7 +150,7 @@ const Footer = () => {
                                     href="/post-listing"
                                     className="inline-flex items-center gap-1.5 font-bold text-emerald-400 hover:text-emerald-300 transition-colors group cursor-pointer"
                                 >
-                                    <span>Post a Listing</span>
+                                    <span>{t("postListing")}</span>
                                     <ArrowRight className="size-3 group-hover:translate-x-1 transition-transform" />
                                 </Link>
                             </li>
@@ -156,17 +160,17 @@ const Footer = () => {
                     {/* Column 3: Book Stays (col-span-2) */}
                     <div className="lg:col-span-2 space-y-4">
                         <h4 className="text-xs uppercase font-extrabold tracking-wider text-emerald-400 flex items-center gap-2">
-                            <span>Book Stays</span>
+                            <span>{t("bookStays")}</span>
                             <span className="w-4 h-0.5 bg-emerald-500/40 rounded-full" />
                         </h4>
                         <ul className="space-y-2.5 text-xs sm:text-[13px] text-white/70">
                             {[
-                                { href: "/book/hotels", label: "Boutique & City Hotels" },
-                                { href: "/book/resorts", label: "Scenic Resorts" },
-                                { href: "/book/guest-houses", label: "Guest Houses & B&Bs" },
-                                { href: "/book/holiday-homes", label: "Holiday Homes" },
-                                { href: "/book/short-stay", label: "Serviced Short Stays" },
-                                { href: "/explore/popular-destinations", label: "Popular Getaways" },
+                                { href: "/book/hotels", label: t("boutiqueHotels") },
+                                { href: "/book/resorts", label: t("scenicResorts") },
+                                { href: "/book/guest-houses", label: t("guestHouses") },
+                                { href: "/book/holiday-homes", label: t("holidayHomes") },
+                                { href: "/book/short-stay", label: t("servicedShortStays") },
+                                { href: "/explore/popular-destinations", label: t("popularGetaways") },
                             ].map((item, idx) => (
                                 <li key={idx}>
                                     <Link
@@ -186,16 +190,16 @@ const Footer = () => {
                     {/* Column 4: Sports & Turfs (col-span-2) */}
                     <div className="lg:col-span-2 space-y-4">
                         <h4 className="text-xs uppercase font-extrabold tracking-wider text-emerald-400 flex items-center gap-2">
-                            <span>Sports & Turfs</span>
+                            <span>{t("sportsTurfs")}</span>
                             <span className="w-4 h-0.5 bg-emerald-500/40 rounded-full" />
                         </h4>
                         <ul className="space-y-2.5 text-xs sm:text-[13px] text-white/70">
                             {[
-                                { href: "/sports/turf-booking", label: "Artificial Grass Turfs" },
-                                { href: "/sports/football", label: "Football Grounds" },
-                                { href: "/sports/indoor", label: "Indoor Badminton Courts" },
-                                { href: "/sports/cricket", label: "Cricket Practice Nets" },
-                                { href: "/sports/activities", label: "Swimming & Clubs" },
+                                { href: "/sports/turf-booking", label: t("artificialTurfs") },
+                                { href: "/sports/football", label: t("footballGrounds") },
+                                { href: "/sports/indoor", label: t("indoorCourts") },
+                                { href: "/sports/cricket", label: t("cricketNets") },
+                                { href: "/sports/activities", label: t("swimmingClubs") },
                             ].map((item, idx) => (
                                 <li key={idx}>
                                     <Link
@@ -215,17 +219,17 @@ const Footer = () => {
                     {/* Column 5: Company & Mobile Apps (col-span-2) */}
                     <div className="lg:col-span-2 space-y-4">
                         <h4 className="text-xs uppercase font-extrabold tracking-wider text-emerald-400 flex items-center gap-2">
-                            <span>Company</span>
+                            <span>{t("company")}</span>
                             <span className="w-4 h-0.5 bg-emerald-500/40 rounded-full" />
                         </h4>
                         <ul className="space-y-2.5 text-xs sm:text-[13px] text-white/70">
                             {[
-                                { href: "/about", label: "About FindBookStay" },
-                                { href: "/contact", label: "Contact Us" },
-                                { href: "/trust", label: "Verification Guarantee" },
-                                { href: "/help", label: "Help & FAQs" },
-                                { href: "/terms", label: "Terms of Service" },
-                                { href: "/privacy", label: "Privacy Policy" },
+                                { href: "/about", label: t("about") },
+                                { href: "/contact", label: t("contact") },
+                                { href: "/trust", label: t("verificationGuarantee") },
+                                { href: "/help", label: t("helpFaqs") },
+                                { href: "/terms", label: t("terms") },
+                                { href: "/privacy", label: t("privacy") },
                             ].map((item, idx) => (
                                 <li key={idx}>
                                     <Link
@@ -244,9 +248,9 @@ const Footer = () => {
                         {/* Mobile Apps Section */}
                         <div className="pt-2 space-y-2">
                             <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-white/80">
-                                <span>Mobile Apps</span>
+                                <span>{t("mobileApps")}</span>
                                 <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[8px] rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30">
-                                    Coming Soon
+                                    {t("comingSoon")}
                                 </span>
                             </div>
 
@@ -275,7 +279,7 @@ const Footer = () => {
             </div>
 
             {/* ============================================================== */}
-            {/* SUB-FOOTER BOTTOM BAR & BACK-TO-TOP                            */}
+            {/* SUB-FOOTER BOTTOM BAR, LANGUAGE SWITCH & BACK-TO-TOP           */}
             {/* ============================================================== */}
             <div className="border-t border-white/10 bg-black/40 py-6 relative z-10">
                 <div className="container mx-auto px-4">
@@ -283,22 +287,26 @@ const Footer = () => {
                         {/* Copyright */}
                         <p className="text-center sm:text-left">
                             &copy; {siteData.copyrightYear}{" "}
-                            <span className="font-semibold text-white">{siteData.name}</span>. All rights reserved.
+                            <span className="font-semibold text-white">{siteData.name}</span>. {t("allRightsReserved")}
                         </p>
 
-                        {/* Legal and Back to Top Button */}
-                        <div className="flex items-center gap-6">
-                            <div className="flex items-center gap-4 text-[11.5px]">
+                        {/* Right Area: Language Switch, Legal Links, and Back to Top */}
+                        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3 sm:gap-5">
+                            {/* Footer Language Switcher (Dark Dropup) */}
+                            <LanguageSwitch variant="footer" dropup={true} />
+
+                            {/* Legal Links */}
+                            <div className="flex items-center gap-3 text-[11.5px]">
                                 <Link href="/privacy" className="hover:text-emerald-400 transition-colors">
-                                    Privacy
+                                    {t("privacy")}
                                 </Link>
                                 <span>&middot;</span>
                                 <Link href="/terms" className="hover:text-emerald-400 transition-colors">
-                                    Terms
+                                    {t("terms")}
                                 </Link>
                                 <span>&middot;</span>
                                 <Link href="/sitemap" className="hover:text-emerald-400 transition-colors">
-                                    Sitemap
+                                    {t("sitemap")}
                                 </Link>
                             </div>
 
@@ -307,7 +315,7 @@ const Footer = () => {
                                 type="button"
                                 onClick={scrollToTop}
                                 aria-label="Scroll back to top"
-                                className="size-9 rounded-xl border border-white/15 bg-white/5 hover:bg-emerald-500 hover:text-zinc-950 text-white flex items-center justify-center transition-all duration-200 cursor-pointer active:scale-95 group shadow-sm"
+                                className="size-8.5 rounded-xl border border-white/15 bg-white/5 hover:bg-emerald-500 hover:text-zinc-950 text-white flex items-center justify-center transition-all duration-200 cursor-pointer active:scale-95 group shadow-sm shrink-0"
                             >
                                 <ArrowUp className="size-4 group-hover:-translate-y-0.5 transition-transform" />
                             </button>

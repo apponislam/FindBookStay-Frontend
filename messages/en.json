@@ -130,5 +130,533 @@
       "emptyDesc": "When verified bookings or lease updates occur, they will show up here.",
       "viewAll": "View All Notifications"
     }
+  },
+  "Home": {
+    "banners": {
+      "rent": {
+        "tagline": "Verified Living & Working Spaces",
+        "title": "Rent Verified Homes, Flats & Bachelor Seats",
+        "description": "Browse thousands of verified family apartments, standalone houses, shared rooms, and student bachelor seats with transparent agreements.",
+        "primaryCta": "Browse Rentals",
+        "secondaryCta": "Family Apartments",
+        "badge": "Verified Rentals",
+        "stats": ["100% Verified Hosts", "Zero Broker Scams", "Flexible Leases"]
+      },
+      "book": {
+        "tagline": "Premier Travel & Vacation Stays",
+        "title": "Book Scenic Resorts, Hotels & Vacation Stays",
+        "description": "Reserve handpicked 5-star hotels, lakeside nature getaways, private seaside villas, and cozy guest houses across top destinations.",
+        "primaryCta": "Book Stays",
+        "secondaryCta": "Explore Resorts",
+        "badge": "Travel & Hospitality",
+        "stats": ["Best Rate Guarantee", "Instant Confirmation", "24/7 Concierge"]
+      },
+      "sports": {
+        "tagline": "Athletic Venues & Instant Arena Booking",
+        "title": "Reserve Floodlit Turfs & Indoor Sports Arenas",
+        "description": "Book artificial grass soccer pitches, cricket turfs, badminton courts, and tournament complexes by the hour with real-time slot booking.",
+        "primaryCta": "Book a Turf",
+        "secondaryCta": "Tournament Venues",
+        "badge": "Sports & Turfs",
+        "stats": ["Real-time Slot Booking", "Floodlight Facilities", "Tournament Ready"]
+      },
+      "buy": {
+        "tagline": "Verified Property Sales & Investments",
+        "title": "Buy Prime Apartments, Luxury Villas & Plots",
+        "description": "Invest with complete confidence in vetted residential flats, commercial plazas, townhouses, and freehold land plots with certified titles.",
+        "primaryCta": "Explore Properties",
+        "secondaryCta": "New Developments",
+        "badge": "Real Estate & Sales",
+        "stats": ["Vetted Land Titles", "Prime Neighborhoods", "Direct Developer Deals"]
+      }
+    },
+    "searchBar": {
+      "tabs": {
+        "rent": "Rent",
+        "book": "Book Stays",
+        "sports": "Sports",
+        "buy": "Buy Property",
+        "reset": "Reset"
+      },
+      "where": "Where",
+      "wherePlaceholder": "Area, city or landmark...",
+      "popularLocations": "Popular Locations",
+      "allCities": "All Cities in Bangladesh",
+      "propertyType": "Type",
+      "allCategories": "All Categories",
+      "whenWho": "When & Who",
+      "datesAndGuests": "Dates & Guests",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "guests": "Guests",
+      "adults": "Adults",
+      "children": "Children",
+      "rooms": "Rooms",
+      "timeSlot": "Time Slot",
+      "anyTimeSlot": "Any Time Slot",
+      "morningSlot": "Morning (6AM - 10AM)",
+      "eveningSlot": "Evening (6PM - 10PM)",
+      "nightSlot": "Night (10PM - 1AM)",
+      "bedrooms": "Bedrooms",
+      "anyBeds": "Any Beds",
+      "priceRange": "Price Range",
+      "hourlyRate": "Hourly Rate",
+      "monthlyBudget": "Monthly Budget",
+      "anyBudget": "Any Budget",
+      "anyRate": "Any Rate",
+      "search": "Search",
+      "selectCategory": "Select Category",
+      "selectOption": "Select Option",
+      "selectMatchSlot": "Select Match Slot",
+      "selectBedrooms": "Select Bedroom Count",
+      "budgetTarget": "Budget Target",
+      "checkInAndOut": "Check-in & Check-out",
+      "bedOne": "1 Bed",
+      "bedTwo": "2 Beds",
+      "bedThree": "3 Beds",
+      "bedFourPlus": "4+ Beds",
+      "bedroomLabels": {
+        "any": "Any Bedroom Count",
+        "1": "1 Bedroom / Bachelor Seat",
+        "2": "2 Bedrooms Flat",
+        "3": "3 Bedrooms Flat",
+        "4+": "4+ Bedrooms / Duplex"
+      },
+      "slotLabels": {
+        "any": "Any Time Slot",
+        "morning": "Morning (6:00 AM - 10:00 AM)",
+        "evening": "Evening (6:00 PM - 10:00 PM)",
+        "night": "Night Floodlit (10:00 PM - 1:00 AM)"
+      },
+      "budgetLabels": {
+        "buy": {
+          "any": "Any Price",
+          "under50l": "Under ৳50L",
+          "50l1cr": "৳50L - ৳1Cr",
+          "1crPlus": "৳1 Crore+"
+        },
+        "sports": {
+          "any": "Any Rate",
+          "under2k": "Under ৳2k/hr",
+          "2k4k": "৳2k - ৳4k/hr",
+          "4kPlus": "৳4k+/hr"
+        },
+        "rent": {
+          "any": "Any Rent",
+          "under15k": "Under ৳15k",
+          "15k35k": "৳15k - ৳35k",
+          "35kPlus": "৳35k / mo+"
+        }
+      },
+      "types": {
+        "rent": {
+          "familyApartments": { "label": "Family Apartments", "desc": "2 to 4 BHK rental flats" },
+          "bachelorSeats": { "label": "Bachelor Seats", "desc": "Single & shared with utilities" },
+          "familyHouses": { "label": "Houses & Duplexes", "desc": "Independent villas & homes" },
+          "sublets": { "label": "Monthly Sublets", "desc": "Furnished short/medium term" },
+          "commercial": { "label": "Commercial Space", "desc": "Offices, stores & showrooms" }
+        },
+        "stay": {
+          "resorts": { "label": "Nature Resorts", "desc": "Beachfront, lake & hills" },
+          "hotels": { "label": "Boutique Hotels", "desc": "City center & 5-star stays" },
+          "holidayHomes": { "label": "Holiday Homes", "desc": "Private vacation villas" },
+          "guestHouses": { "label": "Guest Houses", "desc": "Cozy bed & breakfast" },
+          "shortStay": { "label": "Serviced Suites", "desc": "Executive serviced flats" }
+        },
+        "sports": {
+          "turfBooking": { "label": "Soccer & Cricket Turf", "desc": "Floodlit artificial grass" },
+          "indoorSports": { "label": "Indoor Arenas", "desc": "Badminton, basketball & futsal" },
+          "footballGrounds": { "label": "Football Grounds", "desc": "Standard 11v11 grass grounds" },
+          "swimming": { "label": "Swimming & Wellness", "desc": "Olympic pools & fitness clubs" }
+        },
+        "buy": {
+          "apartments": { "label": "Apartments & Flats", "desc": "Luxury residential high-rise" },
+          "houses": { "label": "Houses & Villas", "desc": "Standalone homes & duplexes" },
+          "land": { "label": "Land & Plots", "desc": "Verified freehold plots" },
+          "commercial": { "label": "Commercial Plazas", "desc": "Retail spaces & office floors" }
+        }
+      },
+      "locations": {
+        "gulshan": { "area": "Gulshan & Banani", "city": "Dhaka", "tag": "Diplomatic & Luxury" },
+        "bashundhara": { "area": "Bashundhara R/A", "city": "Dhaka", "tag": "Family & Campus" },
+        "dhanmondi": { "area": "Dhanmondi", "city": "Dhaka", "tag": "Cultural Hub" },
+        "uttara": { "area": "Uttara", "city": "Dhaka", "tag": "Metro & Airport" },
+        "mirpur": { "area": "Mirpur", "city": "Dhaka", "tag": "Affordable Living" },
+        "chittagong": { "area": "GEC Circle", "city": "Chittagong", "tag": "Commercial Port" },
+        "coxsBazar": { "area": "Marine Drive", "city": "Cox's Bazar", "tag": "Beachfront Stays" },
+        "sylhet": { "area": "Sreemangal", "city": "Sylhet", "tag": "Nature & Tea Estates" }
+      }
+    },
+    "categoryGrid": {
+      "eyebrow": "EXPLORE SERVICES",
+      "title": "Browse by Category",
+      "description": "Find verified living spaces, vacation stays, sports grounds, and prime real estate across the country.",
+      "viewAll": "View All Categories",
+      "explore": "Explore",
+      "badges": {
+        "verified": "Verified",
+        "popular": "Popular",
+        "bestRate": "Best Rate",
+        "trending": "Trending",
+        "instantSlot": "Instant Slot",
+        "allSeason": "All Season",
+        "cleanTitle": "Clean Title",
+        "vetted": "100% Vetted"
+      },
+      "categories": {
+        "familyApartments": "Family Apartments",
+        "familyApartmentsSub": "2 to 4-bedroom verified rental flats",
+        "familyApartmentsCount": "2,400+ listings",
+        "bachelorSeats": "Bachelor Seats",
+        "bachelorSeatsSub": "Single & shared seats with utilities",
+        "bachelorSeatsCount": "1,850+ seats",
+        "hotels": "Hotels & Stays",
+        "hotelsSub": "Handpicked 5-star & boutique hotels",
+        "hotelsCount": "950+ hotels",
+        "resorts": "Nature Resorts",
+        "resortsSub": "Lakeside, beach & mountain retreats",
+        "resortsCount": "320+ resorts",
+        "turfs": "Turf Booking",
+        "turfsSub": "Floodlit soccer & cricket turfs",
+        "turfsCount": "180+ turfs",
+        "indoorSports": "Indoor Sports",
+        "indoorSportsSub": "Badminton, basketball & futsal arenas",
+        "indoorSportsCount": "140+ arenas",
+        "residentialBuy": "Residential Properties",
+        "residentialBuySub": "Flats & duplexes in prime areas",
+        "residentialBuyCount": "890+ for sale",
+        "landPlots": "Land & Plots",
+        "landPlotsSub": "100% vetted residential & farmland",
+        "landPlotsCount": "410+ plots"
+      }
+    },
+    "featuredRentals": {
+      "eyebrow": "VERIFIED HOUSING",
+      "title": "Featured Rental Properties",
+      "description": "Explore transparent, zero-broker rental listings with verified photos and verified landlord details.",
+      "viewAll": "View All Rentals",
+      "month": "/ month",
+      "bed": "Bed",
+      "beds": "Beds",
+      "bath": "Bath",
+      "baths": "Baths",
+      "sqft": "sqft",
+      "verified": "Verified",
+      "details": "Details",
+      "items": {
+        "1": {
+          "title": "Modern 3BHK Family Flat in Prime Area",
+          "type": "Family Apartment",
+          "location": "Block D, Bashundhara R/A, Dhaka",
+          "price": "৳32,000",
+          "badge": "Family Flat"
+        },
+        "2": {
+          "title": "Executive Single Bachelor Seat with Food & WiFi",
+          "type": "Bachelor Seat",
+          "location": "Mirpur 10, Near Metro, Dhaka",
+          "price": "৳6,500",
+          "badge": "Utilities Included"
+        },
+        "3": {
+          "title": "Fully Furnished Lakeview Duplex House",
+          "type": "Family House",
+          "location": "Sector 11, Uttara, Dhaka",
+          "price": "৳75,000",
+          "badge": "Furnished"
+        },
+        "4": {
+          "title": "Cozy 2-Bedroom Sublet with Dedicated Balcony",
+          "type": "Monthly Sublet",
+          "location": "Dhanmondi 9/A, Dhaka",
+          "price": "৳24,000",
+          "badge": "Flexible Lease"
+        }
+      }
+    },
+    "trendingStays": {
+      "eyebrow": "TRAVEL & GETAWAYS",
+      "title": "Trending Vacation Stays & Resorts",
+      "description": "Handpicked boutique hotels, lakeside nature getaways, and private beach villas with instant confirmation.",
+      "exploreAll": "Explore All Stays",
+      "bookNow": "Book Now",
+      "night": "/ night",
+      "items": {
+        "1": {
+          "title": "The Grand Waterfront Luxury Resort & Spa",
+          "type": "Luxury Resort",
+          "location": "Cox's Bazar Beachfront",
+          "price": "৳12,500",
+          "badge": "Top Rated",
+          "amenities": ["Infinity Pool", "Ocean View", "Free Breakfast"]
+        },
+        "2": {
+          "title": "Hilltop Cloud Forest Villa & Tea Garden Retreat",
+          "type": "Holiday Home",
+          "location": "Sreemangal, Sylhet",
+          "price": "৳8,900",
+          "badge": "Scenic View",
+          "amenities": ["Nature Trail", "Balcony", "Organic Dining"]
+        },
+        "3": {
+          "title": "Skyline Diplomatic Executive Suites",
+          "type": "Short-Stay Suite",
+          "location": "Gulshan 2, Dhaka",
+          "price": "৳9,500",
+          "badge": "Business Hub",
+          "amenities": ["High-speed WiFi", "Kitchenette", "Gym Access"]
+        },
+        "4": {
+          "title": "Sundarbans Eco Wilderness Boutique Camp",
+          "type": "Guest House",
+          "location": "Mongla, Khulna",
+          "price": "৳5,200",
+          "badge": "Eco Stay",
+          "amenities": ["Boat Safari", "Local Meals", "Guided Tours"]
+        }
+      }
+    },
+    "sportsVenues": {
+      "eyebrow": "INSTANT ARENA BOOKING",
+      "title": "Live Turf & Arena Booking",
+      "description": "Reserve artificial grass soccer turfs, cricket pitches, and indoor badminton courts with instant hourly confirmation.",
+      "viewAll": "View All Venues",
+      "hour": "/ hour",
+      "reserveSlot": "Reserve Slot",
+      "items": {
+        "1": {
+          "name": "Champions Floodlit Football & Cricket Turf",
+          "sport": "Football & Cricket",
+          "location": "Bashundhara Sports Zone, Dhaka",
+          "price": "৳2,500",
+          "availability": "Slots Open Today",
+          "features": ["Floodlights", "FIFA Grass", "Changing Rooms"]
+        },
+        "2": {
+          "name": "Elite Indoor Badminton & Futsal Complex",
+          "sport": "Badminton & Futsal",
+          "location": "Uttara Sector 4, Dhaka",
+          "price": "৳1,800",
+          "availability": "Evening Slots Available",
+          "features": ["Wooden Court", "Air Conditioned", "Showers"]
+        },
+        "3": {
+          "name": "Green Horizon Standard Football Stadium Ground",
+          "sport": "Full Football Ground",
+          "location": "Dhanmondi, Dhaka",
+          "price": "৳4,000",
+          "availability": "Weekend Leagues Ready",
+          "features": ["Natural Turf", "Referee Support", "Full 11v11"]
+        }
+      }
+    },
+    "featuredBuy": {
+      "eyebrow": "BUY REAL ESTATE & PLOTS",
+      "title": "Prime Properties for Sale & Investment",
+      "description": "Verified apartments, duplex houses, residential land, and commercial spaces with vetted legal documentation.",
+      "exploreAll": "Explore All Properties for Sale",
+      "categories": {
+        "all": "All Properties",
+        "apartments": "Ready Apartments",
+        "houses": "Duplex Houses",
+        "land": "Land & Plots",
+        "commercial": "Commercial"
+      },
+      "guaranteeTitle": "FindBookStay Deed & Title Guarantee:",
+      "guaranteeDesc": "All properties undergo rigorous land mutation, RAJUK clearance, and title deed vetting before being listed.",
+      "verified": "Verified",
+      "bed": "Bed",
+      "beds": "Beds",
+      "bath": "Bath",
+      "baths": "Baths",
+      "sqft": "sqft",
+      "items": {
+        "buy-1": {
+          "title": "Ultra Luxury 4BHK High-Rise Lakefront Residence",
+          "area": "Road 59, Gulshan 2",
+          "city": "Dhaka",
+          "badge": "RAJUK Approved",
+          "priceFormatted": "৳4.85 Crore",
+          "pricePerSqft": "৳15,150 / sqft"
+        },
+        "buy-2": {
+          "title": "Architect-Designed Contemporary Duplex House with Garden",
+          "area": "Sector 11, Uttara",
+          "city": "Dhaka",
+          "badge": "Duplex House",
+          "priceFormatted": "৳5.20 Crore",
+          "pricePerSqft": "৳13,680 / sqft"
+        },
+        "buy-3": {
+          "title": "Modern Ready 3BHK Family Flat with Dual Balconies",
+          "area": "Block D, Bashundhara R/A",
+          "city": "Dhaka",
+          "badge": "Ready Flat",
+          "priceFormatted": "৳1.65 Crore",
+          "pricePerSqft": "৳9,700 / sqft"
+        },
+        "buy-4": {
+          "title": "Prime Commercial Corporate Floor with Open Layout",
+          "area": "Road 11, Banani",
+          "city": "Dhaka",
+          "badge": "Corporate Asset",
+          "priceFormatted": "৳6.20 Crore",
+          "pricePerSqft": "৳17,700 / sqft"
+        }
+      }
+    },
+    "whyChooseUs": {
+      "eyebrow": "TRUST & VERIFICATION",
+      "title": "Why Choose FindBookStay?",
+      "description": "We are building the standard of trust for renting homes, booking vacation stays, reserving sports venues, and purchasing prime real estate.",
+      "pillar1Title": "100% Verified Listings",
+      "pillar1Desc": "Every apartment, hotel, and sports arena undergoes physical on-site checks. No duplicate photos, no broker scams, no fake prices.",
+      "pillar1Highlight": "Zero Scams Guaranteed",
+      "pillar2Title": "Direct & Transparent Deals",
+      "pillar2Desc": "Connect directly with verified landlords and property managers. All rent agreements and deposit terms are crystal clear upfront.",
+      "pillar2Highlight": "Transparent Agreements",
+      "pillar3Title": "24/7 Dedicated Support",
+      "pillar3Desc": "Our dedicated dispute resolution and concierge support team is always available to ensure smooth check-ins and stress-free stays.",
+      "pillar3Highlight": "Concierge Assistance",
+      "stats": {
+        "stat1Value": "15,000+",
+        "stat1Label": "Verified Spaces",
+        "stat2Value": "99.4%",
+        "stat2Label": "Accuracy Rate",
+        "stat3Value": "50+ Cities",
+        "stat3Label": "Nationwide Reach",
+        "stat4Value": "4.9 / 5",
+        "stat4Label": "Average Review"
+      }
+    },
+    "hostBanner": {
+      "eyebrow": "PARTNER WITH FINDBOOKSTAY",
+      "title": "Own a Flat, Hotel Resort, or Sports Turf?",
+      "description": "List your space on Bangladesh's fastest-growing verified marketplace. Reach verified tenants, travelers, and sports clubs with zero hidden commission.",
+      "point1": "Zero Upfront Listing Fee",
+      "point2": "Direct Verified Inquiries",
+      "point3": "Instant Payout Support",
+      "listNow": "List Your Space Now",
+      "learnHow": "Learn How It Works"
+    },
+    "mobileApp": {
+      "eyebrow": "FINDBOOKSTAY MOBILE APPS",
+      "title": "Everything You Need — Right in Your Pocket",
+      "description": "Carry verified rental flats, boutique vacation stays, floodlit sports turfs, and vetted real estate properties with you. Experience real-time slot confirmations, direct owner contact, and instant push alerts.",
+      "point1Title": "100% Verified Housing & Deeds",
+      "point1Desc": "Direct landlord connections with zero broker fees and vetted title documentation.",
+      "point2Title": "Instant Booking & Live Slot Lock",
+      "point2Desc": "Reserve floodlit football turfs, badminton courts, and resort stays in under 30 seconds.",
+      "point3Title": "Real-Time Mobile Push Alerts",
+      "point3Desc": "Get notified the second new bachelor seats or high-demand weekend turf slots unlock.",
+      "getItOn": "GET IT ON",
+      "downloadOn": "Download on the",
+      "googlePlay": "Google Play",
+      "appStore": "App Store",
+      "comingSoon": "Coming Soon",
+      "alphaNotice": "Native iOS & Android mobile apps are in private alpha testing. Public beta scheduled for 2026.",
+      "mockups": {
+        "staysAndResorts": "Stays & Resorts",
+        "coxsBazar": "Cox's Bazar",
+        "searchStays": "Beachfront villas, suites...",
+        "resorts": "Resorts",
+        "villas": "Villas",
+        "suites": "Suites",
+        "grandOcean": "Grand Ocean Luxury Resort",
+        "marineDrive": "Marine Drive, Beachfront",
+        "reserve": "Reserve",
+        "coralBay": "Coral Bay Sunset Villa",
+        "inaniBeach": "Inani Beach",
+        "stays": "Stays",
+        "explore": "Explore",
+        "saved": "Saved",
+        "profile": "Profile",
+        "verifiedLandlord": "Verified Landlord",
+        "zeroBroker": "Zero Broker",
+        "searchRentals": "Bashundhara R/A, 3BHK...",
+        "familyFlats": "Family Flats",
+        "sublets": "Sublets",
+        "bachelor": "Bachelor",
+        "monthShort": "/ mo",
+        "sportsTurfs": "Sports Turfs",
+        "uttaraDhaka": "Uttara, Dhaka",
+        "turfLocked": "Turf Locked",
+        "instantPass": "Instant Pass Confirmed",
+        "championsTurf": "7v7 Champions Turf",
+        "qrPass": "QR Pass",
+        "fifaStandard": "FIFA Standard Turf",
+        "greenHorizon": "Green Horizon Football Arena",
+        "sector4Uttara": "Sector 4, Uttara, Dhaka",
+        "bookSlot": "Book Slot",
+        "metroBadminton": "Metro Badminton Arena",
+        "bananiRate": "Banani • ৳1,500/hr",
+        "open": "Open",
+        "home": "Home",
+        "turfs": "Turfs",
+        "bookings": "Bookings"
+      }
+    }
+  },
+  "Footer": {
+    "brandDesc": "FindBookStay is Bangladesh's premier verified marketplace for home rentals, vacation stays, sports turf reservations, and real estate purchases.",
+    "rentAndBuy": "Rent & Buy",
+    "familyRentalFlats": "Family Rental Flats",
+    "bachelorSeats": "Bachelor Seats",
+    "monthlySublets": "Monthly Sublets",
+    "residentialHomes": "Residential Homes",
+    "luxuryApartments": "Luxury Apartments",
+    "landPlots": "Verified Land & Plots",
+    "postListing": "Post a Listing",
+    "bookStays": "Book Stays",
+    "boutiqueHotels": "Boutique & City Hotels",
+    "scenicResorts": "Scenic Resorts",
+    "guestHouses": "Guest Houses & B&Bs",
+    "holidayHomes": "Holiday Homes",
+    "servicedShortStays": "Serviced Short Stays",
+    "popularGetaways": "Popular Getaways",
+    "sportsTurfs": "Sports & Turfs",
+    "artificialTurfs": "Artificial Grass Turfs",
+    "footballGrounds": "Football Grounds",
+    "indoorCourts": "Indoor Badminton Courts",
+    "cricketNets": "Cricket Practice Nets",
+    "swimmingClubs": "Swimming & Clubs",
+    "company": "Company",
+    "about": "About FindBookStay",
+    "contact": "Contact Us",
+    "verificationGuarantee": "Verification Guarantee",
+    "helpFaqs": "Help & FAQs",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "sitemap": "Sitemap",
+    "mobileApps": "Mobile Apps",
+    "comingSoon": "Coming Soon",
+    "allRightsReserved": "All rights reserved.",
+    "selectLanguage": "Language"
+  },
+  "FloatingPostButton": {
+    "postListing": "Post Listing",
+    "close": "Close",
+    "services": {
+      "rent": {
+        "label": "Rent Homes & Seats",
+        "tagline": "Rentals",
+        "info": "Flats, family houses, bachelor seats & sublets"
+      },
+      "book": {
+        "label": "Book Stays & Resorts",
+        "tagline": "Stays",
+        "info": "Boutique hotels, nature resorts & holiday homes"
+      },
+      "sports": {
+        "label": "Sports & Turfs",
+        "tagline": "Turfs",
+        "info": "Football & cricket turfs, indoor courts"
+      },
+      "buy": {
+        "label": "Buy Real Estate",
+        "tagline": "Real Estate",
+        "info": "Residential duplexes, luxury apartments & land plots"
+      }
+    }
   }
 }

@@ -3,7 +3,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Star, MapPin, ArrowRight } from "@/components/Icons";
+import { useLocale } from "@/hooks/useLocale";
+import { formatLocaleNumber } from "@/lib/utils";
 
 interface StayItem {
     id: string;
@@ -75,6 +78,10 @@ const TRENDING_STAYS: StayItem[] = [
 ];
 
 export const TrendingStays = () => {
+    const t = useTranslations("Home.trendingStays");
+    const { locale } = useLocale();
+    const isBn = locale === "bn";
+
     return (
         <section className="py-16 bg-background border-b border-border">
             <div className="container mx-auto px-4">
@@ -83,71 +90,84 @@ export const TrendingStays = () => {
                     <div className="space-y-1.5">
                         <div className="flex items-center gap-1.5">
                             <span className="w-3.5 h-0.5 bg-accent" />
-                            <span className="text-[11px] font-bold tracking-widest text-primary uppercase font-mono">TRAVEL & GETAWAYS</span>
+                            <span className="text-[11px] font-bold tracking-widest text-primary uppercase font-mono">{t("eyebrow")}</span>
                         </div>
-                        <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">Trending Vacation Stays & Resorts</h2>
-                        <p className="text-xs sm:text-sm text-muted-foreground max-w-xl">Handpicked boutique hotels, lakeside nature getaways, and private beach villas with instant confirmation.</p>
+                        <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">{t("title")}</h2>
+                        <p className="text-xs sm:text-sm text-muted-foreground max-w-xl">{t("description")}</p>
                     </div>
 
                     <Link href="/book" className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-primary hover:text-primary-hover transition-colors group cursor-pointer">
-                        <span>Explore All Stays</span>
+                        <span>{t("exploreAll")}</span>
                         <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                     </Link>
                 </div>
 
                 {/* Stays Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {TRENDING_STAYS.map((stay) => (
-                        <div key={stay.id} className="group bg-white dark:bg-card rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/40 transition-all duration-300 flex flex-col justify-between">
-                            {/* Image Header */}
-                            <div className="relative w-full h-48 overflow-hidden bg-surface-secondary">
-                                <Image src={stay.image} alt={stay.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-70" />
+                    {TRENDING_STAYS.map((stay) => {
+                        const title = t.has(`items.${stay.id}.title`) ? t(`items.${stay.id}.title`) : stay.title;
+                        const type = t.has(`items.${stay.id}.type`) ? t(`items.${stay.id}.type`) : stay.type;
+                        const location = t.has(`items.${stay.id}.location`) ? t(`items.${stay.id}.location`) : stay.location;
+                        const price = t.has(`items.${stay.id}.price`) ? t(`items.${stay.id}.price`) : stay.price;
+                        const badge = t.has(`items.${stay.id}.badge`) ? t(`items.${stay.id}.badge`) : stay.badge;
+                        const amenities: string[] = [
+                            t.has(`items.${stay.id}.amenities.0`) ? t(`items.${stay.id}.amenities.0`) : stay.amenities[0],
+                            t.has(`items.${stay.id}.amenities.1`) ? t(`items.${stay.id}.amenities.1`) : stay.amenities[1],
+                            t.has(`items.${stay.id}.amenities.2`) ? t(`items.${stay.id}.amenities.2`) : stay.amenities[2],
+                        ];
 
-                                <div className="absolute top-3 left-3">
-                                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 backdrop-blur-md text-white border border-white/10 shadow-xs">{stay.badge}</span>
-                                </div>
+                        return (
+                            <div key={stay.id} className="group bg-white dark:bg-card rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/40 transition-all duration-300 flex flex-col justify-between">
+                                {/* Image Header */}
+                                <div className="relative w-full h-48 overflow-hidden bg-surface-secondary">
+                                    <Image src={stay.image} alt={title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-70" />
 
-                                <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-black/60 backdrop-blur-md text-amber-300 border border-white/10 shadow-xs">
-                                    <Star className="size-3 fill-amber-300 text-amber-300" />
-                                    <span>{stay.rating}</span>
-                                </div>
-                            </div>
-
-                            {/* Card Body */}
-                            <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-4">
-                                <div className="space-y-1.5">
-                                    <div className="text-[11px] font-bold text-accent uppercase tracking-wider">{stay.type}</div>
-                                    <h3 className="text-sm sm:text-base font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2">{stay.title}</h3>
-                                    <p className="text-xs text-muted-foreground flex items-center gap-1 line-clamp-1">
-                                        <MapPin className="size-3.5 text-muted-foreground/70 shrink-0" />
-                                        <span>{stay.location}</span>
-                                    </p>
-                                </div>
-
-                                {/* Amenities list */}
-                                <div className="flex flex-wrap gap-1.5 pt-1">
-                                    {stay.amenities.map((amenity, i) => (
-                                        <span key={i} className="px-2 py-0.5 rounded-md bg-surface-secondary text-[10px] text-muted-foreground font-medium border border-border/60">
-                                            {amenity}
-                                        </span>
-                                    ))}
-                                </div>
-
-                                {/* Price and Action */}
-                                <div className="flex items-center justify-between pt-2 border-t border-border/70">
-                                    <div>
-                                        <span className="text-base sm:text-lg font-extrabold text-foreground">{stay.price}</span>
-                                        <span className="text-xs text-muted-foreground ml-1 font-medium">/ night</span>
+                                    <div className="absolute top-3 left-3">
+                                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 backdrop-blur-md text-white border border-white/10 shadow-xs">{badge}</span>
                                     </div>
 
-                                    <Link href={stay.href} className="inline-flex items-center gap-1 text-xs font-bold text-primary-foreground px-3.5 py-1.5 rounded-xl bg-primary hover:bg-primary-hover transition-colors shadow-xs cursor-pointer">
-                                        <span>Book Now</span>
-                                    </Link>
+                                    <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-black/60 backdrop-blur-md text-amber-300 border border-white/10 shadow-xs">
+                                        <Star className="size-3 fill-amber-300 text-amber-300" />
+                                        <span>{formatLocaleNumber(stay.rating, isBn)}</span>
+                                    </div>
+                                </div>
+
+                                {/* Card Body */}
+                                <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-4">
+                                    <div className="space-y-1.5">
+                                        <div className="text-[11px] font-bold text-accent uppercase tracking-wider">{type}</div>
+                                        <h3 className="text-sm sm:text-base font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2">{title}</h3>
+                                        <p className="text-xs text-muted-foreground flex items-center gap-1 line-clamp-1">
+                                            <MapPin className="size-3.5 text-muted-foreground/70 shrink-0" />
+                                            <span>{location}</span>
+                                        </p>
+                                    </div>
+
+                                    {/* Amenities list */}
+                                    <div className="flex flex-wrap gap-1.5 pt-1">
+                                        {amenities.map((amenity, i) => (
+                                            <span key={i} className="px-2 py-0.5 rounded-md bg-surface-secondary text-[10px] text-muted-foreground font-medium border border-border/60">
+                                                {amenity}
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    {/* Price and Action */}
+                                    <div className="flex items-center justify-between pt-2 border-t border-border/70">
+                                        <div>
+                                            <span className="text-base sm:text-lg font-extrabold text-foreground">{price}</span>
+                                            <span className="text-xs text-muted-foreground ml-1 font-medium">{t("night")}</span>
+                                        </div>
+
+                                        <Link href={stay.href} className="inline-flex items-center gap-1 text-xs font-bold text-primary-foreground px-3.5 py-1.5 rounded-xl bg-primary hover:bg-primary-hover transition-colors shadow-xs cursor-pointer">
+                                            <span>{t("bookNow")}</span>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </section>

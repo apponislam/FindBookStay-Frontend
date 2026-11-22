@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import {
     Apple,
     GooglePlay,
@@ -24,6 +25,8 @@ import {
 } from "@/components/Icons";
 
 export const MobileAppCTA = () => {
+    const t = useTranslations("Home.mobileApp");
+
     return (
         <section
             aria-label="FindBookStay Mobile Apps"
@@ -77,22 +80,22 @@ export const MobileAppCTA = () => {
                                             <div className="flex items-center justify-between pt-0.5">
                                                 <div className="flex items-center gap-1">
                                                     <Hotel className="size-2.5 sm:size-3 text-primary" />
-                                                    <span className="text-[8.5px] sm:text-[10.5px] font-extrabold text-foreground tracking-tight">Stays & Resorts</span>
+                                                    <span className="text-[8.5px] sm:text-[10.5px] font-extrabold text-foreground tracking-tight">{t.has("mockups.staysAndResorts") ? t("mockups.staysAndResorts") : "Stays & Resorts"}</span>
                                                 </div>
-                                                <span className="text-[6.5px] sm:text-[8px] font-bold text-accent px-1.5 py-0.5 rounded-full bg-accent/10 border border-accent/20">Cox&apos;s Bazar</span>
+                                                <span className="text-[6.5px] sm:text-[8px] font-bold text-accent px-1.5 py-0.5 rounded-full bg-accent/10 border border-accent/20">{t.has("mockups.coxsBazar") ? t("mockups.coxsBazar") : "Cox's Bazar"}</span>
                                             </div>
 
                                             {/* Search Bar */}
                                             <div className="flex items-center gap-1 px-1.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg bg-surface-secondary text-[7px] sm:text-[8.5px] text-muted-foreground border border-border/60">
                                                 <Search className="size-2 sm:size-2.5 text-primary shrink-0" />
-                                                <span className="truncate">Beachfront villas, suites...</span>
+                                                <span className="truncate">{t.has("mockups.searchStays") ? t("mockups.searchStays") : "Beachfront villas, suites..."}</span>
                                             </div>
 
                                             {/* Category Chips */}
                                             <div className="flex items-center gap-1 text-[6.5px] sm:text-[8px] font-bold">
-                                                <span className="px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground">Resorts</span>
-                                                <span className="px-1.5 py-0.5 rounded-full bg-surface-secondary text-muted-foreground border border-border/60">Villas</span>
-                                                <span className="px-1.5 py-0.5 rounded-full bg-surface-secondary text-muted-foreground border border-border/60">Suites</span>
+                                                <span className="px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground">{t.has("mockups.resorts") ? t("mockups.resorts") : "Resorts"}</span>
+                                                <span className="px-1.5 py-0.5 rounded-full bg-surface-secondary text-muted-foreground border border-border/60">{t.has("mockups.villas") ? t("mockups.villas") : "Villas"}</span>
+                                                <span className="px-1.5 py-0.5 rounded-full bg-surface-secondary text-muted-foreground border border-border/60">{t.has("mockups.suites") ? t("mockups.suites") : "Suites"}</span>
                                             </div>
 
                                             {/* Primary Featured Card */}
@@ -115,10 +118,10 @@ export const MobileAppCTA = () => {
                                                 </div>
 
                                                 <div className="px-0.5 space-y-0.5">
-                                                    <p className="text-[8.5px] sm:text-[10.5px] font-bold text-foreground line-clamp-1">Grand Ocean Luxury Resort</p>
+                                                    <p className="text-[8.5px] sm:text-[10.5px] font-bold text-foreground line-clamp-1">{t.has("mockups.grandOcean") ? t("mockups.grandOcean") : "Grand Ocean Luxury Resort"}</p>
                                                     <p className="text-[7px] sm:text-[8px] text-muted-foreground flex items-center gap-0.5">
                                                         <MapPin className="size-1.5 sm:size-2 text-accent shrink-0" />
-                                                        <span className="truncate">Marine Drive, Beachfront</span>
+                                                        <span className="truncate">{t.has("mockups.marineDrive") ? t("mockups.marineDrive") : "Marine Drive, Beachfront"}</span>
                                                     </p>
                                                 </div>
 
@@ -128,7 +131,7 @@ export const MobileAppCTA = () => {
                                                         <span className="text-[6.5px] sm:text-[7.5px] text-muted-foreground ml-0.5">/nt</span>
                                                     </div>
                                                     <span className="px-1.5 py-0.5 rounded sm:rounded-md bg-primary text-primary-foreground text-[7px] sm:text-[8px] font-bold">
-                                                        Reserve
+                                                        {t.has("mockups.reserve") ? t("mockups.reserve") : "Reserve"}
                                                     </span>
                                                 </div>
                                             </div>
@@ -145,18 +148,18 @@ export const MobileAppCTA = () => {
                                                     />
                                                 </div>
                                                 <div className="min-w-0 flex-1">
-                                                    <p className="text-[7.5px] sm:text-[9px] font-bold text-foreground truncate">Coral Bay Sunset Villa</p>
-                                                    <p className="text-[6.5px] sm:text-[7.5px] text-muted-foreground truncate">Inani Beach • ৳8,900/nt</p>
+                                                    <p className="text-[7.5px] sm:text-[9px] font-bold text-foreground truncate">{t.has("mockups.coralBay") ? t("mockups.coralBay") : "Coral Bay Sunset Villa"}</p>
+                                                    <p className="text-[6.5px] sm:text-[7.5px] text-muted-foreground truncate">{t.has("mockups.inaniBeach") ? t("mockups.inaniBeach") : "Inani Beach"} • ৳8,900/nt</p>
                                                 </div>
                                                 <span className="text-[6.5px] sm:text-[8px] font-bold text-accent shrink-0">★ 4.9</span>
                                             </div>
 
                                             {/* Tab Bar */}
                                             <div className="flex items-center justify-around pt-0.5 text-muted-foreground text-[6.5px] sm:text-[8px] border-t border-border/50">
-                                                <span className="text-primary font-bold">Stays</span>
-                                                <span>Explore</span>
-                                                <span>Saved</span>
-                                                <span>Profile</span>
+                                                <span className="text-primary font-bold">{t.has("mockups.stays") ? t("mockups.stays") : "Stays"}</span>
+                                                <span>{t.has("mockups.explore") ? t("mockups.explore") : "Explore"}</span>
+                                                <span>{t.has("mockups.saved") ? t("mockups.saved") : "Saved"}</span>
+                                                <span>{t.has("mockups.profile") ? t("mockups.profile") : "Profile"}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -219,9 +222,9 @@ export const MobileAppCTA = () => {
 
                                             {/* Category Filter Pills */}
                                             <div className="flex items-center gap-1 text-[7px] sm:text-[8.5px] font-bold">
-                                                <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground">Family Flats</span>
-                                                <span className="px-2 py-0.5 rounded-full bg-surface-secondary text-muted-foreground border border-border/60">Sublets</span>
-                                                <span className="px-2 py-0.5 rounded-full bg-surface-secondary text-muted-foreground border border-border/60">Bachelor</span>
+                                                <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground">{t.has("mockups.familyFlats") ? t("mockups.familyFlats") : "Family Flats"}</span>
+                                                <span className="px-2 py-0.5 rounded-full bg-surface-secondary text-muted-foreground border border-border/60">{t.has("mockups.sublets") ? t("mockups.sublets") : "Sublets"}</span>
+                                                <span className="px-2 py-0.5 rounded-full bg-surface-secondary text-muted-foreground border border-border/60">{t.has("mockups.bachelor") ? t("mockups.bachelor") : "Bachelor"}</span>
                                             </div>
 
                                             {/* Featured Apartment Card */}
@@ -236,16 +239,16 @@ export const MobileAppCTA = () => {
                                                     />
                                                     <div className="absolute top-1 left-1 px-1.5 py-0.5 rounded-md bg-emerald-600 text-[7px] sm:text-[8px] font-bold text-white flex items-center gap-0.5 shadow-2xs">
                                                         <ShieldCheck className="size-2.5" />
-                                                        <span>Verified Landlord</span>
+                                                        <span>{t.has("mockups.verifiedLandlord") ? t("mockups.verifiedLandlord") : "Verified Landlord"}</span>
                                                     </div>
                                                     <div className="absolute bottom-1 left-1.5 text-white">
                                                         <span className="text-[10px] sm:text-[12px] font-black drop-shadow-md">৳32,000</span>
-                                                        <span className="text-[7.5px] sm:text-[8.5px] font-normal text-white/80 ml-0.5">/ mo</span>
+                                                        <span className="text-[7.5px] sm:text-[8.5px] font-normal text-white/80 ml-0.5">{t.has("mockups.monthShort") ? t("mockups.monthShort") : "/ mo"}</span>
                                                     </div>
                                                 </div>
 
                                                 <div className="px-0.5 space-y-0.5">
-                                                    <p className="text-[9px] sm:text-[11px] font-bold text-foreground line-clamp-1">Modern 3BHK Family Flat</p>
+                                                    <p className="text-[9px] sm:text-[11px] font-bold text-foreground line-clamp-1">{t.has("mockups.familyFlats") ? t("mockups.familyFlats") : "Modern 3BHK Family Flat"}</p>
                                                     <p className="text-[7.5px] sm:text-[8.5px] text-muted-foreground flex items-center gap-0.5">
                                                         <MapPin className="size-2 text-primary shrink-0" />
                                                         <span className="truncate">Block D, Bashundhara R/A, Dhaka</span>
@@ -313,7 +316,7 @@ export const MobileAppCTA = () => {
                                         <div className="absolute top-2 sm:top-3 left-1/2 -translate-x-1/2 w-16 sm:w-22 md:w-24 h-2.5 sm:h-3.5 bg-black rounded-full z-40 flex items-center justify-between px-1.5 border border-white/10">
                                             <div className="flex items-center gap-1">
                                                 <span className="size-1 rounded-full bg-accent animate-pulse" />
-                                                <span className="text-[5.5px] sm:text-[7px] text-accent font-bold">Turf Locked</span>
+                                                <span className="text-[5.5px] sm:text-[7px] text-accent font-bold">{t.has("mockups.turfLocked") ? t("mockups.turfLocked") : "Turf Locked"}</span>
                                             </div>
                                             <span className="text-[5.5px] sm:text-[7px] text-zinc-400 font-mono">8:00 PM</span>
                                         </div>
@@ -336,21 +339,21 @@ export const MobileAppCTA = () => {
                                             <div className="flex items-center justify-between pt-0.5">
                                                 <div className="flex items-center gap-1">
                                                     <Trophy className="size-2.5 sm:size-3 text-amber-500" />
-                                                    <span className="text-[8.5px] sm:text-[10.5px] font-extrabold text-foreground tracking-tight">Sports Turfs</span>
+                                                    <span className="text-[8.5px] sm:text-[10.5px] font-extrabold text-foreground tracking-tight">{t.has("mockups.sportsTurfs") ? t("mockups.sportsTurfs") : "Sports Turfs"}</span>
                                                 </div>
-                                                <span className="text-[6.5px] sm:text-[7.5px] font-bold text-emerald-500 px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">Uttara, Dhaka</span>
+                                                <span className="text-[6.5px] sm:text-[7.5px] font-bold text-emerald-500 px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">{t.has("mockups.uttaraDhaka") ? t("mockups.uttaraDhaka") : "Uttara, Dhaka"}</span>
                                             </div>
 
                                             {/* Live Match Confirmation Pass */}
                                             <div className="p-1 sm:p-1.5 rounded-md sm:rounded-lg bg-accent/15 border border-accent/30 flex items-center justify-between gap-1">
                                                 <div className="space-y-0.2 shrink-0">
                                                     <span className="text-[6px] sm:text-[7px] font-bold uppercase tracking-wider text-accent flex items-center gap-0.5">
-                                                        <Zap className="size-1.5 fill-current" /> Instant Pass Confirmed
+                                                        <Zap className="size-1.5 fill-current" /> {t.has("mockups.instantPass") ? t("mockups.instantPass") : "Instant Pass Confirmed"}
                                                     </span>
-                                                    <p className="text-[7.5px] sm:text-[9px] font-extrabold text-foreground">7v7 Champions Turf</p>
+                                                    <p className="text-[7.5px] sm:text-[9px] font-extrabold text-foreground">{t.has("mockups.championsTurf") ? t("mockups.championsTurf") : "7v7 Champions Turf"}</p>
                                                 </div>
                                                 <span className="px-1.5 py-0.5 rounded bg-accent text-white text-[6px] sm:text-[7px] font-bold">
-                                                    QR Pass
+                                                    {t.has("mockups.qrPass") ? t("mockups.qrPass") : "QR Pass"}
                                                 </span>
                                             </div>
 
@@ -366,15 +369,15 @@ export const MobileAppCTA = () => {
                                                     />
                                                     <div className="absolute top-1 left-1 px-1.5 py-0.5 rounded-full bg-emerald-600 text-[6.5px] sm:text-[7.5px] font-bold text-white flex items-center gap-0.5 shadow-2xs">
                                                         <CheckCircle2 className="size-1.5 sm:size-2 text-white" />
-                                                        <span>FIFA Standard Turf</span>
+                                                        <span>{t.has("mockups.fifaStandard") ? t("mockups.fifaStandard") : "FIFA Standard Turf"}</span>
                                                     </div>
                                                 </div>
 
                                                 <div className="px-0.5 space-y-0.5">
-                                                    <p className="text-[8.5px] sm:text-[10.5px] font-bold text-foreground line-clamp-1">Green Horizon Football Arena</p>
+                                                    <p className="text-[8.5px] sm:text-[10.5px] font-bold text-foreground line-clamp-1">{t.has("mockups.greenHorizon") ? t("mockups.greenHorizon") : "Green Horizon Football Arena"}</p>
                                                     <p className="text-[7px] sm:text-[8px] text-muted-foreground flex items-center gap-0.5">
                                                         <MapPin className="size-1.5 sm:size-2 text-primary shrink-0" />
-                                                        <span className="truncate">Sector 4, Uttara, Dhaka</span>
+                                                        <span className="truncate">{t.has("mockups.sector4Uttara") ? t("mockups.sector4Uttara") : "Sector 4, Uttara, Dhaka"}</span>
                                                     </p>
                                                 </div>
 
@@ -384,7 +387,7 @@ export const MobileAppCTA = () => {
                                                         <span className="text-[6.5px] sm:text-[7.5px] text-muted-foreground ml-0.5">/hr</span>
                                                     </div>
                                                     <span className="px-1.5 py-0.5 rounded sm:rounded-md bg-emerald-600 text-white text-[7px] sm:text-[8px] font-bold">
-                                                        Book Slot
+                                                        {t.has("mockups.bookSlot") ? t("mockups.bookSlot") : "Book Slot"}
                                                     </span>
                                                 </div>
                                             </div>
@@ -401,18 +404,18 @@ export const MobileAppCTA = () => {
                                                     />
                                                 </div>
                                                 <div className="min-w-0 flex-1">
-                                                    <p className="text-[7.5px] sm:text-[9px] font-bold text-foreground truncate">Metro Badminton Arena</p>
-                                                    <p className="text-[6.5px] sm:text-[7.5px] text-muted-foreground truncate">Banani • ৳1,500/hr</p>
+                                                    <p className="text-[7.5px] sm:text-[9px] font-bold text-foreground truncate">{t.has("mockups.metroBadminton") ? t("mockups.metroBadminton") : "Metro Badminton Arena"}</p>
+                                                    <p className="text-[6.5px] sm:text-[7.5px] text-muted-foreground truncate">{t.has("mockups.bananiRate") ? t("mockups.bananiRate") : "Banani • ৳1,500/hr"}</p>
                                                 </div>
-                                                <span className="text-[6.5px] sm:text-[7.5px] font-bold text-emerald-500 shrink-0">Open</span>
+                                                <span className="text-[6.5px] sm:text-[7.5px] font-bold text-emerald-500 shrink-0">{t.has("mockups.open") ? t("mockups.open") : "Open"}</span>
                                             </div>
 
                                             {/* Bottom Navigation */}
                                             <div className="flex items-center justify-around pt-0.5 text-muted-foreground text-[6.5px] sm:text-[8px] border-t border-border/50">
-                                                <span>Home</span>
-                                                <span className="text-primary font-bold">Turfs</span>
-                                                <span>Bookings</span>
-                                                <span>Profile</span>
+                                                <span>{t.has("mockups.home") ? t("mockups.home") : "Home"}</span>
+                                                <span className="text-primary font-bold">{t.has("mockups.turfs") ? t("mockups.turfs") : "Turfs"}</span>
+                                                <span>{t.has("mockups.bookings") ? t("mockups.bookings") : "Bookings"}</span>
+                                                <span>{t.has("mockups.profile") ? t("mockups.profile") : "Profile"}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -428,17 +431,16 @@ export const MobileAppCTA = () => {
                         {/* Eyebrow Chip */}
                         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold tracking-wide">
                             <Sparkles className="size-3.5 text-accent" />
-                            <span>FINDBOOKSTAY MOBILE APPS</span>
+                            <span>{t("eyebrow")}</span>
                         </div>
 
                         {/* Section Headline */}
                         <div className="space-y-3">
                             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-[1.15]">
-                                Everything You Need — <br className="hidden sm:inline" />
-                                <span className="text-primary">Right in Your Pocket</span>
+                                {t("title")}
                             </h2>
                             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                                Carry verified rental flats, boutique vacation stays, floodlit sports turfs, and vetted real estate properties with you. Experience real-time slot confirmations, direct owner contact, and instant push alerts.
+                                {t("description")}
                             </p>
                         </div>
 
@@ -449,8 +451,8 @@ export const MobileAppCTA = () => {
                                     <ShieldCheck className="size-4.5" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-bold text-foreground">100% Verified Housing & Deeds</p>
-                                    <p className="text-xs text-muted-foreground">Direct landlord connections with zero broker fees and vetted title documentation.</p>
+                                    <p className="text-sm font-bold text-foreground">{t("point1Title")}</p>
+                                    <p className="text-xs text-muted-foreground">{t("point1Desc")}</p>
                                 </div>
                             </div>
 
@@ -459,8 +461,8 @@ export const MobileAppCTA = () => {
                                     <Zap className="size-4.5" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-bold text-foreground">Instant Booking & Live Slot Lock</p>
-                                    <p className="text-xs text-muted-foreground">Reserve floodlit football turfs, badminton courts, and resort stays in under 30 seconds.</p>
+                                    <p className="text-sm font-bold text-foreground">{t("point2Title")}</p>
+                                    <p className="text-xs text-muted-foreground">{t("point2Desc")}</p>
                                 </div>
                             </div>
 
@@ -469,8 +471,8 @@ export const MobileAppCTA = () => {
                                     <CheckCircle2 className="size-4.5" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-bold text-foreground">Real-Time Mobile Push Alerts</p>
-                                    <p className="text-xs text-muted-foreground">Get notified the second new bachelor seats or high-demand weekend turf slots unlock.</p>
+                                    <p className="text-sm font-bold text-foreground">{t("point3Title")}</p>
+                                    <p className="text-xs text-muted-foreground">{t("point3Desc")}</p>
                                 </div>
                             </div>
                         </div>
@@ -485,10 +487,10 @@ export const MobileAppCTA = () => {
                                 >
                                     <GooglePlay className="size-6 shrink-0 fill-current text-white dark:text-foreground" />
                                     <div className="text-left leading-tight">
-                                        <p className="text-[9px] uppercase tracking-widest text-zinc-400 dark:text-muted-foreground font-semibold">GET IT ON</p>
-                                        <p className="text-sm font-extrabold text-white dark:text-foreground">Google Play</p>
+                                        <p className="text-[9px] uppercase tracking-widest text-zinc-400 dark:text-muted-foreground font-semibold">{t("getItOn")}</p>
+                                        <p className="text-sm font-extrabold text-white dark:text-foreground">{t("googlePlay")}</p>
                                     </div>
-                                    <span className="ml-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold uppercase tracking-wider">Coming Soon</span>
+                                    <span className="ml-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold uppercase tracking-wider">{t("comingSoon")}</span>
                                 </div>
 
                                 {/* 2. Apple App Store (Second, Disabled) */}
@@ -498,16 +500,16 @@ export const MobileAppCTA = () => {
                                 >
                                     <Apple className="size-6 shrink-0 fill-current text-white dark:text-foreground" />
                                     <div className="text-left leading-tight">
-                                        <p className="text-[9px] uppercase tracking-widest text-zinc-400 dark:text-muted-foreground font-semibold">Download on the</p>
-                                        <p className="text-sm font-extrabold text-white dark:text-foreground">App Store</p>
+                                        <p className="text-[9px] uppercase tracking-widest text-zinc-400 dark:text-muted-foreground font-semibold">{t("downloadOn")}</p>
+                                        <p className="text-sm font-extrabold text-white dark:text-foreground">{t("appStore")}</p>
                                     </div>
-                                    <span className="ml-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold uppercase tracking-wider">Coming Soon</span>
+                                    <span className="ml-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold uppercase tracking-wider">{t("comingSoon")}</span>
                                 </div>
                             </div>
 
                             <p className="text-[11px] text-muted-foreground flex items-center gap-1.5 pt-1">
                                 <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                                <span>Native iOS & Android mobile apps are in private alpha testing. Public beta scheduled for 2026.</span>
+                                <span>{t("alphaNotice")}</span>
                             </p>
                         </div>
                     </div>

@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Plus, X } from "@/components/Icons";
 import { SERVICES } from "@/constants/services";
 
 const FloatingPostButton = () => {
+    const t = useTranslations("FloatingPostButton");
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -51,7 +53,7 @@ const FloatingPostButton = () => {
             ref={menuRef}
             className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 select-none pointer-events-none"
         >
-            {/* 4 Floating Service Buttons (Only rendered when open to prevent taking any layout space or blocking clicks) */}
+            {/* 4 Floating Service Buttons */}
             {isOpen && (
                 <div
                     className="flex flex-col items-end gap-2.5 pointer-events-auto animate-in fade-in slide-in-from-bottom-3 duration-200"
@@ -60,6 +62,10 @@ const FloatingPostButton = () => {
                 >
                     {SERVICES.map((service, index) => {
                         const ServiceIcon = service.icon;
+                        const label = t.has(`services.${service.id}.label`) ? t(`services.${service.id}.label`) : service.label;
+                        const tagline = t.has(`services.${service.id}.tagline`) ? t(`services.${service.id}.tagline`) : service.tagline;
+                        const info = t.has(`services.${service.id}.info`) ? t(`services.${service.id}.info`) : service.info;
+
                         return (
                             <Link
                                 key={service.id}
@@ -73,18 +79,18 @@ const FloatingPostButton = () => {
                                 {/* Floating Hover Info Pill (Appears to the left on hover) */}
                                 <div className="pointer-events-none absolute right-full mr-3 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-2 whitespace-nowrap px-3.5 py-1.5 rounded-full bg-[#073B35] dark:bg-card dark:border dark:border-border text-white text-xs shadow-xl opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
                                     <span className="font-bold text-accent uppercase tracking-wider text-[10px]">
-                                        {service.tagline}
+                                        {tagline}
                                     </span>
                                     <span className="text-white/40">&middot;</span>
                                     <span className="text-white/95 font-medium">
-                                        {service.info}
+                                        {info}
                                     </span>
                                     {/* Small right arrow pointer towards the button */}
                                     <span className="absolute top-1/2 -translate-y-1/2 left-full border-4 border-transparent border-l-[#073B35] dark:border-l-card" />
                                 </div>
 
                                 <span className="text-xs sm:text-[13px] font-bold tracking-wide whitespace-nowrap">
-                                    {service.label}
+                                    {label}
                                 </span>
                                 <div className="size-8 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 group-hover:bg-accent group-hover:text-white text-emerald-600 dark:text-emerald-400 flex items-center justify-center transition-colors shrink-0">
                                     <ServiceIcon className="size-4" />
@@ -103,7 +109,7 @@ const FloatingPostButton = () => {
                     isOpen ? "ring-4 ring-accent/30 bg-[#052F2A] dark:bg-emerald-950 text-white" : ""
                 }`}
                 aria-expanded={isOpen}
-                aria-label={isOpen ? "Close menu" : "Post listing"}
+                aria-label={isOpen ? t("close") : t("postListing")}
             >
                 {/* Glow ring */}
                 <span
@@ -118,7 +124,7 @@ const FloatingPostButton = () => {
                 )}
 
                 <span className="text-xs sm:text-sm font-bold tracking-wide">
-                    {isOpen ? "Close" : "Post Listing"}
+                    {isOpen ? t("close") : t("postListing")}
                 </span>
             </button>
         </div>

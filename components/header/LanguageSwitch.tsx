@@ -7,8 +7,9 @@ import { useLocale } from "@/hooks/useLocale";
 
 interface LanguageSwitchProps {
     className?: string;
-    variant?: "dropdown" | "pills";
+    variant?: "dropdown" | "pills" | "footer";
     onLocaleChange?: () => void;
+    dropup?: boolean;
 }
 
 interface LanguageOption {
@@ -97,6 +98,71 @@ export const LanguageSwitch = ({
                         </button>
                     );
                 })}
+            </div>
+        );
+    }
+
+    // Dark Dropup variant (for Footer)
+    if (variant === "footer") {
+        return (
+            <div ref={dropdownRef} className={`relative shrink-0 ${className || "inline-block"}`}>
+                <button
+                    type="button"
+                    onClick={() => setIsOpen((prev) => !prev)}
+                    disabled={isPending}
+                    aria-expanded={isOpen}
+                    aria-haspopup="listbox"
+                    aria-label={`Select language. Current language is ${activeLanguage.name}`}
+                    className={`cursor-pointer group relative flex items-center gap-2 h-8.5 px-3 rounded-full border transition-all duration-200 select-none outline-none focus:outline-none ${
+                        isOpen
+                            ? "bg-white/15 border-emerald-400/60 ring-2 ring-emerald-400/20 shadow-xs"
+                            : "bg-white/5 hover:bg-white/10 border-white/15 hover:border-emerald-400/40 text-white"
+                    } ${isPending ? "opacity-60 cursor-wait" : ""}`}
+                >
+                    <Globe className="size-3.5 text-emerald-400 shrink-0 transition-transform duration-200 group-hover:rotate-12" />
+                    <span className="text-xs font-semibold tracking-wide text-white">
+                        {activeLanguage.name}
+                    </span>
+                    <ChevronDown
+                        className={`size-3 text-white/60 transition-transform duration-200 shrink-0 ${
+                            isOpen ? "rotate-180 text-emerald-400" : "group-hover:text-white"
+                        }`}
+                    />
+                </button>
+
+                {isOpen && (
+                    <div
+                        role="listbox"
+                        aria-label="Language selection options"
+                        className="absolute bottom-full mb-2 left-0 sm:right-0 sm:left-auto w-44 rounded-2xl bg-[#092B24] border border-emerald-500/30 text-white shadow-2xl p-1.5 z-50 origin-bottom transition-all duration-200 animate-in fade-in-0 zoom-in-95"
+                    >
+                        <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-400/80 border-b border-white/10 mb-1">
+                            Language / ভাষা
+                        </div>
+                        <div className="space-y-0.5">
+                            {LANGUAGES.map((lang) => {
+                                const isSelected = lang.code === locale;
+                                return (
+                                    <button
+                                        key={lang.code}
+                                        type="button"
+                                        role="option"
+                                        aria-selected={isSelected}
+                                        onClick={() => handleSelectLocale(lang.code)}
+                                        className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer select-none text-left outline-none ${
+                                            isSelected
+                                                ? "bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30"
+                                                : "text-white/80 hover:bg-white/10 hover:text-white border border-transparent"
+                                        }`}
+                                    >
+                                        <span>{lang.name}</span>
+                                        {isSelected && <Check className="size-3.5 text-emerald-400 stroke-3" />}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }

@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
     MapPin,
     Bed,
@@ -11,6 +12,8 @@ import {
     ShieldCheck,
     ArrowRight,
 } from "@/components/Icons";
+import { useLocale } from "@/hooks/useLocale";
+import { formatLocaleNumber } from "@/lib/utils";
 
 interface RentalItem {
     id: string;
@@ -92,6 +95,10 @@ const FEATURED_RENTALS: RentalItem[] = [
 ];
 
 export const FeaturedRentals = () => {
+    const t = useTranslations("Home.featuredRentals");
+    const { locale } = useLocale();
+    const isBn = locale === "bn";
+
     return (
         <section className="py-16 bg-background">
             <div className="container mx-auto px-4">
@@ -101,14 +108,14 @@ export const FeaturedRentals = () => {
                         <div className="flex items-center gap-1.5">
                             <span className="w-3.5 h-0.5 bg-accent" />
                             <span className="text-[11px] font-bold tracking-widest text-primary uppercase font-mono">
-                                VERIFIED HOUSING
+                                {t("eyebrow")}
                             </span>
                         </div>
                         <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
-                            Featured Rental Properties
+                            {t("title")}
                         </h2>
                         <p className="text-xs sm:text-sm text-text-secondary max-w-xl">
-                            Explore transparent, zero-broker rental listings with verified photos and verified landlord details.
+                            {t("description")}
                         </p>
                     </div>
 
@@ -116,95 +123,103 @@ export const FeaturedRentals = () => {
                         href="/rent"
                         className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-primary hover:text-primary-hover transition-colors group cursor-pointer"
                     >
-                        <span>View All Rentals</span>
+                        <span>{t("viewAll")}</span>
                         <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                     </Link>
                 </div>
 
                 {/* Rental Cards Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {FEATURED_RENTALS.map((rental) => (
-                        <div
-                            key={rental.id}
-                            className="group bg-white dark:bg-card rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col justify-between"
-                        >
-                            {/* Image Header with Badges */}
-                            <div className="relative w-full h-48 overflow-hidden bg-surface-secondary">
-                                <Image
-                                    src={rental.image}
-                                    alt={rental.title}
-                                    fill
-                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                />
-                                <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent opacity-60" />
+                    {FEATURED_RENTALS.map((rental) => {
+                        const title = t.has(`items.${rental.id}.title`) ? t(`items.${rental.id}.title`) : rental.title;
+                        const type = t.has(`items.${rental.id}.type`) ? t(`items.${rental.id}.type`) : rental.type;
+                        const location = t.has(`items.${rental.id}.location`) ? t(`items.${rental.id}.location`) : rental.location;
+                        const price = t.has(`items.${rental.id}.price`) ? t(`items.${rental.id}.price`) : rental.price;
+                        const badge = t.has(`items.${rental.id}.badge`) ? t(`items.${rental.id}.badge`) : rental.badge;
 
-                                <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-white/90 dark:bg-card/90 backdrop-blur-md text-foreground shadow-xs">
-                                        {rental.badge}
-                                    </span>
-                                    {rental.verified && (
-                                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-600/90 text-white backdrop-blur-md shadow-xs">
-                                            <ShieldCheck className="size-3" />
-                                            <span>Verified</span>
+                        return (
+                            <div
+                                key={rental.id}
+                                className="group bg-white dark:bg-card rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col justify-between"
+                            >
+                                {/* Image Header with Badges */}
+                                <div className="relative w-full h-48 overflow-hidden bg-surface-secondary">
+                                    <Image
+                                        src={rental.image}
+                                        alt={title}
+                                        fill
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                    <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent opacity-60" />
+
+                                    <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-white/90 dark:bg-card/90 backdrop-blur-md text-foreground shadow-xs">
+                                            {badge}
                                         </span>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Card Body */}
-                            <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-4">
-                                <div className="space-y-1.5">
-                                    <div className="text-[11px] font-bold text-accent uppercase tracking-wider">
-                                        {rental.type}
+                                        {rental.verified && (
+                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-600/90 text-white backdrop-blur-md shadow-xs">
+                                                <ShieldCheck className="size-3" />
+                                                <span>{t("verified")}</span>
+                                            </span>
+                                        )}
                                     </div>
-                                    <h3 className="text-sm sm:text-base font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                                        {rental.title}
-                                    </h3>
-                                    <p className="text-xs text-text-secondary flex items-center gap-1 line-clamp-1">
-                                        <MapPin className="size-3.5 text-text-secondary/70 shrink-0" />
-                                        <span>{rental.location}</span>
-                                    </p>
                                 </div>
 
-                                {/* Amenities stats */}
-                                <div className="flex items-center justify-between py-2.5 border-y border-border/70 text-xs text-text-secondary font-medium">
-                                    <span className="flex items-center gap-1">
-                                        <Bed className="size-3.5" />
-                                        <span>{rental.beds} Bed</span>
-                                    </span>
-                                    <span className="flex items-center gap-1">
-                                        <Bath className="size-3.5" />
-                                        <span>{rental.baths} Bath</span>
-                                    </span>
-                                    <span className="flex items-center gap-1">
-                                        <Maximize2 className="size-3.5" />
-                                        <span>{rental.sqft} sqft</span>
-                                    </span>
-                                </div>
+                                {/* Card Body */}
+                                <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-4">
+                                    <div className="space-y-1.5">
+                                        <div className="text-[11px] font-bold text-accent uppercase tracking-wider">
+                                            {type}
+                                        </div>
+                                        <h3 className="text-sm sm:text-base font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                                            {title}
+                                        </h3>
+                                        <p className="text-xs text-text-secondary flex items-center gap-1 line-clamp-1">
+                                            <MapPin className="size-3.5 text-text-secondary/70 shrink-0" />
+                                            <span>{location}</span>
+                                        </p>
+                                    </div>
 
-                                {/* Price and Action */}
-                                <div className="flex items-center justify-between pt-1">
-                                    <div>
-                                        <span className="text-base sm:text-lg font-extrabold text-foreground">
-                                            {rental.price}
+                                    {/* Amenities stats */}
+                                    <div className="flex items-center justify-between py-2.5 border-y border-border/70 text-xs text-text-secondary font-medium">
+                                        <span className="flex items-center gap-1">
+                                            <Bed className="size-3.5" />
+                                            <span>{formatLocaleNumber(rental.beds, isBn)} {rental.beds === 1 ? t("bed") : t("beds")}</span>
                                         </span>
-                                        <span className="text-xs text-text-secondary ml-1 font-medium">
-                                            {rental.pricePeriod}
+                                        <span className="flex items-center gap-1">
+                                            <Bath className="size-3.5" />
+                                            <span>{formatLocaleNumber(rental.baths, isBn)} {rental.baths === 1 ? t("bath") : t("baths")}</span>
+                                        </span>
+                                        <span className="flex items-center gap-1">
+                                            <Maximize2 className="size-3.5" />
+                                            <span>{formatLocaleNumber(rental.sqft, isBn)} {t("sqft")}</span>
                                         </span>
                                     </div>
 
-                                    <Link
-                                        href={rental.href}
-                                        className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:text-primary-hover px-3 py-1.5 rounded-xl bg-surface-secondary group-hover:bg-primary group-hover:text-primary-foreground transition-all cursor-pointer"
-                                    >
-                                        <span>Details</span>
-                                        <ArrowRight className="size-3.5" />
-                                    </Link>
+                                    {/* Price and Action */}
+                                    <div className="flex items-center justify-between pt-1">
+                                        <div>
+                                            <span className="text-base sm:text-lg font-extrabold text-foreground">
+                                                {price}
+                                            </span>
+                                            <span className="text-xs text-text-secondary ml-1 font-medium">
+                                                {t("month")}
+                                            </span>
+                                        </div>
+
+                                        <Link
+                                            href={rental.href}
+                                            className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:text-primary-hover px-3 py-1.5 rounded-xl bg-surface-secondary group-hover:bg-primary group-hover:text-primary-foreground transition-all cursor-pointer"
+                                        >
+                                            <span>{t("details")}</span>
+                                            <ArrowRight className="size-3.5" />
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </section>

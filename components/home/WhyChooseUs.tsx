@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import {
     ShieldCheck,
     CheckCircle2,
@@ -13,35 +14,34 @@ import {
 } from "@/components/Icons";
 
 export const WhyChooseUs = () => {
+    const t = useTranslations("Home.whyChooseUs");
+
     const pillars = [
         {
             icon: ShieldCheck,
-            title: "100% Verified Listings",
-            description:
-                "Every apartment, hotel, and sports arena undergoes physical on-site checks. No duplicate photos, no broker scams, no fake prices.",
-            highlight: "Zero Scams Guaranteed",
+            title: t("pillar1Title"),
+            description: t("pillar1Desc"),
+            highlight: t("pillar1Highlight"),
         },
         {
             icon: Lock,
-            title: "Direct & Transparent Deals",
-            description:
-                "Connect directly with verified landlords and property managers. All rent agreements and deposit terms are crystal clear upfront.",
-            highlight: "Transparent Agreements",
+            title: t("pillar2Title"),
+            description: t("pillar2Desc"),
+            highlight: t("pillar2Highlight"),
         },
         {
             icon: Headphones,
-            title: "24/7 Dedicated Support",
-            description:
-                "Our dedicated dispute resolution and concierge support team is always available to ensure smooth check-ins and stress-free stays.",
-            highlight: "Concierge Assistance",
+            title: t("pillar3Title"),
+            description: t("pillar3Desc"),
+            highlight: t("pillar3Highlight"),
         },
     ];
 
     const stats = [
-        { value: "15,000+", label: "Verified Spaces", icon: Building },
-        { value: "99.4%", label: "Accuracy Rate", icon: Award },
-        { value: "50+ Cities", label: "Nationwide Reach", icon: Users },
-        { value: "4.9 / 5", label: "Average Review", icon: Star },
+        { value: t("stats.stat1Value"), label: t("stats.stat1Label"), icon: Building },
+        { value: t("stats.stat2Value"), label: t("stats.stat2Label"), icon: Award },
+        { value: t("stats.stat3Value"), label: t("stats.stat3Label"), icon: Users },
+        { value: t("stats.stat4Value"), label: t("stats.stat4Label"), icon: Star },
     ];
 
     return (
@@ -50,13 +50,13 @@ export const WhyChooseUs = () => {
                 {/* Header */}
                 <div className="text-center max-w-2xl mx-auto space-y-3 mb-14">
                     <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-bold font-mono uppercase tracking-widest">
-                        <span>TRUST & VERIFICATION</span>
+                        <span>{t("eyebrow")}</span>
                     </div>
                     <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight">
-                        Why Choose FindBookStay?
+                        {t("title")}
                     </h2>
                     <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-                        We are building the standard of trust for renting homes, booking vacation stays, reserving sports venues, and purchasing prime real estate.
+                        {t("description")}
                     </p>
                 </div>
 

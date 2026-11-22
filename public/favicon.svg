@@ -10,7 +10,7 @@
     </linearGradient>
   </defs>
   <!-- Background soft rounded container -->
-  <rect width="64" height="64" rx="14" fill="#FFFFFF" />
+  <rect width="64" height="64" fill="#FFFFFF" />
   
   <!-- Outer / Roof House Pin Shape -->
   <path d="M32 7L13 22V42C13 47.5 17.5 52 23 52H25C25 45 28 39 33 36C38 33 44 33 49 36C49 32 49 28 49 22L32 7Z" fill="url(#fbs-navy)" />

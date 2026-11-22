@@ -3,16 +3,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-    Home,
-    Hotel,
-    Trophy,
-    Building2,
-    ArrowRight,
-    ArrowLeft,
-    Sparkles,
-    CheckCircle2,
-} from "@/components/Icons";
+import { useTranslations } from "next-intl";
+import { Home, Hotel, Trophy, Building2, ArrowRight, ArrowLeft, Sparkles, CheckCircle2 } from "@/components/Icons";
 
 export interface BannerSlide {
     id: string;
@@ -31,87 +23,92 @@ export interface BannerSlide {
     accentColor: string;
 }
 
-export const BANNER_SLIDES: BannerSlide[] = [
+interface BannerSlideMeta {
+    id: "rent" | "book" | "sports" | "buy";
+    category: "Rent" | "Book" | "Sports" | "Buy";
+    primaryCtaHref: string;
+    secondaryCtaHref: string;
+    image: string;
+    icon: React.ComponentType<{ className?: string }>;
+    accentColor: string;
+}
+
+const SLIDE_METAS: BannerSlideMeta[] = [
     {
         id: "rent",
         category: "Rent",
-        tagline: "Verified Living & Working Spaces",
-        title: "Rent Verified Homes, Flats & Bachelor Seats",
-        description: "Browse thousands of verified family apartments, standalone houses, shared rooms, and student bachelor seats with transparent agreements.",
-        primaryCtaText: "Browse Rentals",
         primaryCtaHref: "/rent",
-        secondaryCtaText: "Family Apartments",
         secondaryCtaHref: "/rent/family-apartments",
-        stats: ["100% Verified Hosts", "Zero Broker Scams", "Flexible Leases"],
         image: "/banners/banner-rent.jpg",
-        badge: "Verified Rentals",
         icon: Home,
         accentColor: "from-emerald-500 to-teal-400",
     },
     {
         id: "book",
         category: "Book",
-        tagline: "Premier Travel & Vacation Stays",
-        title: "Book Scenic Resorts, Hotels & Vacation Stays",
-        description: "Reserve handpicked 5-star hotels, lakeside nature getaways, private seaside villas, and cozy guest houses across top destinations.",
-        primaryCtaText: "Book Stays",
         primaryCtaHref: "/book",
-        secondaryCtaText: "Explore Resorts",
         secondaryCtaHref: "/book/resorts",
-        stats: ["Best Rate Guarantee", "Instant Confirmation", "24/7 Concierge"],
         image: "/banners/banner-book.jpg",
-        badge: "Travel & Hospitality",
         icon: Hotel,
         accentColor: "from-cyan-400 to-emerald-400",
     },
     {
         id: "sports",
         category: "Sports",
-        tagline: "Athletic Venues & Instant Arena Booking",
-        title: "Reserve Floodlit Turfs & Indoor Sports Arenas",
-        description: "Book artificial grass soccer pitches, cricket turfs, badminton courts, and tournament complexes by the hour with real-time slot booking.",
-        primaryCtaText: "Book a Turf",
         primaryCtaHref: "/sports",
-        secondaryCtaText: "Tournament Venues",
         secondaryCtaHref: "/sports/tournaments",
-        stats: ["Real-time Slot Booking", "Floodlight Facilities", "Tournament Ready"],
         image: "/banners/banner-sports.jpg",
-        badge: "Sports & Turfs",
         icon: Trophy,
         accentColor: "from-amber-400 to-emerald-400",
     },
     {
         id: "buy",
         category: "Buy",
-        tagline: "Verified Property Sales & Investments",
-        title: "Buy Prime Apartments, Luxury Villas & Plots",
-        description: "Invest with complete confidence in vetted residential flats, commercial plazas, townhouses, and freehold land plots with certified titles.",
-        primaryCtaText: "Explore Properties",
         primaryCtaHref: "/buy",
-        secondaryCtaText: "New Developments",
         secondaryCtaHref: "/buy/new-developments",
-        stats: ["Vetted Land Titles", "Prime Neighborhoods", "Direct Developer Deals"],
         image: "/banners/banner-buy.jpg",
-        badge: "Real Estate & Sales",
         icon: Building2,
         accentColor: "from-emerald-400 to-teal-300",
     },
 ];
 
 const AUTOPLAY_INTERVAL = 6000;
+const SLIDES_COUNT = SLIDE_METAS.length;
 
 export const HomeBanners = () => {
+    const t = useTranslations("Home.banners");
+    const tTabs = useTranslations("Home.searchBar.tabs");
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
 
-    const currentSlide = BANNER_SLIDES[currentIndex];
+    const bannerSlides: BannerSlide[] = SLIDE_METAS.map((meta) => {
+        const stats: string[] = [t(`${meta.id}.stats.0`), t(`${meta.id}.stats.1`), t(`${meta.id}.stats.2`)];
+        return {
+            id: meta.id,
+            category: meta.category,
+            tagline: t(`${meta.id}.tagline`),
+            title: t(`${meta.id}.title`),
+            description: t(`${meta.id}.description`),
+            primaryCtaText: t(`${meta.id}.primaryCta`),
+            primaryCtaHref: meta.primaryCtaHref,
+            secondaryCtaText: t(`${meta.id}.secondaryCta`),
+            secondaryCtaHref: meta.secondaryCtaHref,
+            stats,
+            image: meta.image,
+            badge: t(`${meta.id}.badge`),
+            icon: meta.icon,
+            accentColor: meta.accentColor,
+        };
+    });
+
+    const currentSlide = bannerSlides[currentIndex];
 
     const handleNext = useCallback(() => {
-        setCurrentIndex((prev) => (prev + 1) % BANNER_SLIDES.length);
+        setCurrentIndex((prev) => (prev + 1) % SLIDES_COUNT);
     }, []);
 
     const handlePrev = useCallback(() => {
-        setCurrentIndex((prev) => (prev - 1 + BANNER_SLIDES.length) % BANNER_SLIDES.length);
+        setCurrentIndex((prev) => (prev - 1 + SLIDES_COUNT) % SLIDES_COUNT);
     }, []);
 
     const goToSlide = useCallback((index: number) => {
@@ -123,7 +120,7 @@ export const HomeBanners = () => {
         if (isPaused) return;
 
         const interval = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % BANNER_SLIDES.length);
+            setCurrentIndex((prev) => (prev + 1) % SLIDES_COUNT);
         }, AUTOPLAY_INTERVAL);
 
         return () => clearInterval(interval);
@@ -132,8 +129,8 @@ export const HomeBanners = () => {
     return (
         <section aria-label="FindBookStay Featured Banners" className="relative w-full overflow-hidden bg-black text-white select-none" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
             {/* Background Carousel */}
-            <div className="relative w-full min-h-[500px] h-[540px] sm:h-[580px] md:h-[620px] lg:h-[650px]">
-                {BANNER_SLIDES.map((slide, index) => {
+            <div className="relative w-full min-h-125 h-135 sm:h-145 md:h-155 lg:h-162.5">
+                {bannerSlides.map((slide, index) => {
                     const isActive = index === currentIndex;
                     return (
                         <div key={slide.id} className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${isActive ? "opacity-100 z-10 pointer-events-none" : "opacity-0 z-0 pointer-events-none"}`}>
@@ -149,7 +146,7 @@ export const HomeBanners = () => {
                 <div className="relative z-20 h-full container mx-auto px-4 flex flex-col justify-between pt-5 sm:pt-9 pb-20 sm:pb-24 md:pb-28 pointer-events-auto">
                     {/* Top: 4 Purpose Tabs */}
                     <div className="grid grid-cols-4 gap-1.5 sm:flex sm:items-center sm:gap-2 max-w-md sm:max-w-none relative z-30">
-                        {BANNER_SLIDES.map((slide, index) => {
+                        {bannerSlides.map((slide, index) => {
                             const isActive = index === currentIndex;
                             const IconComponent = slide.icon;
                             return (
@@ -157,14 +154,10 @@ export const HomeBanners = () => {
                                     key={slide.id}
                                     type="button"
                                     onClick={() => goToSlide(index)}
-                                    className={`inline-flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wide transition-all duration-200 cursor-pointer ${
-                                        isActive
-                                            ? "bg-white text-zinc-950 shadow-md scale-102 font-bold"
-                                            : "bg-white/15 text-white/80 hover:bg-white/25 hover:text-white backdrop-blur-md"
-                                    }`}
+                                    className={`inline-flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wide transition-all duration-200 cursor-pointer ${isActive ? "bg-white text-zinc-950 shadow-md scale-102 font-bold" : "bg-white/15 text-white/80 hover:bg-white/25 hover:text-white backdrop-blur-md"}`}
                                 >
                                     <IconComponent className="size-3 sm:size-3.5 shrink-0" />
-                                    <span className="truncate">{slide.category}</span>
+                                    <span className="truncate">{tTabs(slide.id)}</span>
                                 </button>
                             );
                         })}
@@ -206,19 +199,9 @@ export const HomeBanners = () => {
                     <div className="flex items-center justify-between pt-3 pb-2 border-t border-white/10 relative z-30">
                         {/* Progress Dots on Left */}
                         <div className="flex items-center gap-2">
-                            {BANNER_SLIDES.map((slide, index) => {
+                            {bannerSlides.map((slide, index) => {
                                 const isActive = index === currentIndex;
-                                return (
-                                    <button
-                                        key={slide.id}
-                                        type="button"
-                                        aria-label={`Go to slide ${index + 1}`}
-                                        onClick={() => goToSlide(index)}
-                                        className={`transition-all duration-300 rounded-full cursor-pointer ${
-                                            isActive ? "w-8 h-2 bg-emerald-400" : "w-2 h-2 bg-white/40 hover:bg-white/70"
-                                        }`}
-                                    />
-                                );
+                                return <button key={slide.id} type="button" aria-label={`Go to slide ${index + 1}`} onClick={() => goToSlide(index)} className={`transition-all duration-300 rounded-full cursor-pointer ${isActive ? "w-8 h-2 bg-emerald-400" : "w-2 h-2 bg-white/40 hover:bg-white/70"}`} />;
                             })}
                         </div>
 

@@ -206,9 +206,9 @@ const Header = () => {
 
                         {/* 3. Action Buttons & Profile Menu */}
                         <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-2.5 shrink-0">
-                            {/* Desktop-only: Language Switch in Top Bar */}
-                            <div className="hidden lg:block shrink-0">
-                                <LanguageSwitch />
+                            {/* Desktop-only: Language Switch in Top Bar (Strictly hidden on mobile & tablets) */}
+                            <div className="hidden lg:block max-lg:!hidden shrink-0">
+                                <LanguageSwitch className="hidden lg:inline-flex max-lg:!hidden" />
                             </div>
 
                             {/* Mode Toggle */}
