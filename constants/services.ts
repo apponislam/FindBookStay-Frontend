@@ -16,7 +16,7 @@ export const SERVICES: ServiceItem[] = [
         label: "Rent Homes & Seats",
         tagline: "Rentals",
         info: "Flats, family houses, bachelor seats & sublets",
-        href: "/post-listing?type=rent",
+        href: "/post-listing/rent",
         icon: Building2,
     },
     {
@@ -24,7 +24,7 @@ export const SERVICES: ServiceItem[] = [
         label: "Book Stays & Resorts",
         tagline: "Stays",
         info: "Boutique hotels, nature resorts & holiday homes",
-        href: "/post-listing?type=book",
+        href: "/post-listing/book",
         icon: Hotel,
     },
     {
@@ -32,7 +32,7 @@ export const SERVICES: ServiceItem[] = [
         label: "Sports & Turfs",
         tagline: "Turfs",
         info: "Football & cricket turfs, indoor courts",
-        href: "/post-listing?type=sports",
+        href: "/post-listing/sports",
         icon: Trophy,
     },
     {
@@ -40,7 +40,7 @@ export const SERVICES: ServiceItem[] = [
         label: "Buy Real Estate",
         tagline: "Real Estate",
         info: "Residential duplexes, luxury apartments & land plots",
-        href: "/post-listing?type=buy",
+        href: "/post-listing/buy",
         icon: Home,
     },
 ];

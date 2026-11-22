@@ -2,24 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-    Home,
-    Building2,
-    Hotel,
-    Trophy,
-    ShieldCheck,
-    CheckCircle2,
-    ArrowRight,
-    MapPin,
-    Mail,
-    PhoneCall,
-    Sparkles,
-    Users,
-    Clock,
-    Globe,
-    Zap,
-    Search,
-} from "@/components/Icons";
+import { Home, Building2, Hotel, Trophy, ShieldCheck, CheckCircle2, ArrowRight, MapPin, Mail, PhoneCall, Sparkles, Users, Clock, Globe, Zap, Search } from "@/components/Icons";
 import siteData from "@/constants/siteData";
 
 interface VerticalItem {
@@ -46,14 +29,8 @@ const VERTICAL_TABS: VerticalItem[] = [
         href: "/rent",
         badge: "Direct Landlords",
         headline: "Family apartments, executive villas, and furnished bachelor seats without middleman stress.",
-        description:
-            "From secure multi-bedroom family homes to student-friendly bachelor seats with inclusive utilities, FindBookStay offers clear details on house rules, amenities, and direct host contact.",
-        highlights: [
-            "Direct communication with landlords and flat managers",
-            "Family-tailored apartments and independent residences",
-            "Single bachelor seats & shared rooms with utility breakdowns",
-            "Flexible 1-to-6 month sublets for professionals and students",
-        ],
+        description: "From secure multi-bedroom family homes to student-friendly bachelor seats with inclusive utilities, FindBookStay offers clear details on house rules, amenities, and direct host contact.",
+        highlights: ["Direct communication with landlords and flat managers", "Family-tailored apartments and independent residences", "Single bachelor seats & shared rooms with utility breakdowns", "Flexible 1-to-6 month sublets for professionals and students"],
         subcategories: [
             { name: "Family Apartments", href: "/rent/family-apartments" },
             { name: "Family Houses", href: "/rent/family-houses" },
@@ -71,14 +48,8 @@ const VERTICAL_TABS: VerticalItem[] = [
         href: "/book",
         badge: "Handpicked Stays",
         headline: "Boutique city hotels, scenic nature getaways, and private vacation residences.",
-        description:
-            "Whether you need a centrally located city hotel for business, an eco-resort for a weekend retreat, or a cozy holiday home with personalized hosts, enjoy instant discovery with authentic details.",
-        highlights: [
-            "Handpicked city boutique and business hotels",
-            "Lakeside, beach, and mountain getaway resorts",
-            "Private holiday cottages and serviced executive suites",
-            "Authentic host profiles, high-definition photo galleries & amenities",
-        ],
+        description: "Whether you need a centrally located city hotel for business, an eco-resort for a weekend retreat, or a cozy holiday home with personalized hosts, enjoy instant discovery with authentic details.",
+        highlights: ["Handpicked city boutique and business hotels", "Lakeside, beach, and mountain getaway resorts", "Private holiday cottages and serviced executive suites", "Authentic host profiles, high-definition photo galleries & amenities"],
         subcategories: [
             { name: "City Hotels", href: "/book/hotels" },
             { name: "Scenic Resorts", href: "/book/resorts" },
@@ -96,14 +67,8 @@ const VERTICAL_TABS: VerticalItem[] = [
         href: "/sports",
         badge: "Real-Time Booking",
         headline: "Reserve artificial football and cricket turfs, indoor courts, and tournament venues.",
-        description:
-            "Stop calling around to check if a turf is free. Explore modern artificial grass pitches, floodlit arenas, and indoor badminton courts with real-time slot schedules and transparent hourly pricing.",
-        highlights: [
-            "FIFA-standard artificial grass soccer & cricket turfs",
-            "High-power floodlit arenas for night matches",
-            "Indoor badminton, futsal, and squash courts",
-            "Tournament venues and recreational community facilities",
-        ],
+        description: "Stop calling around to check if a turf is free. Explore modern artificial grass pitches, floodlit arenas, and indoor badminton courts with real-time slot schedules and transparent hourly pricing.",
+        highlights: ["FIFA-standard artificial grass soccer & cricket turfs", "High-power floodlit arenas for night matches", "Indoor badminton, futsal, and squash courts", "Tournament venues and recreational community facilities"],
         subcategories: [
             { name: "Turf Football & Cricket", href: "/sports/turf-booking" },
             { name: "Football Grounds", href: "/sports/football-grounds" },
@@ -121,14 +86,8 @@ const VERTICAL_TABS: VerticalItem[] = [
         href: "/buy",
         badge: "Verified Ownership",
         headline: "Discover prime residential and commercial properties with transparent ownership details.",
-        description:
-            "Say goodbye to duplicate broker ads and phantom postings. FindBookStay connects you directly with verified homeowners and developers across premier neighborhoods, commercial hubs, and verified plots.",
-        highlights: [
-            "Direct negotiations with verified homeowners & developers",
-            "Residential duplexes, luxury penthouses, and gated villas",
-            "Commercial plazas, office floors, and corporate locations",
-            "Pre-launch developments and demarcated land plots",
-        ],
+        description: "Say goodbye to duplicate broker ads and phantom postings. FindBookStay connects you directly with verified homeowners and developers across premier neighborhoods, commercial hubs, and verified plots.",
+        highlights: ["Direct negotiations with verified homeowners & developers", "Residential duplexes, luxury penthouses, and gated villas", "Commercial plazas, office floors, and corporate locations", "Pre-launch developments and demarcated land plots"],
         subcategories: [
             { name: "Residential Homes", href: "/buy/residential" },
             { name: "Luxury Apartments", href: "/buy/apartments" },
@@ -170,29 +129,25 @@ const CORE_VALUES = [
     {
         icon: Users,
         title: "Direct Connections",
-        description:
-            "We cut out unauthorized brokers and confusing middleman tiers. You communicate directly with verified homeowners, landlords, hoteliers, and turf managers.",
+        description: "We cut out unauthorized brokers and confusing middleman tiers. You communicate directly with verified homeowners, landlords, hoteliers, and turf managers.",
         badge: "No Middleman Markup",
     },
     {
         icon: ShieldCheck,
         title: "Transparent & Authentic",
-        description:
-            "What you see is what you experience. Real photographs, accurate specifications, genuine amenity lists, and explicit house rules on every single listing.",
+        description: "What you see is what you experience. Real photographs, accurate specifications, genuine amenity lists, and explicit house rules on every single listing.",
         badge: "Zero Surprises",
     },
     {
         icon: Zap,
         title: "Unified Convenience",
-        description:
-            "Instead of juggling four separate apps for rentals, holiday stays, turf slots, and property, manage your entire lifestyle with one modern account.",
+        description: "Instead of juggling four separate apps for rentals, holiday stays, turf slots, and property, manage your entire lifestyle with one modern account.",
         badge: "One Seamless Login",
     },
     {
         icon: Globe,
         title: "Global Reach, Local Depth",
-        description:
-            "Headquartered in Gulshan-2, Dhaka with regional operational hubs expanding across Asia and beyond, built from the ground up for international standards.",
+        description: "Headquartered in Gulshan-2, Dhaka with regional operational hubs expanding across Asia and beyond, built from the ground up for international standards.",
         badge: "Worldwide Vision",
     },
 ];
@@ -210,10 +165,7 @@ export const AboutView = () => {
             {/* ============================================================== */}
             <section className="relative w-full overflow-hidden border-b border-border bg-linear-to-b from-surface-secondary/70 via-background to-background pt-14 pb-16 lg:pt-20 lg:pb-24">
                 {/* Luminous emerald ambient glows */}
-                <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-linear-to-tr from-accent/20 via-primary/10 to-transparent blur-3xl opacity-70"
-                />
+                <div aria-hidden="true" className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-linear-to-tr from-accent/20 via-primary/10 to-transparent blur-3xl opacity-70" />
 
                 <div className="container mx-auto px-4 relative">
                     <div className="w-full text-center space-y-6">
@@ -223,38 +175,25 @@ export const AboutView = () => {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
                             </span>
-                            <span className="tracking-wide uppercase text-[11px] font-bold text-accent">
-                                The Modern International Marketplace
-                            </span>
+                            <span className="tracking-wide uppercase text-[11px] font-bold text-accent">The Modern International Marketplace</span>
                         </div>
 
                         {/* Hero Headline */}
                         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-[1.15] max-w-5xl mx-auto">
-                            Connecting You Directly with{" "}
-                            <span className="bg-linear-to-r from-emerald-600 via-primary to-accent dark:from-emerald-400 dark:via-teal-300 dark:to-accent bg-clip-text text-transparent">
-                                Rentals, Stays, Sports & Properties.
-                            </span>
+                            Connecting You Directly with <span className="bg-linear-to-r from-emerald-600 via-primary to-accent dark:from-emerald-400 dark:via-teal-300 dark:to-accent bg-clip-text text-transparent">Rentals, Stays, Sports & Properties.</span>
                         </h1>
 
                         {/* Subtitle */}
-                        <p className="text-base sm:text-lg lg:text-xl text-text-secondary leading-relaxed max-w-3xl mx-auto font-normal">
-                            FindBookStay unites residential rentals, hotel stays, sports turf bookings, and property sales into one seamless, transparent digital ecosystem—designed for modern living without middleman friction.
-                        </p>
+                        <p className="text-base sm:text-lg lg:text-xl text-text-secondary leading-relaxed max-w-3xl mx-auto font-normal">FindBookStay unites residential rentals, hotel stays, sports turf bookings, and property sales into one seamless, transparent digital ecosystem—designed for modern living without middleman friction.</p>
 
                         {/* Action buttons */}
                         <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
-                            <Link
-                                href="/post-listing"
-                                className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground text-sm font-bold shadow-sm hover:shadow-md transition-all duration-200 group"
-                            >
+                            <Link href="/post-listing" className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground text-sm font-bold shadow-sm hover:shadow-md transition-all duration-200 group">
                                 <span>Post Your Space as Owner</span>
                                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                             </Link>
 
-                            <Link
-                                href="/sitemap"
-                                className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border bg-surface text-foreground text-sm font-semibold hover:border-accent hover:bg-surface-secondary transition-all duration-200"
-                            >
+                            <Link href="/sitemap" className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border bg-surface text-foreground text-sm font-semibold hover:border-accent hover:bg-surface-secondary transition-all duration-200">
                                 <Search className="size-4 text-accent" />
                                 <span>Explore All Marketplace Verticals</span>
                             </Link>
@@ -269,14 +208,9 @@ export const AboutView = () => {
                             {STATS.map((stat, idx) => {
                                 const StatIcon = stat.icon;
                                 return (
-                                    <div
-                                        key={idx}
-                                        className="w-full p-6 rounded-2xl bg-white dark:bg-card border border-border shadow-2xs hover:border-accent/50 hover:shadow-sm transition-all duration-200"
-                                    >
+                                    <div key={idx} className="w-full p-6 rounded-2xl bg-white dark:bg-card border border-border shadow-2xs hover:border-accent/50 hover:shadow-sm transition-all duration-200">
                                         <div className="flex items-center justify-between mb-3">
-                                            <span className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
-                                                {stat.value}
-                                            </span>
+                                            <span className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">{stat.value}</span>
                                             <div className="size-10 rounded-xl bg-surface-secondary flex items-center justify-center text-accent">
                                                 <StatIcon className="size-5" />
                                             </div>
@@ -299,16 +233,10 @@ export const AboutView = () => {
                     {/* Section Header */}
                     <div className="w-full mb-10 lg:mb-14">
                         <div className="flex items-center gap-2 mb-2">
-                            <span className="text-xs font-bold uppercase tracking-wider text-accent">
-                                Integrated Marketplace
-                            </span>
+                            <span className="text-xs font-bold uppercase tracking-wider text-accent">Integrated Marketplace</span>
                         </div>
-                        <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight">
-                            One Platform. Four Core Pillars.
-                        </h2>
-                        <p className="mt-3 text-sm sm:text-base text-text-secondary max-w-3xl leading-relaxed">
-                            No more hopping between disjointed apps, outdated classified sites, or chaotic social groups. FindBookStay brings residential leasing, travel hospitality, sports turf reservations, and property buying together under one unified umbrella.
-                        </p>
+                        <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight">One Platform. Four Core Pillars.</h2>
+                        <p className="mt-3 text-sm sm:text-base text-text-secondary max-w-3xl leading-relaxed">No more hopping between disjointed apps, outdated classified sites, or chaotic social groups. FindBookStay brings residential leasing, travel hospitality, sports turf reservations, and property buying together under one unified umbrella.</p>
                     </div>
 
                     {/* Tab Navigation Pill Bar */}
@@ -321,11 +249,7 @@ export const AboutView = () => {
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
                                     type="button"
-                                    className={`cursor-pointer w-full flex items-center justify-center sm:justify-start gap-2.5 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 ${
-                                        isActive
-                                            ? "bg-primary text-primary-foreground shadow-sm"
-                                            : "text-text-secondary hover:text-foreground hover:bg-surface-secondary"
-                                    }`}
+                                    className={`cursor-pointer w-full flex items-center justify-center sm:justify-start gap-2.5 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 ${isActive ? "bg-primary text-primary-foreground shadow-sm" : "text-text-secondary hover:text-foreground hover:bg-surface-secondary"}`}
                                 >
                                     <TabIcon className={`size-4 shrink-0 ${isActive ? "text-primary-foreground" : "text-muted-foreground"}`} />
                                     <span className="truncate">{tab.title}</span>
@@ -340,24 +264,14 @@ export const AboutView = () => {
                             {/* Left Column: Details & Highlights */}
                             <div className="lg:col-span-7 space-y-6">
                                 <div className="flex flex-wrap items-center gap-3">
-                                    <span className="text-xs font-mono font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md">
-                                        VERTICAL {currentVertical.number}
-                                    </span>
-                                    <span className="text-xs font-bold uppercase tracking-wider text-foreground">
-                                        {currentVertical.tagline}
-                                    </span>
-                                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-white dark:bg-card border border-border text-text-secondary">
-                                        {currentVertical.badge}
-                                    </span>
+                                    <span className="text-xs font-mono font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md">VERTICAL {currentVertical.number}</span>
+                                    <span className="text-xs font-bold uppercase tracking-wider text-foreground">{currentVertical.tagline}</span>
+                                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-white dark:bg-card border border-border text-text-secondary">{currentVertical.badge}</span>
                                 </div>
 
-                                <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight leading-snug">
-                                    {currentVertical.headline}
-                                </h3>
+                                <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight leading-snug">{currentVertical.headline}</h3>
 
-                                <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
-                                    {currentVertical.description}
-                                </p>
+                                <p className="text-sm sm:text-base text-text-secondary leading-relaxed">{currentVertical.description}</p>
 
                                 {/* Highlights check grid */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
@@ -371,10 +285,7 @@ export const AboutView = () => {
 
                                 {/* Direct CTA Button */}
                                 <div className="pt-2">
-                                    <Link
-                                        href={currentVertical.href}
-                                        className="cursor-pointer inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground text-xs sm:text-sm font-bold shadow-xs hover:shadow-sm transition-all group"
-                                    >
+                                    <Link href={currentVertical.href} className="cursor-pointer inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground text-xs sm:text-sm font-bold shadow-xs hover:shadow-sm transition-all group">
                                         <span>Explore {currentVertical.title}</span>
                                         <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                                     </Link>
@@ -389,24 +300,16 @@ export const AboutView = () => {
                                             <ActiveIcon className="size-6" />
                                         </div>
                                         <div>
-                                            <h4 className="text-base font-bold text-foreground">
-                                                {currentVertical.title} Directory
-                                            </h4>
+                                            <h4 className="text-base font-bold text-foreground">{currentVertical.title} Directory</h4>
                                             <p className="text-xs text-text-secondary">Browse verified categories</p>
                                         </div>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <span className="text-xs font-bold text-foreground uppercase tracking-wider block">
-                                            Popular Subcategories
-                                        </span>
+                                        <span className="text-xs font-bold text-foreground uppercase tracking-wider block">Popular Subcategories</span>
                                         <div className="flex flex-col gap-2">
                                             {currentVertical.subcategories.map((sub, idx) => (
-                                                <Link
-                                                    key={idx}
-                                                    href={sub.href}
-                                                    className="cursor-pointer flex items-center justify-between p-3 rounded-xl border border-border bg-surface hover:bg-surface-secondary hover:border-accent text-xs font-semibold text-foreground transition-all group"
-                                                >
+                                                <Link key={idx} href={sub.href} className="cursor-pointer flex items-center justify-between p-3 rounded-xl border border-border bg-surface hover:bg-surface-secondary hover:border-accent text-xs font-semibold text-foreground transition-all group">
                                                     <span>{sub.name}</span>
                                                     <ArrowRight className="size-3.5 text-text-secondary group-hover:text-accent transition-transform group-hover:translate-x-0.5" />
                                                 </Link>
@@ -433,16 +336,10 @@ export const AboutView = () => {
                     {/* Section Header */}
                     <div className="w-full mb-12 lg:mb-16">
                         <div className="flex items-center gap-2 mb-2">
-                            <span className="text-xs font-bold uppercase tracking-wider text-accent">
-                                Why FindBookStay
-                            </span>
+                            <span className="text-xs font-bold uppercase tracking-wider text-accent">Why FindBookStay</span>
                         </div>
-                        <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight">
-                            Built for Clarity, Speed & Real Connections.
-                        </h2>
-                        <p className="mt-3 text-sm sm:text-base text-text-secondary max-w-3xl leading-relaxed">
-                            Traditional portals are flooded with fake listings, outdated photos, duplicate broker ads, and hidden fees. We built FindBookStay to restore trust through direct communication and transparent information.
-                        </p>
+                        <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight">Built for Clarity, Speed & Real Connections.</h2>
+                        <p className="mt-3 text-sm sm:text-base text-text-secondary max-w-3xl leading-relaxed">Traditional portals are flooded with fake listings, outdated photos, duplicate broker ads, and hidden fees. We built FindBookStay to restore trust through direct communication and transparent information.</p>
                     </div>
 
                     {/* 4-Card Bento Grid */}
@@ -450,25 +347,16 @@ export const AboutView = () => {
                         {CORE_VALUES.map((val, idx) => {
                             const ValIcon = val.icon;
                             return (
-                                <div
-                                    key={idx}
-                                    className="w-full p-6 sm:p-7 rounded-2xl bg-white dark:bg-card border border-border shadow-2xs hover:border-accent/50 hover:shadow-sm transition-all duration-200 flex flex-col justify-between"
-                                >
+                                <div key={idx} className="w-full p-6 sm:p-7 rounded-2xl bg-white dark:bg-card border border-border shadow-2xs hover:border-accent/50 hover:shadow-sm transition-all duration-200 flex flex-col justify-between">
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between">
                                             <div className="size-12 rounded-xl bg-surface-secondary flex items-center justify-center text-accent">
                                                 <ValIcon className="size-6" />
                                             </div>
-                                            <span className="text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-full border border-accent/20">
-                                                {val.badge}
-                                            </span>
+                                            <span className="text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-full border border-accent/20">{val.badge}</span>
                                         </div>
-                                        <h3 className="text-base sm:text-lg font-bold text-foreground">
-                                            {val.title}
-                                        </h3>
-                                        <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-                                            {val.description}
-                                        </p>
+                                        <h3 className="text-base sm:text-lg font-bold text-foreground">{val.title}</h3>
+                                        <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">{val.description}</p>
                                     </div>
                                 </div>
                             );
@@ -486,23 +374,17 @@ export const AboutView = () => {
                         {/* Left Column: Narrative */}
                         <div className="lg:col-span-6 space-y-6">
                             <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold uppercase tracking-wider text-accent">
-                                    Our Story & Vision
-                                </span>
+                                <span className="text-xs font-bold uppercase tracking-wider text-accent">Our Story & Vision</span>
                             </div>
 
-                            <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight leading-tight">
-                                Why We Built FindBookStay.
-                            </h2>
+                            <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight leading-tight">Why We Built FindBookStay.</h2>
 
                             <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
-                                In today&apos;s digital era, finding a place to live, stay, play, or purchase is unnecessarily fragmented. Young professionals and students hunt for bachelor seats or flats on chaotic social media groups; travelers switch to hotel aggregators for weekend getaways;
-                                sports teams make endless phone calls to reserve turf slots; and property seekers sift through clunky broker classifieds.
+                                In today&apos;s digital era, finding a place to live, stay, play, or purchase is unnecessarily fragmented. Young professionals and students hunt for bachelor seats or flats on chaotic social media groups; travelers switch to hotel aggregators for weekend getaways; sports teams make endless phone calls to reserve turf slots; and property seekers sift through clunky
+                                broker classifieds.
                             </p>
 
-                            <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
-                                FindBookStay was born to unify these everyday lifestyle decisions into one clean, modern, intuitive platform. We prioritize authentic host profiles, clear pricing, and direct communication so you can find and secure what you need with confidence.
-                            </p>
+                            <p className="text-sm sm:text-base text-text-secondary leading-relaxed">FindBookStay was born to unify these everyday lifestyle decisions into one clean, modern, intuitive platform. We prioritize authentic host profiles, clear pricing, and direct communication so you can find and secure what you need with confidence.</p>
 
                             <div className="pt-2 flex flex-wrap gap-4">
                                 <div className="flex items-center gap-2 text-xs font-semibold text-foreground bg-surface px-3.5 py-2 rounded-xl border border-border">
@@ -523,50 +405,30 @@ export const AboutView = () => {
                         {/* Right Column: Guiding Principles Card */}
                         <div className="lg:col-span-6 w-full">
                             <div className="w-full p-8 sm:p-10 rounded-2xl bg-surface border border-border space-y-6">
-                                <h3 className="text-lg sm:text-xl font-bold text-foreground">
-                                    Our Core Platform Principles
-                                </h3>
+                                <h3 className="text-lg sm:text-xl font-bold text-foreground">Our Core Platform Principles</h3>
 
                                 <div className="space-y-4">
                                     <div className="flex items-start gap-4">
-                                        <div className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
-                                            01
-                                        </div>
+                                        <div className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">01</div>
                                         <div>
-                                            <h4 className="text-sm font-bold text-foreground">
-                                                Transparency & Authenticity
-                                            </h4>
-                                            <p className="mt-1 text-xs text-text-secondary leading-relaxed">
-                                                Every listing includes exact room configurations, real photographs, verified amenities, and transparent pricing.
-                                            </p>
+                                            <h4 className="text-sm font-bold text-foreground">Transparency & Authenticity</h4>
+                                            <p className="mt-1 text-xs text-text-secondary leading-relaxed">Every listing includes exact room configurations, real photographs, verified amenities, and transparent pricing.</p>
                                         </div>
                                     </div>
 
                                     <div className="flex items-start gap-4">
-                                        <div className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
-                                            02
-                                        </div>
+                                        <div className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">02</div>
                                         <div>
-                                            <h4 className="text-sm font-bold text-foreground">
-                                                Direct Empowerment
-                                            </h4>
-                                            <p className="mt-1 text-xs text-text-secondary leading-relaxed">
-                                                We empower homeowners, flat managers, hoteliers, and turf managers to showcase their spaces directly to qualified seekers.
-                                            </p>
+                                            <h4 className="text-sm font-bold text-foreground">Direct Empowerment</h4>
+                                            <p className="mt-1 text-xs text-text-secondary leading-relaxed">We empower homeowners, flat managers, hoteliers, and turf managers to showcase their spaces directly to qualified seekers.</p>
                                         </div>
                                     </div>
 
                                     <div className="flex items-start gap-4">
-                                        <div className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
-                                            03
-                                        </div>
+                                        <div className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">03</div>
                                         <div>
-                                            <h4 className="text-sm font-bold text-foreground">
-                                                Inclusivity for All Needs
-                                            </h4>
-                                            <p className="mt-1 text-xs text-text-secondary leading-relaxed">
-                                                From budget bachelor seats and shared rooms to luxury high-rise villas and community sports grounds—every user finds their space.
-                                            </p>
+                                            <h4 className="text-sm font-bold text-foreground">Inclusivity for All Needs</h4>
+                                            <p className="mt-1 text-xs text-text-secondary leading-relaxed">From budget bachelor seats and shared rooms to luxury high-rise villas and community sports grounds—every user finds their space.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -583,10 +445,7 @@ export const AboutView = () => {
                 <div className="container mx-auto px-4">
                     <div className="w-full rounded-3xl bg-linear-to-br from-emerald-950 via-primary to-[#062F2B] dark:from-[#0B1A17] dark:via-[#132B25] dark:to-[#0B1A17] p-8 sm:p-12 lg:p-16 text-white shadow-xl border border-emerald-800/40 relative overflow-hidden">
                         {/* Background light glow */}
-                        <div
-                            aria-hidden="true"
-                            className="pointer-events-none absolute -bottom-12 -right-12 w-96 h-96 bg-accent/20 rounded-full blur-3xl"
-                        />
+                        <div aria-hidden="true" className="pointer-events-none absolute -bottom-12 -right-12 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
 
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative">
                             {/* Left Content */}
@@ -596,13 +455,9 @@ export const AboutView = () => {
                                     <span>24/7 Dedicated Assistance</span>
                                 </div>
 
-                                <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight text-white">
-                                    We are here whenever you travel, move, or play.
-                                </h2>
+                                <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight text-white">We are here whenever you travel, move, or play.</h2>
 
-                                <p className="text-xs sm:text-sm text-white/80 leading-relaxed max-w-xl">
-                                    Have a question about a listing, want to register as a property host, or need assistance booking a sports turf? Our concierge team is ready to help around the clock.
-                                </p>
+                                <p className="text-xs sm:text-sm text-white/80 leading-relaxed max-w-xl">Have a question about a listing, want to register as a property host, or need assistance booking a sports turf? Our concierge team is ready to help around the clock.</p>
 
                                 <div className="space-y-2.5 pt-3 text-xs sm:text-sm text-white/90">
                                     <div className="flex items-center gap-2.5">
@@ -611,19 +466,13 @@ export const AboutView = () => {
                                     </div>
                                     <div className="flex items-center gap-2.5">
                                         <Mail className="size-4 text-emerald-400 shrink-0" />
-                                        <a
-                                            href={`mailto:${siteData.contacts.supportEmail}`}
-                                            className="cursor-pointer hover:text-emerald-300 font-medium transition-colors"
-                                        >
+                                        <a href={`mailto:${siteData.contacts.supportEmail}`} className="cursor-pointer hover:text-emerald-300 font-medium transition-colors">
                                             {siteData.contacts.supportEmail}
                                         </a>
                                     </div>
                                     <div className="flex items-center gap-2.5">
                                         <PhoneCall className="size-4 text-emerald-400 shrink-0" />
-                                        <a
-                                            href={`tel:${siteData.contacts.phoneClean}`}
-                                            className="cursor-pointer hover:text-emerald-300 font-medium transition-colors"
-                                        >
+                                        <a href={`tel:${siteData.contacts.phoneClean}`} className="cursor-pointer hover:text-emerald-300 font-medium transition-colors">
                                             {siteData.contacts.phoneDisplay}
                                         </a>
                                     </div>
@@ -632,18 +481,12 @@ export const AboutView = () => {
 
                             {/* Right Action Buttons */}
                             <div className="lg:col-span-5 flex flex-col gap-3 justify-center">
-                                <Link
-                                    href="/post-listing"
-                                    className="cursor-pointer w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-white hover:bg-emerald-50 text-emerald-950 text-sm font-bold shadow-sm hover:shadow-md transition-all group"
-                                >
+                                <Link href="/post-listing" className="cursor-pointer w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-white hover:bg-emerald-50 text-emerald-950 text-sm font-bold shadow-sm hover:shadow-md transition-all group">
                                     <span>Post a Listing as Owner</span>
                                     <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                                 </Link>
 
-                                <Link
-                                    href="/sitemap"
-                                    className="cursor-pointer w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold transition-all"
-                                >
+                                <Link href="/sitemap" className="cursor-pointer w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold transition-all">
                                     <span>Explore Complete Platform Sitemap</span>
                                 </Link>
                             </div>
