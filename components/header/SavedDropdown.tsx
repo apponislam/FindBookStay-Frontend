@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Heart, ArrowRight, X, MapPin } from "@/components/Icons";
 import { SavedListingItem } from "@/constants/savedData";
 
@@ -14,6 +15,8 @@ interface SavedDropdownProps {
 }
 
 export const SavedDropdown = ({ isOpen, onClose, savedItems, onRemoveItem }: SavedDropdownProps) => {
+    const t = useTranslations("Header.favorites");
+
     if (!isOpen) return null;
 
     return (
@@ -25,8 +28,8 @@ export const SavedDropdown = ({ isOpen, onClose, savedItems, onRemoveItem }: Sav
                 {/* Header */}
                 <div className="p-4 border-b border-border flex items-center justify-between bg-surface/50 shrink-0">
                     <div className="flex items-center gap-2">
-                        <span className="text-sm font-extrabold text-foreground">Saved Listings</span>
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-primary/15 text-primary">{savedItems.length} items</span>
+                        <span className="text-sm font-extrabold text-foreground">{t("title")}</span>
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-primary/15 text-primary">{savedItems.length}</span>
                     </div>
                     {/* Mobile Close Button */}
                     <button type="button" onClick={onClose} className="p-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-surface-secondary sm:hidden cursor-pointer" aria-label="Close saved listings">
@@ -41,8 +44,8 @@ export const SavedDropdown = ({ isOpen, onClose, savedItems, onRemoveItem }: Sav
                             <div className="size-10 rounded-full bg-surface-secondary text-muted-foreground flex items-center justify-center mx-auto">
                                 <Heart className="size-5" />
                             </div>
-                            <p className="text-xs font-bold text-foreground">No saved listings yet</p>
-                            <p className="text-[11px] text-muted-foreground">Click the heart icon on any flat, resort, or turf to save it for later.</p>
+                            <p className="text-xs font-bold text-foreground">{t("empty")}</p>
+                            <p className="text-[11px] text-muted-foreground">{t("emptyDesc")}</p>
                         </div>
                     ) : (
                         savedItems.slice(0, 4).map((item) => (
@@ -65,7 +68,7 @@ export const SavedDropdown = ({ isOpen, onClose, savedItems, onRemoveItem }: Sav
                                     </p>
                                 </Link>
 
-                                <button type="button" onClick={(e) => onRemoveItem(item.id, e)} className="size-7 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 flex items-center justify-center transition-colors shrink-0 cursor-pointer" title="Remove from saved">
+                                <button type="button" onClick={(e) => onRemoveItem(item.id, e)} className="size-7 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 flex items-center justify-center transition-colors shrink-0 cursor-pointer" title={t("remove")}>
                                     <X className="size-3.5" />
                                 </button>
                             </div>
@@ -76,7 +79,7 @@ export const SavedDropdown = ({ isOpen, onClose, savedItems, onRemoveItem }: Sav
                 {/* Bottom Footer */}
                 <div className="p-3 border-t border-border bg-surface/50 text-center">
                     <Link href="/saved" onClick={onClose} className="inline-flex items-center justify-center gap-1.5 text-xs font-extrabold text-primary hover:text-primary-hover transition-colors w-full py-1 cursor-pointer">
-                        <span>View all saved listings</span>
+                        <span>{t("viewWishlist")}</span>
                         <ArrowRight className="size-3.5" />
                     </Link>
                 </div>

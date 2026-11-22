@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, Heart, Bell } from "@/components/Icons";
-import { CATEGORIES } from "@/constants/routes";
+import { getLocalizedCategories } from "@/constants/routes";
+import { useTranslations } from "next-intl";
 import NavItem from "@/components/header/NavItem";
 import UserMenu from "@/components/header/UserMenu";
 import MobileDrawer from "@/components/header/MobileDrawer";
@@ -17,8 +18,11 @@ import { currentUser, currentToken, logOut, updateUserState } from "@/redux/feat
 import { useGetMeQuery, useLogoutMutation, authApi } from "@/redux/features/auth/authApi";
 import { getImageUrl } from "@/lib/utils";
 import { ModeToggle } from "./mode-toggle";
+import { LanguageSwitch } from "./header/LanguageSwitch";
 
 const Header = () => {
+    const t = useTranslations("Header");
+    const categories = getLocalizedCategories(t);
     const dispatch = useAppDispatch();
     const user = useAppSelector(currentUser);
     const token = useAppSelector(currentToken);
@@ -182,28 +186,33 @@ const Header = () => {
     return (
         <>
             <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled ? "bg-white/95 dark:bg-background/95 backdrop-blur-md shadow-xs py-2 sm:py-2.5 border-b border-border" : "bg-white dark:bg-background py-2.5 sm:py-3.5 border-b border-border"}`}>
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between gap-2 sm:gap-4">
+                <div className="container mx-auto px-3 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between gap-1.5 sm:gap-4">
                         {/* 1. Brand Logo */}
                         <div className="shrink-0">
                             <Link href="/" className="cursor-pointer flex items-center gap-2 group">
-                                <Image src="/findbookstay-logo.png" alt="FindBookStay - Real Estate, Stays & Turfs" width={180} height={50} className="h-8 sm:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-102 dark:brightness-0 dark:invert" priority />
+                                <Image src="/findbookstay-logo.png" alt="FindBookStay - Real Estate, Stays & Turfs" width={180} height={50} className="h-7 sm:h-9 md:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-102 dark:brightness-0 dark:invert shrink-0" priority />
                             </Link>
                         </div>
 
                         {/* 2. Desktop Navigation Menu */}
                         <div ref={navContainerRef} className="hidden lg:flex items-center gap-1 xl:gap-2">
                             <nav className="flex items-center gap-0.5 xl:gap-1">
-                                {CATEGORIES.map((category) => (
+                                {categories.map((category) => (
                                     <NavItem key={category.id} category={category} isOpen={activeMenu === category.id} onToggle={() => setActiveMenu(activeMenu === category.id ? null : category.id)} onMouseEnter={() => handleMouseEnter(category.id)} onMouseLeave={handleMouseLeave} onClose={() => setActiveMenu(null)} />
                                 ))}
                             </nav>
                         </div>
 
                         {/* 3. Action Buttons & Profile Menu */}
-                        <div className="flex items-center gap-1.5 sm:gap-2.5">
+                        <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-2.5 shrink-0">
+                            {/* Desktop-only: Language Switch in Top Bar */}
+                            <div className="hidden lg:block shrink-0">
+                                <LanguageSwitch />
+                            </div>
+
                             {/* Mode Toggle */}
-                            <ModeToggle className="size-8 sm:size-9" />
+                            <ModeToggle className="size-8 sm:size-9 shrink-0" />
 
                             {/* Desktop-only: Saved / Favorites Dropdown Trigger */}
                             <div ref={savedMenuRef} className="hidden lg:block relative">
@@ -294,7 +303,7 @@ const Header = () => {
                                     setNotificationsDropdownOpen(false);
                                     setMobileDrawerOpen(true);
                                 }}
-                                className="cursor-pointer lg:hidden flex items-center gap-1.5 p-1 pl-1.5 pr-2.5 rounded-full border border-border hover:border-accent/50 bg-background hover:bg-surface-secondary shadow-2xs transition-all duration-200"
+                                className="cursor-pointer lg:hidden flex items-center gap-1 p-1 pl-1.5 pr-2 sm:pr-2.5 rounded-full border border-border hover:border-accent/50 bg-background hover:bg-surface-secondary shadow-2xs transition-all duration-200 shrink-0"
                                 aria-label="Open mobile navigation menu"
                             >
                                 {isAuthenticated ? (
@@ -320,9 +329,9 @@ const Header = () => {
                                         <Menu className="size-4 text-foreground" />
                                     </>
                                 ) : (
-                                    <div className="flex items-center gap-1.5 px-1 py-0.5">
-                                        <Menu className="size-4.5 text-foreground" />
-                                        <span className="text-xs font-semibold text-foreground">Menu</span>
+                                    <div className="flex items-center gap-1 px-1 py-0.5">
+                                        <Menu className="size-4 text-foreground" />
+                                        <span className="text-xs font-semibold text-foreground hidden xs:inline">{t("mobile.menu")}</span>
                                     </div>
                                 )}
                             </button>
@@ -335,7 +344,7 @@ const Header = () => {
             <MobileDrawer
                 isOpen={mobileDrawerOpen}
                 onClose={() => setMobileDrawerOpen(false)}
-                categories={CATEGORIES}
+                categories={categories}
                 expandedCategory={mobileExpandedCat}
                 onToggleCategory={toggleMobileCategory}
                 isAuthenticated={isAuthenticated}

@@ -2,6 +2,7 @@ import React from "react";
 import { Home, Building2, Building, Warehouse, MapPin, Sparkles, BedDouble, Users, CalendarDays, Briefcase, Hotel, Palmtree, Coffee, Tent, Compass, Crown, Trophy, Shield, Dumbbell, Activity, Award, Star, Heart, Clock, ShieldCheck, Info } from "@/components/Icons";
 
 export interface SubItem {
+    id: string;
     name: string;
     desc: string;
     icon: React.ComponentType<{ className?: string }>;
@@ -23,18 +24,21 @@ export const CATEGORIES: CategoryMenu[] = [
         href: "/rent",
         items: [
             {
+                id: "familyApartments",
                 name: "Family Apartments",
                 desc: "2 to 4-bedroom rental flats in secure areas",
                 icon: Home,
                 href: "/rent/family-apartments",
             },
             {
+                id: "familyHouses",
                 name: "Family Houses",
                 desc: "Full independent duplexes, villas & standalone homes",
                 icon: Building2,
                 href: "/rent/family-houses",
             },
             {
+                id: "bachelorSeats",
                 name: "Bachelor Seats",
                 desc: "Single & shared seats with WiFi, food & utilities",
                 icon: BedDouble,
@@ -42,18 +46,21 @@ export const CATEGORIES: CategoryMenu[] = [
                 badge: "Popular",
             },
             {
+                id: "sharedRooms",
                 name: "Shared Rooms",
                 desc: "Budget-friendly shared spaces with verified flatmates",
                 icon: Users,
                 href: "/rent/shared-rooms",
             },
             {
+                id: "monthlySublets",
                 name: "Monthly Sublets",
                 desc: "Furnished short and medium term monthly leases",
                 icon: CalendarDays,
                 href: "/rent/sublets",
             },
             {
+                id: "commercialRentals",
                 name: "Commercial Rentals",
                 desc: "Corporate office spaces, showrooms & storefronts",
                 icon: Briefcase,
@@ -67,12 +74,14 @@ export const CATEGORIES: CategoryMenu[] = [
         href: "/book",
         items: [
             {
+                id: "hotels",
                 name: "Hotels",
                 desc: "Handpicked 5-star, boutique & budget city hotels",
                 icon: Hotel,
                 href: "/book/hotels",
             },
             {
+                id: "resorts",
                 name: "Resorts",
                 desc: "Scenic lakeside, beach & mountain nature getaways",
                 icon: Palmtree,
@@ -80,24 +89,28 @@ export const CATEGORIES: CategoryMenu[] = [
                 badge: "Hot",
             },
             {
+                id: "guestHouses",
                 name: "Guest Houses",
                 desc: "Cozy home-style bed & breakfast stays with warm hosts",
                 icon: Coffee,
                 href: "/book/guest-houses",
             },
             {
+                id: "holidayHomes",
                 name: "Holiday Homes",
                 desc: "Private seaside villas, cabins & vacation cottages",
                 icon: Tent,
                 href: "/book/holiday-homes",
             },
             {
+                id: "shortStayApartments",
                 name: "Short-Stay Apartments",
                 desc: "Serviced executive suites with kitchens & workspaces",
                 icon: Compass,
                 href: "/book/short-stay",
             },
             {
+                id: "luxuryVipSuites",
                 name: "Luxury VIP Suites",
                 desc: "Exclusive penthouses & premium weekend stays",
                 icon: Crown,
@@ -111,6 +124,7 @@ export const CATEGORIES: CategoryMenu[] = [
         href: "/sports",
         items: [
             {
+                id: "turfBooking",
                 name: "Turf Booking",
                 desc: "Artificial grass soccer & cricket turfs with floodlights",
                 icon: Trophy,
@@ -118,30 +132,35 @@ export const CATEGORIES: CategoryMenu[] = [
                 badge: "Trending",
             },
             {
+                id: "footballGrounds",
                 name: "Football Grounds",
                 desc: "Full standard size grass grounds for club matches",
                 icon: Shield,
                 href: "/sports/football-grounds",
             },
             {
+                id: "indoorSportsCourts",
                 name: "Indoor Sports Courts",
                 desc: "Badminton, basketball, table tennis & futsal arenas",
                 icon: Dumbbell,
                 href: "/sports/indoor-sports",
             },
             {
+                id: "swimmingWellness",
                 name: "Swimming & Wellness",
                 desc: "Olympic training pools, health clubs & leisure hubs",
                 icon: Activity,
                 href: "/sports/swimming",
             },
             {
+                id: "tournamentVenues",
                 name: "Tournament Venues",
                 desc: "Book complete tournament complexes & corporate leagues",
                 icon: Award,
                 href: "/sports/tournaments",
             },
             {
+                id: "otherActivities",
                 name: "Other Activities",
                 desc: "Paintball, bowling alleys, go-karting & arcades",
                 icon: Compass,
@@ -155,36 +174,42 @@ export const CATEGORIES: CategoryMenu[] = [
         href: "/buy",
         items: [
             {
+                id: "residentialProperties",
                 name: "Residential Properties",
                 desc: "Flats, townhouses & homes in prime neighborhoods",
                 icon: Home,
                 href: "/buy/residential",
             },
             {
+                id: "commercialProperties",
                 name: "Commercial Properties",
                 desc: "Offices, retail spaces, plazas & commercial plots",
                 icon: Building2,
                 href: "/buy/commercial",
             },
             {
+                id: "apartmentsFlats",
                 name: "Apartments & Flats",
                 desc: "Modern luxury high-rise units & cozy apartments",
                 icon: Building,
                 href: "/buy/apartments",
             },
             {
+                id: "housesVillas",
                 name: "Houses & Villas",
                 desc: "Independent duplexes, standalone homes & villas",
                 icon: Warehouse,
                 href: "/buy/houses",
             },
             {
+                id: "landPlots",
                 name: "Land & Plots",
                 desc: "Verified residential, commercial & farmland plots",
                 icon: MapPin,
                 href: "/buy/land",
             },
             {
+                id: "newDevelopments",
                 name: "New Developments",
                 desc: "Pre-launch gated communities & off-plan deals",
                 icon: Sparkles,
@@ -199,24 +224,28 @@ export const CATEGORIES: CategoryMenu[] = [
         href: "/explore",
         items: [
             {
+                id: "popularLocations",
                 name: "Popular Locations",
                 desc: "Explore top cities, metropolitan hubs & scenic regions",
                 icon: Compass,
                 href: "/explore/locations",
             },
             {
+                id: "featuredProperties",
                 name: "Featured Properties",
                 desc: "Curated premium listings with top ratings & reviews",
                 icon: Star,
                 href: "/explore/featured",
             },
             {
+                id: "popularHotels",
                 name: "Popular Hotels",
                 desc: "Traveler favorite stays across premier tourist destinations",
                 icon: Heart,
                 href: "/explore/popular-hotels",
             },
             {
+                id: "recentlyAdded",
                 name: "Recently Added",
                 desc: "Latest verified listings updated daily across all categories",
                 icon: Clock,
@@ -224,12 +253,14 @@ export const CATEGORIES: CategoryMenu[] = [
                 badge: "Live",
             },
             {
+                id: "verifiedGuarantee",
                 name: "Verified Guarantee",
                 desc: "Transparent trust standards and host verification framework",
                 icon: ShieldCheck,
                 href: "/explore/guarantee",
             },
             {
+                id: "aboutFindBookStay",
                 name: "About FindBookStay",
                 desc: "Our story, vision, partner program & support team",
                 icon: Info,
@@ -238,3 +269,16 @@ export const CATEGORIES: CategoryMenu[] = [
         ],
     },
 ];
+
+export const getLocalizedCategories = (t: (key: string) => string): CategoryMenu[] => {
+    return CATEGORIES.map((cat) => ({
+        ...cat,
+        label: t(`nav.${cat.id}`),
+        items: cat.items.map((item) => ({
+            ...item,
+            name: t(`sub.${item.id}`),
+            desc: t(`sub.${item.id}Desc`),
+            badge: item.badge ? t(`badges.${item.badge.toLowerCase()}`) : undefined,
+        })),
+    }));
+};

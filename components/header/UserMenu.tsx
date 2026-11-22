@@ -3,9 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronDown, ChevronRight, User, Heart, Settings, LogOut, CheckCircle2, HelpCircle, CalendarDays, Building, ArrowRight, X } from "@/components/Icons";
+import { useTranslations } from "next-intl";
+import { ChevronDown, ChevronRight, User, Heart, Settings, LogOut, HelpCircle, CalendarDays, Building, ArrowRight, X, Globe } from "@/components/Icons";
 import { getImageUrl } from "@/lib/utils";
 import type { TUser } from "@/redux/features/auth/authSlice";
+import { LanguageSwitch } from "./LanguageSwitch";
 
 const TITLE_PREFIXES = new Set(["md", "mohammad", "mohammed", "muhammad", "muhammed", "mst", "most", "dr", "mr", "mrs", "ms", "prof", "adv", "sheikh", "syed"]);
 
@@ -40,6 +42,8 @@ interface UserMenuProps {
 }
 
 const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onToggle, onClose }: UserMenuProps) => {
+    const t = useTranslations("Header.userMenu");
+
     // Compute initials from user name or fallback
     const initials = user?.name
         ? user.name
@@ -55,7 +59,6 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
 
     const displayName = user?.name || "User";
     const displayEmail = user?.email || "";
-    const isVerified = Boolean(user?.isEmailVerified);
     const shortName = getHeaderShortName(user?.name);
 
     // -------------------------------------------------------------
@@ -70,7 +73,7 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
                     className="group cursor-pointer inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-foreground hover:text-primary bg-background hover:bg-surface-secondary border border-border hover:border-accent/50 shadow-2xs hover:shadow-xs transition-all duration-200"
                 >
                     <User className="size-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
-                    <span>Log In</span>
+                    <span>{t("logIn")}</span>
                 </Link>
 
                 {/* High-Impact Emerald Gradient Sign Up Button */}
@@ -78,7 +81,7 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
                     href="/auth/register"
                     className="group cursor-pointer relative inline-flex items-center gap-1.5 px-3 sm:px-4.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-bold text-white bg-linear-to-r from-accent to-accent-hover shadow-[0_4px_12px_rgba(16,185,129,0.28)] hover:shadow-[0_6px_18px_rgba(16,185,129,0.38)] transition-all duration-250 hover:scale-[1.02] active:scale-[0.98]"
                 >
-                    <span>Sign Up</span>
+                    <span>{t("signUp")}</span>
                     <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </Link>
             </div>
@@ -94,8 +97,6 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
             <button type="button" onClick={onToggle} className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 p-0.5 sm:p-1 pl-1 sm:pl-1.5 pr-1.5 sm:pr-2.5 rounded-full border transition-all duration-200 ${isOpen ? "border-accent bg-surface-secondary shadow-xs" : "border-border hover:border-accent/40 hover:bg-surface"}`} aria-expanded={isOpen} aria-label="User profile menu">
                 <div className="relative size-6.5 sm:size-7 shrink-0">
                     <div className="relative size-full rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center text-[10.5px] sm:text-xs font-bold uppercase shadow-2xs overflow-hidden">{user?.profileImage ? <Image src={getImageUrl(user.profileImage)} alt={displayName} fill sizes="28px" className="rounded-full object-cover" /> : initials}</div>
-                    {/* Verification / status indicator dot */}
-                    <span className={`absolute -bottom-0.5 -right-0.5 size-2 sm:size-2.5 rounded-full ring-2 ring-background z-10 ${isVerified ? "bg-accent" : "bg-amber-400"}`} title={isVerified ? "Verified Account" : "Unverified Account"} />
                 </div>
                 <span className="hidden xl:inline-block text-[13px] font-semibold text-foreground max-w-36 truncate">{shortName}</span>
                 <ChevronDown className={`size-3 sm:size-3.5 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180 text-primary" : ""}`} />
@@ -156,18 +157,17 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
                             <div className="p-3 mb-2 rounded-xl bg-surface-secondary border border-border/70 flex items-center justify-between gap-2">
                                 <div className="flex items-center gap-3 min-w-0">
                                     <div className="relative size-11 shrink-0">
-                                        <div className="relative size-full rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center text-sm font-bold shadow-xs overflow-hidden">{user?.profileImage ? <Image src={getImageUrl(user.profileImage)} alt={displayName} fill sizes="44px" className="rounded-full object-cover" /> : initials}</div>
-                                        {/* Verification round badge */}
-                                        <div className={`absolute -bottom-0.5 -right-0.5 size-4 rounded-full text-white flex items-center justify-center ring-2 ring-background shadow-xs z-10 ${isVerified ? "bg-accent" : "bg-amber-500"}`} title={isVerified ? "Verified Account" : "Unverified Account"}>
-                                            <CheckCircle2 className="size-3 text-white" />
+                                        <div className="relative size-full rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center text-sm font-bold shadow-xs overflow-hidden">
+                                            {user?.profileImage ? (
+                                                <Image src={getImageUrl(user.profileImage)} alt={displayName} fill sizes="44px" className="rounded-full object-cover" />
+                                            ) : (
+                                                initials
+                                            )}
                                         </div>
                                     </div>
                                     <div className="min-w-0 flex-1">
-                                        <div className="flex items-center gap-1.5">
-                                            <h4 className="text-[13.5px] font-bold text-foreground truncate">{displayName}</h4>
-                                            <span className={`shrink-0 px-1.5 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider border ${isVerified ? "bg-accent/15 text-accent border-accent/20" : "bg-amber-500/15 text-amber-500 border-amber-500/30"}`}>{isVerified ? "Verified" : "Unverified"}</span>
-                                        </div>
-                                        <p className="text-[11.5px] text-muted-foreground truncate mt-0.5">{displayEmail}</p>
+                                        <h4 className="text-[13.5px] font-bold text-foreground truncate">{displayName}</h4>
+                                        {displayEmail && <p className="text-[11.5px] text-muted-foreground truncate mt-0.5">{displayEmail}</p>}
                                     </div>
                                 </div>
                                 {/* Mobile Close Button */}
@@ -181,6 +181,15 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
                                 </button>
                             </div>
 
+                            {/* Language Switch inside Menu */}
+                            <div className="p-2 mb-2 rounded-xl bg-surface-secondary/70 border border-border/70 flex items-center justify-between gap-2">
+                                <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
+                                    <Globe className="size-3.5 text-primary" />
+                                    <span>{t("language")}</span>
+                                </div>
+                                <LanguageSwitch variant="pills" onLocaleChange={onClose} />
+                            </div>
+
                             {/* Navigation Links Grid */}
                             <div className="space-y-0.5 py-1">
                                 <Link href="/my-bookings" onClick={onClose} className="cursor-pointer group flex items-center justify-between p-2 rounded-xl text-xs font-semibold text-foreground hover:bg-surface-secondary hover:text-primary transition-all duration-150">
@@ -189,8 +198,8 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
                                             <CalendarDays className="size-4" />
                                         </div>
                                         <div>
-                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">My Bookings & Stays</p>
-                                            <p className="text-[10.5px] text-muted-foreground font-normal">Manage trips & reservations</p>
+                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">{t("myBookings")}</p>
+                                            <p className="text-[10.5px] text-muted-foreground font-normal">{t("myBookingsDesc")}</p>
                                         </div>
                                     </span>
                                     <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
@@ -202,8 +211,8 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
                                             <Building className="size-4" />
                                         </div>
                                         <div>
-                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">My Posted Listings</p>
-                                            <p className="text-[10.5px] text-muted-foreground font-normal">Properties, spaces & stats</p>
+                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">{t("myListings")}</p>
+                                            <p className="text-[10.5px] text-muted-foreground font-normal">{t("myListingsDesc")}</p>
                                         </div>
                                     </span>
                                     <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
@@ -215,8 +224,8 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
                                             <Heart className="size-4" />
                                         </div>
                                         <div>
-                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">Saved Favorites</p>
-                                            <p className="text-[10.5px] text-muted-foreground font-normal">Your wishlist collection</p>
+                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">{t("savedFavorites")}</p>
+                                            <p className="text-[10.5px] text-muted-foreground font-normal">{t("savedFavoritesDesc")}</p>
                                         </div>
                                     </span>
                                     <span className="px-2 py-0.5 rounded-full bg-accent/15 text-accent text-[10px] font-bold border border-accent/20">{favoritesCount}</span>
@@ -228,8 +237,8 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
                                             <Settings className="size-4" />
                                         </div>
                                         <div>
-                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">Account Settings</p>
-                                            <p className="text-[10.5px] text-muted-foreground font-normal">Security & preferences</p>
+                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">{t("accountSettings")}</p>
+                                            <p className="text-[10.5px] text-muted-foreground font-normal">{t("accountSettingsDesc")}</p>
                                         </div>
                                     </span>
                                     <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
@@ -241,8 +250,8 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
                                             <HelpCircle className="size-4" />
                                         </div>
                                         <div>
-                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">Help & Support</p>
-                                            <p className="text-[10.5px] text-muted-foreground font-normal">24/7 dedicated support</p>
+                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">{t("helpSupport")}</p>
+                                            <p className="text-[10.5px] text-muted-foreground font-normal">{t("helpSupportDesc")}</p>
                                         </div>
                                     </span>
                                     <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
@@ -265,7 +274,7 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
                                     <div className="size-7 rounded-lg bg-destructive/10 text-destructive group-hover:bg-destructive/20 flex items-center justify-center transition-colors">
                                         <LogOut className="size-3.5" />
                                     </div>
-                                    <span>Sign Out</span>
+                                    <span>{t("signOut")}</span>
                                 </button>
                             </div>
                         </div>

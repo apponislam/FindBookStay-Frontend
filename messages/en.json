@@ -1,1 +1,134 @@
-{}
+{
+  "Header": {
+    "nav": {
+      "rent": "Rent",
+      "book": "Book",
+      "sports": "Sports",
+      "buy": "Buy",
+      "explore": "Explore"
+    },
+    "sub": {
+      "familyApartments": "Family Apartments",
+      "familyApartmentsDesc": "2 to 4-bedroom rental flats in secure areas",
+      "familyHouses": "Family Houses",
+      "familyHousesDesc": "Full independent duplexes, villas & standalone homes",
+      "bachelorSeats": "Bachelor Seats",
+      "bachelorSeatsDesc": "Single & shared seats with WiFi, food & utilities",
+      "sharedRooms": "Shared Rooms",
+      "sharedRoomsDesc": "Budget-friendly shared spaces with verified flatmates",
+      "monthlySublets": "Monthly Sublets",
+      "monthlySubletsDesc": "Furnished short and medium term monthly leases",
+      "commercialRentals": "Commercial Rentals",
+      "commercialRentalsDesc": "Corporate office spaces, showrooms & storefronts",
+
+      "hotels": "Hotels",
+      "hotelsDesc": "Handpicked 5-star, boutique & budget city hotels",
+      "resorts": "Resorts",
+      "resortsDesc": "Scenic lakeside, beach & mountain nature getaways",
+      "guestHouses": "Guest Houses",
+      "guestHousesDesc": "Cozy home-style bed & breakfast stays with warm hosts",
+      "holidayHomes": "Holiday Homes",
+      "holidayHomesDesc": "Private seaside villas, cabins & vacation cottages",
+      "shortStayApartments": "Short-Stay Apartments",
+      "shortStayApartmentsDesc": "Serviced executive suites with kitchens & workspaces",
+      "luxuryVipSuites": "Luxury VIP Suites",
+      "luxuryVipSuitesDesc": "Exclusive penthouses & premium weekend stays",
+
+      "turfBooking": "Turf Booking",
+      "turfBookingDesc": "Artificial grass soccer & cricket turfs with floodlights",
+      "footballGrounds": "Football Grounds",
+      "footballGroundsDesc": "Full standard size grass grounds for club matches",
+      "indoorSportsCourts": "Indoor Sports Courts",
+      "indoorSportsCourtsDesc": "Badminton, basketball, table tennis & futsal arenas",
+      "swimmingWellness": "Swimming & Wellness",
+      "swimmingWellnessDesc": "Olympic training pools, health clubs & leisure hubs",
+      "tournamentVenues": "Tournament Venues",
+      "tournamentVenuesDesc": "Book complete tournament complexes & corporate leagues",
+      "otherActivities": "Other Activities",
+      "otherActivitiesDesc": "Paintball, bowling alleys, go-karting & arcades",
+
+      "residentialProperties": "Residential Properties",
+      "residentialPropertiesDesc": "Flats, townhouses & homes in prime neighborhoods",
+      "commercialProperties": "Commercial Properties",
+      "commercialPropertiesDesc": "Offices, retail spaces, plazas & commercial plots",
+      "apartmentsFlats": "Apartments & Flats",
+      "apartmentsFlatsDesc": "Modern luxury high-rise units & cozy apartments",
+      "housesVillas": "Houses & Villas",
+      "housesVillasDesc": "Independent duplexes, standalone homes & villas",
+      "landPlots": "Land & Plots",
+      "landPlotsDesc": "Verified residential, commercial & farmland plots",
+      "newDevelopments": "New Developments",
+      "newDevelopmentsDesc": "Pre-launch gated communities & off-plan deals",
+
+      "popularLocations": "Popular Locations",
+      "popularLocationsDesc": "Explore top cities, metropolitan hubs & scenic regions",
+      "featuredProperties": "Featured Properties",
+      "featuredPropertiesDesc": "Curated premium listings with top ratings & reviews",
+      "popularHotels": "Popular Hotels",
+      "popularHotelsDesc": "Traveler favorite stays across premier tourist destinations",
+      "recentlyAdded": "Recently Added",
+      "recentlyAddedDesc": "Latest verified listings updated daily across all categories",
+      "verifiedGuarantee": "Verified Guarantee",
+      "verifiedGuaranteeDesc": "Transparent trust standards and host verification framework",
+      "aboutFindBookStay": "About FindBookStay",
+      "aboutFindBookStayDesc": "Our story, vision, partner program & support team"
+    },
+    "badges": {
+      "popular": "Popular",
+      "hot": "Hot",
+      "trending": "Trending",
+      "new": "New",
+      "live": "Live"
+    },
+    "megaMenu": {
+      "browseTop": "Browse top verified listings",
+      "exploreAll": "Explore All"
+    },
+    "userMenu": {
+      "logIn": "Log In",
+      "signUp": "Sign Up",
+      "myBookings": "My Bookings & Stays",
+      "myBookingsDesc": "Manage trips & reservations",
+      "myListings": "My Posted Listings",
+      "myListingsDesc": "Properties, spaces & stats",
+      "savedFavorites": "Saved Favorites",
+      "savedFavoritesDesc": "Your wishlist collection",
+      "accountSettings": "Account Settings",
+      "accountSettingsDesc": "Security & preferences",
+      "helpSupport": "Help & Support",
+      "helpSupportDesc": "24/7 dedicated support",
+      "signOut": "Sign Out",
+      "language": "Language"
+    },
+    "mobile": {
+      "menu": "Menu",
+      "createAccount": "Create Free Account",
+      "logIn": "Log In",
+      "saved": "Saved",
+      "alerts": "Alerts",
+      "trips": "Trips",
+      "manage": "Manage",
+      "newAlerts": "new",
+      "postListingFree": "Post Your Listing For Free",
+      "browseCategories": "Browse Categories",
+      "supportHotline": "24/7 Dedicated Support Hotline"
+    },
+    "favorites": {
+      "title": "Saved Favorites",
+      "viewWishlist": "View Wishlist",
+      "empty": "No saved properties yet",
+      "emptyDesc": "Click the heart icon on any listing to save it for quick review later.",
+      "explore": "Explore Listings",
+      "remove": "Remove"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "markAllRead": "Mark all as read",
+      "all": "All Notifications",
+      "unreadOnly": "Unread Only",
+      "empty": "No notifications right now",
+      "emptyDesc": "When verified bookings or lease updates occur, they will show up here.",
+      "viewAll": "View All Notifications"
+    }
+  }
+}

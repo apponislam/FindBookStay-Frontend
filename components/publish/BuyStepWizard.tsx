@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Building2, MapPin, DollarSign, Bed, Bath, UploadCloud, Check, PhoneCall, User, ArrowRight, ArrowLeft, Trash2, Home, Layers, ChevronDown } from "@/components/Icons";
+import { Building2, MapPin, Banknote, Bed, Bath, UploadCloud, Check, PhoneCall, User, ArrowRight, ArrowLeft, Trash2, Home, Layers, ChevronDown } from "@/components/Icons";
 import { PublishStepper, StepItem } from "./PublishStepper";
 import { PublishLiveCard, LivePreviewData } from "./PublishLiveCard";
 import { PublishSuccess } from "./PublishSuccess";
@@ -12,7 +12,7 @@ const BUY_STEPS: StepItem[] = [
     { id: 2, title: "Location", icon: MapPin },
     { id: 3, title: "Specs & Legal", icon: Layers },
     { id: 4, title: "Media Gallery", icon: UploadCloud },
-    { id: 5, title: "Asking Price", icon: DollarSign },
+    { id: 5, title: "Asking Price", icon: Banknote },
 ];
 
 const PROPERTY_CATEGORIES = [
@@ -386,7 +386,7 @@ export const BuyStepWizard = () => {
                                         <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Asking Price in Lakh BDT (100 Lakh = 1 Crore) *</label>
                                         <div className="relative">
                                             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-black text-muted-foreground select-none">৳</span>
-                                            <input type="number" value={askingPriceLakh} onChange={(e) => setAskingPriceLakh(e.target.value)} placeholder="375" className="w-full pl-8 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
+                                            <input type="number" value={askingPriceLakh} onChange={(e) => setAskingPriceLakh(e.target.value)} placeholder="0" className="w-full pl-8 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
                                         </div>
                                         <span className="text-xs font-extrabold text-primary block">Formatted: {formatBanglaPrice(Number(askingPriceLakh || 0))}</span>
                                     </div>

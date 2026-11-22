@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
     Bell,
     Check,
@@ -38,6 +39,9 @@ export const NotificationsDropdown = ({
     onMarkAllAsRead,
     onNotificationClick,
 }: NotificationsDropdownProps) => {
+    const t = useTranslations("Header.notifications");
+    const tMobile = useTranslations("Header.mobile");
+
     if (!isOpen) return null;
 
     const unreadCount = notifications.filter((n) => n.unread).length;
@@ -59,10 +63,10 @@ export const NotificationsDropdown = ({
                 {/* Header */}
                 <div className="p-4 border-b border-border flex items-center justify-between bg-surface/50 shrink-0">
                     <div className="flex items-center gap-2">
-                        <span className="text-sm font-extrabold text-foreground">Notifications</span>
+                        <span className="text-sm font-extrabold text-foreground">{t("title")}</span>
                         {unreadCount > 0 ? (
                             <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-accent/15 text-accent">
-                                {unreadCount} new
+                                {unreadCount} {tMobile("newAlerts")}
                             </span>
                         ) : (
                             <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-surface-secondary text-muted-foreground">
@@ -79,7 +83,7 @@ export const NotificationsDropdown = ({
                                 className="inline-flex items-center gap-1 text-[11px] font-bold text-primary hover:text-primary-hover transition-colors cursor-pointer"
                             >
                                 <Check className="size-3" />
-                                <span>Mark all read</span>
+                                <span>{t("markAllRead")}</span>
                             </button>
                         )}
                         {/* Mobile Close Button */}
@@ -101,9 +105,9 @@ export const NotificationsDropdown = ({
                         <div className="size-10 rounded-full bg-surface-secondary text-muted-foreground flex items-center justify-center mx-auto">
                             <Bell className="size-5" />
                         </div>
-                        <p className="text-xs font-bold text-foreground">No notifications yet</p>
+                        <p className="text-xs font-bold text-foreground">{t("empty")}</p>
                         <p className="text-[11px] text-muted-foreground">
-                            When verified bookings or lease updates occur, they will show up here.
+                            {t("emptyDesc")}
                         </p>
                     </div>
                 ) : (
@@ -165,7 +169,7 @@ export const NotificationsDropdown = ({
                     onClick={onClose}
                     className="inline-flex items-center justify-center gap-1.5 text-xs font-extrabold text-primary hover:text-primary-hover transition-colors w-full py-1 cursor-pointer"
                 >
-                    <span>View all notifications</span>
+                    <span>{t("viewAll")}</span>
                     <ArrowRight className="size-3.5" />
                 </Link>
             </div>

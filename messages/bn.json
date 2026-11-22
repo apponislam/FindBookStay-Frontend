@@ -1,1 +1,134 @@
-{}
+{
+  "Header": {
+    "nav": {
+      "rent": "ভাড়া",
+      "book": "হোটেল ও রিসোর্ট",
+      "sports": "স্পোর্টস টার্ফ",
+      "buy": "ক্রয়-বিক্রয়",
+      "explore": "এক্সপ্লোর"
+    },
+    "sub": {
+      "familyApartments": "ফ্যামিলি অ্যাপার্টমেন্ট",
+      "familyApartmentsDesc": "নিরাপদ এলাকায় ২ থেকে ৪ বেডরুমের ভাড়াবাসা",
+      "familyHouses": "সম্পূর্ণ বাড়ি / ভিলা",
+      "familyHousesDesc": "স্বতন্ত্র ডুপ্লেক্স, ভিলা এবং স্বাধীন বাড়ি",
+      "bachelorSeats": "ব্যাচেলর সিট",
+      "bachelorSeatsDesc": "ওয়াইফাই, খাবার ও সুবিধাসহ সিঙ্গেল ও শেয়ার্ড সিট",
+      "sharedRooms": "শেয়ার্ড রুম",
+      "sharedRoomsDesc": "যাচাইকৃত রুমমেটদের সাথে সাশ্রয়ী রুম",
+      "monthlySublets": "মাসিক সাবলেট",
+      "monthlySubletsDesc": "সুসজ্জিত স্বল্প ও মধ্যমেয়াদী মাসিক ভাড়া",
+      "commercialRentals": "বাণিজ্যিক স্পেস",
+      "commercialRentalsDesc": "কর্পোরেট অফিস, শোরুম ও দোকান স্পেস",
+
+      "hotels": "হোটেল",
+      "hotelsDesc": "সেরা ৫-তারকা, বুটিক ও বাজেট সিটি হোটেল",
+      "resorts": "রিসোর্ট",
+      "resortsDesc": "লেক, সমুদ্র ও পাহাড়ের মনোরম প্রকৃতির রিসোর্ট",
+      "guestHouses": "গেস্ট হাউস",
+      "guestHousesDesc": "আতিথেয়তাপূর্ণ হোম-স্টে ও বেড-অ্যান্ড-ব্রেকফাস্ট",
+      "holidayHomes": "হলিডে হোমস",
+      "holidayHomesDesc": "প্রাইভেট বিচ ভিলা, কটেজ ও অবকাশকালীন বাড়ি",
+      "shortStayApartments": "শর্ট-স্টে অ্যাপার্টমেন্ট",
+      "shortStayApartmentsDesc": "রান্নাঘর ও সুবিধাসহ আধুনিক এক্সিকিউটিভ স্যুট",
+      "luxuryVipSuites": "লাক্সারি ভিআইপি স্যুট",
+      "luxuryVipSuitesDesc": "এক্সক্লুসিভ পেন্টহাউস ও প্রিমিয়াম উইকএন্ড স্টে",
+
+      "turfBooking": "টার্ফ বুকিং",
+      "turfBookingDesc": "ফ্লাডলাইটযুক্ত কৃত্রিম ঘাসের ফুটবল ও ক্রিকেট টার্ফ",
+      "footballGrounds": "ফুটবল মাঠ",
+      "footballGroundsDesc": "ক্লাব ম্যাচের জন্য স্ট্যান্ডার্ড সাইজের ঘাসের মাঠ",
+      "indoorSportsCourts": "ইনডোর স্পোর্টস কোর্ট",
+      "indoorSportsCourtsDesc": "ব্যাডমিন্টন, বাস্কেটবল, টেবিল টেনিস ও ফুটসাল",
+      "swimmingWellness": "সুইমিং ও ওয়েলনেস",
+      "swimmingWellnessDesc": "অলিম্পিক সুইমিং পুল, হেলথ ক্লাব ও ফিটনেস হাব",
+      "tournamentVenues": "টুর্নামেন্ট ভেন্যু",
+      "tournamentVenuesDesc": "সম্পূর্ণ স্পোর্টস কমপ্লেক্স ও করপোরেট লিগ ভেন্যু",
+      "otherActivities": "অন্যান্য বিনোদন",
+      "otherActivitiesDesc": "পেইন্টবল, বোলিং, গো-কার্ট ও আর্কেড গেমস",
+
+      "residentialProperties": "আবাসিক সম্পত্তি",
+      "residentialPropertiesDesc": "প্রধান এলাকায় ফ্ল্যাট, টাউনহাউস ও প্লট",
+      "commercialProperties": "বাণিজ্যিক সম্পত্তি",
+      "commercialPropertiesDesc": "অফিস, বাণিজ্যিক স্পেস ও প্লাজা",
+      "apartmentsFlats": "রেডি ফ্ল্যাট ও অ্যাপার্টমেন্ট",
+      "apartmentsFlatsDesc": "আধুনিক বিলাসবহুল হাই-রাইজ ইউনিট ও ফ্ল্যাট",
+      "housesVillas": "বাড়ি ও ডুপ্লেক্স ভিলা",
+      "housesVillasDesc": "স্বতন্ত্র ডুপ্লেক্স, আলিশান ভিলা ও বাড়ি",
+      "landPlots": "জমি ও প্লট",
+      "landPlotsDesc": "যাচাইকৃত আবাসিক ও বাণিজ্যিক প্লট",
+      "newDevelopments": "নতুন প্রজেক্ট",
+      "newDevelopmentsDesc": "প্রি-লঞ্চ গেটেড কমিউনিটি ও রিয়েল এস্টেট প্রজেক্ট",
+
+      "popularLocations": "জনপ্রিয় এলাকা",
+      "popularLocationsDesc": "প্রধান শহর ও পর্যটন এলাকাগুলো ঘুরে দেখুন",
+      "featuredProperties": "সেরা প্রপার্টি",
+      "featuredPropertiesDesc": "শীর্ষ রেটিং ও রিভিউ প্রাপ্ত প্রিমিয়াম লিস্টিং",
+      "popularHotels": "জনপ্রিয় হোটেল",
+      "popularHotelsDesc": "ভ্রমণকারীদের প্রিয় ও শীর্ষ পর্যটন হোটেল",
+      "recentlyAdded": "নতুন যুক্ত তালিকা",
+      "recentlyAddedDesc": "প্রতিদিন যুক্ত হওয়া সর্বশেষ যাচাইকৃত লিস্টিং",
+      "verifiedGuarantee": "ভেরিফায়েড গ্যারান্টি",
+      "verifiedGuaranteeDesc": "শতভাগ স্বচ্ছতা ও হোস্ট ভেরিফিকেশন নীতিমালা",
+      "aboutFindBookStay": "ফাইন্ডবুকস্টে সম্পর্কে",
+      "aboutFindBookStayDesc": "আমাদের লক্ষ্য, পার্টনারশিপ ও ২৪/৭ সাপোর্ট টিম"
+    },
+    "badges": {
+      "popular": "জনপ্রিয়",
+      "hot": "হট",
+      "trending": "ট্রেন্ডিং",
+      "new": "নতুন",
+      "live": "লাইভ"
+    },
+    "megaMenu": {
+      "browseTop": "যাচাইকৃত সেরা লিস্টিং দেখুন",
+      "exploreAll": "সকল"
+    },
+    "userMenu": {
+      "logIn": "লগ ইন",
+      "signUp": "সাইন আপ",
+      "myBookings": "আমার বুকিং ও স্টে",
+      "myBookingsDesc": "বুকিং ও রিজার্ভেশন পরিচালনা করুন",
+      "myListings": "আমার পোস্টকৃত লিস্টিং",
+      "myListingsDesc": "প্রপার্টি ও পরিসংখ্যান",
+      "savedFavorites": "পছন্দের তালিকা",
+      "savedFavoritesDesc": "আপনার উইশলিস্ট কালেকশন",
+      "accountSettings": "অ্যাকাউন্ট সেটিংস",
+      "accountSettingsDesc": "নিরাপত্তা ও পছন্দসমূহ",
+      "helpSupport": "হেল্প ও সাপোর্ট",
+      "helpSupportDesc": "২৪/৭ কাস্টমার সহায়তা",
+      "signOut": "সাইন আউট",
+      "language": "ভাষা"
+    },
+    "mobile": {
+      "menu": "মেনু",
+      "createAccount": "ফ্রি অ্যাকাউন্ট তৈরি করুন",
+      "logIn": "লগ ইন",
+      "saved": "সংরক্ষিত",
+      "alerts": "নোটিফিকেশন",
+      "trips": "বুকিং",
+      "manage": "ম্যানেজ",
+      "newAlerts": "নতুন",
+      "postListingFree": "বিনামূল্যে বিজ্ঞাপন দিন",
+      "browseCategories": "ক্যাটাগরি সমূহ",
+      "supportHotline": "২৪/৭ সার্বক্ষণিক হেল্পলাইন"
+    },
+    "favorites": {
+      "title": "পছন্দের তালিকা",
+      "viewWishlist": "উইশলিস্ট দেখুন",
+      "empty": "এখনো কোনো প্রপার্টি সংরক্ষণ করেননি",
+      "emptyDesc": "পরবর্তীতে দ্রুত খুঁজে পেতে যেকোনো লিস্টিংয়ে হার্ট আইকনে চাপুন।",
+      "explore": "লিস্টিং ব্রাউজ করুন",
+      "remove": "মুছে ফেলুন"
+    },
+    "notifications": {
+      "title": "নোটিফিকেশন",
+      "markAllRead": "সব পঠিত মার্ক করুন",
+      "all": "সকল নোটিফিকেশন",
+      "unreadOnly": "অপঠিত",
+      "empty": "এখন কোনো নোটিফিকেশন নেই",
+      "emptyDesc": "বুকিং বা লিস্টিংয়ের যেকোনো আপডেট এখানে প্রদর্শিত হবে।",
+      "viewAll": "সকল নোটিফিকেশন দেখুন"
+    }
+  }
+}

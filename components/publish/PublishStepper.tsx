@@ -31,7 +31,7 @@ export const PublishStepper = ({ steps, currentStep, onSelectStep, pillarBadge }
                             <X className="size-3.5" />
                             <span className="hidden xs:inline">Exit</span>
                         </Link>
-                        <span className="px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-primary/10 border border-primary/20 text-primary whitespace-nowrap truncate max-w-32.5 sm:max-w-none">{pillarBadge}</span>
+                        <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-primary/10 border border-primary/20 text-primary whitespace-nowrap shrink-0">{pillarBadge}</span>
                     </div>
 
                     {/* Right: Step Counter & Theme Switcher */}
@@ -40,7 +40,7 @@ export const PublishStepper = ({ steps, currentStep, onSelectStep, pillarBadge }
                             <span className="text-muted-foreground">Step </span>
                             <span className="font-mono text-xs font-black text-emerald-500">{currentStep}</span>
                             <span className="text-muted-foreground"> of {steps.length}</span>
-                            <span className="hidden md:inline text-muted-foreground">: </span>max-w-32.5
+                            <span className="hidden md:inline text-muted-foreground">: </span>
                             <span className="hidden md:inline text-foreground font-extrabold">{steps[currentStep - 1]?.title}</span>
                         </div>
                         <ModeToggle />

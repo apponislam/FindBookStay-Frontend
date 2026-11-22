@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Hotel, MapPin, DollarSign, Users, Bed, UploadCloud, Check, PhoneCall, User, ArrowRight, ArrowLeft, Trash2, Palmtree, Coffee, ChevronDown } from "@/components/Icons";
+import { Hotel, MapPin, Banknote, Users, Bed, UploadCloud, Check, PhoneCall, User, ArrowRight, ArrowLeft, Trash2, Palmtree, Coffee, ChevronDown } from "@/components/Icons";
 import { PublishStepper, StepItem } from "./PublishStepper";
 import { PublishLiveCard, LivePreviewData } from "./PublishLiveCard";
 import { PublishSuccess } from "./PublishSuccess";
@@ -12,7 +12,7 @@ const BOOK_STEPS: StepItem[] = [
     { id: 2, title: "Location", icon: MapPin },
     { id: 3, title: "Rooms & Amenities", icon: Users },
     { id: 4, title: "Gallery", icon: UploadCloud },
-    { id: 5, title: "Nightly Rates", icon: DollarSign },
+    { id: 5, title: "Nightly Rates", icon: Banknote },
 ];
 
 const STAY_CATEGORIES = [
@@ -350,13 +350,16 @@ export const BookStepWizard = () => {
                                         <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Weekday Rate (BDT / Night) *</label>
                                         <div className="relative">
                                             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-black text-muted-foreground select-none">৳</span>
-                                            <input type="number" value={nightlyRate} onChange={(e) => setNightlyRate(e.target.value)} placeholder="12500" className="w-full pl-8 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
+                                            <input type="number" value={nightlyRate} onChange={(e) => setNightlyRate(e.target.value)} placeholder="0" className="w-full pl-8 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
                                         </div>
                                     </div>
 
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Weekend Rate (BDT / Night)</label>
-                                        <input type="number" value={weekendRate} onChange={(e) => setWeekendRate(e.target.value)} placeholder="14500" className="w-full px-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
+                                        <div className="relative">
+                                            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-black text-muted-foreground select-none">৳</span>
+                                            <input type="number" value={weekendRate} onChange={(e) => setWeekendRate(e.target.value)} placeholder="0" className="w-full pl-8 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
+                                        </div>
                                     </div>
                                 </div>
 

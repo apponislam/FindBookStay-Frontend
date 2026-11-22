@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
     ChevronDown,
     X,
@@ -16,11 +17,14 @@ import {
     Building,
     Settings,
     LogOut,
-    CheckCircle2,
+    Globe,
+    Check,
 } from "@/components/Icons";
 import { getImageUrl } from "@/lib/utils";
 import type { CategoryMenu } from "@/constants/routes";
 import type { TUser } from "@/redux/features/auth/authSlice";
+import { useLocale } from "@/hooks/useLocale";
+import { usePathname, useRouter } from "@/i18n/navigation";
 
 interface MobileDrawerProps {
     isOpen: boolean;
@@ -47,6 +51,14 @@ const MobileDrawer = ({
     favoritesCount,
     unreadNotificationsCount = 0,
 }: MobileDrawerProps) => {
+    const t = useTranslations("Header.mobile");
+    const tUser = useTranslations("Header.userMenu");
+    const tMega = useTranslations("Header.megaMenu");
+    const { locale } = useLocale();
+    const router = useRouter();
+    const pathname = usePathname();
+    const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+
     if (!isOpen) return null;
 
     const initials = user?.name
@@ -63,7 +75,6 @@ const MobileDrawer = ({
 
     const displayName = user?.name || "User";
     const displayEmail = user?.email || "";
-    const isVerified = Boolean(user?.isEmailVerified);
 
     return (
         <div className="fixed inset-0 z-50 lg:hidden">
@@ -104,6 +115,70 @@ const MobileDrawer = ({
                         </button>
                     </div>
 
+                    {/* Collapsible Language Selection System (No Country Flags/Logos) */}
+                    <div className="py-2 px-3 border-b border-border/70">
+                        <div className="rounded-xl border border-border/60 bg-surface-secondary/30 overflow-hidden shadow-2xs">
+                            <button
+                                type="button"
+                                onClick={() => setIsLanguageOpen((prev) => !prev)}
+                                aria-expanded={isLanguageOpen}
+                                className="cursor-pointer w-full flex items-center justify-between p-3 text-xs font-bold text-foreground hover:bg-surface-secondary transition-colors"
+                            >
+                                <span className="flex items-center gap-2">
+                                    <Globe className="size-4 text-primary shrink-0" />
+                                    <span>{tUser("language")}</span>
+                                </span>
+                                <div className="flex items-center gap-2">
+                                    <span className="px-2 py-0.5 rounded-md text-[11px] font-black bg-primary/10 text-primary border border-primary/20">
+                                        {locale === "bn" ? "বাংলা" : "English"}
+                                    </span>
+                                    <ChevronDown
+                                        className={`size-3.5 text-muted-foreground transition-transform duration-200 ${
+                                            isLanguageOpen ? "rotate-180 text-primary" : ""
+                                        }`}
+                                    />
+                                </div>
+                            </button>
+
+                            {/* Collapsible Body */}
+                            {isLanguageOpen && (
+                                <div className="p-2 space-y-1 bg-surface-secondary/60 border-t border-border/60 animate-in slide-in-from-top-1 duration-150">
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            router.replace(pathname, { locale: "bn" });
+                                            onClose();
+                                        }}
+                                        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all cursor-pointer select-none text-left text-xs ${
+                                            locale === "bn"
+                                                ? "bg-white dark:bg-card border border-primary/30 text-primary shadow-xs font-bold"
+                                                : "hover:bg-surface text-foreground border border-transparent font-medium"
+                                        }`}
+                                    >
+                                        <span>বাংলা</span>
+                                        {locale === "bn" && <Check className="size-3.5 text-primary stroke3" />}
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            router.replace(pathname, { locale: "en" });
+                                            onClose();
+                                        }}
+                                        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all cursor-pointer select-none text-left text-xs ${
+                                            locale === "en"
+                                                ? "bg-white dark:bg-card border border-primary/30 text-primary shadow-xs font-bold"
+                                                : "hover:bg-surface text-foreground border border-transparent font-medium"
+                                        }`}
+                                    >
+                                        <span>English</span>
+                                        {locale === "en" && <Check className="size-3.5 text-primary stroke3" />}
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
                     {/* 2. Top Profile (Logged In) OR Auth CTA (Logged Out) */}
                     <div className="p-4 bg-surface/50">
                         {isAuthenticated ? (
@@ -124,28 +199,9 @@ const MobileDrawer = ({
                                                 initials
                                             )}
                                         </div>
-                                        <div
-                                            className={`absolute -bottom-0.5 -right-0.5 size-4 rounded-full text-white flex items-center justify-center ring-2 ring-background shadow-xs z-10 ${
-                                                isVerified ? "bg-accent" : "bg-amber-500"
-                                            }`}
-                                            title={isVerified ? "Verified Account" : "Unverified Account"}
-                                        >
-                                            <CheckCircle2 className="size-3 text-white" />
-                                        </div>
                                     </div>
                                     <div className="min-w-0 flex-1">
-                                        <div className="flex items-center gap-1.5">
-                                            <h4 className="text-[13.5px] font-bold text-foreground truncate">{displayName}</h4>
-                                            <span
-                                                className={`shrink-0 px-1.5 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider border ${
-                                                    isVerified
-                                                        ? "bg-accent/15 text-accent border-accent/20"
-                                                        : "bg-amber-500/15 text-amber-500 border-amber-500/30"
-                                                }`}
-                                            >
-                                                {isVerified ? "Verified" : "Unverified"}
-                                            </span>
-                                        </div>
+                                        <h4 className="text-[13.5px] font-bold text-foreground truncate">{displayName}</h4>
                                         {displayEmail && (
                                             <p className="text-[11.5px] text-muted-foreground truncate mt-0.5">{displayEmail}</p>
                                         )}
@@ -160,7 +216,7 @@ const MobileDrawer = ({
                                         className="cursor-pointer flex flex-col items-center justify-center p-2 rounded-xl bg-background border border-border hover:border-accent/40 text-center transition-colors shadow-2xs"
                                     >
                                         <Heart className="size-4 text-accent mb-0.5" />
-                                        <span className="text-[10.5px] font-semibold text-foreground">Saved</span>
+                                        <span className="text-[10.5px] font-semibold text-foreground">{t("saved")}</span>
                                         <span className="text-[9.5px] text-accent font-bold">{favoritesCount}</span>
                                     </Link>
                                     <Link
@@ -169,8 +225,8 @@ const MobileDrawer = ({
                                         className="cursor-pointer flex flex-col items-center justify-center p-2 rounded-xl bg-background border border-border hover:border-accent/40 text-center transition-colors shadow-2xs"
                                     >
                                         <Bell className="size-4 text-primary mb-0.5" />
-                                        <span className="text-[10.5px] font-semibold text-foreground">Alerts</span>
-                                        <span className="text-[9.5px] text-primary font-bold">{unreadNotificationsCount} new</span>
+                                        <span className="text-[10.5px] font-semibold text-foreground">{t("alerts")}</span>
+                                        <span className="text-[9.5px] text-primary font-bold">{unreadNotificationsCount} {t("newAlerts")}</span>
                                     </Link>
                                     <Link
                                         href="/my-bookings"
@@ -178,8 +234,8 @@ const MobileDrawer = ({
                                         className="cursor-pointer flex flex-col items-center justify-center p-2 rounded-xl bg-background border border-border hover:border-accent/40 text-center transition-colors shadow-2xs"
                                     >
                                         <CalendarDays className="size-4 text-accent mb-0.5" />
-                                        <span className="text-[10.5px] font-semibold text-foreground">Trips</span>
-                                        <span className="text-[9.5px] text-muted-foreground">Manage</span>
+                                        <span className="text-[10.5px] font-semibold text-foreground">{t("trips")}</span>
+                                        <span className="text-[9.5px] text-muted-foreground">{t("manage")}</span>
                                     </Link>
                                 </div>
                             </div>
@@ -190,7 +246,7 @@ const MobileDrawer = ({
                                     onClick={onClose}
                                     className="cursor-pointer w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-linear-to-r from-accent to-accent-hover text-white text-xs font-bold shadow-[0_4px_12px_rgba(16,185,129,0.28)] hover:shadow-[0_6px_16px_rgba(16,185,129,0.38)] transition-all"
                                 >
-                                    <span>Create Free Account</span>
+                                    <span>{t("createAccount")}</span>
                                     <ArrowRight className="size-3.5" />
                                 </Link>
                                 <div className="grid grid-cols-2 gap-2">
@@ -200,7 +256,7 @@ const MobileDrawer = ({
                                         className="cursor-pointer flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl border border-border bg-background text-foreground text-xs font-semibold hover:bg-surface-secondary hover:border-accent/40 transition-colors shadow-2xs"
                                     >
                                         <User className="size-3.5 text-muted-foreground" />
-                                        <span>Log In</span>
+                                        <span>{t("logIn")}</span>
                                     </Link>
                                     <Link
                                         href="/saved"
@@ -208,7 +264,7 @@ const MobileDrawer = ({
                                         className="cursor-pointer flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl border border-border bg-background text-foreground text-xs font-semibold hover:bg-surface-secondary hover:border-accent/40 transition-colors shadow-2xs"
                                     >
                                         <Heart className="size-3.5 text-accent" />
-                                        <span>Saved ({favoritesCount})</span>
+                                        <span>{t("saved")} ({favoritesCount})</span>
                                     </Link>
                                 </div>
                             </div>
@@ -223,14 +279,14 @@ const MobileDrawer = ({
                             className="cursor-pointer w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground text-xs font-bold shadow-xs transition-colors"
                         >
                             <Plus className="size-4" />
-                            <span>Post Your Listing For Free</span>
+                            <span>{t("postListingFree")}</span>
                         </Link>
                     </div>
 
                     {/* 4. Browse Marketplace Pillars Accordion */}
                     <div className="py-2 px-3 space-y-1">
                         <p className="px-3 pt-2 pb-1 text-[10.5px] font-bold uppercase tracking-wider text-muted-foreground">
-                            Browse Categories
+                            {t("browseCategories")}
                         </p>
                         {categories.map((cat) => {
                             const isExpanded = expandedCategory === cat.id;
@@ -281,7 +337,7 @@ const MobileDrawer = ({
                                                 onClick={onClose}
                                                 className="cursor-pointer block p-2 text-xs font-bold text-accent hover:underline"
                                             >
-                                                Explore All {cat.label} &rarr;
+                                                {tMega("exploreAll")} {cat.label} &rarr;
                                             </Link>
                                         </div>
                                     )}
@@ -293,7 +349,7 @@ const MobileDrawer = ({
                     {/* 5. Account Management & Support Links */}
                     <div className="px-4 py-3 space-y-1">
                         <p className="px-1 pt-1 pb-1 text-[10.5px] font-bold uppercase tracking-wider text-muted-foreground">
-                            Support & Account
+                            {tUser("helpSupport")}
                         </p>
                         {isAuthenticated && (
                             <>
@@ -303,7 +359,7 @@ const MobileDrawer = ({
                                     className="cursor-pointer flex items-center gap-2.5 text-xs font-medium text-foreground p-2 rounded-lg hover:bg-surface-secondary transition-colors"
                                 >
                                     <Building className="size-4 text-primary" />
-                                    <span>My Posted Listings</span>
+                                    <span>{tUser("myListings")}</span>
                                 </Link>
                                 <Link
                                     href="/account/settings"
@@ -311,7 +367,7 @@ const MobileDrawer = ({
                                     className="cursor-pointer flex items-center gap-2.5 text-xs font-medium text-foreground p-2 rounded-lg hover:bg-surface-secondary transition-colors"
                                 >
                                     <Settings className="size-4 text-primary" />
-                                    <span>Account Settings</span>
+                                    <span>{tUser("accountSettings")}</span>
                                 </Link>
                             </>
                         )}
@@ -321,7 +377,7 @@ const MobileDrawer = ({
                             className="cursor-pointer flex items-center gap-2.5 text-xs font-medium text-foreground p-2 rounded-lg hover:bg-surface-secondary transition-colors"
                         >
                             <PhoneCall className="size-4 text-muted-foreground" />
-                            <span>24/7 Dedicated Support Hotline</span>
+                            <span>{t("supportHotline")}</span>
                         </Link>
                     </div>
                 </div>
@@ -340,7 +396,7 @@ const MobileDrawer = ({
                             className="cursor-pointer w-full flex items-center justify-center gap-2 p-2.5 rounded-xl bg-destructive/10 border border-destructive/20 text-xs font-bold text-destructive hover:bg-destructive/20 transition-colors"
                         >
                             <LogOut className="size-4" />
-                            <span>Sign Out</span>
+                            <span>{tUser("signOut")}</span>
                         </button>
                     </div>
                 )}

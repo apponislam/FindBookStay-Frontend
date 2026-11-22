@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Trophy, MapPin, DollarSign, Zap, Clock, UploadCloud, Check, PhoneCall, User, ArrowRight, ArrowLeft, Trash2, Activity, Dumbbell, ChevronDown } from "@/components/Icons";
+import { Trophy, MapPin, Banknote, Clock, UploadCloud, Check, PhoneCall, User, ArrowRight, ArrowLeft, Trash2, Activity, Dumbbell, ChevronDown } from "@/components/Icons";
 import { PublishStepper, StepItem } from "./PublishStepper";
 import { PublishLiveCard, LivePreviewData } from "./PublishLiveCard";
 import { PublishSuccess } from "./PublishSuccess";
@@ -12,7 +12,7 @@ const SPORTS_STEPS: StepItem[] = [
     { id: 2, title: "Location", icon: MapPin },
     { id: 3, title: "Venue Specs", icon: Activity },
     { id: 4, title: "Arena Photos", icon: UploadCloud },
-    { id: 5, title: "Slot Pricing", icon: DollarSign },
+    { id: 5, title: "Slot Pricing", icon: Banknote },
 ];
 
 const SPORT_CATEGORIES = [
@@ -325,15 +325,15 @@ export const SportsStepWizard = () => {
                                         <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Daytime Slot (BDT / Hour) *</label>
                                         <div className="relative">
                                             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-black text-muted-foreground select-none">৳</span>
-                                            <input type="number" value={dayHourlyRate} onChange={(e) => setDayHourlyRate(e.target.value)} placeholder="1800" className="w-full pl-8 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
+                                            <input type="number" value={dayHourlyRate} onChange={(e) => setDayHourlyRate(e.target.value)} placeholder="0" className="w-full pl-8 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
                                         </div>
                                     </div>
 
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Night Floodlit Slot (BDT / Hour) *</label>
                                         <div className="relative">
-                                            <Zap className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-accent" />
-                                            <input type="number" value={nightHourlyRate} onChange={(e) => setNightlyHourlyRate(e.target.value)} placeholder="2400" className="w-full pl-9 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
+                                            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-black text-muted-foreground select-none">৳</span>
+                                            <input type="number" value={nightHourlyRate} onChange={(e) => setNightlyHourlyRate(e.target.value)} placeholder="0" className="w-full pl-8 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
                                         </div>
                                     </div>
                                 </div>

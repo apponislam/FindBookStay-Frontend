@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Home, MapPin, DollarSign, Bed, Bath, UploadCloud, Check, PhoneCall, User, ArrowRight, ArrowLeft, Trash2, Calendar, Layers, ChevronDown } from "@/components/Icons";
+import { Home, MapPin, Banknote, Bed, Bath, UploadCloud, Check, PhoneCall, User, ArrowRight, ArrowLeft, Trash2, Calendar, Layers, ChevronDown } from "@/components/Icons";
 import { PublishStepper, StepItem } from "./PublishStepper";
 import { PublishLiveCard, LivePreviewData } from "./PublishLiveCard";
 import { PublishSuccess } from "./PublishSuccess";
@@ -12,7 +12,7 @@ const RENT_STEPS: StepItem[] = [
     { id: 2, title: "Location", icon: MapPin },
     { id: 3, title: "Specs & Amenities", icon: Layers },
     { id: 4, title: "Photos", icon: UploadCloud },
-    { id: 5, title: "Pricing & Publish", icon: DollarSign },
+    { id: 5, title: "Pricing & Publish", icon: Banknote },
 ];
 
 const CATEGORIES = [
@@ -429,7 +429,7 @@ export const RentStepWizard = () => {
                                         <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Monthly Rent (BDT) *</label>
                                         <div className="relative">
                                             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-black text-muted-foreground select-none">৳</span>
-                                            <input type="number" value={monthlyRent} onChange={(e) => setMonthlyRent(e.target.value)} placeholder="32000" className="w-full pl-8 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
+                                            <input type="number" value={monthlyRent} onChange={(e) => setMonthlyRent(e.target.value)} placeholder="0" className="w-full pl-8 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
                                         </div>
                                     </div>
 
@@ -437,7 +437,7 @@ export const RentStepWizard = () => {
                                         <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Service Charge (BDT)</label>
                                         <div className="relative">
                                             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-black text-muted-foreground select-none">৳</span>
-                                            <input type="number" value={serviceCharge} onChange={(e) => setServiceCharge(e.target.value)} placeholder="4500" className="w-full pl-8 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
+                                            <input type="number" value={serviceCharge} onChange={(e) => setServiceCharge(e.target.value)} placeholder="0" className="w-full pl-8 pr-4 py-3 rounded-2xl bg-surface-secondary/40 dark:bg-surface border border-border focus:border-accent outline-hidden text-base font-black text-foreground" />
                                         </div>
                                     </div>
 

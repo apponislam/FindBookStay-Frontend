@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArrowRight } from "@/components/Icons";
 import type { CategoryMenu } from "@/constants/routes";
 
@@ -13,6 +14,8 @@ interface MegaMenuProps {
 }
 
 const MegaMenu = ({ category, onClose, onMouseEnter, onMouseLeave }: MegaMenuProps) => {
+    const t = useTranslations("Header.megaMenu");
+
     return (
         <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-screen max-w-3xl z-50 px-4 origin-top transition-all duration-300 ease-out animate-in fade-in zoom-in-95 slide-in-from-top-1" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
             {/* Inline keyframe definition to guarantee instant GPU execution */}
@@ -56,10 +59,10 @@ const MegaMenu = ({ category, onClose, onMouseEnter, onMouseLeave }: MegaMenuPro
                     <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-border/70">
                         <div className="flex items-center gap-2">
                             <span className="px-2.5 py-1 rounded-lg bg-surface-secondary text-primary text-[11px] font-bold uppercase tracking-wider">{category.label}</span>
-                            <span className="text-xs text-muted-foreground">Browse top verified listings</span>
+                            <span className="text-xs text-muted-foreground">{t("browseTop")}</span>
                         </div>
                         <Link href={category.href} onClick={onClose} className="group/view cursor-pointer inline-flex items-center gap-1.5 text-xs font-semibold text-accent hover:text-accent-hover transition-colors">
-                            <span>Explore All {category.label}</span>
+                            <span>{t("exploreAll")} {category.label}</span>
                             <ArrowRight className="size-3.5 transition-transform duration-200 group-hover/view:translate-x-1" />
                         </Link>
                     </div>
