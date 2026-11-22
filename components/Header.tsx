@@ -15,6 +15,7 @@ import { INITIAL_SAVED_LISTINGS, SavedListingItem } from "@/constants/savedData"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { currentUser, currentToken, logOut, updateUserState } from "@/redux/features/auth/authSlice";
 import { useGetMeQuery, useLogoutMutation, authApi } from "@/redux/features/auth/authApi";
+import { getImageUrl } from "@/lib/utils";
 import { ModeToggle } from "./mode-toggle";
 
 const Header = () => {
@@ -39,16 +40,29 @@ const Header = () => {
     const [userDropdownOpen, setUserDropdownOpen] = useState(false);
     const [savedDropdownOpen, setSavedDropdownOpen] = useState(false);
     const [notificationsDropdownOpen, setNotificationsDropdownOpen] = useState(false);
-    const [demoAuth, setDemoAuth] = useState(false);
 
     // Live state for saved listings and notifications
     const [savedItems, setSavedItems] = useState<SavedListingItem[]>(INITIAL_SAVED_LISTINGS);
     const [notifications, setNotifications] = useState<NotificationItem[]>(INITIAL_NOTIFICATIONS);
 
-    const isAuthenticated = Boolean(user && token) || demoAuth;
+    const isAuthenticated = Boolean(user && token);
 
     const favoritesCount = savedItems.length;
     const unreadNotificationsCount = notifications.filter((n) => n.unread).length;
+
+    const initials = user?.name
+        ? user.name
+              .split(" ")
+              .filter(Boolean)
+              .map((n) => n[0])
+              .slice(0, 2)
+              .join("")
+              .toUpperCase()
+        : user?.email
+          ? user.email[0].toUpperCase()
+          : "U";
+
+    const displayName = user?.name || "User";
 
     const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
     const navContainerRef = useRef<HTMLDivElement>(null);
@@ -80,7 +94,6 @@ const Header = () => {
         } finally {
             dispatch(logOut());
             dispatch(authApi.util.resetApiState());
-            setDemoAuth(false);
             setUserDropdownOpen(false);
             setSavedDropdownOpen(false);
             setNotificationsDropdownOpen(false);
@@ -192,8 +205,8 @@ const Header = () => {
                             {/* Mode Toggle */}
                             <ModeToggle className="size-8 sm:size-9" />
 
-                            {/* Saved / Favorites Dropdown Trigger */}
-                            <div ref={savedMenuRef} className="relative">
+                            {/* Desktop-only: Saved / Favorites Dropdown Trigger */}
+                            <div ref={savedMenuRef} className="hidden lg:block relative">
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -222,9 +235,9 @@ const Header = () => {
                                 />
                             </div>
 
-                            {/* Notifications Dropdown Trigger (Authenticated & Demo) */}
+                            {/* Desktop-only: Notifications Dropdown Trigger */}
                             {isAuthenticated && (
-                                <div ref={notificationsMenuRef} className="relative">
+                                <div ref={notificationsMenuRef} className="hidden lg:block relative">
                                     <button
                                         type="button"
                                         onClick={() => {
@@ -255,13 +268,12 @@ const Header = () => {
                                 </div>
                             )}
 
-                            {/* User Profile / Guest Menu */}
-                            <div ref={userMenuRef} className="relative">
+                            {/* Desktop-only: User Profile / Guest Menu */}
+                            <div ref={userMenuRef} className="hidden lg:block relative">
                                 <UserMenu
                                     isAuthenticated={isAuthenticated}
                                     user={user}
                                     onLogout={handleLogout}
-                                    onToggleAuth={setDemoAuth}
                                     favoritesCount={favoritesCount}
                                     isOpen={userDropdownOpen}
                                     onToggle={() => {
@@ -273,7 +285,7 @@ const Header = () => {
                                 />
                             </div>
 
-                            {/* Mobile Drawer Hamburger Trigger */}
+                            {/* Mobile-only: Modern Right Side Trigger (Opens All Links) */}
                             <button
                                 type="button"
                                 onClick={() => {
@@ -282,10 +294,37 @@ const Header = () => {
                                     setNotificationsDropdownOpen(false);
                                     setMobileDrawerOpen(true);
                                 }}
-                                className="cursor-pointer lg:hidden p-1.5 sm:p-2 rounded-xl text-foreground hover:bg-surface-secondary transition-colors focus:outline-none"
+                                className="cursor-pointer lg:hidden flex items-center gap-1.5 p-1 pl-1.5 pr-2.5 rounded-full border border-border hover:border-accent/50 bg-background hover:bg-surface-secondary shadow-2xs transition-all duration-200"
                                 aria-label="Open mobile navigation menu"
                             >
-                                <Menu className="size-5 sm:size-6" />
+                                {isAuthenticated ? (
+                                    <>
+                                        <div className="relative size-7 shrink-0">
+                                            <div className="relative size-full rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center text-xs font-bold uppercase overflow-hidden shadow-2xs">
+                                                {user?.profileImage ? (
+                                                    <Image
+                                                        src={getImageUrl(user.profileImage)}
+                                                        alt={displayName}
+                                                        fill
+                                                        sizes="28px"
+                                                        className="rounded-full object-cover"
+                                                    />
+                                                ) : (
+                                                    initials
+                                                )}
+                                            </div>
+                                            {(unreadNotificationsCount > 0 || favoritesCount > 0) && (
+                                                <span className="absolute -top-0.5 -right-0.5 size-2.5 rounded-full bg-accent ring-2 ring-background animate-pulse" />
+                                            )}
+                                        </div>
+                                        <Menu className="size-4 text-foreground" />
+                                    </>
+                                ) : (
+                                    <div className="flex items-center gap-1.5 px-1 py-0.5">
+                                        <Menu className="size-4.5 text-foreground" />
+                                        <span className="text-xs font-semibold text-foreground">Menu</span>
+                                    </div>
+                                )}
                             </button>
                         </div>
                     </div>
@@ -293,7 +332,18 @@ const Header = () => {
             </header>
 
             {/* 4. Mobile Navigation Drawer */}
-            <MobileDrawer isOpen={mobileDrawerOpen} onClose={() => setMobileDrawerOpen(false)} categories={CATEGORIES} expandedCategory={mobileExpandedCat} onToggleCategory={toggleMobileCategory} isAuthenticated={isAuthenticated} user={user} onLogout={handleLogout} onToggleAuth={setDemoAuth} favoritesCount={favoritesCount} />
+            <MobileDrawer
+                isOpen={mobileDrawerOpen}
+                onClose={() => setMobileDrawerOpen(false)}
+                categories={CATEGORIES}
+                expandedCategory={mobileExpandedCat}
+                onToggleCategory={toggleMobileCategory}
+                isAuthenticated={isAuthenticated}
+                user={user}
+                onLogout={handleLogout}
+                favoritesCount={favoritesCount}
+                unreadNotificationsCount={unreadNotificationsCount}
+            />
         </>
     );
 };

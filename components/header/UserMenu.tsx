@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronDown, ChevronRight, User, Heart, Settings, LogOut, CheckCircle2, HelpCircle, SlidersHorizontal, CalendarDays, Building, ArrowRight, X } from "@/components/Icons";
+import { ChevronDown, ChevronRight, User, Heart, Settings, LogOut, CheckCircle2, HelpCircle, CalendarDays, Building, ArrowRight, X } from "@/components/Icons";
 import { getImageUrl } from "@/lib/utils";
 import type { TUser } from "@/redux/features/auth/authSlice";
 
@@ -33,14 +33,13 @@ interface UserMenuProps {
     isAuthenticated: boolean;
     user?: TUser | null;
     onLogout?: () => void;
-    onToggleAuth: (val: boolean) => void;
     favoritesCount: number;
     isOpen: boolean;
     onToggle: () => void;
     onClose: () => void;
 }
 
-const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCount, isOpen, onToggle, onClose }: UserMenuProps) => {
+const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onToggle, onClose }: UserMenuProps) => {
     // Compute initials from user name or fallback
     const initials = user?.name
         ? user.name
@@ -50,10 +49,12 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
               .slice(0, 2)
               .join("")
               .toUpperCase()
-        : "AI";
+        : user?.email
+          ? user.email[0].toUpperCase()
+          : "U";
 
     const displayName = user?.name || "User";
-    const displayEmail = user?.email || "user@findbookstay.com";
+    const displayEmail = user?.email || "";
     const isVerified = Boolean(user?.isEmailVerified);
     const shortName = getHeaderShortName(user?.name);
 
@@ -64,34 +65,22 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
         return (
             <div className="flex items-center gap-1.5 sm:gap-2.5">
                 {/* Modern Tactile Log In Button */}
-                <Link href="/auth/login" className="group cursor-pointer inline-flex items-center gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-foreground hover:text-primary bg-background hover:bg-surface-secondary border border-border hover:border-accent/50 shadow-2xs hover:shadow-xs transition-all duration-200">
+                <Link
+                    href="/auth/login"
+                    className="group cursor-pointer inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-foreground hover:text-primary bg-background hover:bg-surface-secondary border border-border hover:border-accent/50 shadow-2xs hover:shadow-xs transition-all duration-200"
+                >
                     <User className="size-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
                     <span>Log In</span>
                 </Link>
 
-                {/* High-Impact Emerald Gradient Sign Up Button (hidden on mobile, shown on sm+) */}
+                {/* High-Impact Emerald Gradient Sign Up Button */}
                 <Link
                     href="/auth/register"
-                    className="hidden sm:inline-flex group cursor-pointer relative items-center gap-1.5 px-4 sm:px-4.5 py-2 rounded-xl text-xs sm:text-[13px] font-bold text-white bg-linear-to-r from-accent to-accent-hover shadow-[0_4px_12px_rgba(16,185,129,0.28)] hover:shadow-[0_6px_18px_rgba(16,185,129,0.38)] transition-all duration-250 hover:scale-[1.02] active:scale-[0.98]"
+                    className="group cursor-pointer relative inline-flex items-center gap-1.5 px-3 sm:px-4.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-bold text-white bg-linear-to-r from-accent to-accent-hover shadow-[0_4px_12px_rgba(16,185,129,0.28)] hover:shadow-[0_6px_18px_rgba(16,185,129,0.38)] transition-all duration-250 hover:scale-[1.02] active:scale-[0.98]"
                 >
                     <span>Sign Up</span>
                     <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </Link>
-
-                {/* Interactive Demo Switcher */}
-                <button
-                    type="button"
-                    onClick={() => onToggleAuth(true)}
-                    title="Preview Logged-in Profile Menu (Demo)"
-                    className="cursor-pointer group relative flex items-center justify-center size-8 sm:size-9 rounded-xl border border-border bg-background hover:bg-surface-secondary hover:border-accent/40 text-muted-foreground hover:text-primary shadow-2xs transition-all duration-200"
-                    aria-label="Switch to Authenticated View (Demo)"
-                >
-                    <SlidersHorizontal className="size-3.5 transition-transform duration-300 group-hover:rotate-180" />
-                    <span className="absolute -top-1 -right-1 flex size-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                        <span className="relative inline-flex rounded-full size-2 bg-accent" />
-                    </span>
-                </button>
             </div>
         );
     }
@@ -268,8 +257,6 @@ const UserMenu = ({ isAuthenticated, user, onLogout, onToggleAuth, favoritesCoun
                                     onClick={() => {
                                         if (onLogout) {
                                             onLogout();
-                                        } else {
-                                            onToggleAuth(false);
                                         }
                                         onClose();
                                     }}

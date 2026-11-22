@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <html lang="en" className={`${raleway.variable} font-sans h-full antialiased`} suppressHydrationWarning>
-            <body className="min-h-full flex flex-col bg-background text-foreground" cz-shortcut-listen="true">
+            <body className="min-h-full flex flex-col bg-background text-foreground" cz-shortcut-listen="true" data-new-gr-c-s-check-loaded="14.1349.0">
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                     <ReduxProviders>{children}</ReduxProviders>
                 </ThemeProvider>
