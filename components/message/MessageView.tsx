@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { MessageSquare } from "@/components/Icons";
+import { useRouter } from "@/i18n/navigation";
 import {
     INITIAL_CONVERSATIONS,
     ConversationItem,
@@ -35,20 +36,23 @@ interface MessageViewProps {
 
 export const MessageView = ({ initialConvId }: MessageViewProps = {}) => {
     const { isBn } = useLocale();
+    const router = useRouter();
 
     const [conversations, setConversations] = useState<ConversationItem[]>(INITIAL_CONVERSATIONS);
-    
-    // Select initial conversation based on initialConvId prop if present
-    const initialMatchedConv = initialConvId
-        ? INITIAL_CONVERSATIONS.find(
-              (c) =>
-                  c.id === initialConvId ||
-                  c.listing.id === initialConvId ||
-                  c.listing.href.endsWith(initialConvId)
-          ) || INITIAL_CONVERSATIONS[0]
-        : INITIAL_CONVERSATIONS[0];
+    const [selectedId, setSelectedId] = useState<string | null>(null);
 
-    const [activeConvId, setActiveConvId] = useState<string>(initialMatchedConv?.id || "");
+    // If initialConvId is provided (e.g. /message/[slug]), match it; otherwise at /message no conversation is selected at first
+    const activeConvId = selectedId !== null ? selectedId : (initialConvId || "");
+    const activeConversation = activeConvId
+        ? conversations.find(
+              (c) =>
+                  c.id === activeConvId ||
+                  c.listing.id === activeConvId ||
+                  c.listing.href.endsWith(`/${activeConvId}`) ||
+                  c.listing.href.endsWith(activeConvId)
+          )
+        : undefined;
+
     const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
     const [searchQuery, setSearchQuery] = useState("");
     const [inputText, setInputText] = useState("");
@@ -58,8 +62,6 @@ export const MessageView = ({ initialConvId }: MessageViewProps = {}) => {
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const chatInputRef = useRef<HTMLInputElement>(null);
-
-    const activeConversation = conversations.find((c) => c.id === activeConvId) || conversations[0];
 
     const handleToggleDetails = () => {
         setDesktopDetailsOpen((prev) => !prev);
@@ -184,11 +186,18 @@ export const MessageView = ({ initialConvId }: MessageViewProps = {}) => {
     };
 
     const handleSelectConversation = (id: string) => {
-        setActiveConvId(id);
+        setSelectedId(id);
         setMobileChatOpen(true);
         setConversations((prev) =>
             prev.map((c) => (c.id === id ? { ...c, unreadCount: 0 } : c))
         );
+        router.push(`/message/${id}`);
+    };
+
+    const handleBackToConversations = () => {
+        setMobileChatOpen(false);
+        setSelectedId("");
+        router.push("/message");
     };
 
     const handleAttachMedia = () => {
@@ -232,7 +241,7 @@ export const MessageView = ({ initialConvId }: MessageViewProps = {}) => {
                         {/* Chat Header */}
                         <ChatHeader
                             participant={activeConversation.participant}
-                            onBack={() => setMobileChatOpen(false)}
+                            onBack={handleBackToConversations}
                             onToggleInfo={handleToggleDetails}
                         />
 
@@ -265,16 +274,20 @@ export const MessageView = ({ initialConvId }: MessageViewProps = {}) => {
                         />
                     </>
                 ) : (
-                    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-3">
-                        <MessageSquare className="size-12 text-muted-foreground/40 mb-2" />
-                        <h3 className="text-lg font-black text-foreground">
-                            {isBn ? "কোনো কথোপকথন নির্বাচন করা হয়নি" : "Select a Conversation"}
-                        </h3>
-                        <p className="text-xs text-muted-foreground max-w-sm">
-                            {isBn
-                                ? "বার্তা শুরু করতে বাম পাশের তালিকা থেকে যেকোনো প্রপার্টি বা হোস্ট নির্বাচন করুন।"
-                                : "Choose an inquiry from the sidebar to view messages and details."}
-                        </p>
+                    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-4">
+                        <div className="size-20 rounded-3xl bg-surface-secondary/80 dark:bg-surface border border-border flex items-center justify-center text-muted-foreground/60 shadow-xs">
+                            <MessageSquare className="size-10 text-primary/70" />
+                        </div>
+                        <div className="space-y-1.5 max-w-sm">
+                            <h3 className="text-lg font-black text-foreground">
+                                {isBn ? "কোনো কথোপকথন নির্বাচন করা হয়নি" : "Select a Conversation"}
+                            </h3>
+                            <p className="text-xs text-muted-foreground leading-relaxed">
+                                {isBn
+                                    ? "বার্তা দেখতে ও সরাসরি চ্যাট করতে বাম পাশের তালিকা থেকে যেকোনো কথোপকথন নির্বাচন করুন।"
+                                    : "Choose an inquiry from the sidebar to view messages and details."}
+                            </p>
+                        </div>
                     </div>
                 )}
             </main>

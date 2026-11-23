@@ -81,6 +81,10 @@ import {
     MoreVertical,
     CheckCheck,
     Smile,
+    Printer,
+    QrCode,
+    Edit3,
+    PlusCircle,
     type LucideIcon,
 } from "lucide-react";
 
@@ -255,6 +259,10 @@ export {
     MoreVertical,
     CheckCheck,
     Smile,
+    Printer,
+    QrCode,
+    Edit3,
+    PlusCircle,
 };
 
 export const Icons = {

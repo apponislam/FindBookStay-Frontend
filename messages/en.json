@@ -20,7 +20,6 @@
       "monthlySubletsDesc": "Furnished short and medium term monthly leases",
       "commercialRentals": "Commercial Rentals",
       "commercialRentalsDesc": "Corporate office spaces, showrooms & storefronts",
-
       "hotels": "Hotels",
       "hotelsDesc": "Handpicked 5-star, boutique & budget city hotels",
       "resorts": "Resorts",
@@ -33,7 +32,6 @@
       "shortStayApartmentsDesc": "Serviced executive suites with kitchens & workspaces",
       "luxuryVipSuites": "Luxury VIP Suites",
       "luxuryVipSuitesDesc": "Exclusive penthouses & premium weekend stays",
-
       "turfBooking": "Turf Booking",
       "turfBookingDesc": "Artificial grass soccer & cricket turfs with floodlights",
       "footballGrounds": "Football Grounds",
@@ -46,7 +44,6 @@
       "tournamentVenuesDesc": "Book complete tournament complexes & corporate leagues",
       "otherActivities": "Other Activities",
       "otherActivitiesDesc": "Paintball, bowling alleys, go-karting & arcades",
-
       "residentialProperties": "Residential Properties",
       "residentialPropertiesDesc": "Flats, townhouses & homes in prime neighborhoods",
       "commercialProperties": "Commercial Properties",
@@ -59,7 +56,6 @@
       "landPlotsDesc": "Verified residential, commercial & farmland plots",
       "newDevelopments": "New Developments",
       "newDevelopmentsDesc": "Pre-launch gated communities & off-plan deals",
-
       "popularLocations": "Popular Locations",
       "popularLocationsDesc": "Explore top cities, metropolitan hubs & scenic regions",
       "featuredProperties": "Featured Properties",
@@ -142,7 +138,11 @@
         "primaryCta": "Browse Rentals",
         "secondaryCta": "Family Apartments",
         "badge": "Verified Rentals",
-        "stats": ["100% Verified Hosts", "Zero Broker Scams", "Flexible Leases"]
+        "stats": [
+          "100% Verified Hosts",
+          "Zero Broker Scams",
+          "Flexible Leases"
+        ]
       },
       "book": {
         "tagline": "Premier Travel & Vacation Stays",
@@ -151,7 +151,11 @@
         "primaryCta": "Book Stays",
         "secondaryCta": "Explore Resorts",
         "badge": "Travel & Hospitality",
-        "stats": ["Best Rate Guarantee", "Instant Confirmation", "24/7 Concierge"]
+        "stats": [
+          "Best Rate Guarantee",
+          "Instant Confirmation",
+          "24/7 Concierge"
+        ]
       },
       "sports": {
         "tagline": "Athletic Venues & Instant Arena Booking",
@@ -160,7 +164,11 @@
         "primaryCta": "Book a Turf",
         "secondaryCta": "Tournament Venues",
         "badge": "Sports & Turfs",
-        "stats": ["Real-time Slot Booking", "Floodlight Facilities", "Tournament Ready"]
+        "stats": [
+          "Real-time Slot Booking",
+          "Floodlight Facilities",
+          "Tournament Ready"
+        ]
       },
       "buy": {
         "tagline": "Verified Property Sales & Investments",
@@ -169,7 +177,11 @@
         "primaryCta": "Explore Properties",
         "secondaryCta": "New Developments",
         "badge": "Real Estate & Sales",
-        "stats": ["Vetted Land Titles", "Prime Neighborhoods", "Direct Developer Deals"]
+        "stats": [
+          "Vetted Land Titles",
+          "Prime Neighborhoods",
+          "Direct Developer Deals"
+        ]
       }
     },
     "searchBar": {
@@ -218,10 +230,10 @@
       "bedThree": "3 Beds",
       "bedFourPlus": "4+ Beds",
       "bedroomLabels": {
-        "any": "Any Bedroom Count",
         "1": "1 Bedroom / Bachelor Seat",
         "2": "2 Bedrooms Flat",
         "3": "3 Bedrooms Flat",
+        "any": "Any Bedroom Count",
         "4+": "4+ Bedrooms / Duplex"
       },
       "slotLabels": {
@@ -252,41 +264,127 @@
       },
       "types": {
         "rent": {
-          "familyApartments": { "label": "Family Apartments", "desc": "2 to 4 BHK rental flats" },
-          "bachelorSeats": { "label": "Bachelor Seats", "desc": "Single & shared with utilities" },
-          "familyHouses": { "label": "Houses & Duplexes", "desc": "Independent villas & homes" },
-          "sublets": { "label": "Monthly Sublets", "desc": "Furnished short/medium term" },
-          "commercial": { "label": "Commercial Space", "desc": "Offices, stores & showrooms" }
+          "familyApartments": {
+            "label": "Family Apartments",
+            "desc": "2 to 4 BHK rental flats"
+          },
+          "bachelorSeats": {
+            "label": "Bachelor Seats",
+            "desc": "Single & shared with utilities"
+          },
+          "familyHouses": {
+            "label": "Houses & Duplexes",
+            "desc": "Independent villas & homes"
+          },
+          "sublets": {
+            "label": "Monthly Sublets",
+            "desc": "Furnished short/medium term"
+          },
+          "commercial": {
+            "label": "Commercial Space",
+            "desc": "Offices, stores & showrooms"
+          }
         },
         "stay": {
-          "resorts": { "label": "Nature Resorts", "desc": "Beachfront, lake & hills" },
-          "hotels": { "label": "Boutique Hotels", "desc": "City center & 5-star stays" },
-          "holidayHomes": { "label": "Holiday Homes", "desc": "Private vacation villas" },
-          "guestHouses": { "label": "Guest Houses", "desc": "Cozy bed & breakfast" },
-          "shortStay": { "label": "Serviced Suites", "desc": "Executive serviced flats" }
+          "resorts": {
+            "label": "Nature Resorts",
+            "desc": "Beachfront, lake & hills"
+          },
+          "hotels": {
+            "label": "Boutique Hotels",
+            "desc": "City center & 5-star stays"
+          },
+          "holidayHomes": {
+            "label": "Holiday Homes",
+            "desc": "Private vacation villas"
+          },
+          "guestHouses": {
+            "label": "Guest Houses",
+            "desc": "Cozy bed & breakfast"
+          },
+          "shortStay": {
+            "label": "Serviced Suites",
+            "desc": "Executive serviced flats"
+          }
         },
         "sports": {
-          "turfBooking": { "label": "Soccer & Cricket Turf", "desc": "Floodlit artificial grass" },
-          "indoorSports": { "label": "Indoor Arenas", "desc": "Badminton, basketball & futsal" },
-          "footballGrounds": { "label": "Football Grounds", "desc": "Standard 11v11 grass grounds" },
-          "swimming": { "label": "Swimming & Wellness", "desc": "Olympic pools & fitness clubs" }
+          "turfBooking": {
+            "label": "Soccer & Cricket Turf",
+            "desc": "Floodlit artificial grass"
+          },
+          "indoorSports": {
+            "label": "Indoor Arenas",
+            "desc": "Badminton, basketball & futsal"
+          },
+          "footballGrounds": {
+            "label": "Football Grounds",
+            "desc": "Standard 11v11 grass grounds"
+          },
+          "swimming": {
+            "label": "Swimming & Wellness",
+            "desc": "Olympic pools & fitness clubs"
+          }
         },
         "buy": {
-          "apartments": { "label": "Apartments & Flats", "desc": "Luxury residential high-rise" },
-          "houses": { "label": "Houses & Villas", "desc": "Standalone homes & duplexes" },
-          "land": { "label": "Land & Plots", "desc": "Verified freehold plots" },
-          "commercial": { "label": "Commercial Plazas", "desc": "Retail spaces & office floors" }
+          "apartments": {
+            "label": "Apartments & Flats",
+            "desc": "Luxury residential high-rise"
+          },
+          "houses": {
+            "label": "Houses & Villas",
+            "desc": "Standalone homes & duplexes"
+          },
+          "land": {
+            "label": "Land & Plots",
+            "desc": "Verified freehold plots"
+          },
+          "commercial": {
+            "label": "Commercial Plazas",
+            "desc": "Retail spaces & office floors"
+          }
         }
       },
       "locations": {
-        "gulshan": { "area": "Gulshan & Banani", "city": "Dhaka", "tag": "Diplomatic & Luxury" },
-        "bashundhara": { "area": "Bashundhara R/A", "city": "Dhaka", "tag": "Family & Campus" },
-        "dhanmondi": { "area": "Dhanmondi", "city": "Dhaka", "tag": "Cultural Hub" },
-        "uttara": { "area": "Uttara", "city": "Dhaka", "tag": "Metro & Airport" },
-        "mirpur": { "area": "Mirpur", "city": "Dhaka", "tag": "Affordable Living" },
-        "chittagong": { "area": "GEC Circle", "city": "Chittagong", "tag": "Commercial Port" },
-        "coxsBazar": { "area": "Marine Drive", "city": "Cox's Bazar", "tag": "Beachfront Stays" },
-        "sylhet": { "area": "Sreemangal", "city": "Sylhet", "tag": "Nature & Tea Estates" }
+        "gulshan": {
+          "area": "Gulshan & Banani",
+          "city": "Dhaka",
+          "tag": "Diplomatic & Luxury"
+        },
+        "bashundhara": {
+          "area": "Bashundhara R/A",
+          "city": "Dhaka",
+          "tag": "Family & Campus"
+        },
+        "dhanmondi": {
+          "area": "Dhanmondi",
+          "city": "Dhaka",
+          "tag": "Cultural Hub"
+        },
+        "uttara": {
+          "area": "Uttara",
+          "city": "Dhaka",
+          "tag": "Metro & Airport"
+        },
+        "mirpur": {
+          "area": "Mirpur",
+          "city": "Dhaka",
+          "tag": "Affordable Living"
+        },
+        "chittagong": {
+          "area": "GEC Circle",
+          "city": "Chittagong",
+          "tag": "Commercial Port"
+        },
+        "coxsBazar": {
+          "area": "Marine Drive",
+          "city": "Cox's Bazar",
+          "tag": "Beachfront Stays"
+        },
+        "sylhet": {
+          "area": "Sreemangal",
+          "city": "Sylhet",
+          "tag": "Nature & Tea Estates"
+        }
       }
     },
     "categoryGrid": {
@@ -390,7 +488,11 @@
           "location": "Cox's Bazar Beachfront",
           "price": "৳12,500",
           "badge": "Top Rated",
-          "amenities": ["Infinity Pool", "Ocean View", "Free Breakfast"]
+          "amenities": [
+            "Infinity Pool",
+            "Ocean View",
+            "Free Breakfast"
+          ]
         },
         "2": {
           "title": "Hilltop Cloud Forest Villa & Tea Garden Retreat",
@@ -398,7 +500,11 @@
           "location": "Sreemangal, Sylhet",
           "price": "৳8,900",
           "badge": "Scenic View",
-          "amenities": ["Nature Trail", "Balcony", "Organic Dining"]
+          "amenities": [
+            "Nature Trail",
+            "Balcony",
+            "Organic Dining"
+          ]
         },
         "3": {
           "title": "Skyline Diplomatic Executive Suites",
@@ -406,7 +512,11 @@
           "location": "Gulshan 2, Dhaka",
           "price": "৳9,500",
           "badge": "Business Hub",
-          "amenities": ["High-speed WiFi", "Kitchenette", "Gym Access"]
+          "amenities": [
+            "High-speed WiFi",
+            "Kitchenette",
+            "Gym Access"
+          ]
         },
         "4": {
           "title": "Sundarbans Eco Wilderness Boutique Camp",
@@ -414,7 +524,11 @@
           "location": "Mongla, Khulna",
           "price": "৳5,200",
           "badge": "Eco Stay",
-          "amenities": ["Boat Safari", "Local Meals", "Guided Tours"]
+          "amenities": [
+            "Boat Safari",
+            "Local Meals",
+            "Guided Tours"
+          ]
         }
       }
     },
@@ -432,7 +546,11 @@
           "location": "Bashundhara Sports Zone, Dhaka",
           "price": "৳2,500",
           "availability": "Slots Open Today",
-          "features": ["Floodlights", "FIFA Grass", "Changing Rooms"]
+          "features": [
+            "Floodlights",
+            "FIFA Grass",
+            "Changing Rooms"
+          ]
         },
         "2": {
           "name": "Elite Indoor Badminton & Futsal Complex",
@@ -440,7 +558,11 @@
           "location": "Uttara Sector 4, Dhaka",
           "price": "৳1,800",
           "availability": "Evening Slots Available",
-          "features": ["Wooden Court", "Air Conditioned", "Showers"]
+          "features": [
+            "Wooden Court",
+            "Air Conditioned",
+            "Showers"
+          ]
         },
         "3": {
           "name": "Green Horizon Standard Football Stadium Ground",
@@ -448,7 +570,11 @@
           "location": "Dhanmondi, Dhaka",
           "price": "৳4,000",
           "availability": "Weekend Leagues Ready",
-          "features": ["Natural Turf", "Referee Support", "Full 11v11"]
+          "features": [
+            "Natural Turf",
+            "Referee Support",
+            "Full 11v11"
+          ]
         }
       }
     },
@@ -703,5 +829,16 @@
     "switchLanguage": "Switch language",
     "bn": "বাংলা",
     "en": "English"
+  },
+  "Tolet": {
+    "title": "To-Let Notice Builder",
+    "subtitle": "Create, customize, and print rental notices in minutes — 100% Free",
+    "hubTitle": "Digital To-Let Notice & Rental Hub",
+    "createNotice": "Create Free Notice",
+    "printA4": "Print A4 Poster",
+    "livePreview": "Live Real-Time Preview",
+    "familyFlat": "Family Flat",
+    "bachelorSeat": "Bachelor Seat/Room",
+    "subletRoom": "Sublet Master Bed"
   }
 }

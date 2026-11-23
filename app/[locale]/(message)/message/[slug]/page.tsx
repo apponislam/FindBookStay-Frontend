@@ -8,10 +8,13 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const { slug } = await params;
-    const conv = INITIAL_CONVERSATIONS.find(
-        (c) => c.id === slug || c.listing.href.endsWith(slug) || c.listing.id === slug
-    );
+    const { slug: rawSlug } = await params;
+    const slug = decodeURIComponent(rawSlug);
+    const conv = slug
+        ? INITIAL_CONVERSATIONS.find(
+              (c) => c.id === slug || c.listing.href.endsWith(`/${slug}`) || c.listing.id === slug
+          )
+        : undefined;
 
     if (conv) {
         return {
@@ -34,6 +37,6 @@ export async function generateStaticParams() {
 
 export default async function ConversationPage({ params }: PageProps) {
     const { slug } = await params;
-    return <MessageView initialConvId={slug} />;
+    return <MessageView initialConvId={decodeURIComponent(slug)} />;
 }
 

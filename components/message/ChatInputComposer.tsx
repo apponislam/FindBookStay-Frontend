@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FormEvent, RefObject } from "react";
-import { Send, Paperclip, ShieldCheck } from "@/components/Icons";
+import { Send, Paperclip } from "@/components/Icons";
 import { useLocale } from "@/hooks/useLocale";
 
 interface ChatInputComposerProps {
@@ -27,7 +27,7 @@ export const ChatInputComposer = ({
     };
 
     return (
-        <div className="p-3 sm:p-4 border-t border-border bg-white dark:bg-card shrink-0 space-y-2 shadow-sm select-none">
+        <div className="p-3 sm:p-3.5 border-t border-border bg-white dark:bg-card shrink-0 shadow-sm select-none">
             <form onSubmit={handleSubmit} className="flex items-center gap-2.5">
                 <div className="flex-1 relative flex items-center">
                     <input
@@ -61,19 +61,6 @@ export const ChatInputComposer = ({
                     <Send className="size-4.5" />
                 </button>
             </form>
-
-            {/* Trust Guarantee Micro Footer */}
-            <div className="flex items-center justify-between text-[10.5px] text-muted-foreground px-1">
-                <span className="flex items-center gap-1.5 font-medium">
-                    <ShieldCheck className="size-3.5 text-accent" />
-                    {isBn
-                        ? "FindBookStay সুরক্ষা: ০% ব্রোকার ফি, সরাসরি যাচাইকৃত মালিক ও হোস্ট।"
-                        : "FindBookStay Protection: 0% broker fee. Direct verified ownership."}
-                </span>
-                <span className="hidden sm:inline font-semibold text-muted-foreground/70">
-                    {isBn ? "এন্টার চাপলে সেন্ড হবে" : "Press Enter to send"}
-                </span>
-            </div>
         </div>
     );
 };

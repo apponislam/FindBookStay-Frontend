@@ -28,18 +28,18 @@ export const MessageNavRail = ({
         <aside className="w-16 sm:w-18 shrink-0 bg-white dark:bg-card border-r border-border flex flex-col items-center justify-between py-4 z-20 select-none">
             {/* Top Brand Logo & Filters */}
             <div className="flex flex-col items-center gap-6 w-full">
-                {/* Official Brand Logo */}
+                {/* Official Brand Logo Mark Tile */}
                 <Link
                     href={`/${locale}`}
-                    className="group relative size-10.5 sm:size-11 rounded-2xl bg-white dark:bg-card border border-border shadow-xs hover:border-primary/50 hover:shadow-md hover:scale-105 transition-all duration-200 flex items-center justify-center p-1.5 cursor-pointer"
+                    className="group relative size-11 rounded-2xl bg-white dark:bg-card/90 shadow-xs border-2 border-primary/40 hover:border-primary flex items-center justify-center p-1.5 hover:scale-105 hover:shadow-md transition-all duration-200 cursor-pointer overflow-hidden"
                     title={isBn ? "হোমপেজে ফিরে যান" : "FindBookStay Home"}
                 >
                     <Image
-                        src="/icon.png"
+                        src="/findbookstay-icon.png"
                         alt="FindBookStay"
                         width={36}
                         height={36}
-                        className="size-7.5 sm:size-8 object-contain transition-transform duration-200 group-hover:scale-110"
+                        className="size-full object-contain transition-transform duration-200 group-hover:scale-110"
                         priority
                     />
                 </Link>

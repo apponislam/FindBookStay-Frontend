@@ -16,7 +16,7 @@ export const HostDetailCard = ({ participant }: HostDetailCardProps) => {
     return (
         <div className="p-4 rounded-2xl border border-border bg-surface-secondary/40 dark:bg-surface/40 space-y-3.5 shadow-2xs">
             <div className="flex items-center gap-3">
-                <div className="size-12 rounded-full bg-gradient-to-tr from-primary to-accent text-white flex items-center justify-center font-black text-sm shadow-xs shrink-0 overflow-hidden">{participant.avatar ? <Image src={participant.avatar} alt={participant.name} fill className="object-cover" /> : <span>{participant.name[0]}</span>}</div>
+                <div className="size-12 rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center font-black text-sm shadow-xs shrink-0 overflow-hidden">{participant.avatar ? <Image src={participant.avatar} alt={participant.name} fill className="object-cover" /> : <span>{participant.name[0]}</span>}</div>
                 <div className="min-w-0">
                     <h4 className="text-sm font-black text-foreground truncate">{isBn ? participant.nameBn : participant.name}</h4>
                     <span className="inline-flex items-center gap-1 text-[11px] font-bold text-accent">
