@@ -4,6 +4,9 @@ import React from "react";
 import Link from "next/link";
 import { Check, X, type Icon } from "@/components/Icons";
 import { ModeToggle } from "@/components/mode-toggle";
+import LanguageSwitch from "@/components/header/LanguageSwitch";
+import { useLocale } from "@/hooks/useLocale";
+import { toBengaliDigits } from "@/lib/utils";
 
 export interface StepItem {
     id: number;
@@ -20,6 +23,11 @@ interface PublishStepperProps {
 }
 
 export const PublishStepper = ({ steps, currentStep, onSelectStep, pillarBadge }: PublishStepperProps) => {
+    const { isBn, locale } = useLocale();
+
+    const displayStepId = (id: number) => (isBn ? toBengaliDigits(id) : id);
+    const displayTotal = isBn ? toBengaliDigits(steps.length) : steps.length;
+
     return (
         <div className="w-full bg-white dark:bg-card border-b border-border shadow-xs transition-colors duration-200">
             <div className="container mx-auto px-3 sm:px-4 py-2 sm:py-2.5">
@@ -27,22 +35,29 @@ export const PublishStepper = ({ steps, currentStep, onSelectStep, pillarBadge }
                 <div className="flex items-center justify-between gap-2 mb-2 sm:mb-2.5">
                     {/* Left: Exit Link & Pillar Badge */}
                     <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-                        <Link href="/" aria-label="Exit Listing Studio" className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-1 rounded-xl text-xs font-bold text-foreground bg-surface-secondary dark:bg-surface hover:bg-surface-secondary/80 border border-border transition-colors cursor-pointer outline-none focus:outline-none shrink-0">
+                        <Link
+                            href={`/${locale}`}
+                            aria-label={isBn ? "লিস্টিং স্টুডিও থেকে বের হন" : "Exit Listing Studio"}
+                            className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-1 rounded-xl text-xs font-bold text-foreground bg-surface-secondary dark:bg-surface hover:bg-surface-secondary/80 border border-border transition-colors cursor-pointer outline-none focus:outline-none shrink-0"
+                        >
                             <X className="size-3.5" />
-                            <span className="hidden xs:inline">Exit</span>
+                            <span className="hidden xs:inline">{isBn ? "বের হন" : "Exit"}</span>
                         </Link>
-                        <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-primary/10 border border-primary/20 text-primary whitespace-nowrap shrink-0">{pillarBadge}</span>
+                        <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-primary/10 border border-primary/20 text-primary whitespace-nowrap shrink-0">
+                            {pillarBadge}
+                        </span>
                     </div>
 
-                    {/* Right: Step Counter & Theme Switcher */}
+                    {/* Right: Step Counter, Language & Theme Switcher */}
                     <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                         <div className="text-xs font-bold text-foreground whitespace-nowrap">
-                            <span className="text-muted-foreground">Step </span>
-                            <span className="font-mono text-xs font-black text-emerald-500">{currentStep}</span>
-                            <span className="text-muted-foreground"> of {steps.length}</span>
+                            <span className="text-muted-foreground">{isBn ? "ধাপ " : "Step "}</span>
+                            <span className="font-mono text-xs font-black text-emerald-500">{displayStepId(currentStep)}</span>
+                            <span className="text-muted-foreground">{isBn ? " এর " : " of "}{displayTotal}</span>
                             <span className="hidden md:inline text-muted-foreground">: </span>
                             <span className="hidden md:inline text-foreground font-extrabold">{steps[currentStep - 1]?.title}</span>
                         </div>
+                        <LanguageSwitch />
                         <ModeToggle />
                     </div>
                 </div>
@@ -61,19 +76,25 @@ export const PublishStepper = ({ steps, currentStep, onSelectStep, pillarBadge }
                                         <button
                                             type="button"
                                             onClick={() => onSelectStep(step.id)}
-                                            aria-label={`Step ${step.id}: ${step.title}`}
+                                            aria-label={`${isBn ? "ধাপ" : "Step"} ${displayStepId(step.id)}: ${step.title}`}
                                             className={`size-8 sm:size-10 rounded-full flex items-center justify-center font-black text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none select-none z-10 ${
-                                                isCurrent ? "bg-emerald-500 text-white border-2 border-emerald-400 shadow-[0_0_16px_rgba(16,185,129,0.45)] ring-4 ring-emerald-500/20 scale-105" : isCompleted ? "bg-emerald-600 text-white border-2 border-emerald-600 shadow-xs" : "bg-surface-secondary dark:bg-card border-2 border-border text-foreground hover:border-emerald-500/50"
+                                                isCurrent
+                                                    ? "bg-emerald-500 text-white border-2 border-emerald-400 shadow-[0_0_16px_rgba(16,185,129,0.45)] ring-4 ring-emerald-500/20 scale-105"
+                                                    : isCompleted
+                                                    ? "bg-emerald-600 text-white border-2 border-emerald-600 shadow-xs"
+                                                    : "bg-surface-secondary dark:bg-card border-2 border-border text-foreground hover:border-emerald-500/50"
                                             }`}
                                         >
-                                            {isCompleted ? <Check className="size-3.5 sm:size-4 stroke3" /> : <span>{step.id}</span>}
+                                            {isCompleted ? <Check className="size-3.5 sm:size-4 stroke3" /> : <span>{displayStepId(step.id)}</span>}
                                         </button>
 
                                         {/* Desktop Only Labels (Hidden on mobile to eliminate ugly ellipsis truncation) */}
                                         <button
                                             type="button"
                                             onClick={() => onSelectStep(step.id)}
-                                            className={`hidden sm:block mt-1.5 text-[11px] font-bold text-center w-20 sm:w-24 truncate cursor-pointer transition-colors outline-none focus:outline-none select-none ${isCurrent ? "text-emerald-500 dark:text-emerald-400 font-extrabold" : isCompleted ? "text-foreground font-bold" : "text-muted-foreground hover:text-foreground"}`}
+                                            className={`hidden sm:block mt-1.5 text-[11px] font-bold text-center w-20 sm:w-24 truncate cursor-pointer transition-colors outline-none focus:outline-none select-none ${
+                                                isCurrent ? "text-emerald-500 dark:text-emerald-400 font-extrabold" : isCompleted ? "text-foreground font-bold" : "text-muted-foreground hover:text-foreground"
+                                            }`}
                                         >
                                             {step.title}
                                         </button>
@@ -93,7 +114,7 @@ export const PublishStepper = ({ steps, currentStep, onSelectStep, pillarBadge }
                     {/* Mobile Only: Current Step Name cleanly centered below the circles */}
                     <div className="sm:hidden text-center mt-2 px-1">
                         <span className="text-xs font-bold text-foreground">
-                            <span className="text-muted-foreground">Step {currentStep}: </span>
+                            <span className="text-muted-foreground">{isBn ? "ধাপ" : "Step"} {displayStepId(currentStep)}: </span>
                             <span className="text-emerald-500 dark:text-emerald-400 font-extrabold">{steps[currentStep - 1]?.title}</span>
                         </span>
                     </div>

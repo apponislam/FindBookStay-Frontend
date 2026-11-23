@@ -7,7 +7,8 @@ import { useLocale } from "@/hooks/useLocale";
 
 interface LanguageSwitchProps {
     className?: string;
-    variant?: "dropdown" | "pills" | "footer";
+    variant?: "dropdown" | "pills" | "footer" | "compact";
+    align?: "left" | "right" | "side";
     onLocaleChange?: () => void;
     dropup?: boolean;
 }
@@ -25,6 +26,7 @@ const LANGUAGES: LanguageOption[] = [
 export const LanguageSwitch = ({
     className = "",
     variant = "dropdown",
+    align,
     onLocaleChange,
 }: LanguageSwitchProps) => {
     const { locale } = useLocale();
@@ -75,6 +77,70 @@ export const LanguageSwitch = ({
             document.removeEventListener("keydown", handleEscape);
         };
     }, [isOpen]);
+
+    // Compact icon button variant (for slim rails like MessageNavRail and compact toolbars)
+    if (variant === "compact") {
+        return (
+            <div ref={dropdownRef} className={`relative shrink-0 ${className}`}>
+                <button
+                    type="button"
+                    onClick={() => setIsOpen((prev) => !prev)}
+                    disabled={isPending}
+                    aria-expanded={isOpen}
+                    aria-label={`Switch language. Current: ${activeLanguage.name}`}
+                    title={locale === "bn" ? "ভাষা: বাংলা" : "Language: English"}
+                    className={`size-10 sm:size-10.5 rounded-2xl border flex flex-col items-center justify-center transition-all duration-200 cursor-pointer outline-none select-none ${
+                        isOpen
+                            ? "bg-primary text-primary-foreground border-primary shadow-sm shadow-primary/20 ring-2 ring-primary/20"
+                            : "bg-surface-secondary/70 dark:bg-surface hover:bg-surface-secondary border-border text-foreground hover:text-primary"
+                    } ${isPending ? "opacity-60 cursor-wait" : ""}`}
+                >
+                    <Globe className={`size-3.5 transition-transform duration-200 ${isOpen ? "text-primary-foreground" : "text-primary"}`} />
+                    <span className={`text-[9px] font-black leading-none mt-0.5 tracking-tight ${isOpen ? "text-primary-foreground" : "text-muted-foreground"}`}>
+                        {locale === "bn" ? "বাং" : "EN"}
+                    </span>
+                </button>
+
+                {isOpen && (
+                    <div
+                        role="listbox"
+                        aria-label="Language selection options"
+                        className={`absolute ${
+                            align === "right"
+                                ? "right-0 top-full mt-2 origin-top-right"
+                                : "left-full ml-3 bottom-0 origin-bottom-left"
+                        } w-36 rounded-2xl bg-white dark:bg-card border border-border shadow-xl shadow-black/10 p-1.5 z-50 transition-all duration-200 animate-in fade-in-0 zoom-in-95`}
+                    >
+                        <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground border-b border-border/60 mb-1">
+                            Language / ভাষা
+                        </div>
+                        <div className="space-y-0.5">
+                            {LANGUAGES.map((lang) => {
+                                const isSelected = lang.code === locale;
+                                return (
+                                    <button
+                                        key={lang.code}
+                                        type="button"
+                                        role="option"
+                                        aria-selected={isSelected}
+                                        onClick={() => handleSelectLocale(lang.code)}
+                                        className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer select-none text-left outline-none ${
+                                            isSelected
+                                                ? "bg-primary/10 text-primary font-bold"
+                                                : "text-foreground hover:bg-surface-secondary"
+                                        }`}
+                                    >
+                                        <span>{lang.name}</span>
+                                        {isSelected && <Check className="size-3.5 text-primary stroke-[2.5]" />}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    }
 
     // Segmented Pills variant (for Mobile Drawer and User Menu)
     if (variant === "pills") {

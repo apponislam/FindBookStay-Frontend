@@ -33,6 +33,7 @@ import {
 } from "@/redux/features/auth/authApi";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/auth/authSlice";
+import { useLocale } from "@/hooks/useLocale";
 
 interface RegisterFormProps {
     onSuccess?: () => void;
@@ -98,6 +99,7 @@ const registerSchema = z
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps) => {
+    const { isBn } = useLocale();
     const router = useRouter();
     const dispatch = useAppDispatch();
 
@@ -149,7 +151,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
         if (!file) return;
 
         if (file.size > 10 * 1024 * 1024) {
-            setError("profileImage", { message: "Image size must be under 10MB" });
+            setError("profileImage", { message: isBn ? "ছবির সাইজ ১০ মেগাবাইটের কম হতে হবে" : "Image size must be under 10MB" });
             return;
         }
 
@@ -158,7 +160,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
             setImagePreview(compressedBase64);
             setValue("profileImage", compressedBase64, { shouldValidate: true });
         } catch {
-            setError("profileImage", { message: "Failed to process image. Please try another." });
+            setError("profileImage", { message: isBn ? "ছবি প্রক্রিয়াকরণ ব্যর্থ হয়েছে। অন্য ছবি দিন।" : "Failed to process image. Please try another." });
         }
     };
 
@@ -183,19 +185,19 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
     // Validate referral code
     const handleCheckReferral = async () => {
         if (!referralCodeValue.trim()) return;
-        setReferralStatus("Checking code...");
+        setReferralStatus(isBn ? "কোড যাচাই করা হচ্ছে..." : "Checking code...");
         try {
             const res = await triggerValidateReferral(referralCodeValue.trim()).unwrap();
             if (res.data?.valid) {
                 setReferrerInfo({ id: res.data.referrerId, name: res.data.referrerName });
-                setReferralStatus(`Invited by ${res.data.referrerName}`);
+                setReferralStatus(isBn ? `${res.data.referrerName} দ্বারা আমন্ত্রিত` : `Invited by ${res.data.referrerName}`);
             } else {
                 setReferrerInfo(null);
-                setReferralStatus("Invalid referral code");
+                setReferralStatus(isBn ? "ভুল রেফারেল কোড" : "Invalid referral code");
             }
         } catch {
             setReferrerInfo(null);
-            setReferralStatus("Invalid or expired referral code");
+            setReferralStatus(isBn ? "মেয়াদোত্তীর্ণ বা ভুল রেফারেল কোড" : "Invalid or expired referral code");
         }
     };
 
@@ -259,7 +261,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
             const errorMessage =
                 apiError?.data?.message ||
                 apiError?.error ||
-                "Failed to create account. Please verify details and try again.";
+                (isBn ? "অ্যাকাউন্ট তৈরি ব্যর্থ হয়েছে। তথ্য পরীক্ষা করে আবার চেষ্টা করুন।" : "Failed to create account. Please verify details and try again.");
             setError("root", { message: errorMessage });
         }
     };
@@ -293,7 +295,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                     )}
                                     aria-label={`Step ${step}`}
                                 >
-                                    {isCompleted ? <Check className="size-4 stroke-[2.5]" /> : step}
+                                    {isCompleted ? <Check className="size-4 stroke-[2.5]" /> : (isBn ? (step === 1 ? "১" : step === 2 ? "২" : "৩") : step)}
                                 </button>
                             </div>
                             {index < 2 && (
@@ -310,16 +312,28 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
             </div>
 
             <AuthHeader
-                category={`Step ${currentStep} of 3`}
+                category={isBn ? `ধাপ ${currentStep === 1 ? "১" : currentStep === 2 ? "২" : "৩"} এর ৩` : `Step ${currentStep} of 3`}
                 title={
-                    currentStep === 1
+                    isBn
+                        ? currentStep === 1
+                            ? "ব্যক্তিগত তথ্য"
+                            : currentStep === 2
+                            ? "ঠিকানা ও রেফারেল"
+                            : "নিরাপত্তা নিশ্চিতকরণ"
+                        : currentStep === 1
                         ? "Personal Information"
                         : currentStep === 2
                         ? "Address & Referral"
                         : "Secure Your Account"
                 }
                 subtitle={
-                    currentStep === 1
+                    isBn
+                        ? currentStep === 1
+                            ? "একটি প্রোফাইল ছবি এবং আপনার নাম, ইমেইল ও মোবাইল নম্বর দিন।"
+                            : currentStep === 2
+                            ? "আপনার বর্তমান ঠিকানা এবং ঐচ্ছিক রেফারেল কোড লিখুন।"
+                            : "অ্যাকাউন্টের জন্য একটি শক্তিশালী পাসওয়ার্ড নির্ধারণ করুন।"
+                        : currentStep === 1
                         ? "Upload a photo and provide your name, email, and phone."
                         : currentStep === 2
                         ? "Enter your primary address and optional referral invite code."
@@ -367,7 +381,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                     type="button"
                                     onClick={() => fileInputRef.current?.click()}
                                     className="cursor-pointer absolute -bottom-1 -right-1 size-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-xs hover:bg-primary-hover transition-colors ring-2 ring-background z-10"
-                                    title="Upload photo"
+                                    title={isBn ? "ছবি আপলোড করুন" : "Upload photo"}
                                 >
                                     <Camera className="size-3.5" />
                                 </button>
@@ -387,7 +401,9 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                     onClick={() => fileInputRef.current?.click()}
                                     className="text-[11px] font-semibold text-primary hover:underline cursor-pointer"
                                 >
-                                    {imagePreview ? "Change Photo" : "Upload Photo (Optional)"}
+                                    {imagePreview
+                                        ? (isBn ? "ছবি পরিবর্তন করুন" : "Change Photo")
+                                        : (isBn ? "প্রোফাইল ছবি দিন (ঐচ্ছিক)" : "Upload Photo (Optional)")}
                                 </button>
                                 {imagePreview && (
                                     <>
@@ -398,7 +414,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                             className="text-[11px] font-semibold text-destructive hover:underline cursor-pointer inline-flex items-center gap-0.5"
                                         >
                                             <Trash2 className="size-3" />
-                                            <span>Remove</span>
+                                            <span>{isBn ? "মুছে ফেলুন" : "Remove"}</span>
                                         </button>
                                     </>
                                 )}
@@ -410,11 +426,11 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
 
                         {/* Full Name */}
                         <AuthInput
-                            label="Full Name"
+                            label={isBn ? "আপনার পুরো নাম" : "Full Name"}
                             type="text"
-                            placeholder="e.g. Appon Islam"
+                            placeholder={isBn ? "যেমন: তানভীর আহমেদ" : "e.g. Alex Tan"}
                             icon={User}
-                            error={errors.name?.message}
+                            error={errors.name ? (isBn ? "নাম কমপক্ষে ২ অক্ষরের হতে হবে" : errors.name.message) : undefined}
                             required
                             autoComplete="name"
                             {...register("name")}
@@ -422,11 +438,11 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
 
                         {/* Email Address */}
                         <AuthInput
-                            label="Email Address"
+                            label={isBn ? "ইমেইল ঠিকানা" : "Email Address"}
                             type="email"
-                            placeholder="e.g. appon@example.com"
+                            placeholder="name@example.com"
                             icon={Mail}
-                            error={errors.email?.message}
+                            error={errors.email ? (isBn ? "সঠিক ইমেইল ঠিকানা দিন" : errors.email.message) : undefined}
                             required
                             autoComplete="email"
                             {...register("email")}
@@ -434,11 +450,11 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
 
                         {/* Phone Number */}
                         <AuthInput
-                            label="Phone Number"
+                            label={isBn ? "মোবাইল নম্বর" : "Phone Number"}
                             type="tel"
-                            placeholder="e.g. +1 555-0199"
+                            placeholder="+880 1700-000000"
                             icon={Phone}
-                            error={errors.phone?.message}
+                            error={errors.phone ? (isBn ? "সঠিক মোবাইল নম্বর দিন" : errors.phone.message) : undefined}
                             required
                             autoComplete="tel"
                             {...register("phone")}
@@ -451,7 +467,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                 onClick={handleGoToStep2}
                                 icon={<ArrowRight className="size-3.5" />}
                             >
-                                Continue
+                                {isBn ? "পরবর্তী ধাপ" : "Continue"}
                             </AuthButton>
                         </div>
                     </div>
@@ -464,11 +480,11 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                     <div className="space-y-3 animate-in fade-in duration-150">
                         {/* Street / Road Address */}
                         <AuthInput
-                            label="Street / Road / Area Address"
+                            label={isBn ? "রাস্তা / এলাকা / হোল্ডিং ঠিকানা" : "Street / Road / Area Address"}
                             type="text"
-                            placeholder="e.g. 123 Main St, Apt 4B"
+                            placeholder={isBn ? "যেমন: রোড নং ৪, বাড়ি ১২, ধানমন্ডি" : "e.g. 123 Main St, Apt 4B"}
                             icon={MapPin}
-                            error={errors.street?.message}
+                            error={errors.street ? (isBn ? "ঠিকানা প্রদান আবশ্যক" : errors.street.message) : undefined}
                             required
                             autoComplete="street-address"
                             {...register("street")}
@@ -477,19 +493,19 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                         {/* City & State / Division Grid */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                             <AuthInput
-                                label="City"
+                                label={isBn ? "শহর / জেলা" : "City"}
                                 type="text"
-                                placeholder="e.g. New York"
+                                placeholder={isBn ? "যেমন: ঢাকা" : "e.g. Dhaka"}
                                 icon={Building}
-                                error={errors.city?.message}
+                                error={errors.city ? (isBn ? "শহরের নাম আবশ্যক" : errors.city.message) : undefined}
                                 required
                                 autoComplete="address-level2"
                                 {...register("city")}
                             />
                             <AuthInput
-                                label="State / Province / Division (Optional)"
+                                label={isBn ? "বিভাগ (ঐচ্ছিক)" : "State / Division (Optional)"}
                                 type="text"
-                                placeholder="e.g. NY"
+                                placeholder={isBn ? "যেমন: ঢাকা বিভাগ" : "e.g. Dhaka"}
                                 error={errors.state?.message}
                                 autoComplete="address-level1"
                                 {...register("state")}
@@ -499,18 +515,18 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                         {/* Postal Code & Country Grid */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                             <AuthInput
-                                label="Postal / Zip Code (Optional)"
+                                label={isBn ? "পোস্টাল কোড (ঐচ্ছিক)" : "Postal / Zip Code (Optional)"}
                                 type="text"
-                                placeholder="e.g. 10001"
+                                placeholder="1212"
                                 error={errors.zipCode?.message}
                                 autoComplete="postal-code"
                                 {...register("zipCode")}
                             />
                             <AuthInput
-                                label="Country"
+                                label={isBn ? "দেশ" : "Country"}
                                 type="text"
-                                placeholder="Enter country"
-                                error={errors.country?.message}
+                                placeholder={isBn ? "যেমন: বাংলাদেশ" : "e.g. Bangladesh"}
+                                error={errors.country ? (isBn ? "দেশের নাম আবশ্যক" : errors.country.message) : undefined}
                                 required
                                 autoComplete="country-name"
                                 {...register("country")}
@@ -520,9 +536,9 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                         {/* Optional Referral Code */}
                         <div className="space-y-1 pt-0.5">
                             <AuthInput
-                                label="Referral Code (Optional)"
+                                label={isBn ? "রেফারেল কোড (ঐচ্ছিক)" : "Referral Code (Optional)"}
                                 type="text"
-                                placeholder="e.g. FB8K2026"
+                                placeholder="FB8K2026"
                                 icon={Gift}
                                 autoCapitalize="characters"
                                 error={errors.referralCode?.message}
@@ -534,7 +550,9 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                             disabled={isValidatingReferral}
                                             className="text-[11px] font-semibold text-primary hover:underline cursor-pointer disabled:opacity-50"
                                         >
-                                            {isValidatingReferral ? "Checking..." : "Validate"}
+                                            {isValidatingReferral
+                                                ? (isBn ? "যাচাই হচ্ছে..." : "Checking...")
+                                                : (isBn ? "যাচাই করুন" : "Validate")}
                                         </button>
                                     ) : null
                                 }
@@ -560,7 +578,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                 className="cursor-pointer inline-flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl border border-border bg-surface text-foreground text-xs font-semibold hover:bg-surface-secondary transition-colors"
                             >
                                 <ArrowLeft className="size-3.5" />
-                                <span>Back</span>
+                                <span>{isBn ? "পূর্ববর্তী" : "Back"}</span>
                             </button>
                             <div className="flex-1">
                                 <AuthButton
@@ -568,7 +586,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                     onClick={handleGoToStep3}
                                     icon={<ArrowRight className="size-3.5" />}
                                 >
-                                    Continue
+                                    {isBn ? "পরবর্তী ধাপ" : "Continue"}
                                 </AuthButton>
                             </div>
                         </div>
@@ -583,11 +601,11 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                         {/* Password */}
                         <div className="space-y-1">
                             <AuthInput
-                                label="Create Password"
+                                label={isBn ? "পাসওয়ার্ড তৈরি করুন" : "Create Password"}
                                 type="password"
-                                placeholder="Min. 8 characters with at least 1 number"
+                                placeholder={isBn ? "কমপক্ষে ৮ অক্ষর ও একটি সংখ্যা" : "Min. 8 characters with at least 1 number"}
                                 icon={Lock}
-                                error={errors.password?.message}
+                                error={errors.password ? (isBn ? "পাসওয়ার্ড কমপক্ষে ৮ অক্ষর ও সংখ্যা থাকতে হবে" : errors.password.message) : undefined}
                                 required
                                 autoComplete="new-password"
                                 {...register("password")}
@@ -615,12 +633,12 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                     </div>
                                     <p className="text-[10px] text-text-secondary mt-1">
                                         {passwordScore <= 1
-                                            ? "Weak password"
+                                            ? (isBn ? "দুর্বল পাসওয়ার্ড" : "Weak password")
                                             : passwordScore === 2
-                                            ? "Medium strength"
+                                            ? (isBn ? "মাঝারি পাসওয়ার্ড" : "Medium strength")
                                             : passwordScore === 3
-                                            ? "Strong password"
-                                            : "Very strong password"}
+                                            ? (isBn ? "শক্তিশালী পাসওয়ার্ড" : "Strong password")
+                                            : (isBn ? "খুব শক্তিশালী পাসওয়ার্ড" : "Very strong password")}
                                     </p>
                                 </div>
                             )}
@@ -628,11 +646,11 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
 
                         {/* Confirm Password */}
                         <AuthInput
-                            label="Confirm Password"
+                            label={isBn ? "পাসওয়ার্ড নিশ্চিত করুন" : "Confirm Password"}
                             type="password"
-                            placeholder="Re-type your password"
+                            placeholder={isBn ? "পুনরায় পাসওয়ার্ড লিখুন" : "Re-type your password"}
                             icon={Lock}
-                            error={errors.confirmPassword?.message}
+                            error={errors.confirmPassword ? (isBn ? "উভয় পাসওয়ার্ড মিলতে হবে" : errors.confirmPassword.message) : undefined}
                             required
                             autoComplete="new-password"
                             {...register("confirmPassword")}
@@ -646,28 +664,34 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                 onChange={(checked) =>
                                     setValue("agreeToTerms", checked, { shouldValidate: true })
                                 }
-                                error={errors.agreeToTerms?.message}
+                                error={errors.agreeToTerms ? (isBn ? "শর্তাবলীতে সম্মতি আবশ্যক" : errors.agreeToTerms.message) : undefined}
                                 label={
                                     <span>
-                                        I accept the{" "}
-                                        <Link
-                                            href="/terms"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="font-medium text-primary hover:underline"
-                                        >
-                                            Terms of Service
-                                        </Link>{" "}
-                                        and acknowledge the{" "}
-                                        <Link
-                                            href="/privacy"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="font-medium text-primary hover:underline"
-                                        >
-                                            Privacy Policy
-                                        </Link>
-                                        .
+                                        {isBn ? (
+                                            <>
+                                                আমি{" "}
+                                                <Link href="/terms" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                                                    ব্যবহারের শর্তাবলী
+                                                </Link>{" "}
+                                                এবং{" "}
+                                                <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                                                    গোপনীয়তা নীতি
+                                                </Link>{" "}
+                                                মেনে নিচ্ছি।
+                                            </>
+                                        ) : (
+                                            <>
+                                                I accept the{" "}
+                                                <Link href="/terms" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                                                    Terms of Service
+                                                </Link>{" "}
+                                                and acknowledge the{" "}
+                                                <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                                                    Privacy Policy
+                                                </Link>
+                                                .
+                                            </>
+                                        )}
                                     </span>
                                 }
                             />
@@ -681,7 +705,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                 className="cursor-pointer inline-flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl border border-border bg-surface text-foreground text-xs font-semibold hover:bg-surface-secondary transition-colors"
                             >
                                 <ArrowLeft className="size-3.5" />
-                                <span>Back</span>
+                                <span>{isBn ? "পূর্ববর্তী" : "Back"}</span>
                             </button>
                             <div className="flex-1">
                                 <AuthButton
@@ -689,7 +713,7 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
                                     isLoading={isSubmitting}
                                     icon={<ArrowRight className="size-3.5" />}
                                 >
-                                    Create Account
+                                    {isBn ? "অ্যাকাউন্ট তৈরি করুন" : "Create Account"}
                                 </AuthButton>
                             </div>
                         </div>
@@ -699,8 +723,8 @@ export const RegisterForm = ({ onSuccess, redirectUrl = "/" }: RegisterFormProps
 
             <div className="pt-3 border-t border-border mt-4">
                 <AuthFooterLink
-                    promptText="Already have an account?"
-                    linkText="Sign in"
+                    promptText={isBn ? "ইতিমধ্যে একটি অ্যাকাউন্ট আছে?" : "Already have an account?"}
+                    linkText={isBn ? "লগইন করুন" : "Sign in"}
                     href="/auth/login"
                 />
             </div>

@@ -15,6 +15,7 @@ import TurnstileWidget from "./TurnstileWidget";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { redirectPath, setUser } from "@/redux/features/auth/authSlice";
+import { useLocale } from "@/hooks/useLocale";
 
 // Zod Schema for Login Form
 const loginSchema = z.object({
@@ -36,6 +37,7 @@ interface LoginFormProps {
 }
 
 export const LoginForm = ({ onSuccess, redirectUrl }: LoginFormProps) => {
+    const { isBn } = useLocale();
     const router = useRouter();
     const searchParams = useSearchParams();
     const dispatch = useAppDispatch();
@@ -67,7 +69,7 @@ export const LoginForm = ({ onSuccess, redirectUrl }: LoginFormProps) => {
         setTurnstileError("");
 
         if (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken) {
-            setTurnstileError("Please complete the verification check");
+            setTurnstileError(isBn ? "অনুগ্রহ করে ভেরিফিকেশন সম্পন্ন করুন" : "Please complete the verification check");
             return;
         }
 
@@ -96,7 +98,7 @@ export const LoginForm = ({ onSuccess, redirectUrl }: LoginFormProps) => {
             const errorMessage =
                 apiError?.data?.message ||
                 apiError?.error ||
-                "Invalid credentials. Please verify your email and password.";
+                (isBn ? "ভুল তথ্য। অনুগ্রহ করে আপনার ইমেইল ও পাসওয়ার্ড পুনরায় পরীক্ষা করুন।" : "Invalid credentials. Please verify your email and password.");
             setGeneralError(errorMessage);
         }
     };
@@ -104,9 +106,13 @@ export const LoginForm = ({ onSuccess, redirectUrl }: LoginFormProps) => {
     return (
         <div className="w-full">
             <AuthHeader
-                category="Account Access"
-                title="Sign in to your account"
-                subtitle="Enter your verified credentials to access your listings, reservations, and saved spaces."
+                category={isBn ? "অ্যাকাউন্টে প্রবেশ" : "Account Access"}
+                title={isBn ? "আপনার অ্যাকাউন্টে লগইন করুন" : "Sign in to your account"}
+                subtitle={
+                    isBn
+                        ? "আপনার লিস্টিং, রিজার্ভেশন ও সংরক্ষিত স্পেস দেখতে ইমেইল ও পাসওয়ার্ড দিন।"
+                        : "Enter your verified credentials to access your listings, reservations, and saved spaces."
+                }
             />
 
             {generalError && (
@@ -117,22 +123,22 @@ export const LoginForm = ({ onSuccess, redirectUrl }: LoginFormProps) => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-2.5" noValidate>
                 <AuthInput
-                    label="Email Address"
+                    label={isBn ? "ইমেইল ঠিকানা" : "Email Address"}
                     type="email"
                     placeholder="name@example.com"
                     icon={Mail}
-                    error={errors.identifier?.message}
+                    error={errors.identifier ? (isBn ? "সঠিক ইমেইল ঠিকানা দিন" : errors.identifier.message) : undefined}
                     required
                     autoComplete="username"
                     {...register("identifier")}
                 />
 
                 <AuthInput
-                    label="Password"
+                    label={isBn ? "পাসওয়ার্ড" : "Password"}
                     type="password"
-                    placeholder="Enter account password"
+                    placeholder={isBn ? "পাসওয়ার্ড লিখুন" : "Enter account password"}
                     icon={Lock}
-                    error={errors.password?.message}
+                    error={errors.password ? (isBn ? "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে" : errors.password.message) : undefined}
                     required
                     autoComplete="current-password"
                     rightElement={
@@ -140,7 +146,7 @@ export const LoginForm = ({ onSuccess, redirectUrl }: LoginFormProps) => {
                             href="/auth/forgot-password"
                             className="text-xs font-medium text-primary hover:underline transition-colors cursor-pointer"
                         >
-                            Forgot password?
+                            {isBn ? "পাসওয়ার্ড ভুলে গেছেন?" : "Forgot password?"}
                         </Link>
                     }
                     {...register("password")}
@@ -168,15 +174,15 @@ export const LoginForm = ({ onSuccess, redirectUrl }: LoginFormProps) => {
                         isLoading={isLoading}
                         icon={<ArrowRight className="size-3.5" />}
                     >
-                        Sign In
+                        {isBn ? "লগইন করুন" : "Sign In"}
                     </AuthButton>
                 </div>
             </form>
 
             <div className="pt-3 border-t border-border mt-4">
                 <AuthFooterLink
-                    promptText="Don't have an account yet?"
-                    linkText="Create an account"
+                    promptText={isBn ? "এখনও কোনো অ্যাকাউন্ট নেই?" : "Don't have an account yet?"}
+                    linkText={isBn ? "নতুন অ্যাকাউন্ট তৈরি করুন" : "Create an account"}
                     href="/auth/register"
                 />
             </div>

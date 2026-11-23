@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
+import { useLocale } from "@/hooks/useLocale";
+import LanguageSwitch from "@/components/header/LanguageSwitch";
 
 export interface AuthLayoutProps {
     children: React.ReactNode;
@@ -19,10 +21,16 @@ export const AuthLayout = ({
     children,
     imageSrc = "/auth-hero.jpg",
     imageAlt = "Modern luxury architectural residence - FindBookStay",
-    sectionTag = "01 / VERIFIED LIVING",
-    headline = "Spaces crafted for how you live, travel, and play.",
-    subheadline = "Direct connections with verified owners and turf managers. Seamless discovery, zero broker commission.",
+    sectionTag,
+    headline,
+    subheadline,
 }: AuthLayoutProps) => {
+    const { isBn } = useLocale();
+
+    const resolvedSectionTag = sectionTag || (isBn ? "০১ / যাচাইকৃত আবাসন" : "01 / VERIFIED LIVING");
+    const resolvedHeadline = headline || (isBn ? "বসবাস, ভ্রমণ ও খেলাধুলার আধুনিক মার্কেটপ্লেস।" : "Spaces crafted for how you live, travel, and play.");
+    const resolvedSubheadline = subheadline || (isBn ? "বাড়িওয়ালা ও ভেন্যু পরিচালকদের সাথে সরাসরি যোগাযোগ। শতভাগ দালালমুক্ত স্বচ্ছ সেবা।" : "Direct connections with verified owners and turf managers. Seamless discovery, zero broker commission.");
+
     return (
         <div className="min-h-screen w-full flex flex-col lg:flex-row bg-background">
             {/* ------------------------------------------------------------------ */}
@@ -54,10 +62,11 @@ export const AuthLayout = ({
                     </Link>
 
                     <div className="flex items-center gap-2.5">
+                        <LanguageSwitch />
                         <ModeToggle className="size-8.5 rounded-lg text-white bg-black/25 dark:bg-white/10 hover:bg-black/40 dark:hover:bg-white/20 border-white/15 cursor-pointer" />
                         <Link href="/" className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium text-white/90 hover:text-white bg-black/25 dark:bg-white/10 hover:bg-black/40 dark:hover:bg-white/20 backdrop-blur-md border border-white/15 transition-colors cursor-pointer">
                             <ArrowLeft className="size-3.5" />
-                            <span>Back to site</span>
+                            <span>{isBn ? "ওয়েবসাইটে ফিরে যান" : "Back to site"}</span>
                         </Link>
                     </div>
                 </div>
@@ -66,34 +75,34 @@ export const AuthLayout = ({
                 <div className="relative z-10 my-auto py-10 max-w-lg space-y-6">
                     <div className="flex items-center gap-2.5">
                         <span className="w-6 h-0.5 bg-accent" />
-                        <span className="text-[11px] font-mono tracking-widest text-emerald-400 dark:text-emerald-300 uppercase font-bold">{sectionTag}</span>
+                        <span className="text-[11px] font-mono tracking-widest text-emerald-400 dark:text-emerald-300 uppercase font-bold">{resolvedSectionTag}</span>
                     </div>
 
-                    <h2 className="text-3xl xl:text-4xl 2xl:text-[44px] font-bold text-white tracking-tight leading-tight">{headline}</h2>
+                    <h2 className="text-3xl xl:text-4xl 2xl:text-[44px] font-bold text-white tracking-tight leading-tight">{resolvedHeadline}</h2>
 
-                    <p className="text-sm xl:text-base text-white/80 dark:text-white/70 leading-relaxed max-w-md font-light">{subheadline}</p>
+                    <p className="text-sm xl:text-base text-white/80 dark:text-white/70 leading-relaxed max-w-md font-light">{resolvedSubheadline}</p>
 
                     {/* Minimalist Key Metric Grid */}
                     <div className="grid grid-cols-3 gap-6 pt-6 border-t border-white/15 dark:border-white/10">
                         <div>
-                            <div className="text-xl xl:text-2xl font-bold text-white tracking-tight font-mono">45K+</div>
-                            <div className="text-[11px] uppercase tracking-wider text-white/60 dark:text-white/50 font-medium pt-1">Verified Units</div>
+                            <div className="text-xl xl:text-2xl font-bold text-white tracking-tight font-mono">{isBn ? "৪৫,০০০+" : "45K+"}</div>
+                            <div className="text-[11px] uppercase tracking-wider text-white/60 dark:text-white/50 font-medium pt-1">{isBn ? "যাচাইকৃত স্পেস" : "Verified Units"}</div>
                         </div>
                         <div>
-                            <div className="text-xl xl:text-2xl font-bold text-emerald-400 dark:text-emerald-300 tracking-tight font-mono">0%</div>
-                            <div className="text-[11px] uppercase tracking-wider text-white/60 dark:text-white/50 font-medium pt-1">Broker Fees</div>
+                            <div className="text-xl xl:text-2xl font-bold text-emerald-400 dark:text-emerald-300 tracking-tight font-mono">{isBn ? "০%" : "0%"}</div>
+                            <div className="text-[11px] uppercase tracking-wider text-white/60 dark:text-white/50 font-medium pt-1">{isBn ? "দালাল ফি" : "Broker Fees"}</div>
                         </div>
                         <div>
-                            <div className="text-xl xl:text-2xl font-bold text-white tracking-tight font-mono">100%</div>
-                            <div className="text-[11px] uppercase tracking-wider text-white/60 dark:text-white/50 font-medium pt-1">Direct Contact</div>
+                            <div className="text-xl xl:text-2xl font-bold text-white tracking-tight font-mono">{isBn ? "১০০%" : "100%"}</div>
+                            <div className="text-[11px] uppercase tracking-wider text-white/60 dark:text-white/50 font-medium pt-1">{isBn ? "সরাসরি যোগাযোগ" : "Direct Contact"}</div>
                         </div>
                     </div>
                 </div>
 
                 {/* Bottom Architectural Stamp */}
                 <div className="relative z-10 pt-6 border-t border-white/10 dark:border-white/10 flex items-center justify-between text-[11px] tracking-wider uppercase font-mono text-white/60 dark:text-white/50">
-                    <span>FINDBOOKSTAY MARKETPLACE</span>
-                    <span>RESIDENTIAL • HOTELS • TURFS</span>
+                    <span>{isBn ? "FINDBOOKSTAY মার্কেটপ্লেস" : "FINDBOOKSTAY MARKETPLACE"}</span>
+                    <span>{isBn ? "বাসা • হোটেল • টার্ফ" : "RESIDENTIAL • HOTELS • TURFS"}</span>
                 </div>
             </div>
 
@@ -107,10 +116,11 @@ export const AuthLayout = ({
                         <Image src="/findbookstay-logo.png" alt="FindBookStay Logo" width={130} height={38} priority className="h-7.5 w-auto object-contain dark:brightness-0 dark:invert" />
                     </Link>
                     <div className="flex items-center gap-2">
+                        <LanguageSwitch />
                         <ModeToggle className="size-8 rounded-lg" />
-                        <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-medium text-text-secondary hover:text-primary transition-colors">
+                        <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-primary transition-colors">
                             <ArrowLeft className="size-3" />
-                            <span>Home</span>
+                            <span>{isBn ? "হোম" : "Home"}</span>
                         </Link>
                     </div>
                 </div>
@@ -121,25 +131,31 @@ export const AuthLayout = ({
                 {/* Subtle Legal Notice */}
                 <div className="pt-8 w-full max-w-100 mx-auto text-center">
                     <p className="text-[11px] text-muted-foreground leading-relaxed">
-                        Protected by FindBookStay verification protocols. By proceeding you agree to our{" "}
-                        <Link
-                            href="/terms"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-text-secondary hover:text-foreground underline underline-offset-2 transition-colors"
-                        >
-                            Terms
-                        </Link>{" "}
-                        and{" "}
-                        <Link
-                            href="/privacy"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-text-secondary hover:text-foreground underline underline-offset-2 transition-colors"
-                        >
-                            Privacy Policy
-                        </Link>
-                        .
+                        {isBn ? (
+                            <>
+                                FindBookStay ভেরিফিকেশন প্রোটোকল দ্বারা সুরক্ষিত। এগিয়ে যাওয়ার মাধ্যমে আপনি আমাদের{" "}
+                                <Link href="/terms" target="_blank" rel="noopener noreferrer" className="text-foreground hover:underline underline-offset-2 transition-colors">
+                                    ব্যবহারের শর্তাবলী
+                                </Link>{" "}
+                                এবং{" "}
+                                <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="text-foreground hover:underline underline-offset-2 transition-colors">
+                                    গোপনীয়তা নীতি
+                                </Link>{" "}
+                                মেনে নিচ্ছেন।
+                            </>
+                        ) : (
+                            <>
+                                Protected by FindBookStay verification protocols. By proceeding you agree to our{" "}
+                                <Link href="/terms" target="_blank" rel="noopener noreferrer" className="text-foreground hover:underline underline-offset-2 transition-colors">
+                                    Terms
+                                </Link>{" "}
+                                and{" "}
+                                <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="text-foreground hover:underline underline-offset-2 transition-colors">
+                                    Privacy Policy
+                                </Link>
+                                .
+                            </>
+                        )}
                     </p>
                 </div>
             </div>

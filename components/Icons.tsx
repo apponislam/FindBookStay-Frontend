@@ -77,6 +77,10 @@ import {
     Layers,
     BarChart3,
     ExternalLink,
+    Paperclip,
+    MoreVertical,
+    CheckCheck,
+    Smile,
     type LucideIcon,
 } from "lucide-react";
 
@@ -247,6 +251,10 @@ export {
     Layers,
     BarChart3,
     ExternalLink,
+    Paperclip,
+    MoreVertical,
+    CheckCheck,
+    Smile,
 };
 
 export const Icons = {

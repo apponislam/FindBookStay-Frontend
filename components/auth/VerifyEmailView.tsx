@@ -10,8 +10,10 @@ import AuthLoading from "./AuthLoading";
 import OtpInput from "./OtpInput";
 import { cn } from "@/lib/utils";
 import { useLazyVerifyEmailQuery, useResendVerificationEmailMutation } from "@/redux/features/auth/authApi";
+import { useLocale } from "@/hooks/useLocale";
 
 export const VerifyEmailView = () => {
+    const { isBn } = useLocale();
     const searchParams = useSearchParams();
     const urlToken = searchParams.get("token") || "";
     const urlEmail = searchParams.get("email") || "";
@@ -41,20 +43,18 @@ export const VerifyEmailView = () => {
         return () => clearTimeout(timer);
     }, [countdown]);
 
-
-
     const executeVerification = useCallback(
         async (targetEmail: string, tokenVal?: string, otpVal?: string) => {
             const cleanEmail = targetEmail.trim().toLowerCase();
             if (!cleanEmail) {
                 setStatus("ERROR");
-                setErrorMessage("Email address is required.");
+                setErrorMessage(isBn ? "ইমেইল ঠিকানা প্রদান আবশ্যক।" : "Email address is required.");
                 return;
             }
 
             if (!tokenVal && (!otpVal || otpVal.length !== 6)) {
                 setStatus("ERROR");
-                setErrorMessage("Please enter all 6 digits of the verification code.");
+                setErrorMessage(isBn ? "অনুগ্রহ করে ৬-সংখ্যার সম্পূর্ণ কোডটি লিখুন।" : "Please enter all 6 digits of the verification code.");
                 return;
             }
 
@@ -76,11 +76,11 @@ export const VerifyEmailView = () => {
                 setErrorMessage(
                     apiError?.data?.message ||
                     apiError?.error ||
-                    "Invalid or expired verification code. Please check and try again."
+                    (isBn ? "ভুল বা মেয়াদোত্তীর্ণ ওটিপি কোড। অনুগ্রহ করে পুনরায় চেষ্টা করুন।" : "Invalid or expired verification code. Please check and try again.")
                 );
             }
         },
-        [triggerVerifyEmail]
+        [triggerVerifyEmail, isBn]
     );
 
     // Auto-verify if full link token & email are provided in URL query parameters
@@ -103,7 +103,7 @@ export const VerifyEmailView = () => {
                     setErrorMessage(
                         apiError?.data?.message ||
                         apiError?.error ||
-                        "Invalid or expired verification link. Please enter your 6-digit code."
+                        (isBn ? "স্বয়ংক্রিয় যাচাইকরণ ব্যর্থ হয়েছে।" : "Automated email link verification failed.")
                     );
                 }
             }
@@ -112,34 +112,32 @@ export const VerifyEmailView = () => {
         return () => {
             isMounted = false;
         };
-    }, [urlEmail, urlToken, triggerVerifyEmail]);
+    }, [urlEmail, urlToken, triggerVerifyEmail, isBn]);
 
-    // Handle manual verify button click
-    const handleManualVerify = async (e?: React.FormEvent) => {
-        if (e) e.preventDefault();
-        await executeVerification(email, urlToken || undefined, otp);
+    // Manual Form Submission with OTP Code
+    const handleManualVerify = (e: React.FormEvent) => {
+        e.preventDefault();
+        executeVerification(email, undefined, otp);
     };
 
-    // Handle resending verification code
+    // Resend verification email
     const handleResend = async () => {
-        if (countdown > 0 || isResending) return;
-
-        const cleanEmail = email.trim().toLowerCase();
-        if (!cleanEmail || !/^\S+@\S+\.\S+$/.test(cleanEmail)) {
-            setErrorMessage("Please enter a valid email address to resend verification.");
-            return;
-        }
-
+        if (countdown > 0 || isResending || !email.trim()) return;
         setErrorMessage("");
         setInfoMessage("");
 
         try {
-            await resendVerificationEmail({ email: cleanEmail }).unwrap();
+            await resendVerificationEmail({ email: email.trim().toLowerCase() }).unwrap();
             setCountdown(60);
-            setInfoMessage("A fresh 6-digit code has been sent to your email.");
+            setOtp("");
+            setInfoMessage(isBn ? "একটি নতুন ৬-সংখ্যার কোড পাঠানো হয়েছে।" : "A fresh 6-digit verification code has been dispatched.");
         } catch (err: unknown) {
             const apiError = err as { data?: { message?: string }; error?: string };
-            setErrorMessage(apiError?.data?.message || apiError?.error || "Please wait before resending.");
+            setErrorMessage(
+                apiError?.data?.message ||
+                apiError?.error ||
+                (isBn ? "কোড পুনরায় পাঠাতে কিছুক্ষণ অপেক্ষা করুন।" : "Please wait before requesting another code.")
+            );
         }
     };
 
@@ -154,9 +152,13 @@ export const VerifyEmailView = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                    <h1 className="text-xl sm:text-2xl font-bold text-foreground">Email Verified!</h1>
+                    <h1 className="text-xl sm:text-2xl font-bold text-foreground">
+                        {isBn ? "ইমেইল সফলভাবে যাচাই হয়েছে!" : "Email Verified!"}
+                    </h1>
                     <p className="text-sm text-text-secondary leading-relaxed max-w-sm mx-auto">
-                        Your account has been fully verified and activated. You can now access all features on FindBookStay.
+                        {isBn
+                            ? "আপনার অ্যাকাউন্ট সক্রিয় করা হয়েছে। এখন FindBookStay-এর সকল সুবিধা উপভোগ করুন।"
+                            : "Your account has been fully verified and activated. You can now access all features on FindBookStay."}
                     </p>
                 </div>
 
@@ -165,7 +167,7 @@ export const VerifyEmailView = () => {
                         href="/auth/login"
                         className="cursor-pointer w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary-hover transition-colors shadow-xs"
                     >
-                        <span>Continue to Sign In</span>
+                        <span>{isBn ? "লগইন করতে এগিয়ে যান" : "Continue to Sign In"}</span>
                         <ArrowRight className="size-4" />
                     </Link>
                 </div>
@@ -179,8 +181,8 @@ export const VerifyEmailView = () => {
     if (status === "VERIFYING" && isFetching && urlToken) {
         return (
             <AuthLoading
-                message="Verifying your email..."
-                description="Securing your account credentials with FindBookStay."
+                message={isBn ? "ইমেইল যাচাই করা হচ্ছে..." : "Verifying your email..."}
+                description={isBn ? "FindBookStay-তে আপনার অ্যাকাউন্ট সুরক্ষিত করা হচ্ছে।" : "Securing your account credentials with FindBookStay."}
             />
         );
     }
@@ -191,9 +193,13 @@ export const VerifyEmailView = () => {
     return (
         <div className="w-full animate-in fade-in duration-150">
             <AuthHeader
-                category="Account Verification"
-                title="Verify Your Email"
-                subtitle="Enter the 6-digit verification code sent to your inbox."
+                category={isBn ? "অ্যাকাউন্ট যাচাইকরণ" : "Account Verification"}
+                title={isBn ? "আপনার ইমেইল যাচাই করুন" : "Verify Your Email"}
+                subtitle={
+                    isBn
+                        ? "আপনার ইনবক্সে প্রেরিত ৬-সংখ্যার কোডটি লিখুন।"
+                        : "Enter the 6-digit verification code sent to your inbox."
+                }
             />
 
             {/* Email display / edit box */}
@@ -205,14 +211,14 @@ export const VerifyEmailView = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your registered email"
+                            placeholder={isBn ? "আপনার নিবন্ধিত ইমেইল লিখুন" : "Enter your registered email"}
                             className="bg-transparent border-b border-primary/50 text-foreground font-medium outline-none text-xs w-full py-0.5"
                             autoFocus
                         />
                     ) : (
                         <div className="truncate">
-                            <span className="text-text-secondary">Code sent to: </span>
-                            <span className="font-semibold text-foreground">{email || "your email"}</span>
+                            <span className="text-text-secondary">{isBn ? "কোড পাঠানো হয়েছে: " : "Code sent to: "}</span>
+                            <span className="font-semibold text-foreground">{email || (isBn ? "আপনার ইমেইলে" : "your email")}</span>
                         </div>
                     )}
                 </div>
@@ -222,7 +228,11 @@ export const VerifyEmailView = () => {
                     className="text-[11px] font-semibold text-primary hover:underline cursor-pointer shrink-0 ml-2 inline-flex items-center gap-1"
                 >
                     <Edit2 className="size-3" />
-                    <span>{isEditingEmail ? "Done" : "Change"}</span>
+                    <span>
+                        {isEditingEmail
+                            ? (isBn ? "সম্পন্ন" : "Done")
+                            : (isBn ? "পরিবর্তন" : "Change")}
+                    </span>
                 </button>
             </div>
 
@@ -243,22 +253,27 @@ export const VerifyEmailView = () => {
                 {/* 6 Same-Size OTP Boxes */}
                 <div className="space-y-2">
                     <label className="block text-center text-xs font-semibold text-text-secondary">
-                        6-Digit Security Code
+                        {isBn ? "৬-সংখ্যার নিরাপত্তা কোড" : "6-Digit Security Code"}
                     </label>
                     <OtpInput
                         value={otp}
                         onChange={(val) => {
                             setOtp(val);
                             if (errorMessage) setErrorMessage("");
+                            if (val.length === 6) {
+                                executeVerification(email, undefined, val);
+                            }
                         }}
                         length={6}
-                        error={Boolean(errorMessage)}
-                        disabled={isFetching}
+                        disabled={status === "VERIFYING"}
+                        error={status === "ERROR"}
                     />
                 </div>
 
                 <div className="flex items-center justify-between text-xs pt-1">
-                    <span className="text-text-secondary">Didn&apos;t receive the code?</span>
+                    <span className="text-text-secondary">
+                        {isBn ? "কোড পাননি?" : "Didn't receive the code?"}
+                    </span>
                     <button
                         type="button"
                         onClick={handleResend}
@@ -270,19 +285,23 @@ export const VerifyEmailView = () => {
                                 : "text-primary hover:underline cursor-pointer"
                         )}
                     >
-                        <RefreshCw className={cn("size-3", isResending && "animate-spin")} />
-                        <span>{countdown > 0 ? `Resend in ${countdown}s` : "Resend code"}</span>
+                        <RefreshCw className={`size-3 ${isResending ? "animate-spin" : ""}`} />
+                        <span>
+                            {countdown > 0
+                                ? (isBn ? `${countdown} সেকেন্ড পর চেষ্টা করুন` : `Resend in ${countdown}s`)
+                                : (isBn ? "কোড পুনরায় পাঠান" : "Resend code")}
+                        </span>
                     </button>
                 </div>
 
                 <div className="pt-2">
                     <AuthButton
                         type="submit"
-                        isLoading={isFetching}
-                        disabled={otp.length !== 6 || !email.trim()}
+                        isLoading={status === "VERIFYING"}
+                        disabled={otp.length !== 6 || status === "VERIFYING"}
                         icon={<ArrowRight className="size-3.5" />}
                     >
-                        Verify Email
+                        {isBn ? "যাচাই করে সম্পন্ন করুন" : "Verify & Complete"}
                     </AuthButton>
                 </div>
             </form>
@@ -292,7 +311,7 @@ export const VerifyEmailView = () => {
                     href="/auth/login"
                     className="text-xs font-semibold text-text-secondary hover:text-primary transition-colors cursor-pointer"
                 >
-                    Already verified? Sign in here
+                    {isBn ? "লগইনে ফিরে যান" : "Return to sign in"}
                 </Link>
             </div>
         </div>

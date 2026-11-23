@@ -3,6 +3,8 @@
 import React from "react";
 import Image from "next/image";
 import { MapPin, Heart, Camera, CheckCircle2, Eye } from "@/components/Icons";
+import { useLocale } from "@/hooks/useLocale";
+import { toBengaliDigits } from "@/lib/utils";
 
 export interface LivePreviewData {
     pillar: "rent" | "book" | "sports" | "buy";
@@ -23,21 +25,27 @@ interface PublishLiveCardProps {
 }
 
 export const PublishLiveCard = ({ data, completenessScore = 75 }: PublishLiveCardProps) => {
-    // Robust price formatter that never produces NaN
+    const { isBn } = useLocale();
+
+    // Robust price formatter that never produces NaN and supports Bengali digits
     const displayPrice = () => {
         if (typeof data.price === "number") {
-            return `৳${data.price.toLocaleString("en-BD")}`;
+            const formatted = data.price.toLocaleString("en-BD");
+            return `৳${isBn ? toBengaliDigits(formatted) : formatted}`;
         }
         if (typeof data.price === "string") {
             const trimmed = data.price.trim();
-            if (trimmed.startsWith("৳")) return trimmed;
-            const parsed = parseFloat(trimmed.replace(/,/g, ""));
-            if (!isNaN(parsed) && !trimmed.toLowerCase().includes("crore") && !trimmed.toLowerCase().includes("lakh")) {
-                return `৳${parsed.toLocaleString("en-BD")}`;
+            if (trimmed.startsWith("৳")) {
+                return isBn ? `৳${toBengaliDigits(trimmed.replace(/^৳\s*/, ""))}` : trimmed;
             }
-            return `৳${trimmed}`;
+            const parsed = parseFloat(trimmed.replace(/,/g, ""));
+            if (!isNaN(parsed) && !trimmed.toLowerCase().includes("crore") && !trimmed.toLowerCase().includes("lakh") && !trimmed.includes("কোটি") && !trimmed.includes("লাখ")) {
+                const formatted = parsed.toLocaleString("en-BD");
+                return `৳${isBn ? toBengaliDigits(formatted) : formatted}`;
+            }
+            return isBn ? `৳${toBengaliDigits(trimmed)}` : `৳${trimmed}`;
         }
-        return "৳0";
+        return isBn ? "৳০" : "৳0";
     };
 
     const badgeTheme = {
@@ -47,13 +55,16 @@ export const PublishLiveCard = ({ data, completenessScore = 75 }: PublishLiveCar
         buy: "bg-emerald-700 text-white dark:bg-emerald-500/20 dark:text-emerald-300 dark:border-emerald-500/30",
     };
 
+    const defaultTitle = isBn ? "আপনার বিজ্ঞাপনের শিরোনাম এখানে দৃশ্যমান হবে..." : "Your Listing Title Appears Here...";
+    const locationNotSet = isBn ? "লোকেশন নির্ধারণ করা হয়নি" : "Location not set";
+
     return (
         <div className="space-y-4 sticky top-24">
             {/* Header info pill */}
             <div className="flex items-center justify-between text-xs font-bold text-muted-foreground px-1">
                 <div className="inline-flex items-center gap-1.5 text-foreground">
                     <Eye className="size-4 text-accent" />
-                    <span>Search Feed Preview</span>
+                    <span>{isBn ? "সার্চ ফিড লাইভ প্রিভিউ" : "Search Feed Preview"}</span>
                 </div>
             </div>
 
@@ -62,11 +73,20 @@ export const PublishLiveCard = ({ data, completenessScore = 75 }: PublishLiveCar
                 {/* Media frame */}
                 <div className="relative aspect-16/10 w-full bg-surface-secondary dark:bg-surface overflow-hidden">
                     {data.coverImage ? (
-                        <Image src={data.coverImage} alt={data.title || "Listing preview"} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 400px" priority />
+                        <Image
+                            src={data.coverImage}
+                            alt={data.title || defaultTitle}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            sizes="(max-width: 768px) 100vw, 400px"
+                            priority
+                        />
                     ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground gap-2 p-6 text-center">
                             <Camera className="size-8 text-muted-foreground/40" />
-                            <p className="text-xs font-semibold">Upload photos to preview image</p>
+                            <p className="text-xs font-semibold">
+                                {isBn ? "ছবি দেখতে ছবি আপলোড করুন" : "Upload photos to preview image"}
+                            </p>
                         </div>
                     )}
 
@@ -75,7 +95,9 @@ export const PublishLiveCard = ({ data, completenessScore = 75 }: PublishLiveCar
 
                     {/* Top tags */}
                     <div className="absolute top-3 inset-x-3 flex items-center justify-between gap-2">
-                        <span className={`px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider shadow-sm border border-transparent ${badgeTheme[data.pillar]}`}>{data.category || data.pillar.toUpperCase()}</span>
+                        <span className={`px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider shadow-sm border border-transparent ${badgeTheme[data.pillar]}`}>
+                            {data.category || data.pillar.toUpperCase()}
+                        </span>
 
                         <div className="size-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white/90 shadow-xs">
                             <Heart className="size-4" />
@@ -86,7 +108,9 @@ export const PublishLiveCard = ({ data, completenessScore = 75 }: PublishLiveCar
                     <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs font-bold drop-shadow-md">
                         <div className="flex items-center gap-1.5 truncate">
                             <MapPin className="size-3.5 text-accent shrink-0" />
-                            <span className="truncate">{data.area && data.division ? `${data.area}, ${data.division}` : data.area || data.division || "Location not set"}</span>
+                            <span className="truncate">
+                                {data.area && data.division ? `${data.area}, ${data.division}` : data.area || data.division || locationNotSet}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -95,7 +119,9 @@ export const PublishLiveCard = ({ data, completenessScore = 75 }: PublishLiveCar
                 <div className="p-5 space-y-4">
                     {/* Title */}
                     <div>
-                        <h3 className="text-base sm:text-lg font-black text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors">{data.title || "Your Listing Title Appears Here..."}</h3>
+                        <h3 className="text-base sm:text-lg font-black text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors">
+                            {data.title || defaultTitle}
+                        </h3>
                     </div>
 
                     {/* Specifications Chips */}
@@ -103,7 +129,7 @@ export const PublishLiveCard = ({ data, completenessScore = 75 }: PublishLiveCar
                         <div className="flex flex-wrap items-center gap-2">
                             {data.specs.map((spec, i) => (
                                 <span key={i} className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-surface-secondary dark:bg-surface text-foreground border border-border">
-                                    <strong className="font-black">{spec.value}</strong> {spec.label}
+                                    <strong className="font-black">{isBn && typeof spec.value === "number" ? toBengaliDigits(spec.value) : spec.value}</strong> {spec.label}
                                 </span>
                             ))}
                         </div>
@@ -115,7 +141,7 @@ export const PublishLiveCard = ({ data, completenessScore = 75 }: PublishLiveCar
                     {/* Pricing */}
                     <div className="flex items-end justify-between gap-2">
                         <div>
-                            <span className="text-[11px] font-bold text-muted-foreground block">Price</span>
+                            <span className="text-[11px] font-bold text-muted-foreground block">{isBn ? "মূল্য" : "Price"}</span>
                             <div className="flex items-baseline gap-1.5">
                                 <span className="text-xl sm:text-2xl font-black text-primary">{displayPrice()}</span>
                                 {data.priceUnit && <span className="text-xs font-bold text-muted-foreground">{data.priceUnit}</span>}
@@ -130,14 +156,18 @@ export const PublishLiveCard = ({ data, completenessScore = 75 }: PublishLiveCar
                 <div className="flex items-center justify-between text-xs">
                     <span className="font-extrabold text-foreground flex items-center gap-1.5">
                         <CheckCircle2 className="size-3.5 text-accent" />
-                        Listing Quality Score
+                        {isBn ? "বিজ্ঞাপনের মান স্কোর" : "Listing Quality Score"}
                     </span>
-                    <span className="font-black text-accent">{completenessScore}%</span>
+                    <span className="font-black text-accent">{isBn ? `${toBengaliDigits(completenessScore)}%` : `${completenessScore}%`}</span>
                 </div>
                 <div className="w-full bg-surface-secondary dark:bg-surface rounded-full h-2 overflow-hidden border border-border">
                     <div className="bg-accent h-2 rounded-full transition-all duration-300" style={{ width: `${completenessScore}%` }} />
                 </div>
-                <p className="text-[11px] text-muted-foreground leading-relaxed">Complete all 5 steps to reach 100% and unlock priority placement in FindBookStay search feeds.</p>
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                    {isBn
+                        ? "১০০% সম্পন্ন করতে এবং FindBookStay সার্চে অগ্রাধিকার পেতে ৫টি ধাপই পূরণ করুন।"
+                        : "Complete all 5 steps to reach 100% and unlock priority placement in FindBookStay search feeds."}
+                </p>
             </div>
         </div>
     );

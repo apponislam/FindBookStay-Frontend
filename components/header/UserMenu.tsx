@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ChevronDown, ChevronRight, User, Heart, Settings, LogOut, HelpCircle, CalendarDays, Building, ArrowRight, X, Globe } from "@/components/Icons";
+import { ChevronDown, ChevronRight, User, Heart, Settings, LogOut, HelpCircle, CalendarDays, Building, ArrowRight, X, Globe, MessageSquare } from "@/components/Icons";
 import { getImageUrl } from "@/lib/utils";
 import type { TUser } from "@/redux/features/auth/authSlice";
 import { LanguageSwitch } from "./LanguageSwitch";
@@ -213,6 +213,19 @@ const UserMenu = ({ isAuthenticated, user, onLogout, favoritesCount, isOpen, onT
                                         <div>
                                             <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">{t("myListings")}</p>
                                             <p className="text-[10.5px] text-muted-foreground font-normal">{t("myListingsDesc")}</p>
+                                        </div>
+                                    </span>
+                                    <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                                </Link>
+
+                                <Link href="/message" onClick={onClose} className="cursor-pointer group flex items-center justify-between p-2 rounded-xl text-xs font-semibold text-foreground hover:bg-surface-secondary hover:text-primary transition-all duration-150">
+                                    <span className="flex items-center gap-2.5">
+                                        <div className="size-8 rounded-lg bg-surface-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center transition-all duration-200 shadow-2xs">
+                                            <MessageSquare className="size-4" />
+                                        </div>
+                                        <div>
+                                            <p className="text-[12.5px] font-semibold text-foreground group-hover:text-primary">{t("messages")}</p>
+                                            <p className="text-[10.5px] text-muted-foreground font-normal">{t("messagesDesc")}</p>
                                         </div>
                                     </span>
                                     <ChevronRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />

@@ -11,6 +11,7 @@ import AuthHeader from "./AuthHeader";
 import AuthInput from "./AuthInput";
 import AuthButton from "./AuthButton";
 import { useResetPasswordMutation } from "@/redux/features/auth/authApi";
+import { useLocale } from "@/hooks/useLocale";
 
 // Zod Schema for Reset Password
 const resetPasswordSchema = z
@@ -36,6 +37,7 @@ const resetPasswordSchema = z
 type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 
 export const ResetPasswordForm = () => {
+    const { isBn } = useLocale();
     const searchParams = useSearchParams();
     const urlToken = searchParams.get("token") || "";
     const email = searchParams.get("email") || "";
@@ -88,7 +90,7 @@ export const ResetPasswordForm = () => {
             setServerError(
                 apiError?.data?.message ||
                 apiError?.error ||
-                "Failed to update password. Your reset link or token may have expired."
+                (isBn ? "পাসওয়ার্ড আপডেট করা যায়নি। রিসেট টোকেনের মেয়াদ শেষ হয়ে থাকতে পারে।" : "Failed to update password. Your reset link or token may have expired.")
             );
         }
     };
@@ -101,9 +103,13 @@ export const ResetPasswordForm = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                    <h1 className="text-xl font-bold text-foreground">Password Updated!</h1>
+                    <h1 className="text-xl font-bold text-foreground">
+                        {isBn ? "পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!" : "Password Updated!"}
+                    </h1>
                     <p className="text-sm text-text-secondary leading-relaxed max-w-xs mx-auto">
-                        Your credentials have been securely updated. You can now access your account with your new password.
+                        {isBn
+                            ? "আপনার অ্যাকাউন্টের নিরাপত্তা নিশ্চিত করা হয়েছে। এখন নতুন পাসওয়ার্ড দিয়ে লগইন করুন।"
+                            : "Your credentials have been securely updated. You can now access your account with your new password."}
                     </p>
                 </div>
 
@@ -112,7 +118,7 @@ export const ResetPasswordForm = () => {
                         href="/auth/login"
                         className="cursor-pointer w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary-hover transition-colors shadow-xs"
                     >
-                        <span>Continue to Sign In</span>
+                        <span>{isBn ? "লগইন করতে এগিয়ে যান" : "Continue to Sign In"}</span>
                         <ArrowRight className="size-4" />
                     </Link>
                 </div>
@@ -123,10 +129,14 @@ export const ResetPasswordForm = () => {
     return (
         <div className="w-full">
             <AuthHeader
-                category="Security"
-                title="Create new password"
+                category={isBn ? "অ্যাকাউন্ট নিরাপত্তা" : "Security"}
+                title={isBn ? "নতুন পাসওয়ার্ড নির্ধারণ করুন" : "Create new password"}
                 subtitle={
-                    email
+                    isBn
+                        ? email
+                            ? `${email} এর জন্য নতুন পাসওয়ার্ড সেট করুন।`
+                            : "নতুন পাসওয়ার্ডে কমপক্ষে ৮ অক্ষর, সংখ্যা এবং বড় হাতের অক্ষর থাকতে হবে।"
+                        : email
                         ? `Setting a new password for ${email}.`
                         : "Your new password must be at least 8 characters with numbers and uppercase letters."
                 }
@@ -142,33 +152,33 @@ export const ResetPasswordForm = () => {
                 {/* Fallback Token Input if not in URL */}
                 {!urlToken && (
                     <AuthInput
-                        label="Reset Token / Code"
+                        label={isBn ? "রিসেট টোকেন / কোড" : "Reset Token / Code"}
                         type="text"
-                        placeholder="Paste reset token from email"
+                        placeholder={isBn ? "ইমেইলে প্রাপ্ত টোকেন কোড লিখুন" : "Paste reset token from email"}
                         icon={KeyRound}
-                        error={errors.token?.message}
+                        error={errors.token ? (isBn ? "রিসেট টোকেন প্রদান আবশ্যক" : errors.token.message) : undefined}
                         required
                         {...register("token")}
                     />
                 )}
 
                 <AuthInput
-                    label="New Password"
+                    label={isBn ? "নতুন পাসওয়ার্ড" : "New Password"}
                     type="password"
-                    placeholder="Enter at least 8 characters"
+                    placeholder={isBn ? "কমপক্ষে ৮ অক্ষর লিখুন" : "Enter at least 8 characters"}
                     icon={Lock}
-                    error={errors.password?.message}
+                    error={errors.password ? (isBn ? "কমপক্ষে ৮ অক্ষর, একটি বড় হাতের অক্ষর ও একটি সংখ্যা দিন" : errors.password.message) : undefined}
                     required
                     autoComplete="new-password"
                     {...register("password")}
                 />
 
                 <AuthInput
-                    label="Confirm New Password"
+                    label={isBn ? "নতুন পাসওয়ার্ড নিশ্চিত করুন" : "Confirm New Password"}
                     type="password"
-                    placeholder="Re-enter your new password"
+                    placeholder={isBn ? "পুনরায় পাসওয়ার্ডটি লিখুন" : "Re-enter your new password"}
                     icon={Lock}
-                    error={errors.confirmPassword?.message}
+                    error={errors.confirmPassword ? (isBn ? "উভয় পাসওয়ার্ড একই হতে হবে" : errors.confirmPassword.message) : undefined}
                     required
                     autoComplete="new-password"
                     {...register("confirmPassword")}
@@ -179,21 +189,21 @@ export const ResetPasswordForm = () => {
                     <div className="flex items-center gap-2">
                         <span className={`size-1.5 rounded-full ${hasMinLength ? "bg-primary" : "bg-border"}`} />
                         <span className={hasMinLength ? "text-foreground font-medium" : ""}>
-                            At least 8 characters long
+                            {isBn ? "কমপক্ষে ৮ অক্ষরের দৈর্ঘ্য" : "At least 8 characters long"}
                         </span>
                     </div>
 
                     <div className="flex items-center gap-2">
                         <span className={`size-1.5 rounded-full ${hasUppercase ? "bg-primary" : "bg-border"}`} />
                         <span className={hasUppercase ? "text-foreground font-medium" : ""}>
-                            Contains at least one uppercase letter
+                            {isBn ? "কমপক্ষে একটি বড় হাতের অক্ষর (A-Z)" : "Contains at least one uppercase letter"}
                         </span>
                     </div>
 
                     <div className="flex items-center gap-2">
                         <span className={`size-1.5 rounded-full ${hasNumber ? "bg-primary" : "bg-border"}`} />
                         <span className={hasNumber ? "text-foreground font-medium" : ""}>
-                            Contains at least one number
+                            {isBn ? "কমপক্ষে একটি সংখ্যা (0-9)" : "Contains at least one number"}
                         </span>
                     </div>
 
@@ -203,7 +213,11 @@ export const ResetPasswordForm = () => {
                                 className={`size-1.5 rounded-full ${passwordsMatch ? "bg-primary" : "bg-destructive"}`}
                             />
                             <span className={passwordsMatch ? "text-foreground font-medium" : "text-destructive"}>
-                                Passwords match
+                                {isBn
+                                    ? passwordsMatch
+                                        ? "উভয় পাসওয়ার্ড মিলেছে"
+                                        : "পাসওয়ার্ড দুটি মেলেনি"
+                                    : "Passwords match"}
                             </span>
                         </div>
                     )}
@@ -215,7 +229,7 @@ export const ResetPasswordForm = () => {
                         isLoading={isLoading}
                         icon={<ArrowRight className="size-4" />}
                     >
-                        Update Password
+                        {isBn ? "পাসওয়ার্ড আপডেট করুন" : "Update Password"}
                     </AuthButton>
                 </div>
             </form>
@@ -225,7 +239,7 @@ export const ResetPasswordForm = () => {
                     href="/auth/forgot-password"
                     className="text-xs font-semibold text-text-secondary hover:text-primary transition-colors cursor-pointer"
                 >
-                    Need a new reset code? Click here
+                    {isBn ? "নতুন রিসেট কোড চান? এখানে ক্লিক করুন" : "Need a new reset code? Click here"}
                 </Link>
             </div>
         </div>

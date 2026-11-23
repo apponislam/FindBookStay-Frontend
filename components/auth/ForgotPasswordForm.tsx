@@ -13,6 +13,7 @@ import AuthButton from "./AuthButton";
 import OtpInput from "./OtpInput";
 import { cn } from "@/lib/utils";
 import { useForgotPasswordMutation, useVerifyOtpMutation, useResendOtpMutation } from "@/redux/features/auth/authApi";
+import { useLocale } from "@/hooks/useLocale";
 
 // Zod Schemas for the 2 Steps
 const requestOtpSchema = z.object({
@@ -36,6 +37,7 @@ type RequestOtpFormData = z.infer<typeof requestOtpSchema>;
 type VerifyOtpFormData = z.infer<typeof verifyOtpSchema>;
 
 export const ForgotPasswordForm = () => {
+    const { isBn } = useLocale();
     const router = useRouter();
 
     const [forgotPasswordMutation, { isLoading: isSendingOtp }] = useForgotPasswordMutation();
@@ -94,10 +96,18 @@ export const ForgotPasswordForm = () => {
             setSubmittedEmail(cleanEmail);
             setStep("ENTER_OTP");
             setCountdown(60);
-            setSuccessMessage(`A 6-digit verification code has been dispatched to ${cleanEmail}.`);
+            setSuccessMessage(
+                isBn
+                    ? `${cleanEmail} ঠিকানায় ৬-সংখ্যার একটি যাচাইকরণ কোড পাঠানো হয়েছে।`
+                    : `A 6-digit verification code has been dispatched to ${cleanEmail}.`
+            );
         } catch (err: unknown) {
             const apiError = err as { data?: { message?: string }; error?: string };
-            setServerError(apiError?.data?.message || apiError?.error || "Unable to send reset code. Please try again.");
+            setServerError(
+                apiError?.data?.message ||
+                apiError?.error ||
+                (isBn ? "রিসেট কোড পাঠানো সম্ভব হয়নি। আবার চেষ্টা করুন।" : "Unable to send reset code. Please try again.")
+            );
         }
     };
 
@@ -118,7 +128,11 @@ export const ForgotPasswordForm = () => {
             }
         } catch (err: unknown) {
             const apiError = err as { data?: { message?: string }; error?: string };
-            setServerError(apiError?.data?.message || apiError?.error || "Invalid or expired verification code.");
+            setServerError(
+                apiError?.data?.message ||
+                apiError?.error ||
+                (isBn ? "ভুল বা মেয়াদোত্তীর্ণ ওটিপি কোড।" : "Invalid or expired verification code.")
+            );
         }
     };
 
@@ -132,10 +146,14 @@ export const ForgotPasswordForm = () => {
             await resendOtpMutation({ email: submittedEmail }).unwrap();
             setCountdown(60);
             resetOtp({ otp: "" });
-            setSuccessMessage("A fresh verification code has been sent.");
+            setSuccessMessage(isBn ? "একটি নতুন যাচাইকরণ কোড পাঠানো হয়েছে।" : "A fresh verification code has been sent.");
         } catch (err: unknown) {
             const apiError = err as { data?: { message?: string }; error?: string };
-            setServerError(apiError?.data?.message || apiError?.error || "Please wait before requesting another code.");
+            setServerError(
+                apiError?.data?.message ||
+                apiError?.error ||
+                (isBn ? "পুনরায় কোড পাঠানোর জন্য অনুগ্রহ করে অপেক্ষা করুন।" : "Please wait before requesting another code.")
+            );
         }
     };
 
@@ -146,9 +164,13 @@ export const ForgotPasswordForm = () => {
         return (
             <div className="w-full animate-in fade-in duration-200">
                 <AuthHeader
-                    category="Step 2 of 2"
-                    title="Enter verification code"
-                    subtitle={`Please enter the 6-digit code sent to ${submittedEmail}. Code expires in 5 minutes.`}
+                    category={isBn ? "ধাপ ২ এর ২" : "Step 2 of 2"}
+                    title={isBn ? "যাচাইকরণ কোড লিখুন" : "Enter verification code"}
+                    subtitle={
+                        isBn
+                            ? `${submittedEmail} এ প্রেরিত ৬-সংখ্যার কোডটি লিখুন। কোডের মেয়াদ ৫ মিনিট।`
+                            : `Please enter the 6-digit code sent to ${submittedEmail}. Code expires in 5 minutes.`
+                    }
                 />
 
                 {successMessage && (
@@ -166,7 +188,7 @@ export const ForgotPasswordForm = () => {
                 <form onSubmit={handleSubmitOtp(onVerifyOtpSubmit)} className="space-y-4" noValidate>
                     <div className="space-y-2">
                         <label className="block text-center text-xs font-semibold text-text-secondary">
-                            6-Digit Security Code
+                            {isBn ? "৬-সংখ্যার নিরাপত্তা কোড" : "6-Digit Security Code"}
                         </label>
                         <OtpInput
                             value={otpValue}
@@ -180,7 +202,7 @@ export const ForgotPasswordForm = () => {
                         />
                         {otpErrors.otp?.message && (
                             <p className="text-center text-xs text-destructive mt-1">
-                                {otpErrors.otp.message}
+                                {isBn ? "৬-সংখ্যার সঠিক কোড লিখুন" : otpErrors.otp.message}
                             </p>
                         )}
                     </div>
@@ -195,7 +217,7 @@ export const ForgotPasswordForm = () => {
                             }}
                             className="text-text-secondary hover:text-foreground transition-colors cursor-pointer"
                         >
-                            Change email address
+                            {isBn ? "ইমেইল পরিবর্তন করুন" : "Change email address"}
                         </button>
 
                         <button
@@ -210,7 +232,11 @@ export const ForgotPasswordForm = () => {
                             )}
                         >
                             <RefreshCw className={`size-3 ${isResendingOtp ? "animate-spin" : ""}`} />
-                            <span>{countdown > 0 ? `Resend in ${countdown}s` : "Resend code"}</span>
+                            <span>
+                                {countdown > 0
+                                    ? (isBn ? `${countdown} সেকেন্ড পর পুনরায় পাঠান` : `Resend in ${countdown}s`)
+                                    : (isBn ? "পুনরায় কোড পাঠান" : "Resend code")}
+                            </span>
                         </button>
                     </div>
 
@@ -220,7 +246,7 @@ export const ForgotPasswordForm = () => {
                             isLoading={isVerifyingOtp}
                             icon={<ArrowRight className="size-3.5" />}
                         >
-                            Verify & Proceed
+                            {isBn ? "যাচাই করে এগিয়ে যান" : "Verify & Proceed"}
                         </AuthButton>
                     </div>
                 </form>
@@ -231,7 +257,7 @@ export const ForgotPasswordForm = () => {
                         className="inline-flex items-center gap-1.5 text-xs font-semibold text-text-secondary hover:text-primary transition-colors cursor-pointer"
                     >
                         <ArrowLeft className="size-3.5" />
-                        <span>Return to sign in</span>
+                        <span>{isBn ? "লগইনে ফিরে যান" : "Return to sign in"}</span>
                     </Link>
                 </div>
             </div>
@@ -244,9 +270,13 @@ export const ForgotPasswordForm = () => {
     return (
         <div className="w-full">
             <AuthHeader
-                category="Password Recovery"
-                title="Forgot password?"
-                subtitle="Enter your verified account email and we'll dispatch a secure 6-digit OTP code."
+                category={isBn ? "অ্যাকাউন্ট পুনরুদ্ধার" : "Password Recovery"}
+                title={isBn ? "পাসওয়ার্ড ভুলে গেছেন?" : "Forgot password?"}
+                subtitle={
+                    isBn
+                        ? "আপনার যাচাইকৃত অ্যাকাউন্ট ইমেইল লিখুন, আমরা একটি নিরাপদ ৬-সংখ্যার কোড পাঠাব।"
+                        : "Enter your verified account email and we'll dispatch a secure 6-digit OTP code."
+                }
             />
 
             {serverError && (
@@ -257,11 +287,11 @@ export const ForgotPasswordForm = () => {
 
             <form onSubmit={handleSubmitEmail(onRequestEmailSubmit)} className="space-y-2.5" noValidate>
                 <AuthInput
-                    label="Account Email"
+                    label={isBn ? "অ্যাকাউন্ট ইমেইল" : "Account Email"}
                     type="email"
-                    placeholder="Enter account email"
+                    placeholder="name@example.com"
                     icon={Mail}
-                    error={emailErrors.email?.message}
+                    error={emailErrors.email ? (isBn ? "সঠিক ইমেইল ঠিকানা দিন" : emailErrors.email.message) : undefined}
                     required
                     autoComplete="email"
                     {...registerEmail("email")}
@@ -273,7 +303,7 @@ export const ForgotPasswordForm = () => {
                         isLoading={isSendingOtp}
                         icon={<ArrowRight className="size-3.5" />}
                     >
-                        Send Verification Code
+                        {isBn ? "যাচাইকরণ কোড পাঠান" : "Send Verification Code"}
                     </AuthButton>
                 </div>
             </form>
@@ -284,7 +314,7 @@ export const ForgotPasswordForm = () => {
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-text-secondary hover:text-primary transition-colors cursor-pointer"
                 >
                     <ArrowLeft className="size-3.5" />
-                    <span>Back to sign in</span>
+                    <span>{isBn ? "লগইনে ফিরে যান" : "Back to sign in"}</span>
                 </Link>
             </div>
         </div>

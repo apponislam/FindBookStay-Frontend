@@ -91,6 +91,8 @@
       "myBookingsDesc": "Manage trips & reservations",
       "myListings": "My Posted Listings",
       "myListingsDesc": "Properties, spaces & stats",
+      "messages": "Messages & Inquiries",
+      "messagesDesc": "Chat with hosts & guests",
       "savedFavorites": "Saved Favorites",
       "savedFavoritesDesc": "Your wishlist collection",
       "accountSettings": "Account Settings",
@@ -658,5 +660,48 @@
         "info": "Residential duplexes, luxury apartments & land plots"
       }
     }
+  },
+  "Messages": {
+    "title": "Messages",
+    "conversations": "Conversations",
+    "searchPlaceholder": "Search hosts, listings or chats...",
+    "all": "All",
+    "unread": "Unread",
+    "noConversations": "No conversations found",
+    "adjustFilters": "Try adjusting your search or filters.",
+    "selectConversation": "Select a Conversation",
+    "selectConversationDesc": "Choose an inquiry from the sidebar to view messages and details.",
+    "online": "Online",
+    "onlineNow": "Online now",
+    "offline": "Offline",
+    "call": "Call",
+    "callHost": "Direct Phone Call",
+    "whatsapp": "WhatsApp",
+    "openWhatsapp": "Open WhatsApp",
+    "toggleDetails": "Listing Details",
+    "backToMessages": "Back to messages",
+    "backToHome": "Back to FindBookStay Home",
+    "exitToPlatform": "Exit to Platform",
+    "typePlaceholder": "Write a message...",
+    "enterToSend": "Press Enter to send",
+    "send": "Send message",
+    "you": "You: ",
+    "view": "View",
+    "viewFullListing": "View Full Listing",
+    "phone": "Phone:",
+    "responseRate": "Response Rate:",
+    "detailsTitle": "Listing & Host Details",
+    "closeDetails": "Close details panel",
+    "safetyTitle": "Safe Inspection Checklist",
+    "safety1": "Always inspect the space in daylight before final agreement.",
+    "safety2": "Zero broker fee policy. Never pay cash to unauthorized third parties.",
+    "safety3": "Verify certified title deeds and municipal plans with bank or legal counsel."
+  },
+  "LanguageSwitch": {
+    "label": "Language",
+    "title": "Language / ভাষা",
+    "switchLanguage": "Switch language",
+    "bn": "বাংলা",
+    "en": "English"
   }
 }
