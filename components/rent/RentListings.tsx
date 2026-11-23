@@ -13,6 +13,8 @@ import { RentHeroHeader } from "./RentHeroHeader";
 import { RentFilterSidebar } from "./RentFilterSidebar";
 import { RentCard } from "./RentCard";
 import { Pagination } from "@/components/Pagination";
+import { useLocale } from "@/hooks/useLocale";
+import { toBengaliDigits } from "@/lib/utils";
 
 const INITIAL_FILTERS: RentFiltersState = {
     search: "",
@@ -27,6 +29,8 @@ const INITIAL_FILTERS: RentFiltersState = {
 };
 
 export const RentListings = () => {
+    const { locale } = useLocale();
+    const isBn = locale === "bn";
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
@@ -342,7 +346,7 @@ export const RentListings = () => {
 
                     {filters.bedrooms !== "all" && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            Beds: {filters.bedrooms}
+                            {isBn ? "বেডরুম:" : "Beds:"} {isBn ? toBengaliDigits(filters.bedrooms) : filters.bedrooms}
                             <button
                                 type="button"
                                 onClick={() => handleFilterChange({ bedrooms: "all" })}
@@ -355,7 +359,7 @@ export const RentListings = () => {
 
                     {filters.furnishing !== "all" && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            Furnishing: {filters.furnishing}
+                            {isBn ? "ফার্নিশিং:" : "Furnishing:"} {filters.furnishing}
                             <button
                                 type="button"
                                 onClick={() => handleFilterChange({ furnishing: "all" })}
@@ -367,8 +371,8 @@ export const RentListings = () => {
                     )}
 
                     {filters.verifiedOnly && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                            Verified Only
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                            {isBn ? "যাচাইকৃত প্রোপার্টি" : "Verified Only"}
                             <button
                                 type="button"
                                 onClick={() => handleFilterChange({ verifiedOnly: false })}
@@ -405,7 +409,7 @@ export const RentListings = () => {
                         className="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1 ml-auto cursor-pointer"
                     >
                         <RotateCcw className="size-3" />
-                        <span>Clear All</span>
+                        <span>{isBn ? "সকল মুছুন" : "Clear All"}</span>
                     </button>
                 </div>
             )}
@@ -427,15 +431,15 @@ export const RentListings = () => {
                 <div className="lg:col-span-3 space-y-6">
                     {filteredProperties.length === 0 ? (
                         /* Empty State */
-                        <div className="text-center py-16 px-4 bg-white rounded-2xl border border-dashed border-border flex flex-col items-center">
+                        <div className="text-center py-16 px-4 bg-white dark:bg-card rounded-2xl border border-dashed border-border flex flex-col items-center">
                             <div className="size-16 rounded-full bg-surface-secondary flex items-center justify-center text-text-secondary mb-4">
                                 <Building2 className="size-8 text-primary" />
                             </div>
                             <h3 className="text-lg font-bold text-foreground mb-1">
-                                No Rental Properties Match Your Criteria
+                                {isBn ? "আপনার পছন্দের সাথে মিল রেখে কোনো প্রোপার্টি পাওয়া যায়নি" : "No Rental Properties Match Your Criteria"}
                             </h3>
                             <p className="text-xs sm:text-sm text-text-secondary max-w-md mb-6">
-                                Try adjusting your budget, removing bedroom restrictions, or broadening your location search.
+                                {isBn ? "বাজেট পরিবর্তন করুন, বেডরুমের শর্ত শিথিল করুন অথবা লোকেশন অনুসন্ধান বিস্তৃত করুন।" : "Try adjusting your budget, removing bedroom restrictions, or broadening your location search."}
                             </p>
                             <button
                                 type="button"
@@ -443,7 +447,7 @@ export const RentListings = () => {
                                 className="px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
                             >
                                 <RotateCcw className="size-3.5" />
-                                <span>Reset All Filters</span>
+                                <span>{isBn ? "ফিল্টার রিসেট করুন" : "Reset All Filters"}</span>
                             </button>
                         </div>
                     ) : (
@@ -492,7 +496,7 @@ export const RentListings = () => {
                     />
 
                     {/* Drawer Panel */}
-                    <div className="fixed inset-y-0 right-0 max-w-sm w-full bg-white shadow-2xl p-4 overflow-y-auto z-10 animate-in slide-in-from-right duration-200">
+                    <div className="fixed inset-y-0 right-0 max-w-sm w-full bg-white dark:bg-card shadow-2xl p-4 overflow-y-auto z-10 animate-in slide-in-from-right duration-200">
                         <RentFilterSidebar
                             filters={filters}
                             onChange={handleFilterChange}

@@ -9,6 +9,8 @@ import { SportsHeroHeader } from "./SportsHeroHeader";
 import { SportsFilterSidebar } from "./SportsFilterSidebar";
 import { SportsCard } from "./SportsCard";
 import { Pagination } from "@/components/Pagination";
+import { useLocale } from "@/hooks/useLocale";
+import { toBengaliDigits } from "@/lib/utils";
 
 const INITIAL_FILTERS: SportsFiltersState = {
     search: "",
@@ -23,6 +25,8 @@ const INITIAL_FILTERS: SportsFiltersState = {
 };
 
 export const SportsListings = () => {
+    const { locale } = useLocale();
+    const isBn = locale === "bn";
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
@@ -305,7 +309,7 @@ export const SportsListings = () => {
 
                     {filters.surface !== "all" && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            Surface: {filters.surface}
+                            {isBn ? "সারফেস:" : "Surface:"} {filters.surface}
                             <button type="button" onClick={() => handleFilterChange({ surface: "all" })} className="cursor-pointer hover:text-primary-hover">
                                 <X className="size-3" />
                             </button>
@@ -314,7 +318,7 @@ export const SportsListings = () => {
 
                     {(filters.minPrice !== null || filters.maxPrice !== null) && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            Rate: {filters.minPrice ? `৳${filters.minPrice.toLocaleString()}` : "৳0"} - {filters.maxPrice ? `৳${filters.maxPrice.toLocaleString()}` : "Any"}
+                            {isBn ? "রেট:" : "Rate:"} {filters.minPrice ? `৳${isBn ? toBengaliDigits(filters.minPrice.toLocaleString()) : filters.minPrice.toLocaleString()}` : "৳০"} - {filters.maxPrice ? `৳${isBn ? toBengaliDigits(filters.maxPrice.toLocaleString()) : filters.maxPrice.toLocaleString()}` : isBn ? "যেকোনো" : "Any"}
                             <button type="button" onClick={() => handleFilterChange({ minPrice: null, maxPrice: null })} className="cursor-pointer hover:text-primary-hover">
                                 <X className="size-3" />
                             </button>
@@ -322,8 +326,8 @@ export const SportsListings = () => {
                     )}
 
                     {filters.verifiedOnly && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                            Verified Arenas
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                            {isBn ? "যাচাইকৃত ভেন্যু" : "Verified Arenas"}
                             <button type="button" onClick={() => handleFilterChange({ verifiedOnly: false })} className="cursor-pointer hover:text-emerald-800">
                                 <X className="size-3" />
                             </button>
@@ -349,7 +353,7 @@ export const SportsListings = () => {
 
                     <button type="button" onClick={handleResetFilters} className="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1 ml-auto cursor-pointer">
                         <RotateCcw className="size-3" />
-                        <span>Clear All</span>
+                        <span>{isBn ? "সকল মুছুন" : "Clear All"}</span>
                     </button>
                 </div>
             )}
@@ -365,15 +369,19 @@ export const SportsListings = () => {
                 <div className="lg:col-span-3 space-y-6">
                     {filteredVenues.length === 0 ? (
                         /* Empty State */
-                        <div className="text-center py-16 px-4 bg-white rounded-2xl border border-dashed border-border flex flex-col items-center">
+                        <div className="text-center py-16 px-4 bg-white dark:bg-card rounded-2xl border border-dashed border-border flex flex-col items-center">
                             <div className="size-16 rounded-full bg-surface-secondary flex items-center justify-center text-text-secondary mb-4">
                                 <Trophy className="size-8 text-primary" />
                             </div>
-                            <h3 className="text-lg font-bold text-foreground mb-1">No Sports Arenas Match Your Criteria</h3>
-                            <p className="text-xs sm:text-sm text-text-secondary max-w-md mb-6">Try expanding your preferred playing slot, adjusting hourly budget, or clearing facility filters.</p>
+                            <h3 className="text-lg font-bold text-foreground mb-1">
+                                {isBn ? "আপনার পছন্দের সাথে মিল রেখে কোনো ভেন্যু পাওয়া যায়নি" : "No Sports Arenas Match Your Criteria"}
+                            </h3>
+                            <p className="text-xs sm:text-sm text-text-secondary max-w-md mb-6">
+                                {isBn ? "খেলার স্লট পরিবর্তন করুন, ঘণ্টার বাজেট সমন্বয় করুন অথবা সুবিধার ফিল্টার পরিষ্কার করুন।" : "Try expanding your preferred playing slot, adjusting hourly budget, or clearing facility filters."}
+                            </p>
                             <button type="button" onClick={handleResetFilters} className="px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-colors flex items-center gap-2 cursor-pointer shadow-sm">
                                 <RotateCcw className="size-3.5" />
-                                <span>Reset All Filters</span>
+                                <span>{isBn ? "ফিল্টার রিসেট করুন" : "Reset All Filters"}</span>
                             </button>
                         </div>
                     ) : (
@@ -409,7 +417,7 @@ export const SportsListings = () => {
                     <div onClick={() => setMobileFiltersOpen(false)} className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity" />
 
                     {/* Drawer Panel */}
-                    <div className="fixed inset-y-0 right-0 max-w-sm w-full bg-white shadow-2xl p-4 overflow-y-auto z-10 animate-in slide-in-from-right duration-200">
+                    <div className="fixed inset-y-0 right-0 max-w-sm w-full bg-white dark:bg-card shadow-2xl p-4 overflow-y-auto z-10 animate-in slide-in-from-right duration-200">
                         <SportsFilterSidebar filters={filters} onChange={handleFilterChange} onReset={handleResetFilters} categoryCounts={categoryCounts} totalVenues={SPORTS_VENUES.length} isMobileDrawer={true} onCloseMobileDrawer={() => setMobileFiltersOpen(false)} />
                     </div>
                 </div>

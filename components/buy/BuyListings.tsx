@@ -9,6 +9,8 @@ import { BuyHeroHeader } from "./BuyHeroHeader";
 import { BuyFilterSidebar } from "./BuyFilterSidebar";
 import { BuyCard } from "./BuyCard";
 import { Pagination } from "@/components/Pagination";
+import { useLocale } from "@/hooks/useLocale";
+import { toBengaliDigits } from "@/lib/utils";
 
 const INITIAL_FILTERS: BuyFiltersState = {
     search: "",
@@ -23,6 +25,8 @@ const INITIAL_FILTERS: BuyFiltersState = {
 };
 
 export const BuyListings = () => {
+    const { locale } = useLocale();
+    const isBn = locale === "bn";
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
@@ -300,7 +304,7 @@ export const BuyListings = () => {
 
                     {filters.status !== "all" && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            Status: {filters.status}
+                            {isBn ? "অবস্থা:" : "Status:"} {filters.status}
                             <button type="button" onClick={() => handleFilterChange({ status: "all" })} className="cursor-pointer hover:text-primary-hover">
                                 <X className="size-3" />
                             </button>
@@ -309,7 +313,7 @@ export const BuyListings = () => {
 
                     {filters.bedrooms !== "all" && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            Beds: {filters.bedrooms}
+                            {isBn ? "বেডরুম:" : "Beds:"} {isBn ? toBengaliDigits(filters.bedrooms) : filters.bedrooms}
                             <button type="button" onClick={() => handleFilterChange({ bedrooms: "all" })} className="cursor-pointer hover:text-primary-hover">
                                 <X className="size-3" />
                             </button>
@@ -318,7 +322,9 @@ export const BuyListings = () => {
 
                     {(filters.minPrice !== null || filters.maxPrice !== null) && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            Budget: {filters.minPrice ? `৳${(filters.minPrice / 10000000).toFixed(2)} Cr` : "৳0"} - {filters.maxPrice ? `৳${(filters.maxPrice / 10000000).toFixed(2)} Cr` : "Any"}
+                            {isBn ? "বাজেট:" : "Budget:"}{" "}
+                            {filters.minPrice ? `৳${isBn ? toBengaliDigits((filters.minPrice / 10000000).toFixed(2)) + " কোটি" : (filters.minPrice / 10000000).toFixed(2) + " Cr"}` : "৳০"} -{" "}
+                            {filters.maxPrice ? `৳${isBn ? toBengaliDigits((filters.maxPrice / 10000000).toFixed(2)) + " কোটি" : (filters.maxPrice / 10000000).toFixed(2) + " Cr"}` : isBn ? "যেকোনো" : "Any"}
                             <button type="button" onClick={() => handleFilterChange({ minPrice: null, maxPrice: null })} className="cursor-pointer hover:text-primary-hover">
                                 <X className="size-3" />
                             </button>
@@ -326,8 +332,8 @@ export const BuyListings = () => {
                     )}
 
                     {filters.verifiedOnly && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                            Verified Title
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                            {isBn ? "যাচাইকৃত দলিল" : "Verified Title"}
                             <button type="button" onClick={() => handleFilterChange({ verifiedOnly: false })} className="cursor-pointer hover:text-emerald-800">
                                 <X className="size-3" />
                             </button>
@@ -353,7 +359,7 @@ export const BuyListings = () => {
 
                     <button type="button" onClick={handleResetFilters} className="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1 ml-auto cursor-pointer">
                         <RotateCcw className="size-3" />
-                        <span>Clear All</span>
+                        <span>{isBn ? "সকল মুছুন" : "Clear All"}</span>
                     </button>
                 </div>
             )}
@@ -369,15 +375,19 @@ export const BuyListings = () => {
                 <div className="lg:col-span-3 space-y-6">
                     {filteredProperties.length === 0 ? (
                         /* Empty State */
-                        <div className="text-center py-16 px-4 bg-white rounded-2xl border border-dashed border-border flex flex-col items-center">
+                        <div className="text-center py-16 px-4 bg-white dark:bg-card rounded-2xl border border-dashed border-border flex flex-col items-center">
                             <div className="size-16 rounded-full bg-surface-secondary flex items-center justify-center text-text-secondary mb-4">
                                 <Building2 className="size-8 text-primary" />
                             </div>
-                            <h3 className="text-lg font-bold text-foreground mb-1">No Properties for Sale Match Your Criteria</h3>
-                            <p className="text-xs sm:text-sm text-text-secondary max-w-md mb-6">Try expanding your budget range, removing bedroom limits, or broadening your location search.</p>
+                            <h3 className="text-lg font-bold text-foreground mb-1">
+                                {isBn ? "আপনার পছন্দের সাথে মিল রেখে বিক্রির কোনো প্রোপার্টি পাওয়া যায়নি" : "No Properties for Sale Match Your Criteria"}
+                            </h3>
+                            <p className="text-xs sm:text-sm text-text-secondary max-w-md mb-6">
+                                {isBn ? "বাজেটের পরিধি বাড়ান, বেডরুমের শর্ত শিথিল করুন অথবা লোকেশন অনুসন্ধান বিস্তৃত করুন।" : "Try expanding your budget range, removing bedroom limits, or broadening your location search."}
+                            </p>
                             <button type="button" onClick={handleResetFilters} className="px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-colors flex items-center gap-2 cursor-pointer shadow-sm">
                                 <RotateCcw className="size-3.5" />
-                                <span>Reset All Filters</span>
+                                <span>{isBn ? "ফিল্টার রিসেট করুন" : "Reset All Filters"}</span>
                             </button>
                         </div>
                     ) : (
@@ -413,7 +423,7 @@ export const BuyListings = () => {
                     <div onClick={() => setMobileFiltersOpen(false)} className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity" />
 
                     {/* Drawer Panel */}
-                    <div className="fixed inset-y-0 right-0 max-w-sm w-full bg-white shadow-2xl p-4 overflow-y-auto z-10 animate-in slide-in-from-right duration-200">
+                    <div className="fixed inset-y-0 right-0 max-w-sm w-full bg-white dark:bg-card shadow-2xl p-4 overflow-y-auto z-10 animate-in slide-in-from-right duration-200">
                         <BuyFilterSidebar filters={filters} onChange={handleFilterChange} onReset={handleResetFilters} categoryCounts={categoryCounts} totalProperties={BUY_PROPERTIES.length} isMobileDrawer={true} onCloseMobileDrawer={() => setMobileFiltersOpen(false)} />
                     </div>
                 </div>

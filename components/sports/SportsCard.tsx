@@ -15,6 +15,8 @@ import {
     Zap,
 } from "@/components/Icons";
 import { SportsVenue } from "./types";
+import { useLocale } from "@/hooks/useLocale";
+import { toBengaliDigits } from "@/lib/utils";
 
 interface SportsCardProps {
     venue: SportsVenue;
@@ -22,6 +24,9 @@ interface SportsCardProps {
 }
 
 export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
+    const { locale } = useLocale();
+    const isBn = locale === "bn";
+
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isSaved, setIsSaved] = useState(false);
 
@@ -63,9 +68,13 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
             }
         } else if (typeof navigator !== "undefined" && navigator.clipboard) {
             await navigator.clipboard.writeText(window.location.href);
-            alert("Link copied to clipboard!");
+            alert(isBn ? "লিংক কপি করা হয়েছে!" : "Link copied to clipboard!");
         }
     };
+
+    const formattedRating = isBn ? toBengaliDigits(venue.rating.toFixed(1)) : venue.rating.toFixed(1);
+    const formattedReviews = isBn ? toBengaliDigits(venue.reviewsCount) : venue.reviewsCount;
+    const formattedPrice = isBn && venue.hourlyPrice ? `৳${toBengaliDigits(venue.hourlyPrice.toLocaleString())}` : venue.priceFormatted;
 
     if (viewMode === "list") {
         return (
@@ -89,7 +98,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                         {venue.verified && (
                             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 dark:bg-card/90 backdrop-blur-md text-white border border-white/10 shadow-sm">
                                 <ShieldCheck className="size-3 text-emerald-400" />
-                                Verified Arena
+                                {isBn ? "যাচাইকৃত অ্যারেনা" : "Verified Arena"}
                             </span>
                         )}
                     </div>
@@ -99,7 +108,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                         <button
                             type="button"
                             onClick={handleShare}
-                            aria-label="Share venue"
+                            aria-label={isBn ? "শেয়ার করুন" : "Share venue"}
                             className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10"
                         >
                             <Share2 className="size-3.5" />
@@ -152,7 +161,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                                         idx === currentImageIndex
                                             ? "w-4 bg-white"
                                             : "bg-white/50"
-                                    }`}
+                                        }`}
                                 />
                             ))}
                         </div>
@@ -165,19 +174,19 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                         {/* Rating & Sports Tags */}
                         <div className="flex items-center justify-between gap-2 mb-2">
                             <div className="flex items-center gap-2">
-                                <span className="inline-flex items-center gap-1 font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200/50 dark:border-amber-800/40 px-2 py-0.5 rounded-md text-xs">
+                                <span className="inline-flex items-center gap-1 font-bold text-amber-500 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-md text-xs">
                                     <Star className="size-3.5 fill-amber-500 text-amber-500" />
-                                    {venue.rating.toFixed(1)}
+                                    {formattedRating}
                                 </span>
                                 <span className="text-muted-foreground text-[11px]">
-                                    ({venue.reviewsCount} reviews)
+                                    ({formattedReviews} {isBn ? "রিভিউ" : "reviews"})
                                 </span>
                             </div>
                             <div className="flex items-center gap-1">
                                 {venue.sports.map((sport, idx) => (
                                     <span
                                         key={idx}
-                                        className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/50 dark:border-emerald-800/40 px-2 py-0.5 rounded-full"
+                                        className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full"
                                     >
                                         {sport}
                                     </span>
@@ -207,9 +216,9 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                         </div>
 
                         {/* Next Available Slot */}
-                        <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/50 dark:border-emerald-800/40 px-3 py-1.5 rounded-xl mb-3">
+                        <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-xl mb-3">
                             <Clock className="size-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                            <span>Next Slot: {venue.nextSlot}</span>
+                            <span>{isBn ? "পরবর্তী স্লট:" : "Next Slot:"} {venue.nextSlot}</span>
                         </div>
 
                         {/* Amenities Chips */}
@@ -225,7 +234,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                                 ))}
                                 {venue.amenities.length > 4 && (
                                     <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md text-muted-foreground">
-                                        +{venue.amenities.length - 4} more
+                                        +{isBn ? toBengaliDigits(venue.amenities.length - 4) : venue.amenities.length - 4} {isBn ? "আরও" : "more"}
                                     </span>
                                 )}
                             </div>
@@ -236,14 +245,14 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                     <div className="pt-3 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-3">
                         <div>
                             <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">
-                                Hourly Slot Rate
+                                {isBn ? "ঘণ্টাপ্রতি স্লট রেট" : "Hourly Slot Rate"}
                             </div>
                             <div className="flex items-baseline gap-1">
                                 <span className="text-xl md:text-2xl font-extrabold text-primary">
-                                    {venue.priceFormatted}
+                                    {formattedPrice}
                                 </span>
                                 <span className="text-xs font-semibold text-muted-foreground">
-                                    {venue.priceUnit}
+                                    {isBn ? "/ঘণ্টা" : venue.priceUnit}
                                 </span>
                             </div>
                         </div>
@@ -253,7 +262,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                             className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-all flex items-center justify-center gap-1.5 shadow-sm group/btn cursor-pointer"
                         >
                             <Zap className="size-3.5 text-primary-foreground" />
-                            <span>Book Slot</span>
+                            <span>{isBn ? "স্লট বুক করুন" : "Book Slot"}</span>
                             <ArrowRight className="size-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
                         </Link>
                     </div>
@@ -284,7 +293,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                     {venue.verified && (
                         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 dark:bg-card/90 backdrop-blur-md text-white border border-white/10 shadow-sm">
                             <ShieldCheck className="size-3 text-emerald-400" />
-                            Verified
+                            {isBn ? "যাচাইকৃত" : "Verified"}
                         </span>
                     )}
                 </div>
@@ -294,7 +303,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                     <button
                         type="button"
                         onClick={handleShare}
-                        aria-label="Share venue"
+                        aria-label={isBn ? "শেয়ার করুন" : "Share venue"}
                         className="size-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center shadow-md hover:scale-105 transition-all cursor-pointer backdrop-blur-md border border-white/10"
                     >
                         <Share2 className="size-3.5" />
@@ -360,19 +369,19 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                     {/* Rating & Sport Tag */}
                     <div className="flex items-center justify-between gap-2 mb-2">
                         <div className="flex items-center gap-1 text-xs">
-                            <span className="inline-flex items-center gap-1 font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200/50 dark:border-amber-800/40 px-2 py-0.5 rounded-md text-[11px]">
+                            <span className="inline-flex items-center gap-1 font-bold text-amber-500 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-md text-[11px]">
                                 <Star className="size-3 fill-amber-500 text-amber-500" />
-                                {venue.rating.toFixed(1)}
+                                {formattedRating}
                             </span>
                             <span className="text-muted-foreground text-[11px]">
-                                ({venue.reviewsCount})
+                                ({formattedReviews})
                             </span>
                         </div>
                         <div className="flex items-center gap-1">
                             {venue.sports.slice(0, 2).map((sport, idx) => (
                                 <span
                                     key={idx}
-                                    className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/50 dark:border-emerald-800/40 px-2 py-0.5 rounded-full"
+                                    className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full"
                                 >
                                     {sport}
                                 </span>
@@ -401,7 +410,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                     </div>
 
                     {/* Next Available Slot */}
-                    <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/50 dark:border-emerald-800/40 px-2.5 py-1.5 rounded-xl mb-3">
+                    <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1.5 rounded-xl mb-3">
                         <Clock className="size-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
                         <span className="truncate">{venue.nextSlot}</span>
                     </div>
@@ -411,14 +420,14 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                 <div className="pt-3 border-t border-border flex items-center justify-between gap-2 mt-auto">
                     <div>
                         <div className="text-[10px] uppercase font-bold text-muted-foreground">
-                            Per Hour
+                            {isBn ? "প্রতি ঘণ্টা" : "Per Hour"}
                         </div>
                         <div className="flex items-baseline gap-1">
                             <span className="text-lg font-extrabold text-primary">
-                                {venue.priceFormatted}
+                                {formattedPrice}
                             </span>
                             <span className="text-[11px] font-semibold text-muted-foreground">
-                                {venue.priceUnit}
+                                {isBn ? "/ঘণ্টা" : venue.priceUnit}
                             </span>
                         </div>
                     </div>
@@ -428,7 +437,7 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
                         className="px-3.5 py-1.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-all flex items-center gap-1 shadow-sm group/btn cursor-pointer"
                     >
                         <Zap className="size-3 text-primary-foreground" />
-                        <span>Book</span>
+                        <span>{isBn ? "বুকিং" : "Book"}</span>
                         <ArrowRight className="size-3 group-hover/btn:translate-x-0.5 transition-transform" />
                     </Link>
                 </div>
@@ -436,4 +445,3 @@ export const SportsCard = ({ venue, viewMode = "grid" }: SportsCardProps) => {
         </div>
     );
 };
-

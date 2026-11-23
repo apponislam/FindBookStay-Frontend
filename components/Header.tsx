@@ -85,9 +85,7 @@ const Header = () => {
     };
 
     const handleNotificationClick = (id: string) => {
-        setNotifications((prev) =>
-            prev.map((n) => (n.id === id ? { ...n, unread: false } : n))
-        );
+        setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, unread: false } : n)));
     };
 
     const handleLogout = async () => {
@@ -207,8 +205,8 @@ const Header = () => {
                         {/* 3. Action Buttons & Profile Menu */}
                         <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-2.5 shrink-0">
                             {/* Desktop-only: Language Switch in Top Bar (Strictly hidden on mobile & tablets) */}
-                            <div className="hidden lg:block max-lg:!hidden shrink-0">
-                                <LanguageSwitch className="hidden lg:inline-flex max-lg:!hidden" />
+                            <div className="hidden lg:block shrink-0">
+                                <LanguageSwitch className="hidden lg:inline-flex" />
                             </div>
 
                             {/* Mode Toggle */}
@@ -223,25 +221,14 @@ const Header = () => {
                                         setNotificationsDropdownOpen(false);
                                         setUserDropdownOpen(false);
                                     }}
-                                    className={`cursor-pointer relative flex items-center justify-center size-8 sm:size-9 rounded-full transition-colors ${
-                                        savedDropdownOpen
-                                            ? "bg-primary/10 text-primary"
-                                            : "text-foreground hover:text-accent hover:bg-surface-secondary"
-                                    }`}
+                                    className={`cursor-pointer relative flex items-center justify-center size-8 sm:size-9 rounded-full transition-colors ${savedDropdownOpen ? "bg-primary/10 text-primary" : "text-foreground hover:text-accent hover:bg-surface-secondary"}`}
                                     aria-label="View Saved Favorites"
                                     aria-expanded={savedDropdownOpen}
                                 >
                                     <Heart className="size-4 sm:size-4.5" />
-                                    {favoritesCount > 0 && (
-                                        <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 size-2 rounded-full bg-accent ring-2 ring-background" />
-                                    )}
+                                    {favoritesCount > 0 && <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 size-2 rounded-full bg-accent ring-2 ring-background" />}
                                 </button>
-                                <SavedDropdown
-                                    isOpen={savedDropdownOpen}
-                                    onClose={() => setSavedDropdownOpen(false)}
-                                    savedItems={savedItems}
-                                    onRemoveItem={handleRemoveSavedItem}
-                                />
+                                <SavedDropdown isOpen={savedDropdownOpen} onClose={() => setSavedDropdownOpen(false)} savedItems={savedItems} onRemoveItem={handleRemoveSavedItem} />
                             </div>
 
                             {/* Desktop-only: Notifications Dropdown Trigger */}
@@ -254,26 +241,14 @@ const Header = () => {
                                             setSavedDropdownOpen(false);
                                             setUserDropdownOpen(false);
                                         }}
-                                        className={`cursor-pointer relative flex items-center justify-center size-8 sm:size-9 rounded-full transition-colors ${
-                                            notificationsDropdownOpen
-                                                ? "bg-primary/10 text-primary"
-                                                : "text-foreground hover:text-accent hover:bg-surface-secondary"
-                                        }`}
+                                        className={`cursor-pointer relative flex items-center justify-center size-8 sm:size-9 rounded-full transition-colors ${notificationsDropdownOpen ? "bg-primary/10 text-primary" : "text-foreground hover:text-accent hover:bg-surface-secondary"}`}
                                         aria-label="Notifications"
                                         aria-expanded={notificationsDropdownOpen}
                                     >
                                         <Bell className="size-4 sm:size-4.5" />
-                                        {unreadNotificationsCount > 0 && (
-                                            <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 size-2 rounded-full bg-accent ring-2 ring-background animate-pulse" />
-                                        )}
+                                        {unreadNotificationsCount > 0 && <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 size-2 rounded-full bg-accent ring-2 ring-background animate-pulse" />}
                                     </button>
-                                    <NotificationsDropdown
-                                        isOpen={notificationsDropdownOpen}
-                                        onClose={() => setNotificationsDropdownOpen(false)}
-                                        notifications={notifications}
-                                        onMarkAllAsRead={handleMarkAllNotificationsRead}
-                                        onNotificationClick={handleNotificationClick}
-                                    />
+                                    <NotificationsDropdown isOpen={notificationsDropdownOpen} onClose={() => setNotificationsDropdownOpen(false)} notifications={notifications} onMarkAllAsRead={handleMarkAllNotificationsRead} onNotificationClick={handleNotificationClick} />
                                 </div>
                             )}
 
@@ -309,22 +284,8 @@ const Header = () => {
                                 {isAuthenticated ? (
                                     <>
                                         <div className="relative size-7 shrink-0">
-                                            <div className="relative size-full rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center text-xs font-bold uppercase overflow-hidden shadow-2xs">
-                                                {user?.profileImage ? (
-                                                    <Image
-                                                        src={getImageUrl(user.profileImage)}
-                                                        alt={displayName}
-                                                        fill
-                                                        sizes="28px"
-                                                        className="rounded-full object-cover"
-                                                    />
-                                                ) : (
-                                                    initials
-                                                )}
-                                            </div>
-                                            {(unreadNotificationsCount > 0 || favoritesCount > 0) && (
-                                                <span className="absolute -top-0.5 -right-0.5 size-2.5 rounded-full bg-accent ring-2 ring-background animate-pulse" />
-                                            )}
+                                            <div className="relative size-full rounded-full bg-linear-to-tr from-primary to-accent text-white flex items-center justify-center text-xs font-bold uppercase overflow-hidden shadow-2xs">{user?.profileImage ? <Image src={getImageUrl(user.profileImage)} alt={displayName} fill sizes="28px" className="rounded-full object-cover" /> : initials}</div>
+                                            {(unreadNotificationsCount > 0 || favoritesCount > 0) && <span className="absolute -top-0.5 -right-0.5 size-2.5 rounded-full bg-accent ring-2 ring-background animate-pulse" />}
                                         </div>
                                         <Menu className="size-4 text-foreground" />
                                     </>
@@ -341,18 +302,7 @@ const Header = () => {
             </header>
 
             {/* 4. Mobile Navigation Drawer */}
-            <MobileDrawer
-                isOpen={mobileDrawerOpen}
-                onClose={() => setMobileDrawerOpen(false)}
-                categories={categories}
-                expandedCategory={mobileExpandedCat}
-                onToggleCategory={toggleMobileCategory}
-                isAuthenticated={isAuthenticated}
-                user={user}
-                onLogout={handleLogout}
-                favoritesCount={favoritesCount}
-                unreadNotificationsCount={unreadNotificationsCount}
-            />
+            <MobileDrawer isOpen={mobileDrawerOpen} onClose={() => setMobileDrawerOpen(false)} categories={categories} expandedCategory={mobileExpandedCat} onToggleCategory={toggleMobileCategory} isAuthenticated={isAuthenticated} user={user} onLogout={handleLogout} favoritesCount={favoritesCount} unreadNotificationsCount={unreadNotificationsCount} />
         </>
     );
 };

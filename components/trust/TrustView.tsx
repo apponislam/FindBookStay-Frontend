@@ -12,8 +12,10 @@ import {
     Building2,
     ArrowRight,
 } from "@/components/Icons";
+import { useLocale } from "@/hooks/useLocale";
+import LanguageSwitch from "@/components/header/LanguageSwitch";
 
-const VERIFICATION_PILLARS = [
+const VERIFICATION_PILLARS_EN = [
     {
         id: "rent",
         title: "Rental Homes & Bachelor Seats",
@@ -72,7 +74,66 @@ const VERIFICATION_PILLARS = [
     },
 ];
 
-const AUDIT_STEPS = [
+const VERIFICATION_PILLARS_BN = [
+    {
+        id: "rent",
+        title: "বাসা ও ব্যাচেলর সিট ভাড়া",
+        badge: "যাচাইকৃত বাড়িওয়ালা",
+        icon: Home,
+        description:
+            "প্রতিটি ভাড়া ফ্ল্যাট, ডুপ্লেক্স ও ব্যাচেলর সিট জাতীয় পরিচয়পত্র যাচাই, সরেজমিনে পরিদর্শন এবং দালালমুক্ত সেবা নিশ্চিতের মাধ্যমে তালিকাভুক্ত করা হয়।",
+        checklist: [
+            "সরেজমিনে ঠিকানার সত্যতা ও আসল রুমের ছবি যাচাই",
+            "বাড়িওয়ালার জাতীয় পরিচয়পত্র (এনআইডি) ও ইউটিলিটি বিল যাচাই",
+            "স্বচ্ছ চুক্তি ও জামানত সুরক্ষা সহায়তা",
+            "কোনো গোপন দালাল ফি বা অনাকাঙ্ক্ষিত ভাড়া বৃদ্ধি নেই",
+        ],
+    },
+    {
+        id: "book",
+        title: "হোটেল, রিসোর্ট ও স্টে",
+        badge: "১০০% আসল স্টে",
+        icon: Hotel,
+        description:
+            "বিভ্রান্তিকর ছবি ও অনাকাঙ্ক্ষিত বুকিং বাতিলের ঝামেলা শেষ। প্রতিটি রিসোর্ট ও সার্ভিসড অ্যাপার্টমেন্ট আমাদের টিম দ্বারা যাচাইকৃত।",
+        checklist: [
+            "রুমের সুবিধাসমূহ (এসি, গিজার, ওয়াই-ফাই, সুইমিং পুল) যাচাই",
+            "নিশ্চিত চেক-ইন নিশ্চয়তাসহ ইনস্ট্যান্ট স্লট বুকিং",
+            "প্রকৃত অতিথিদের যাচাইকৃত রিভিউ ও রেটিং",
+            "অবস্থানকালে ২৪/৭ ডেডিকেটেড কনসিয়ার্জ সহায়তা",
+        ],
+    },
+    {
+        id: "sports",
+        title: "স্পোর্টস টার্ফ ও ইনডোর এরিনা",
+        badge: "লাইভ স্লট লকড",
+        icon: Trophy,
+        description:
+            "ফুটবল টার্ফ, ক্রিকেট পিচ ও ব্যাডমিন্টন কোর্ট বুক করুন নিরাপদে। ডাবল বুকিং বা নষ্ট ঘাসের মাঠে খেলার কোনো আশঙ্কা নেই।",
+        checklist: [
+            "রিয়েল-টাইম লাইভ শিডিউল — কোনো ডাবল বুকিং নেই",
+            "নাইট ম্যাচের জন্য উচ্চমানের এলইডি ফ্লাডলাইট পরিদর্শন",
+            "ফিফা স্ট্যান্ডার্ড কৃত্রিম ঘাস ও বাউন্স গুণমান পরীক্ষা",
+            "নির্ধারিত চেঞ্জিং রুম ও পরিষ্কার ওয়াশরুম নিশ্চিতকরণ",
+        ],
+    },
+    {
+        id: "buy",
+        title: "প্রপার্টি ও ফ্ল্যাট কেনাবেচা",
+        badge: "নিষ্কলঙ্ক দলিল",
+        icon: Building2,
+        description:
+            "রিয়েল এস্টেট ক্রয়ে প্রয়োজন সর্বোচ্চ আইনি সতর্কতা। আমাদের টিম প্রতিটি সম্পত্তির মালিকানা ও কাগজপত্র যাচাই করে প্রকাশ করে।",
+        checklist: [
+            "সম্পূর্ণ নামজারি, খতিয়ান ও দলিলের ধারাবাহিকতা যাচাই",
+            "রাজউক / সিডিএ / স্থানীয় পৌরসভা প্ল্যান অনুমোদন পরীক্ষা",
+            "জিপিএস কোঅর্ডিনেটসহ সীমানা ও প্লট অবস্থান যাচাই",
+            "মালিক ও অনুমোদিত ডেভেলপারদের সরাসরি ডকুমেন্টস",
+        ],
+    },
+];
+
+const AUDIT_STEPS_EN = [
     {
         step: "01",
         title: "Documentation Submission",
@@ -95,24 +156,60 @@ const AUDIT_STEPS = [
     },
 ];
 
+const AUDIT_STEPS_BN = [
+    {
+        step: "০১",
+        title: "ডকুমেন্টস জমাদান",
+        desc: "মালিক ও হোস্টরা মূল দলিলের কপি, এনআইডি, ইউটিলিটি রসিদ ও ট্রেড লাইসেন্স জমা দেন।",
+    },
+    {
+        step: "০২",
+        title: "সরেজমিনে পরিদর্শন",
+        desc: "আমাদের ফিল্ড অফিসাররা সরাসরি স্পেসটি পরিদর্শন করে আন-এডিটেড ছবি ও পরিমাপ সংগ্রহ করেন।",
+    },
+    {
+        step: "০৩",
+        title: "ভেরিফায়েড ব্যাজ প্রদান",
+        desc: "নিরাপত্তা, পরিচ্ছন্নতা ও আইনি শর্তে ১০০% উত্তীর্ণ হলেই কেবল 'Verified' ব্যাজ দেওয়া হয়।",
+    },
+    {
+        step: "০৪",
+        title: "নিয়মিত পর্যবেক্ষণ",
+        desc: "ব্যবহারকারীদের রেটিং ও ফিডব্যাকের মাধ্যমে মান নিয়ন্ত্রণ করা হয়। ত্রুটি থাকলে তালিকা বাতিল হয়।",
+    },
+];
+
 export const TrustView = () => {
+    const { isBn } = useLocale();
+
+    const verificationPillars = isBn ? VERIFICATION_PILLARS_BN : VERIFICATION_PILLARS_EN;
+    const auditSteps = isBn ? AUDIT_STEPS_BN : AUDIT_STEPS_EN;
+
     return (
         <div className="min-h-screen bg-background text-foreground">
             {/* 1. Hero Section */}
-            <section className="relative overflow-hidden py-16 sm:py-24 border-b border-border bg-surface-secondary/40">
+            <section className="relative overflow-hidden py-10 sm:py-16 lg:py-20 border-b border-border bg-surface-secondary/40">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-3xl space-y-5">
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-bold uppercase tracking-wider">
+                    {/* Top utility row with Badge and Language Switch */}
+                    <div className="flex items-center justify-between gap-4 mb-6">
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-bold uppercase tracking-wider">
                             <ShieldCheck className="size-4" />
-                            <span>FindBookStay Trust Framework</span>
+                            <span>{isBn ? "FindBookStay ট্রাস্ট ও ভেরিফিকেশন" : "FindBookStay Trust Framework"}</span>
                         </div>
 
+                        {/* Direct on-page Language Switch */}
+                        <LanguageSwitch />
+                    </div>
+
+                    <div className="max-w-3xl space-y-5">
                         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-[1.15]">
-                            Our Verification Guarantee: Zero Scams, 100% Authenticity.
+                            {isBn ? "আমাদের যাচাইকরণ গ্যারান্টি: শূন্য প্রতারণা, ১০০% সত্যতা।" : "Our Verification Guarantee: Zero Scams, 100% Authenticity."}
                         </h1>
 
                         <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                            Whether renting a bachelor seat in Dhaka, booking a weekend resort in Sreemangal, reserving a night turf in Chittagong, or buying a luxury flat in Gulshan, FindBookStay protects you at every step.
+                            {isBn
+                                ? "ঢাকায় ব্যাচেলর সিট খোঁজা, শ্রীমঙ্গলে উইকেন্ড রিসোর্ট বুকিং, চট্টগ্রামে নাইট টার্ফ ম্যাচ আয়োজন কিংবা গুলশানে অ্যাপার্টমেন্ট ক্রয়—প্রতিটি পদক্ষেপে FindBookStay আপনার সুরক্ষা নিশ্চিত করে।"
+                                : "Whether renting a bachelor seat in Dhaka, booking a weekend resort in Sreemangal, reserving a night turf in Chittagong, or buying a luxury flat in Gulshan, FindBookStay protects you at every step."}
                         </p>
 
                         <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -120,7 +217,7 @@ export const TrustView = () => {
                                 href="/help"
                                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground text-xs sm:text-sm font-bold shadow-md transition-all cursor-pointer"
                             >
-                                <span>Browse Help & FAQs</span>
+                                <span>{isBn ? "হেল্প ও প্রশ্নোত্তর দেখুন" : "Browse Help & FAQs"}</span>
                                 <ArrowRight className="size-4" />
                             </Link>
 
@@ -128,7 +225,7 @@ export const TrustView = () => {
                                 href="/contact"
                                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white dark:bg-card border border-border hover:bg-surface-secondary text-foreground text-xs sm:text-sm font-semibold transition-all cursor-pointer"
                             >
-                                <span>Report a Listing</span>
+                                <span>{isBn ? "লিস্টিং সম্পর্কে রিপোর্ট করুন" : "Report a Listing"}</span>
                             </Link>
                         </div>
                     </div>
@@ -142,19 +239,21 @@ export const TrustView = () => {
                         <div className="flex items-center gap-1.5 mb-2">
                             <span className="w-3.5 h-0.5 bg-accent" />
                             <span className="text-[11px] font-bold tracking-widest text-primary uppercase font-mono">
-                                4-PILLAR FRAMEWORK
+                                {isBn ? "৪টি মূল কাঠামো" : "4-PILLAR FRAMEWORK"}
                             </span>
                         </div>
                         <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
-                            How We Verify Each Category
+                            {isBn ? "আমরা যেভাবে প্রতিটি ক্যাটাগরি যাচাই করি" : "How We Verify Each Category"}
                         </h2>
                         <p className="text-sm text-muted-foreground mt-1">
-                            Different spaces have different safety and verification requirements. Here is our rigorous vetting breakdown:
+                            {isBn
+                                ? "ভিন্ন ভিন্ন স্পেসের জন্য ভিন্ন যাচাইকরণ মানদণ্ড প্রযোজ্য। নিচে আমাদের যাচাইকরণ পদ্ধতির বিস্তারিত দেওয়া হলো:"
+                                : "Different spaces have different safety and verification requirements. Here is our rigorous vetting breakdown:"}
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                        {VERIFICATION_PILLARS.map((pillar) => {
+                        {verificationPillars.map((pillar) => {
                             const IconComponent = pillar.icon;
                             return (
                                 <div
@@ -201,18 +300,20 @@ export const TrustView = () => {
                 <div className="container mx-auto px-4">
                     <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
                         <span className="text-[11px] font-bold tracking-widest text-primary uppercase font-mono">
-                            RIGOROUS AUDITING
+                            {isBn ? "কঠোর যাচাইকরণ প্রক্রিয়া" : "RIGOROUS AUDITING"}
                         </span>
                         <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
-                            The FindBookStay Verification Protocol
+                            {isBn ? "FindBookStay যাচাইকরণ প্রোটোকল" : "The FindBookStay Verification Protocol"}
                         </h2>
                         <p className="text-xs sm:text-sm text-muted-foreground">
-                            Every space listed on our platform undergoes a four-tier screening sequence before receiving verified credentials.
+                            {isBn
+                                ? "আমাদের প্ল্যাটফর্মে তালিকাভুক্ত প্রতিটি প্রপার্টি ও ভেন্যুকে চারটি ধাপে যাচাই করা হয়।"
+                                : "Every space listed on our platform undergoes a four-tier screening sequence before receiving verified credentials."}
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {AUDIT_STEPS.map((step, idx) => (
+                        {auditSteps.map((step, idx) => (
                             <div
                                 key={idx}
                                 className="relative p-6 rounded-2xl bg-white dark:bg-card border border-border shadow-xs hover:border-accent transition-all"
@@ -239,13 +340,15 @@ export const TrustView = () => {
                         <div className="max-w-2xl space-y-3">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-semibold">
                                 <Sparkles className="size-3.5" />
-                                <span>Zero Fraud Commitment</span>
+                                <span>{isBn ? "শূন্য জালিয়াতি প্রতিশ্রুতি" : "Zero Fraud Commitment"}</span>
                             </div>
                             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-                                Found a Discrepancy? We Guarantee 100% Resolution.
+                                {isBn ? "কোনো অমিল পেয়েছেন? আমরা ১০০% সমাধানের নিশ্চয়তা দিই।" : "Found a Discrepancy? We Guarantee 100% Resolution."}
                             </h2>
                             <p className="text-xs sm:text-sm text-emerald-100/80 leading-relaxed">
-                                If an on-site property or sports venue doesn&apos;t match its verified description or photos, our concierge support team steps in immediately to rebook you or issue a swift refund.
+                                {isBn
+                                    ? "যদি কোনো প্রপার্টি বা টার্ফ তার প্রদত্ত বিবরণ বা ছবির সাথে না মেলে, তবে আমাদের টিম দ্রুত হস্তক্ষেপ করে অন্য ভেন্যু বুকিং বা অর্থ ফেরত নিশ্চিত করে।"
+                                    : "If an on-site property or sports venue doesn't match its verified description or photos, our concierge support team steps in immediately to rebook you or issue a swift refund."}
                             </p>
                         </div>
 
@@ -254,13 +357,13 @@ export const TrustView = () => {
                                 href="/contact"
                                 className="px-6 py-3.5 rounded-xl bg-white hover:bg-emerald-50 text-emerald-950 font-bold text-xs sm:text-sm shadow-md transition-all text-center cursor-pointer"
                             >
-                                Contact Dispute Team
+                                {isBn ? "অভিযোগ নিষ্পত্তিকারী টিম" : "Contact Dispute Team"}
                             </Link>
                             <Link
                                 href="/help"
                                 className="px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm backdrop-blur-md border border-white/20 transition-all text-center cursor-pointer"
                             >
-                                Read Policy FAQs
+                                {isBn ? "সাধারণ প্রশ্নোত্তর দেখুন" : "Read Policy FAQs"}
                             </Link>
                         </div>
                     </div>

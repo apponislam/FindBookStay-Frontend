@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ChevronDown } from "@/components/Icons";
 import siteData from "@/constants/siteData";
+import { useLocale } from "@/hooks/useLocale";
 
 export interface TOCSection {
     id: string;
@@ -19,10 +20,14 @@ interface TableOfContentsProps {
 const TableOfContents = ({
     sections,
     contactEmail = siteData.contacts.legalEmail,
-    contactLabel = "Need legal clarification?",
+    contactLabel,
 }: TableOfContentsProps) => {
+    const { isBn } = useLocale();
     const [activeId, setActiveId] = useState<string>(sections[0]?.id || "");
     const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+    const defaultContactLabel = isBn ? "আইনি সহায়তা প্রয়োজন?" : "Need legal clarification?";
+    const resolvedContactLabel = contactLabel || defaultContactLabel;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -78,8 +83,8 @@ const TableOfContents = ({
             <div className="lg:hidden mb-8 border border-border rounded-2xl bg-white dark:bg-card p-3 shadow-2xs">
                 <button onClick={() => setIsMobileOpen((prev) => !prev)} className="cursor-pointer w-full flex items-center justify-between text-left">
                     <div className="flex items-center gap-2">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-foreground">Contents:</span>
-                        <span className="text-xs font-semibold text-accent truncate">{activeSection ? `${activeSection.number}. ${activeSection.title}` : "Select section"}</span>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-foreground">{isBn ? "সূচিপত্র:" : "Contents:"}</span>
+                        <span className="text-xs font-semibold text-accent truncate">{activeSection ? `${activeSection.number}. ${activeSection.title}` : (isBn ? "বিভাগ নির্বাচন করুন" : "Select section")}</span>
                     </div>
                     <ChevronDown className={`size-4 text-muted-foreground transition-transform duration-200 ${isMobileOpen ? "rotate-180" : ""}`} />
                 </button>
@@ -111,7 +116,7 @@ const TableOfContents = ({
             {/* ============================================================== */}
             <div className="hidden lg:block lg:sticky lg:top-28 space-y-5">
                 <div className="flex items-center justify-between pb-1 border-b border-border/60">
-                    <p className="text-xs font-bold uppercase tracking-wider text-foreground">Contents</p>
+                    <p className="text-xs font-bold uppercase tracking-wider text-foreground">{isBn ? "সূচিপত্র" : "Contents"}</p>
                     <span className="text-[11px] font-mono font-medium text-accent">
                         {activeSection?.number || "01"} / {String(sections.length).padStart(2, "0")}
                     </span>
@@ -148,7 +153,7 @@ const TableOfContents = ({
                 </nav>
 
                 <div className="pt-4 border-t border-border text-xs text-muted-foreground space-y-1.5">
-                    <p className="font-medium text-foreground">{contactLabel}</p>
+                    <p className="font-medium text-foreground">{resolvedContactLabel}</p>
                     <a href={`mailto:${contactEmail}`} className="cursor-pointer text-accent hover:underline block truncate">
                         {contactEmail}
                     </a>

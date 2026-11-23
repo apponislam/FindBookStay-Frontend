@@ -95,37 +95,33 @@ export const PRIVACY_DATA: LegalDocumentData = {
             blocks: [
                 {
                     type: "paragraph",
-                    text: "FindBookStay does not process, handle, or store credit cards, debit cards, or financial payment data on our servers. The Platform operates without online payment processing at this time.",
+                    text: "FindBookStay does not process, handle, or store credit cards, debit cards, or financial payment data on our servers. All transaction details and monetary exchanges occur directly between verified counter-parties at the premises.",
                 },
                 {
                     type: "paragraph",
-                    text: "All user account records, identification documents, and verified listings are secured on modern encrypted cloud infrastructure with TLS 1.3 encryption in transit and AES-256 bit encryption at rest to prevent unauthorized access.",
+                    text: "Our internal access controls require multi-factor authentication (MFA) for staff members, and sensitive identification records are stored in isolated, access-restricted cryptographic vaults.",
                 },
             ],
         },
         {
-            id: "information-sharing",
+            id: "disclosure-sharing",
             number: "05",
-            title: "Sharing with Hosts & Venues",
+            title: "Information Sharing & Disclosure",
             blocks: [
                 {
                     type: "paragraph",
-                    text: "To complete confirmed reservations, limited necessary details are shared between counterparties:",
+                    text: "We only disclose user information in direct furtherance of confirmed reservations and statutory mandates:",
                 },
                 {
                     type: "list",
                     items: [
                         {
-                            label: "Hosts & Hotels",
-                            text: "Receive your full legal name, verified contact phone number, and arrival schedule to coordinate entry and keys.",
+                            label: "Counter-Party Coordination",
+                            text: "Upon inquiry submission or confirmed booking, basic contact information (name and phone number) is shared between guest/tenant and verified host/landlord to facilitate on-site reception.",
                         },
                         {
-                            label: "Turf Managers",
-                            text: "Receive your team contact name and booked time slot for gate check-in and floodlight activation.",
-                        },
-                        {
-                            label: "Legal Authorities",
-                            text: "Information is disclosed only when required under lawful subpoena, court warrant, or national security regulation.",
+                            label: "Law Enforcement & Statutory Requests",
+                            text: "We cooperate fully with valid judicial subpoenas, court warrants, and law enforcement directives under Bangladesh jurisdiction.",
                         },
                     ],
                 },
@@ -238,6 +234,105 @@ export const PRIVACY_DATA: LegalDocumentData = {
                 {
                     type: "paragraph",
                     text: "If you have questions about your privacy rights, data exports, or wish to submit a data erasure request, please contact our Data Protection Office.",
+                },
+            ],
+        },
+    ],
+};
+
+export const PRIVACY_DATA_BN: LegalDocumentData = {
+    badge: "গোপনীয়তা ও বিশ্বাস",
+    effectiveDate: "১ জানুয়ারি, ২০২৬",
+    title: "গোপনীয়তা নীতি",
+    description: `${siteData.name}-এ গোপনীয়তা ও শারীরিক যাচাইকরণ আমাদের ভিত্তিমূল। এই নীতিতে স্বচ্ছভাবে তুলে ধরা হয়েছে আপনার ব্যক্তিগত তথ্য ও পরিচয় কীভাবে সুরক্ষিত থাকে।`,
+    contactEmail: siteData.contacts.privacyEmail,
+    contactLabel: "প্রাইভেসি অফিসারের সাথে যোগাযোগ",
+    contactDepartment: `${siteData.name} ডেটা প্রোটেকশন বিভাগ`,
+    sections: [
+        {
+            id: "introduction",
+            number: "০১",
+            title: "ভূমিকা ও প্রতিশ্রুতি",
+            blocks: [
+                {
+                    type: "paragraph",
+                    text: 'FindBookStay.com ব্যবহারকারীদের তথ্যের গোপনীয়তা রক্ষা ও ব্যাংক-গ্রেড নিরাপত্তা মান বজায় রাখতে প্রতিশ্রুতিবদ্ধ। আমরা রিয়েল এস্টেট, আবাসন লিজ, হোটেল স্টে এবং টার্ফ রিজার্ভেশনের একটি নির্ভরযোগ্য আন্তর্জাতিক মার্কেটপ্লেস।',
+                },
+                {
+                    type: "paragraph",
+                    text: "আমাদের ওয়েবসাইট পরিদর্শন, কনসিয়ার্জের সাথে যোগাযোগ অথবা বাসস্থান ও ভেন্যু সংরক্ষণের সময় আমরা কীভাবে আপনার তথ্য সংগ্রহ, সংরক্ষণ ও সুরক্ষিত রাখি তা এই নীতিমালায় বর্ণিত হয়েছে।",
+                },
+            ],
+        },
+        {
+            id: "information-collected",
+            number: "০২",
+            title: "আমরা যেসব তথ্য সংগ্রহ করি",
+            blocks: [
+                {
+                    type: "paragraph",
+                    text: "প্ল্যাটফর্মে আপনার ভূমিকার ওপর ভিত্তি করে (ভাড়াটিয়া, অতিথি, খেলোয়াড় বা হোস্ট), আমরা নিম্নোক্ত তথ্যসমূহ সংগ্রহ করি:",
+                },
+                {
+                    type: "list",
+                    items: [
+                        {
+                            label: "পরিচয় ও যোগাযোগের বিবরণ",
+                            text: "পূর্ণ নাম, ইমেইল ঠিকানা, মোবাইল নম্বর, জন্ম তারিখ এবং বর্তমান ঠিকানা।",
+                        },
+                        {
+                            label: "যাচাইকরণ নথিপত্র",
+                            text: "জাতীয় পরিচয়পত্র (এনআইডি), পাসপোর্ট বা ড্রাইভিং লাইসেন্স, ট্রেড লাইসেন্স এবং হোস্ট ভেরিফিকেশন ছবি।",
+                        },
+                        {
+                            label: "বুকিং ও শিডিউল সংক্রান্ত তথ্য",
+                            text: "রিজার্ভেশনের তারিখ, টার্ফ স্লটের সময়, অতিথির সংখ্যা এবং বিশেষ অনুরোধ।",
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            id: "how-we-use",
+            number: "০৩",
+            title: "তথ্য ব্যবহারের উদ্দেশ্য",
+            blocks: [
+                {
+                    type: "paragraph",
+                    text: "আমরা সংগৃহীত তথ্য সরাসরি সংযোগ স্থাপন, ভুয়া লিস্টিং প্রতিরোধে নিরাপত্তা অডিট এবং সার্বক্ষণিক কনসিয়ার্জ সহায়তা নিশ্চিত করতে ব্যবহার করি।",
+                },
+            ],
+        },
+        {
+            id: "data-sharing",
+            number: "০৪",
+            title: "তথ্য শেয়ারিং ও সুরক্ষা",
+            blocks: [
+                {
+                    type: "paragraph",
+                    text: "আমরা কোনো অবস্থাতেই আপনার ব্যক্তিগত তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি করি না। আপনার এনআইডি এবং পরিচয়পত্র এনক্রিপ্ট করে নিরাপদ সার্ভারে সংরক্ষণ করা হয়।",
+                },
+            ],
+        },
+        {
+            id: "your-rights",
+            number: "০৫",
+            title: "আপনার অধিকার",
+            blocks: [
+                {
+                    type: "paragraph",
+                    text: "আপনি যেকোনো সময় আপনার ব্যক্তিগত তথ্য দেখতে, আপডেট করতে অথবা অ্যাকাউন্ট মুছে ফেলার অনুরোধ পাঠাতে পারেন।",
+                },
+            ],
+        },
+        {
+            id: "contact-privacy",
+            number: "০৬",
+            title: "প্রাইভেসি সম্পর্কিত যোগাযোগ",
+            blocks: [
+                {
+                    type: "paragraph",
+                    text: "গোপনীয়তা নীতি সম্পর্কিত যেকোনো জিজ্ঞাসা বা আপনার ডেটা সংক্রান্ত অনুরোধের জন্য আমাদের ডেটা প্রোটেকশন অফিসে ইমেইল করতে পারেন।",
                 },
             ],
         },

@@ -11,6 +11,8 @@ import {
     ChevronDown,
 } from "@/components/Icons";
 import { BookCategory, BookFiltersState, BookSortOption } from "./types";
+import { useLocale } from "@/hooks/useLocale";
+import { toBengaliDigits } from "@/lib/utils";
 
 interface BookHeroHeaderProps {
     filters: BookFiltersState;
@@ -22,7 +24,7 @@ interface BookHeroHeaderProps {
     activeFiltersCount: number;
 }
 
-const CATEGORIES: { id: BookCategory; label: string }[] = [
+const CATEGORIES_EN: { id: BookCategory; label: string }[] = [
     { id: "all", label: "All Stays" },
     { id: "hotels", label: "Hotels" },
     { id: "resorts", label: "Scenic Resorts" },
@@ -32,12 +34,30 @@ const CATEGORIES: { id: BookCategory; label: string }[] = [
     { id: "luxury", label: "VIP Luxury" },
 ];
 
-const SORT_OPTIONS: { id: BookSortOption; label: string }[] = [
+const CATEGORIES_BN: { id: BookCategory; label: string }[] = [
+    { id: "all", label: "সকল স্টে" },
+    { id: "hotels", label: "হোটেল" },
+    { id: "resorts", label: "প্রাকৃতিক রিসোর্ট" },
+    { id: "holiday-homes", label: "হলিডে হোমস" },
+    { id: "guest-houses", label: "গেস্ট হাউস" },
+    { id: "short-stay", label: "সার্ভিসড স্যুট" },
+    { id: "luxury", label: "ভিআইপি লাক্সারি" },
+];
+
+const SORT_OPTIONS_EN: { id: BookSortOption; label: string }[] = [
     { id: "recommended", label: "Recommended" },
     { id: "price-asc", label: "Price: Low to High" },
     { id: "price-desc", label: "Price: High to Low" },
     { id: "rating-desc", label: "Top Rated" },
     { id: "popular", label: "Most Popular" },
+];
+
+const SORT_OPTIONS_BN: { id: BookSortOption; label: string }[] = [
+    { id: "recommended", label: "প্রস্তাবিত" },
+    { id: "price-asc", label: "মূল্য: কম থেকে বেশি" },
+    { id: "price-desc", label: "মূল্য: বেশি থেকে কম" },
+    { id: "rating-desc", label: "শীর্ষ রেটিং" },
+    { id: "popular", label: "সর্বাধিক জনপ্রিয়" },
 ];
 
 export const BookHeroHeader = ({
@@ -49,35 +69,55 @@ export const BookHeroHeader = ({
     onOpenMobileFilters,
     activeFiltersCount,
 }: BookHeroHeaderProps) => {
+    const { locale } = useLocale();
+    const isBn = locale === "bn";
+
+    const categories = isBn ? CATEGORIES_BN : CATEGORIES_EN;
+    const sortOptions = isBn ? SORT_OPTIONS_BN : SORT_OPTIONS_EN;
+    const formattedMatches = isBn ? toBengaliDigits(totalMatches) : totalMatches;
+    const formattedActiveCount = isBn ? toBengaliDigits(activeFiltersCount) : activeFiltersCount;
+
     return (
         <div className="space-y-6 pt-6 pb-4">
             {/* Breadcrumbs */}
             <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-text-secondary">
                 <Link href="/" className="hover:text-primary transition-colors">
-                    Home
+                    {isBn ? "হোম" : "Home"}
                 </Link>
                 <span>/</span>
-                <span className="font-semibold text-foreground">Book Stays</span>
+                <span className="font-semibold text-foreground">
+                    {isBn ? "হোটেল ও রিসোর্ট" : "Book Stays"}
+                </span>
             </nav>
 
             {/* Title & Stats */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground tracking-tight">
-                        Hotels, Resorts & Vacation Stays
+                        {isBn ? "হোটেল, রিসোর্ট ও অবকাশযাপন" : "Hotels, Resorts & Vacation Stays"}
                     </h1>
                     <p className="text-xs sm:text-sm text-text-secondary mt-1.5 max-w-2xl">
-                        Handpicked beach resorts, tea garden villas, executive city suites, and hilltop cottages with verified guest reviews and instant confirmation.
+                        {isBn
+                            ? "যাচাইকৃত গেস্ট রিভিউ এবং তাৎক্ষণিক কনফার্মেশনসহ সমুদ্র সৈকতের রিসোর্ট, চা বাগান ভিলা, এক্সিকিউটিভ সিটি স্যুট এবং পাহাড়ের কটেজ বুক করুন।"
+                            : "Handpicked beach resorts, tea garden villas, executive city suites, and hilltop cottages with verified guest reviews and instant confirmation."}
                     </p>
                 </div>
                 <div className="text-xs text-text-secondary font-semibold shrink-0">
-                    Showing <span className="font-bold text-foreground">{totalMatches}</span> verified stays
+                    {isBn ? (
+                        <>
+                            মোট <span className="font-bold text-foreground">{formattedMatches}</span> টি যাচাইকৃত স্টে
+                        </>
+                    ) : (
+                        <>
+                            Showing <span className="font-bold text-foreground">{formattedMatches}</span> verified stays
+                        </>
+                    )}
                 </div>
             </div>
 
             {/* Category Quick Pills Slider */}
             <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-                {CATEGORIES.map((cat) => {
+                {categories.map((cat) => {
                     const isSelected = filters.category === cat.id;
                     return (
                         <button
@@ -103,7 +143,7 @@ export const BookHeroHeader = ({
                     <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
                     <input
                         type="search"
-                        placeholder="Search city, destination, or resort name..."
+                        placeholder={isBn ? "শহর, গন্তব্য বা রিসোর্টের নাম দিয়ে খুঁজুন..." : "Search city, destination, or resort name..."}
                         value={filters.search}
                         onChange={(e) => onChange({ search: e.target.value })}
                         className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-border bg-white dark:bg-card text-foreground text-xs font-semibold placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
@@ -128,10 +168,10 @@ export const BookHeroHeader = ({
                         className="lg:hidden flex items-center gap-2 px-3.5 py-2.5 rounded-xl border border-border bg-white dark:bg-card text-xs font-bold text-foreground hover:bg-surface-secondary transition-colors cursor-pointer shadow-xs"
                     >
                         <SlidersHorizontal className="size-4 text-primary" />
-                        <span>Filters</span>
+                        <span>{isBn ? "ফিল্টার" : "Filters"}</span>
                         {activeFiltersCount > 0 && (
                             <span className="size-5 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-bold">
-                                {activeFiltersCount}
+                                {formattedActiveCount}
                             </span>
                         )}
                     </button>
@@ -143,7 +183,7 @@ export const BookHeroHeader = ({
                             onChange={(e) => onChange({ sortBy: e.target.value as BookSortOption })}
                             className="appearance-none bg-white dark:bg-card border border-border text-xs font-bold text-foreground rounded-xl pl-3.5 pr-8 py-2.5 hover:bg-surface-secondary focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer shadow-xs"
                         >
-                            {SORT_OPTIONS.map((opt) => (
+                            {sortOptions.map((opt) => (
                                 <option key={opt.id} value={opt.id} className="bg-white dark:bg-card text-foreground">
                                     {opt.label}
                                 </option>
@@ -184,4 +224,3 @@ export const BookHeroHeader = ({
         </div>
     );
 };
-

@@ -28,6 +28,7 @@ export function useLocale() {
 
     return {
         locale,
+        isBn: locale === "bn",
         getPath,
         getPathWithLocale: (path: string, targetLocale: string) => getPathWithLocale(path, targetLocale),
     };

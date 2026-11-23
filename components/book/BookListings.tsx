@@ -13,6 +13,8 @@ import { BookHeroHeader } from "./BookHeroHeader";
 import { BookFilterSidebar } from "./BookFilterSidebar";
 import { BookCard } from "./BookCard";
 import { Pagination } from "@/components/Pagination";
+import { useLocale } from "@/hooks/useLocale";
+import { toBengaliDigits } from "@/lib/utils";
 
 const INITIAL_FILTERS: BookFiltersState = {
     search: "",
@@ -30,6 +32,8 @@ const INITIAL_FILTERS: BookFiltersState = {
 };
 
 export const BookListings = () => {
+    const { locale } = useLocale();
+    const isBn = locale === "bn";
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
@@ -356,7 +360,7 @@ export const BookListings = () => {
 
                     {filters.guests !== "any" && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            Guests: {filters.guests}+
+                            {isBn ? "অতিথি:" : "Guests:"} {isBn ? `${toBengaliDigits(filters.guests)}+` : `${filters.guests}+`}
                             <button
                                 type="button"
                                 onClick={() => handleFilterChange({ guests: "any" })}
@@ -369,8 +373,9 @@ export const BookListings = () => {
 
                     {(filters.minPrice !== null || filters.maxPrice !== null) && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            Budget: {filters.minPrice ? `৳${filters.minPrice.toLocaleString()}` : "৳0"} -{" "}
-                            {filters.maxPrice ? `৳${filters.maxPrice.toLocaleString()}` : "Any"}
+                            {isBn ? "বাজেট:" : "Budget:"}{" "}
+                            {filters.minPrice ? `৳${isBn ? toBengaliDigits(filters.minPrice.toLocaleString()) : filters.minPrice.toLocaleString()}` : "৳০"} -{" "}
+                            {filters.maxPrice ? `৳${isBn ? toBengaliDigits(filters.maxPrice.toLocaleString()) : filters.maxPrice.toLocaleString()}` : isBn ? "যেকোনো" : "Any"}
                             <button
                                 type="button"
                                 onClick={() => handleFilterChange({ minPrice: null, maxPrice: null })}
@@ -383,7 +388,7 @@ export const BookListings = () => {
 
                     {filters.minRating !== "any" && (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            Rating: {filters.minRating}+
+                            {isBn ? "রেটিং:" : "Rating:"} {isBn ? `${toBengaliDigits(filters.minRating)}+` : `${filters.minRating}+`}
                             <button
                                 type="button"
                                 onClick={() => handleFilterChange({ minRating: "any" })}
@@ -395,8 +400,8 @@ export const BookListings = () => {
                     )}
 
                     {filters.verifiedOnly && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                            Verified Stays
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                            {isBn ? "যাচাইকৃত স্টে" : "Verified Stays"}
                             <button
                                 type="button"
                                 onClick={() => handleFilterChange({ verifiedOnly: false })}
@@ -433,7 +438,7 @@ export const BookListings = () => {
                         className="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1 ml-auto cursor-pointer"
                     >
                         <RotateCcw className="size-3" />
-                        <span>Clear All</span>
+                        <span>{isBn ? "সকল মুছুন" : "Clear All"}</span>
                     </button>
                 </div>
             )}
@@ -455,15 +460,15 @@ export const BookListings = () => {
                 <div className="lg:col-span-3 space-y-6">
                     {filteredStays.length === 0 ? (
                         /* Empty State */
-                        <div className="text-center py-16 px-4 bg-white rounded-2xl border border-dashed border-border flex flex-col items-center">
+                        <div className="text-center py-16 px-4 bg-white dark:bg-card rounded-2xl border border-dashed border-border flex flex-col items-center">
                             <div className="size-16 rounded-full bg-surface-secondary flex items-center justify-center text-text-secondary mb-4">
                                 <Building2 className="size-8 text-primary" />
                             </div>
                             <h3 className="text-lg font-bold text-foreground mb-1">
-                                No Stays Match Your Criteria
+                                {isBn ? "আপনার পছন্দের সাথে মিল রেখে কোনো স্টে পাওয়া যায়নি" : "No Stays Match Your Criteria"}
                             </h3>
                             <p className="text-xs sm:text-sm text-text-secondary max-w-md mb-6">
-                                Try expanding your travel dates, adjusting your budget range, or clearing amenities filters.
+                                {isBn ? "ভ্রমণের তারিখ বাড়ান, বাজেট সমন্বয় করুন অথবা সুবিধার ফিল্টার পরিষ্কার করুন।" : "Try expanding your travel dates, adjusting your budget range, or clearing amenities filters."}
                             </p>
                             <button
                                 type="button"
@@ -471,7 +476,7 @@ export const BookListings = () => {
                                 className="px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
                             >
                                 <RotateCcw className="size-3.5" />
-                                <span>Reset All Filters</span>
+                                <span>{isBn ? "ফিল্টার রিসেট করুন" : "Reset All Filters"}</span>
                             </button>
                         </div>
                     ) : (
@@ -520,7 +525,7 @@ export const BookListings = () => {
                     />
 
                     {/* Drawer Panel */}
-                    <div className="fixed inset-y-0 right-0 max-w-sm w-full bg-white shadow-2xl p-4 overflow-y-auto z-10 animate-in slide-in-from-right duration-200">
+                    <div className="fixed inset-y-0 right-0 max-w-sm w-full bg-white dark:bg-card shadow-2xl p-4 overflow-y-auto z-10 animate-in slide-in-from-right duration-200">
                         <BookFilterSidebar
                             filters={filters}
                             onChange={handleFilterChange}

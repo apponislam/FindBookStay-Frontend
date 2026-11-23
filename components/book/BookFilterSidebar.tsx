@@ -10,6 +10,8 @@ import {
 } from "@/components/Icons";
 import { BookCategory, BookFiltersState } from "./types";
 import { STAY_AMENITY_OPTIONS } from "./bookData";
+import { useLocale } from "@/hooks/useLocale";
+import { toBengaliDigits } from "@/lib/utils";
 
 interface BookFilterSidebarProps {
     filters: BookFiltersState;
@@ -21,7 +23,7 @@ interface BookFilterSidebarProps {
     onCloseMobileDrawer?: () => void;
 }
 
-const CATEGORY_ITEMS: { id: BookCategory; label: string }[] = [
+const CATEGORY_ITEMS_EN: { id: BookCategory; label: string }[] = [
     { id: "all", label: "All Stays & Getaways" },
     { id: "hotels", label: "Boutique & City Hotels" },
     { id: "resorts", label: "Scenic Resorts" },
@@ -31,7 +33,17 @@ const CATEGORY_ITEMS: { id: BookCategory; label: string }[] = [
     { id: "luxury", label: "VIP Luxury Suites" },
 ];
 
-const PRICE_PRESETS = [
+const CATEGORY_ITEMS_BN: { id: BookCategory; label: string }[] = [
+    { id: "all", label: "সকল স্টে ও গেটওয়ে" },
+    { id: "hotels", label: "বুটিক ও সিটি হোটেল" },
+    { id: "resorts", label: "প্রাকৃতিক রিসোর্ট" },
+    { id: "holiday-homes", label: "হলিডে হোমস ও ভিলা" },
+    { id: "guest-houses", label: "গেস্ট হাউস ও বিঅ্যান্ডবি" },
+    { id: "short-stay", label: "সার্ভিসড শর্ট স্টে" },
+    { id: "luxury", label: "ভিআইপি লাক্সারি স্যুট" },
+];
+
+const PRICE_PRESETS_EN = [
     { label: "Any Price", min: null, max: null },
     { label: "Under ৳6k", min: null, max: 6000 },
     { label: "৳6k - ৳12k", min: 6000, max: 12000 },
@@ -39,11 +51,12 @@ const PRICE_PRESETS = [
     { label: "৳25k+", min: 25000, max: null },
 ];
 
-const RATING_PRESETS = [
-    { label: "Any Rating", val: "any" },
-    { label: "4.8+ Exceptional", val: 4.8 },
-    { label: "4.5+ Superb", val: 4.5 },
-    { label: "4.0+ Very Good", val: 4.0 },
+const PRICE_PRESETS_BN = [
+    { label: "যেকোনো মূল্য", min: null, max: null },
+    { label: "৳৬ হাজারের নিচে", min: null, max: 6000 },
+    { label: "৳৬হাজার - ৳১২হাজার", min: 6000, max: 12000 },
+    { label: "৳১২হাজার - ৳২৫হাজার", min: 12000, max: 25000 },
+    { label: "৳২৫ হাজার+", min: 25000, max: null },
 ];
 
 export const BookFilterSidebar = ({
@@ -55,6 +68,19 @@ export const BookFilterSidebar = ({
     isMobileDrawer = false,
     onCloseMobileDrawer,
 }: BookFilterSidebarProps) => {
+    const { locale } = useLocale();
+    const isBn = locale === "bn";
+
+    const categoryItems = isBn ? CATEGORY_ITEMS_BN : CATEGORY_ITEMS_EN;
+    const pricePresets = isBn ? PRICE_PRESETS_BN : PRICE_PRESETS_EN;
+
+    const ratingPresets = [
+        { label: isBn ? "যেকোনো রেটিং" : "Any Rating", val: "any" },
+        { label: isBn ? "৪.৮+ অসাধারণ" : "4.8+ Exceptional", val: 4.8 },
+        { label: isBn ? "৪.৫+ চমৎকার" : "4.5+ Superb", val: 4.5 },
+        { label: isBn ? "৪.০+ খুব ভালো" : "4.0+ Very Good", val: 4.0 },
+    ];
+
     const handleAmenityToggle = (amenity: string) => {
         const next = filters.amenities.includes(amenity)
             ? filters.amenities.filter((a) => a !== amenity)
@@ -83,7 +109,9 @@ export const BookFilterSidebar = ({
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b border-border">
                 <div className="flex items-center gap-2">
-                    <span className="font-bold text-base text-foreground">Filters</span>
+                    <span className="font-bold text-base text-foreground">
+                        {isBn ? "ফিল্টার" : "Filters"}
+                    </span>
                     {hasActiveFilters && (
                         <span className="size-2 rounded-full bg-primary animate-pulse" />
                     )}
@@ -96,7 +124,7 @@ export const BookFilterSidebar = ({
                             className="text-xs font-semibold text-rose-600 hover:text-rose-700 flex items-center gap-1 cursor-pointer transition-colors"
                         >
                             <RotateCcw className="size-3" />
-                            <span>Reset</span>
+                            <span>{isBn ? "রিসেট" : "Reset"}</span>
                         </button>
                     )}
                     {isMobileDrawer && onCloseMobileDrawer && (
@@ -116,8 +144,12 @@ export const BookFilterSidebar = ({
                 <div className="flex items-center gap-2">
                     <ShieldCheck className="size-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                     <div>
-                        <div className="text-xs font-bold text-foreground">Verified Stays Only</div>
-                        <div className="text-[10px] text-muted-foreground">Physical inspection done</div>
+                        <div className="text-xs font-bold text-foreground">
+                            {isBn ? "শুধু যাচাইকৃত স্টে" : "Verified Stays Only"}
+                        </div>
+                        <div className="text-[10px] text-muted-foreground">
+                            {isBn ? "শারীরিক পরিদর্শন সম্পন্ন" : "Physical inspection done"}
+                        </div>
                     </div>
                 </div>
                 <button
@@ -140,11 +172,13 @@ export const BookFilterSidebar = ({
             {/* Travel Dates */}
             <div>
                 <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">
-                    Stay Dates
+                    {isBn ? "ভ্রমণের তারিখ" : "Stay Dates"}
                 </label>
                 <div className="space-y-2">
                     <div>
-                        <span className="block text-[10px] text-muted-foreground mb-1">Check-in</span>
+                        <span className="block text-[10px] text-muted-foreground mb-1">
+                            {isBn ? "চেক-ইন" : "Check-in"}
+                        </span>
                         <input
                             type="date"
                             value={filters.checkIn}
@@ -153,7 +187,9 @@ export const BookFilterSidebar = ({
                         />
                     </div>
                     <div>
-                        <span className="block text-[10px] text-muted-foreground mb-1">Check-out</span>
+                        <span className="block text-[10px] text-muted-foreground mb-1">
+                            {isBn ? "চেক-আউট" : "Check-out"}
+                        </span>
                         <input
                             type="date"
                             min={filters.checkIn}
@@ -168,12 +204,13 @@ export const BookFilterSidebar = ({
             {/* Categories */}
             <div>
                 <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">
-                    Accommodation Type
+                    {isBn ? "থাকার ধরন" : "Accommodation Type"}
                 </label>
                 <div className="space-y-1">
-                    {CATEGORY_ITEMS.map((cat) => {
+                    {categoryItems.map((cat) => {
                         const isSelected = filters.category === cat.id;
                         const count = cat.id === "all" ? totalStays : categoryCounts[cat.id] || 0;
+                        const displayCount = isBn ? toBengaliDigits(count) : count;
                         return (
                             <button
                                 key={cat.id}
@@ -193,7 +230,7 @@ export const BookFilterSidebar = ({
                                             : "bg-surface-secondary text-muted-foreground"
                                     }`}
                                 >
-                                    {count}
+                                    {displayCount}
                                 </span>
                             </button>
                         );
@@ -204,12 +241,12 @@ export const BookFilterSidebar = ({
             {/* Price Range */}
             <div>
                 <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">
-                    Nightly Budget
+                    {isBn ? "প্রতি রাতের বাজেট" : "Nightly Budget"}
                 </label>
 
                 {/* Preset Brackets */}
                 <div className="grid grid-cols-2 gap-1.5 mb-3">
-                    {PRICE_PRESETS.map((preset, idx) => {
+                    {pricePresets.map((preset, idx) => {
                         const isSelected =
                             filters.minPrice === preset.min && filters.maxPrice === preset.max;
                         return (
@@ -234,10 +271,12 @@ export const BookFilterSidebar = ({
                 {/* Min / Max Inputs */}
                 <div className="flex items-center gap-2">
                     <div className="flex-1">
-                        <span className="block text-[10px] text-muted-foreground mb-1">Min (৳)</span>
+                        <span className="block text-[10px] text-muted-foreground mb-1">
+                            {isBn ? "সর্বনিম্ন (৳)" : "Min (৳)"}
+                        </span>
                         <input
                             type="number"
-                            placeholder="Min"
+                            placeholder={isBn ? "সর্বনিম্ন" : "Min"}
                             value={filters.minPrice ?? ""}
                             onChange={(e) =>
                                 onChange({
@@ -249,10 +288,12 @@ export const BookFilterSidebar = ({
                     </div>
                     <span className="text-muted-foreground text-xs mt-4">-</span>
                     <div className="flex-1">
-                        <span className="block text-[10px] text-muted-foreground mb-1">Max (৳)</span>
+                        <span className="block text-[10px] text-muted-foreground mb-1">
+                            {isBn ? "সর্বোচ্চ (৳)" : "Max (৳)"}
+                        </span>
                         <input
                             type="number"
-                            placeholder="Max"
+                            placeholder={isBn ? "সর্বোচ্চ" : "Max"}
                             value={filters.maxPrice ?? ""}
                             onChange={(e) =>
                                 onChange({
@@ -268,10 +309,10 @@ export const BookFilterSidebar = ({
             {/* Minimum Star Rating */}
             <div>
                 <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">
-                    Guest Rating
+                    {isBn ? "অতিথি রেটিং" : "Guest Rating"}
                 </label>
                 <div className="space-y-1.5">
-                    {RATING_PRESETS.map((item, idx) => {
+                    {ratingPresets.map((item, idx) => {
                         const isSelected = filters.minRating === item.val;
                         return (
                             <button
@@ -298,14 +339,14 @@ export const BookFilterSidebar = ({
             {/* Guests Capacity */}
             <div>
                 <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">
-                    Guests Capacity
+                    {isBn ? "অতিথি ধারণক্ষমতা" : "Guests Capacity"}
                 </label>
                 <div className="grid grid-cols-4 gap-1.5">
                     {[
-                        { label: "Any", val: "any" },
-                        { label: "1-2", val: 2 },
-                        { label: "3-4", val: 4 },
-                        { label: "5+", val: 5 },
+                        { label: isBn ? "যেকোনো" : "Any", val: "any" },
+                        { label: isBn ? "১-২" : "1-2", val: 2 },
+                        { label: isBn ? "৩-৪" : "3-4", val: 4 },
+                        { label: isBn ? "৫+" : "5+", val: 5 },
                     ].map((g, idx) => {
                         const isSelected = filters.guests === g.val;
                         return (
@@ -329,7 +370,7 @@ export const BookFilterSidebar = ({
             {/* Key Amenities */}
             <div>
                 <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2.5">
-                    Popular Amenities
+                    {isBn ? "জনপ্রিয় সুবিধাসমূহ" : "Popular Amenities"}
                 </label>
                 <div className="space-y-2">
                     {STAY_AMENITY_OPTIONS.map((amenity) => {
@@ -366,11 +407,10 @@ export const BookFilterSidebar = ({
                         onClick={onCloseMobileDrawer}
                         className="w-full py-3 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-colors cursor-pointer shadow-md"
                     >
-                        Show Stays
+                        {isBn ? "স্টে দেখুন" : "Show Stays"}
                     </button>
                 </div>
             )}
         </aside>
     );
 };
-
